@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "57185542814",
+    "firebase_url": "https://sinkingus-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "sinkingus",
+    "storage_bucket": "sinkingus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57185542814:android:a38196ab40083744a6118f",
+        "android_client_info": {
+          "package_name": "com.thinking.earth.sinking_us"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT9mllcD78Scg2Kkpa50ZWXq3RZBeG5UY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
