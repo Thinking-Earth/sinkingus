@@ -21,34 +21,45 @@ class SinkingUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
+    final Size realSize = MediaQuery.of(context).size;
+    final Size customSize;
+    if (realSize.width < 1334) {
+      customSize = Size(1334, realSize.height);
+    } else {
+      customSize = realSize;
+    }
+
     return ProviderScope(
-      child: ScreenUtilInit(
-        designSize: const Size(390, 844),
-        useInheritedMediaQuery: true,
-        builder: (context, widget) {
-          return Theme(
-            data: AppThemes.mainTheme,
-            child: MaterialApp(
-              title: "Sinking US",
-              debugShowCheckedModeBanner: false,
-              initialRoute: idToken != null
-                  ? Routes.HomeScreenRoute
-                  : Routes.LoginScreenRoute,
-              color: AppColors.primaryColor,
-              onGenerateRoute: AppRouter.generateRoute,
-              navigatorKey: AppRouter.navigatorKey,
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en', 'US'),
-                Locale('ko', 'KR'),
-              ],
-            ),
-          );
-        },
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(size: customSize),
+        child: ScreenUtilInit(
+          designSize: const Size(844, 390),
+          useInheritedMediaQuery: true,
+          builder: (context, widget) {
+            return Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: 1334),
+                child: MaterialApp(
+                  title: "Sinking US",
+                  debugShowCheckedModeBanner: false,
+                  initialRoute: Routes.initialRoute,
+                  theme: AppTheme.light(),
+                  onGenerateRoute: AppRouter.generateRoute,
+                  navigatorKey: AppRouter.navigatorKey,
+                  localizationsDelegates: const [
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: const [
+                    Locale('en', 'US'),
+                    Locale('ko', 'KR'),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
