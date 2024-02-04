@@ -1,29 +1,63 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flame/game.dart';
-import 'package:sinking_us/feature/game/mygame.dart';
+import 'dart:async';
 
-class GameMain extends ConsumerStatefulWidget{
+import 'package:flame/components.dart';
+import 'package:flame/game.dart';
+import 'package:flame/palette.dart';
+import 'package:flutter/material.dart';
+import 'package:sinking_us/feature/game/sprites/characters.dart';
+
+class GameMain extends StatelessWidget {
   const GameMain({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _GameMainState();
+  Widget build(BuildContext context) {
+    return GameWidget(
+      game: MyGame(),
+    );
+  }
 }
 
-class _GameMainState extends ConsumerState<GameMain> {
+class MyGame extends FlameGame {
+  late SpriteComponent player;
+  late SpriteComponent background;
+
+  late final JoystickComponent joystick;
+
+  double maxSpeed = -300;
+
   @override
-  void initState() {
-    super.initState();
+  FutureOr<void> onLoad() async {
+    Sprite backgroundSprite = await loadSprite("map.png");
+    background = SpriteComponent(sprite: backgroundSprite)
+      ..size = backgroundSprite.originalSize * 3
+      ..anchor = Anchor.center
+      ..position = Vector2(size[0] * 0.5, size[1] * 0.5);
+    add(background);
+
+    final knobPaint = BasicPalette.blue.withAlpha(200).paint();
+    final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
+    joystick = JoystickComponent(
+      knob: CircleComponent(radius: 30, paint: knobPaint),
+      background: CircleComponent(radius: 100, paint: backgroundPaint),
+      margin: const EdgeInsets.only(left: 40, bottom: 40),
+    );
+
+    player = Player("people", size);
+    add(player);
+    camera.follow(player);
+    camera.viewport.add(joystick);
+
+    return super.onLoad();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Expanded(
-        child: GameWidget(
-          game: MyGame(),
-        ),
-      ),
-    );
+  void update(double dt) {
+    super.update(dt);
+
+    if (!joystick.delta.isZero()) {
+      background.position.add(joystick.relativeDelta * maxSpeed * dt);
+      player.transform.scale =
+          Vector2((joystick.relativeDelta.x > 0) ? -1 : 1, 1);
+    }
   }
 }
