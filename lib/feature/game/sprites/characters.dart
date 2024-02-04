@@ -9,13 +9,13 @@ class Player extends SpriteComponent with HasGameRef, CollisionCallbacks {
   String role;
 
   double maxSpeed = 300.0;
-  late final Vector2 _lastSize = size.clone();
-  late final Transform2D _lastTransform = transform.clone();
+  late final Vector2 screensize;
 
-  JoystickComponent joystick;
-
-  Player(this.role, this.joystick)
-      : super(size: Vector2.all(100.0), anchor: Anchor.center);
+  Player(this.role, this.screensize)
+      : super(
+            size: Vector2.all(100.0),
+            anchor: Anchor.center,
+            position: Vector2(screensize.x * 0.5, screensize.y * 0.5));
 
   @override
   FutureOr<void> onLoad() async {
@@ -28,12 +28,5 @@ class Player extends SpriteComponent with HasGameRef, CollisionCallbacks {
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
-
-    if (!joystick.delta.isZero() && activeCollisions.isEmpty) {
-      _lastSize.setFrom(size);
-      _lastTransform.setFrom(transform);
-      position.add(joystick.relativeDelta * maxSpeed * dt);
-      scale = Vector2(joystick.relativeDelta.x > 0 ? -1 : 1, 1.0);
-    }
   }
 }

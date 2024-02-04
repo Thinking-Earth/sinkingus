@@ -23,13 +23,15 @@ class MyGame extends FlameGame {
 
   late final JoystickComponent joystick;
 
+  double maxSpeed = -300;
+
   @override
   FutureOr<void> onLoad() async {
-    background = SpriteComponent(sprite: await loadSprite("map.png"))
-      ..size = (size[0] > size[1])
-          ? Vector2(size[1] * 3085 / 2358, size[1])
-          : Vector2(size[0], size[0] * 2358 / 3085)
-      ..anchor = Anchor.topLeft;
+    Sprite backgroundSprite = await loadSprite("map.png");
+    background = SpriteComponent(sprite: backgroundSprite)
+      ..size = backgroundSprite.originalSize * 3
+      ..anchor = Anchor.center
+      ..position = Vector2(size[0] * 0.5, size[1] * 0.5);
     add(background);
 
     final knobPaint = BasicPalette.blue.withAlpha(200).paint();
@@ -40,8 +42,9 @@ class MyGame extends FlameGame {
       margin: const EdgeInsets.only(left: 40, bottom: 40),
     );
 
-    player = Player("people", joystick);
+    player = Player("people", size);
     add(player);
+    camera.follow(player);
     camera.viewport.add(joystick);
 
     return super.onLoad();
@@ -50,5 +53,11 @@ class MyGame extends FlameGame {
   @override
   void update(double dt) {
     super.update(dt);
+
+    if (!joystick.delta.isZero()) {
+      background.position.add(joystick.relativeDelta * maxSpeed * dt);
+      player.transform.scale =
+          Vector2((joystick.relativeDelta.x > 0) ? -1 : 1, 1);
+    }
   }
 }
