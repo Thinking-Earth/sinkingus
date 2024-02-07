@@ -1,8 +1,7 @@
-import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:sinking_us/feature/game/classes/director.dart';
-import 'package:sinking_us/feature/game/classes/game.dart';
+import 'package:sinking_us/feature/game/classes/world.dart';
 
 class GameMain extends StatelessWidget {
   const GameMain({super.key});
