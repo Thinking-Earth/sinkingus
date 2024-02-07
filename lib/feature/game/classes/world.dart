@@ -1,16 +1,12 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:sinking_us/feature/game/sprites/characters.dart';
+import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 
-/**
- * MyGame: initialize components
- * 
- */
+/// MyGame: initialize components
 
 class MyWorld extends World {
   late SpriteComponent player;
@@ -28,10 +24,7 @@ class MyWorld extends World {
 
   @override
   FutureOr<void> onLoad() async {
-    // intialize local components
-    //addLocalComponents();
     size = camera.viewport.virtualSize;
-    print(size);
 
     // background
     Sprite backgroundSprite = await Sprite.load("map.png");
@@ -41,9 +34,9 @@ class MyWorld extends World {
       ..position = Vector2(size[0] * 0.5, size[1] * 0.5);
 
     setJoystick();
-    setSpriteBtn();
+    setEventBtn();
 
-    player = MyPlayer("worker", size, joystick, background);
+    player = MyPlayer("worker", "temp name", size, joystick, background);
 
     // add components
     parent?.add(background);
@@ -52,11 +45,6 @@ class MyWorld extends World {
     camera.viewport.add(joystick);
 
     return super.onLoad();
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
   }
 
   void setJoystick() {
@@ -69,26 +57,32 @@ class MyWorld extends World {
     );
   }
 
-  void setSpriteBtn() {
-    List<String> spriteNames = [
-      "buy necessity",
-      "national assembly",
-      "plug off",
-      "sun power",
-      "wind power",
-      "trash",
-      "tree",
-      "water off"
-    ];
-    for (double i = 0; i < 8; i++) {
-      final paint = BasicPalette.red.paint()..style = PaintingStyle.stroke;
-      rectangles.add(RectangleComponent(
-        size: Vector2(300.0, 200.0),
-        anchor: Anchor.center,
-        position: background.size * 0.5 + Vector2.all(i + 1) * 300,
-        paint: paint,
-      ));
-      rectangles[i.toInt()].add(TextComponent(text: spriteNames[i.toInt()]));
-    }
+  void setEventBtn() {
+    // TODO: 위치 로컬에서 정해지게 되면 이부분 간단히 하기 (@전은지)
+    BuyNecessityBtn buyNecessityBtn = BuyNecessityBtn(background.size * 0.5);
+    PlugOffGameBtn plugOffGameBtn =
+        PlugOffGameBtn(background.size * 0.5 + Vector2.all(300));
+    SunPowerGameBtn sunPowerGameBtn =
+        SunPowerGameBtn(background.size * 0.5 + Vector2.all(600));
+    WindPowerGameBtn windPowerGameBtn =
+        WindPowerGameBtn(background.size * 0.5 + Vector2.all(900));
+    TrashGameBtn trashGameBtn =
+        TrashGameBtn(background.size * 0.5 + Vector2.all(1200));
+    TreeGameBtn treeGameBtn =
+        TreeGameBtn(background.size * 0.5 + Vector2.all(1350));
+    WaterOffGameBtn waterOffGameBtn =
+        WaterOffGameBtn(background.size * 0.5 + Vector2.all(1500));
+    NationalAssemblyBtn nationalAssemblyBtn =
+        NationalAssemblyBtn(background.size * 0.5 + Vector2.all(1800));
+    rectangles.addAll([
+      buyNecessityBtn,
+      nationalAssemblyBtn,
+      plugOffGameBtn,
+      sunPowerGameBtn,
+      windPowerGameBtn,
+      trashGameBtn,
+      treeGameBtn,
+      waterOffGameBtn
+    ]);
   }
 }
