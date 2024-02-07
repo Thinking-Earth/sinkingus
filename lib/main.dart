@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/app_bootstrapper.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
-import 'package:sinking_us/helpers/constants/app_colors.dart';
 import 'package:sinking_us/helpers/constants/app_themes.dart';
 
 Future<void> main() async {
@@ -20,7 +19,7 @@ class SinkingUs extends StatelessWidget {
   String? idToken;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final Size realSize = MediaQuery.of(context).size;
     final Size customSize;
     if (realSize.width < 1334) {
