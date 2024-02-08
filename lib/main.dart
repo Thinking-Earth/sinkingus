@@ -22,8 +22,8 @@ class SinkingUs extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size realSize = MediaQuery.of(context).size;
     final Size customSize;
-    if (realSize.width < 1334) {
-      customSize = Size(1334, realSize.height);
+    if (realSize.width < 844) {
+      customSize = Size(844, realSize.height);
     } else {
       customSize = realSize;
     }
@@ -37,7 +37,7 @@ class SinkingUs extends StatelessWidget {
           builder: (context, widget) {
             return Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 1334),
+                constraints: const BoxConstraints(minWidth: 844),
                 child: MaterialApp(
                   title: "Sinking US",
                   debugShowCheckedModeBanner: false,

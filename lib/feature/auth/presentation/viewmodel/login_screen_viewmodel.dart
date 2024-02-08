@@ -1,6 +1,9 @@
+import 'package:nakama/nakama.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
+import 'package:sinking_us/feature/auth/domain/auth_domain.dart';
+import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 part 'login_screen_viewmodel.g.dart';
 
@@ -19,11 +22,15 @@ class LoginScreenController extends _$LoginScreenController {
     state = LoginScreenState();
   }
 
-  void handlePressedSignInGoogle() {
+  void handlePressedSignInGoogle() async {
+    ShowDialogHelper.showLoading();
+    Session? session = await ref.read(authDomainControllerProvider.notifier).socialSignInWithGoogle();
+    print("hellofuck $session");
+    ShowDialogHelper.closeLoading();
     AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
   }
 
   void handlePressedSignInApple() {
-
+    ref.read(authDomainControllerProvider.notifier).socialSignInWithApple();
   }
 }
