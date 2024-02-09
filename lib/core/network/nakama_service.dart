@@ -2,54 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:nakama/nakama.dart';
 import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 
+late NakamaBaseClient _nakamaClient;
+
 @immutable
 class NakamaService {
   NakamaService(){
-    getNakamaClient(
+    _nakamaClient = getNakamaClient(
       host: '127.0.0.1',
       ssl: false,
-      serverKey: 'defaultKey',
+      serverKey: 'defaultkey',
       httpPort: 7350
     );
   }
 
   Future<Account> getNakamaAccount({required Session session}) async {
-    return await getNakamaClient().getAccount(session);
+    return await _nakamaClient.getAccount(session);
+  }
+
+  Future<List<User>> getOtherUserAccount({required Session session}) async {
+    return await _nakamaClient.getUsers(session: session);
+  }
+
+  Future<Session> signInWithGoogle({required String token}) async {
+    Session session = await _nakamaClient.authenticateGoogle(token: token);
+    return session;
   }
 
   Future<Session> signInWithCustom({
     required UserInfoModel userInfo,
   }) async {
-
-    //TODO @전은지 . 구글 로그인 정보도 잘 들고오고 아무 문제 없음 저 nakama authEmail()에서 자꾸 이거 뜸 -> Error during authentication: Exception: Authentication failed.
-    final client = getNakamaClient(
-      host: '127.0.0.1',
-      ssl: false,
-      serverKey: 'defaultKey',
-      grpcPort: 7350,
-      httpPort: 7350
+    Session session = await _nakamaClient.authenticateCustom(
+      id: userInfo.uid,
+      username: userInfo.nick,
     );
-    try {
-      // Session session = await client.authenticateCustom(
-      //   id: userInfo.uid,
-      //   vars: {
-      //     'email': userInfo.email,
-      //     'nick': userInfo.nick,
-      //     'profileURL': userInfo.profileURL,
-      //     'uid': userInfo.uid,
-      //   }
-      // );
-      Session test = await client.authenticateEmail(
-        email: "test@gmail.com",
-        password: "123456",
-        create: true,
-        username: "eeeee"
-      );
-      print("Session: $test"); // 세션 출력
-      return test;
-    } catch (e) {
-      print("Error during authentication: $e"); // 오류 출력
-      rethrow;
-    }
+    _nakamaClient.updateAccount(
+      session: session,
+      avatarUrl: userInfo.profileURL,
+      username: userInfo.nick,
+      displayName: userInfo.nick,
+    );
+    return session;
   }
 }

@@ -19,6 +19,7 @@ class LocalStorageBase {
   T? getCommon<T>(String key){
     try {
       switch(T) {
+        // ignore: dart_type_literal_in_constant_pattern
         case String:
           return _sharedPrefs!.getString(key) as T?;
         case int:

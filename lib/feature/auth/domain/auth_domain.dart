@@ -11,12 +11,16 @@ import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 part 'auth_domain.g.dart';
 
 class AuthDomainState {
-  AuthDomainState({required this.authDataSource});
+  AuthDomainState({
+    required this.authDataSource,
+    this.session
+  });
 
   AuthDataSource authDataSource;
+  Session? session;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AuthDomainController extends _$AuthDomainController {
   @override
   AuthDomainState build() {
@@ -27,28 +31,34 @@ class AuthDomainController extends _$AuthDomainController {
 
   void setState() {
     state = AuthDomainState(
-      authDataSource: state.authDataSource
+      authDataSource: state.authDataSource,
+      session: state.session
     );
   }
 
   Future<Session?> socialSignInWithGoogle() async {
     try {
-      await GoogleSignIn().signIn().then((result) async {
-        if(result != null){
-          Session userSession = await state.authDataSource.socialLoginWithGoogle(userInfo: UserInfoModel(
-            email: result.email,
-            nick: result.displayName ?? "worker ${Random().nextInt(900000) + 100000}",
-            profileURL: result.photoUrl ?? "https://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg",
-            uid: result.id
-          ));
-          print("eeeee $userSession");
-          //await FirebaseAuth.instance.signInWithCustomToken(result.id);
-          return userSession;
-        } else {
-          print("fuckkk??");
-          ShowDialogHelper.showAlert(title: "오류", message: "구글 로그인 실패");
-        }
-      });
+      GoogleSignInAccount? result = await GoogleSignIn().signInSilently();
+      if(result != null) {
+        GoogleSignInAuthentication? googleAuth = await result.authentication;
+        final credential = GoogleAuthProvider.credential(
+          idToken: googleAuth.idToken,
+          accessToken: googleAuth.accessToken
+        );
+        //Session userSession = await state.authDataSource.socialLoginWithGoogle(token: googleAuth.idToken!);
+        Session userSession = await state.authDataSource.socialLoginWithGoogle(userInfo: UserInfoModel(
+          email: result.email,
+          nick: result.displayName ?? "worker ${Random().nextInt(900000) + 100000}",
+          profileURL: result.photoUrl ?? "https://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg",
+          uid: result.id
+        ));
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        state.session = userSession;
+        setState();
+        return userSession;
+      } else {
+        ShowDialogHelper.showAlert(title: "오류", message: "구글 로그인 실패");
+      }
     } catch (e) {
       ShowDialogHelper.showAlert(title: "오류", message: e.toString());
     }

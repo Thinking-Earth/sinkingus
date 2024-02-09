@@ -25,6 +25,7 @@ class UserDomainController extends _$UserDomainController {
 
   Future<void> getUserInfo({required Session session}) async {
     state.userData = await UserDataSource().getUserInfo(session: session);
+    print(state.userData?.user);
     setState();
   }
 }

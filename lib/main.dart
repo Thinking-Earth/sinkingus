@@ -7,6 +7,10 @@ import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/helpers/constants/app_themes.dart';
 
+//*****************************************************/
+// DO NOT PRESS RUN HERE
+// 컨트롤 에프 5로 실행시키세요. 랜덤 포트 -> 49323으로 고정함 그래야 커스텀 로그인됨(credential 인증 어쩌고 땜시)
+//*****************************************************/
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

@@ -43,16 +43,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     firebase.User? currentUser = firebase.FirebaseAuth.instance.currentUser;
     Session? session;
 
-    if(currentUser != null) {
-      session = await ref.read(authDomainControllerProvider.notifier).socialSignInWithGoogle();
-    }
-    
-    //로그인 정보 없음
-    if(session == null){
+    if(currentUser == null) {
       AppRouter.pushAndReplaceNamed(Routes.loginScreenRoute);
       return;
     }
 
+    await ref.read(authDomainControllerProvider.notifier).socialSignInWithGoogle();
+    session = ref.read(authDomainControllerProvider).session;
+
+    if(session == null){
+      AppRouter.pushAndReplaceNamed(Routes.loginScreenRoute);
+      return;
+    }
+    
     await ref.read(userDomainControllerProvider.notifier).getUserInfo(session: session);
     AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
   }
