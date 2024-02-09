@@ -41,6 +41,10 @@ dependencies:
   firebase_storage: ^11.4.1
   cloud_functions: ^4.6.0
 
+  #login
+  google_sign_in: ^6.1.5 #구글 로그인
+  sign_in_with_apple: ^5.0.0 #애플 로그인
+
   #Status management
   flutter_riverpod: ^2.4.9 #상태관리 패키지
   riverpod_annotation: ^2.3.3 #riverpod
