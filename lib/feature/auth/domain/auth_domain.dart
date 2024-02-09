@@ -38,7 +38,7 @@ class AuthDomainController extends _$AuthDomainController {
 
   Future<Session?> socialSignInWithGoogle() async {
     try {
-      GoogleSignInAccount? result = await GoogleSignIn().signInSilently();
+      GoogleSignInAccount? result = await GoogleSignIn().signIn();
       if(result != null) {
         GoogleSignInAuthentication? googleAuth = await result.authentication;
         final credential = GoogleAuthProvider.credential(
