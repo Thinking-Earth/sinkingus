@@ -15,6 +15,26 @@ class NakamaService {
     );
   }
 
+
+  // session
+  Future<Session> refreshNakamaSession({required Session session}) async {
+    return await _nakamaClient.sessionRefresh(session: session);
+  }
+
+  Future<void> logOutNakamaSession({required Session session}) async {
+    await _nakamaClient.sessionLogout(session: session);
+  }
+
+  // socket
+  NakamaWebsocketClient buildNakamaWebSocket({required String token}) {
+    return NakamaWebsocketClient.init(
+      host: '127.0.0.1', 
+      ssl: false, 
+      token: token
+    );
+  }
+
+  // auth
   Future<Account> getNakamaAccount({required Session session}) async {
     return await _nakamaClient.getAccount(session);
   }
