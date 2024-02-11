@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
+@immutable
 class FirestoreBase {
   static FirebaseFirestore? _firestore;
   static FirestoreBase? _firestoreBase;

@@ -7,6 +7,10 @@ import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/helpers/constants/app_themes.dart';
 
+//*****************************************************/
+// DO NOT PRESS RUN HERE
+// 컨트롤 에프 5로 실행시키세요. 랜덤 포트 -> 49323으로 고정함 그래야 커스텀 로그인됨(credential 인증 어쩌고 땜시)
+//*****************************************************/
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -22,8 +26,8 @@ class SinkingUs extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size realSize = MediaQuery.of(context).size;
     final Size customSize;
-    if (realSize.width < 1334) {
-      customSize = Size(1334, realSize.height);
+    if (realSize.width < 844) {
+      customSize = Size(844, realSize.height);
     } else {
       customSize = realSize;
     }
@@ -37,7 +41,7 @@ class SinkingUs extends StatelessWidget {
           builder: (context, widget) {
             return Center(
               child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 1334),
+                constraints: const BoxConstraints(minWidth: 844),
                 child: MaterialApp(
                   title: "Sinking US",
                   debugShowCheckedModeBanner: false,

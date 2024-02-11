@@ -21,7 +21,9 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserInfoModel {
   String get email => throw _privateConstructorUsedError;
-  String? get nick => throw _privateConstructorUsedError;
+  String get nick => throw _privateConstructorUsedError;
+  String get profileURL => throw _privateConstructorUsedError;
+  String get uid => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +37,7 @@ abstract class $UserInfoModelCopyWith<$Res> {
           UserInfoModel value, $Res Function(UserInfoModel) then) =
       _$UserInfoModelCopyWithImpl<$Res, UserInfoModel>;
   @useResult
-  $Res call({String email, String? nick});
+  $Res call({String email, String nick, String profileURL, String uid});
 }
 
 /// @nodoc
@@ -52,17 +54,27 @@ class _$UserInfoModelCopyWithImpl<$Res, $Val extends UserInfoModel>
   @override
   $Res call({
     Object? email = null,
-    Object? nick = freezed,
+    Object? nick = null,
+    Object? profileURL = null,
+    Object? uid = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      nick: freezed == nick
+      nick: null == nick
           ? _value.nick
           : nick // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
+      profileURL: null == profileURL
+          ? _value.profileURL
+          : profileURL // ignore: cast_nullable_to_non_nullable
+              as String,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -75,7 +87,7 @@ abstract class _$$UserInfoModelImplCopyWith<$Res>
       __$$UserInfoModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String? nick});
+  $Res call({String email, String nick, String profileURL, String uid});
 }
 
 /// @nodoc
@@ -90,17 +102,27 @@ class __$$UserInfoModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? email = null,
-    Object? nick = freezed,
+    Object? nick = null,
+    Object? profileURL = null,
+    Object? uid = null,
   }) {
     return _then(_$UserInfoModelImpl(
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      nick: freezed == nick
+      nick: null == nick
           ? _value.nick
           : nick // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
+      profileURL: null == profileURL
+          ? _value.profileURL
+          : profileURL // ignore: cast_nullable_to_non_nullable
+              as String,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -108,7 +130,11 @@ class __$$UserInfoModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserInfoModelImpl implements _UserInfoModel {
-  const _$UserInfoModelImpl({required this.email, this.nick});
+  const _$UserInfoModelImpl(
+      {required this.email,
+      required this.nick,
+      required this.profileURL,
+      required this.uid});
 
   factory _$UserInfoModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserInfoModelImplFromJson(json);
@@ -116,11 +142,15 @@ class _$UserInfoModelImpl implements _UserInfoModel {
   @override
   final String email;
   @override
-  final String? nick;
+  final String nick;
+  @override
+  final String profileURL;
+  @override
+  final String uid;
 
   @override
   String toString() {
-    return 'UserInfoModel(email: $email, nick: $nick)';
+    return 'UserInfoModel(email: $email, nick: $nick, profileURL: $profileURL, uid: $uid)';
   }
 
   @override
@@ -129,12 +159,15 @@ class _$UserInfoModelImpl implements _UserInfoModel {
         (other.runtimeType == runtimeType &&
             other is _$UserInfoModelImpl &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.nick, nick) || other.nick == nick));
+            (identical(other.nick, nick) || other.nick == nick) &&
+            (identical(other.profileURL, profileURL) ||
+                other.profileURL == profileURL) &&
+            (identical(other.uid, uid) || other.uid == uid));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, nick);
+  int get hashCode => Object.hash(runtimeType, email, nick, profileURL, uid);
 
   @JsonKey(ignore: true)
   @override
@@ -152,7 +185,10 @@ class _$UserInfoModelImpl implements _UserInfoModel {
 
 abstract class _UserInfoModel implements UserInfoModel {
   const factory _UserInfoModel(
-      {required final String email, final String? nick}) = _$UserInfoModelImpl;
+      {required final String email,
+      required final String nick,
+      required final String profileURL,
+      required final String uid}) = _$UserInfoModelImpl;
 
   factory _UserInfoModel.fromJson(Map<String, dynamic> json) =
       _$UserInfoModelImpl.fromJson;
@@ -160,7 +196,11 @@ abstract class _UserInfoModel implements UserInfoModel {
   @override
   String get email;
   @override
-  String? get nick;
+  String get nick;
+  @override
+  String get profileURL;
+  @override
+  String get uid;
   @override
   @JsonKey(ignore: true)
   _$$UserInfoModelImplCopyWith<_$UserInfoModelImpl> get copyWith =>
