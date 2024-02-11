@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nakama/nakama.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,17 +15,26 @@ part 'auth_domain.g.dart';
 class AuthDomainState {
   AuthDomainState({
     required this.authDataSource,
-    this.session
+    this.session,
+    this.socket
   });
 
   AuthDataSource authDataSource;
   Session? session;
+  NakamaWebsocketClient? socket;
 }
 
 @Riverpod(keepAlive: true)
 class AuthDomainController extends _$AuthDomainController {
+  Timer? _timer;
+
   @override
   AuthDomainState build() {
+    _timer ??= Timer.periodic(const Duration(hours: 1), (_) async {
+      if(state.session != null) {
+        state.session = await state.authDataSource.refreshSession(session: state.session!);
+      }
+    });
     return AuthDomainState(
       authDataSource: AuthDataSource()
     );
@@ -32,13 +43,36 @@ class AuthDomainController extends _$AuthDomainController {
   void setState() {
     state = AuthDomainState(
       authDataSource: state.authDataSource,
-      session: state.session
+      session: state.session,
+      socket: state.socket
     );
   }
 
+  // session
+  Future<void> logOutSession() async {
+    if(state.session != null) {
+      await state.authDataSource.logOutSession(session: state.session!);
+    }
+    state.session = null;
+    state.socket = null;
+    setState();
+  }
+
+  // socket
+  Future<void> getSocket() async {
+    if(state.session != null) {
+      state.socket = state.authDataSource.buildSocket(token: state.session!.token);
+      setState();
+    } else {
+      throw Exception("Session이 비어있는 상태로 Socket을 불러올 수 없습니다.");
+    }
+  }
+
+  // auth
   Future<Session?> socialSignInWithGoogle() async {
     try {
-      GoogleSignInAccount? result = await GoogleSignIn().signIn();
+      GoogleSignInAccount? result = kIsWeb ? await (GoogleSignIn().signInSilently()) : await GoogleSignIn().signIn();
+      if(kIsWeb && result == null) result = await GoogleSignIn().signIn();
       if(result != null) {
         GoogleSignInAuthentication? googleAuth = await result.authentication;
         final credential = GoogleAuthProvider.credential(
@@ -54,7 +88,7 @@ class AuthDomainController extends _$AuthDomainController {
         ));
         await FirebaseAuth.instance.signInWithCredential(credential);
         state.session = userSession;
-        setState();
+        getSocket();
         return userSession;
       } else {
         ShowDialogHelper.showAlert(title: "오류", message: "구글 로그인 실패");
