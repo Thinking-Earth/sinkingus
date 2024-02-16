@@ -7,7 +7,7 @@ part of 'home_screen_viewmodel.dart';
 // **************************************************************************
 
 String _$homeScreenControllerHash() =>
-    r'211fad0d3dadfe9c394ec4682594d013bd8a3c60';
+    r'02281011aec817a4f480210ab9b69da801221551';
 
 /// See also [HomeScreenController].
 @ProviderFor(HomeScreenController)
