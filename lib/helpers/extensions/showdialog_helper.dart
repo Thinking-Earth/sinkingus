@@ -10,60 +10,65 @@ class ShowDialogHelper {
 
   static void miniGameDialog({required String title, required Widget widget}) {
     showDialog(
-      context: AppRouter.navigatorKey.currentContext!,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Row(
-            children: [
-              IconButton(
-                onPressed: (){
-                  AppRouter.pop();
-                },
-                icon: const Icon(CupertinoIcons.xmark)
+        context: AppRouter.navigatorKey.currentContext!,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        AppRouter.pop();
+                      },
+                      icon: const Icon(CupertinoIcons.xmark)),
+                  const Spacer(),
+                  Text(title),
+                  const Spacer()
+                ],
               ),
-              const Spacer(),
-              Text(title),
-              const Spacer()
-            ],
-          ),
-          content: SizedBox(
-            width: 800.w,
-            height: 360.h,
-            child: widget
-          )
-        );
-      }
-    );
+              content: SizedBox(width: 800.w, height: 360.h, child: widget));
+        });
+  }
+
+  static void showRoomDialog({required String title, required Widget widget}) {
+    showDialog(
+        context: AppRouter.navigatorKey.currentContext!,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: SizedBox(width: 400.w, height: 300.h, child: widget),
+          );
+        });
   }
 
   static void showAlert({required String title, required String message}) {
-    showCupertinoDialog(context: AppRouter.navigatorKey.currentContext!, builder: (context) {
-      return CupertinoAlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          CupertinoDialogAction(
-            isDefaultAction: true, 
-            child: const Text(
-              "확인", 
-              style: TextStyle(
-                color: AppColors.green10
-              ),
-            ), 
-            onPressed: () {
-              Navigator.pop(context);
-            }
-          )
-        ],
-      );
-    });
+    showCupertinoDialog(
+        context: AppRouter.navigatorKey.currentContext!,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: [
+              CupertinoDialogAction(
+                  isDefaultAction: true,
+                  child: const Text(
+                    "확인",
+                    style: TextStyle(color: AppColors.green10),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
   }
 
   static void showLoading() {
-    showCupertinoDialog(context: AppRouter.navigatorKey.currentContext!, builder: (context) {
-      return const CupertinoActivityIndicator();
-    });
+    showCupertinoDialog(
+        context: AppRouter.navigatorKey.currentContext!,
+        builder: (context) {
+          return const CupertinoActivityIndicator();
+        });
   }
 
   static void closeLoading() {
