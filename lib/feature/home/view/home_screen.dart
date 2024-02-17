@@ -1,11 +1,9 @@
-import 'dart:convert';
-import 'dart:js_interop';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/home/model/match_info.dart';
+import 'package:sinking_us/feature/home/view/match_list_item.dart';
 import 'package:sinking_us/feature/home/viewmodel/home_screen_viewmodel.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
@@ -54,16 +52,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               children: [
                 Container(
                   width: 400.w,
-                  height: 150.h,
+                  height: 230.h,
                   color: Colors.blueGrey[300],
                   child: ListView.builder(
                     itemCount: matchList.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        height: 50.h,
-                        color: Colors.white,
-                        child: Text(matchList.values.elementAt(index).roomName),
-                      );
+                      return MatchListItem(matchList.values.elementAt(index));
                     },
                   ),
                 ),

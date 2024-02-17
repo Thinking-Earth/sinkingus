@@ -1,14 +1,8 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
-import 'package:sinking_us/config/routes/routes.dart';
-import 'package:sinking_us/feature/home/view/build_room_dialog.dart';
-import 'package:sinking_us/feature/home/viewmodel/home_screen_viewmodel.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
-
-import '../constants/app_typography.dart';
 
 @immutable
 class ShowDialogHelper {
@@ -36,14 +30,13 @@ class ShowDialogHelper {
         });
   }
 
-  static void buildRoomDialog() {
+  static void showRoomDialog({required String title, required Widget widget}) {
     showDialog(
         context: AppRouter.navigatorKey.currentContext!,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Build Room"),
-            content: SizedBox(
-                width: 400.w, height: 300.h, child: BuildDialogContent()),
+            title: Text(title),
+            content: SizedBox(width: 400.w, height: 300.h, child: widget),
           );
         });
   }

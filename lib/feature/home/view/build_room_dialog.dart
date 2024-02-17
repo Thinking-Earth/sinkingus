@@ -26,13 +26,18 @@ class _BuildDialogContentState extends State<BuildDialogContent> {
               border: OutlineInputBorder(),
               labelText: 'Input your room name',
             )),
-        Checkbox(
-            value: _isPrivate,
-            onChanged: (value) {
-              setState(() {
-                _isPrivate = value!;
-              });
-            }),
+        Row(
+          children: [
+            Checkbox(
+                value: _isPrivate,
+                onChanged: (value) {
+                  setState(() {
+                    _isPrivate = value!;
+                  });
+                }),
+            Text("Private Room")
+          ],
+        ),
         InkWell(
           onTap: () async {
             final newMatchId =
