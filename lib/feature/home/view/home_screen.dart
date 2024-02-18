@@ -2,7 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sinking_us/feature/home/model/match_info.dart';
+import 'package:sinking_us/feature/game/data/model/match_info.dart';
 import 'package:sinking_us/feature/home/view/match_list_item.dart';
 import 'package:sinking_us/feature/home/viewmodel/home_screen_viewmodel.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
@@ -57,7 +57,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: ListView.builder(
                     itemCount: matchList.length,
                     itemBuilder: (context, index) {
-                      return MatchListItem(matchList.values.elementAt(index));
+                      String matchId = matchList.keys.elementAt(index);
+                      return MatchListItem(matchId, matchList[matchId]!);
                     },
                   ),
                 ),
