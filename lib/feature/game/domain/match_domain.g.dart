@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_screen_viewmodel.dart';
+part of 'match_domain.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeScreenControllerHash() =>
-    r'e4fa56bcb36d076807a9bce68a4c51f7d3e2b5cd';
+String _$matchDomainControllerHash() =>
+    r'b2b4f15d7cd45ef5e4f7831238fc0ab7ca704893';
 
-/// See also [HomeScreenController].
-@ProviderFor(HomeScreenController)
-final homeScreenControllerProvider =
-    AutoDisposeNotifierProvider<HomeScreenController, HomeScreenState>.internal(
-  HomeScreenController.new,
-  name: r'homeScreenControllerProvider',
+/// See also [MatchDomainController].
+@ProviderFor(MatchDomainController)
+final matchDomainControllerProvider =
+    NotifierProvider<MatchDomainController, MatchDomainState>.internal(
+  MatchDomainController.new,
+  name: r'matchDomainControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$homeScreenControllerHash,
+      : _$matchDomainControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$HomeScreenController = AutoDisposeNotifier<HomeScreenState>;
+typedef _$MatchDomainController = Notifier<MatchDomainState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sinking_us/feature/home/model/match_info.dart';
+import 'package:sinking_us/feature/game/data/model/match_info.dart';
 import 'package:sinking_us/feature/home/view/match_list_item.dart';
 
 class SearchDialogContent extends StatefulWidget {
@@ -46,7 +46,8 @@ class _SearchDialogContentState extends State<SearchDialogContent> {
           child: ListView.builder(
               itemCount: matchList.length,
               itemBuilder: (context, index) {
-                return MatchListItem(matchList.values.elementAt(index));
+                String matchId = matchList.keys.elementAt(index);
+                return MatchListItem(matchId, matchList[matchId]!);
               }),
         )
       ],
