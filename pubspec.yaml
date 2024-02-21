@@ -29,7 +29,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  nakama: ^1.0.5
 
   #Google firebase
   firebase_core: ^2.21.0

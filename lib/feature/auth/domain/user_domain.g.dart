@@ -7,7 +7,7 @@ part of 'user_domain.dart';
 // **************************************************************************
 
 String _$userDomainControllerHash() =>
-    r'4f5d41e67a29ad5f479d7511d31a08c6d873cb1e';
+    r'a54c0083304b6ec35617c97eb271a66f667ae294';
 
 /// See also [UserDomainController].
 @ProviderFor(UserDomainController)

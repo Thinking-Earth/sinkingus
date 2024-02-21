@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:nakama/nakama.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
+import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/auth/domain/auth_domain.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/helpers/constants/app_svgs.dart';
@@ -41,22 +41,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   void initRoute() async {
     firebase.User? currentUser = firebase.FirebaseAuth.instance.currentUser;
-    Session? session;
+    UserInfoModel? userInfo;
 
     if(currentUser == null) {
       AppRouter.pushAndReplaceNamed(Routes.loginScreenRoute);
       return;
     }
 
-    await ref.read(authDomainControllerProvider.notifier).socialSignInWithGoogle();
-    session = ref.read(authDomainControllerProvider).session;
+    userInfo = await ref.read(authDomainControllerProvider.notifier).getUserInfoFromServer(email: currentUser.email!);
 
-    if(session == null){
+    if(userInfo == null){
       AppRouter.pushAndReplaceNamed(Routes.loginScreenRoute);
       return;
     }
     
-    await ref.read(userDomainControllerProvider.notifier).getUserInfo(session: session);
+    ref.read(userDomainControllerProvider.notifier).setUserInfo(userInfo: userInfo);
     AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
   }
 }
