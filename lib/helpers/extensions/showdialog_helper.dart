@@ -63,6 +63,30 @@ class ShowDialogHelper {
         });
   }
 
+  static void showAlertWithAction({required VoidCallback onPressed, required String title, required String message}) {
+    showCupertinoDialog(context: AppRouter.navigatorKey.currentContext!, builder: (context) {
+      return CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          CupertinoDialogAction(
+            isDefaultAction: true, 
+            onPressed: (){
+              AppRouter.pop();
+              onPressed();
+            },
+            child: const Text(
+              "확인", 
+              style: TextStyle(
+                color: AppColors.green10
+              ),
+            ),
+          )
+        ],
+      );
+    });
+  }
+
   static void showLoading() {
     showCupertinoDialog(
         context: AppRouter.navigatorKey.currentContext!,
