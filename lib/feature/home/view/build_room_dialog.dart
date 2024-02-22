@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sinking_us/config/routes/app_router.dart';
-import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
-class BuildDialogContent extends StatefulWidget {
-  const BuildDialogContent({super.key});
+class BuildDialogContent extends StatelessWidget {
+  BuildDialogContent({required this.setState, super.key});
 
-  @override
-  State<BuildDialogContent> createState() => _BuildDialogContentState();
-}
-
-class _BuildDialogContentState extends State<BuildDialogContent> {
-  bool _isPrivate = false;
   final myController = TextEditingController();
+  final StateSetter setState;
+  bool _isPrivate = false;
+
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
@@ -41,14 +36,13 @@ class _BuildDialogContentState extends State<BuildDialogContent> {
             ],
           ),
           InkWell(
-            onTap: () async {
-              await ref
+            onTap: () {
+              ref
                   .read(matchDomainControllerProvider.notifier)
-                  .buildMatch(
-                      roomName: myController.text, isPrivate: _isPrivate)
-                  .then((value) =>
-                      AppRouter.pushNamed(Routes.gameMainScreenRoute));
-              print("haha lala");
+                  .buildAndJoinMatch(
+                      roomName: myController.text,
+                      isPrivate: _isPrivate ? "private" : "public");
+              Navigator.of(context).pop();
             },
             borderRadius: BorderRadius.circular(12),
             child: Container(

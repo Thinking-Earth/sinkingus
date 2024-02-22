@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
+import 'package:sinking_us/feature/home/view/build_room_dialog.dart';
+import 'package:sinking_us/feature/home/view/search_room_dialog.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
 
 @immutable
@@ -30,15 +32,37 @@ class ShowDialogHelper {
         });
   }
 
-  static void showRoomDialog({required String title, required Widget widget}) {
+  static void showBuildRoomDialog({required String title}) {
     showDialog(
         context: AppRouter.navigatorKey.currentContext!,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(title),
-            content: SizedBox(width: 400.w, height: 300.h, child: widget),
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                title: Text(title),
+                content: SizedBox(
+                    width: 400.w,
+                    height: 300.h,
+                    child: BuildDialogContent(
+                      setState: setState,
+                    )),
+              );
+            },
           );
         });
+  }
+
+  static void showSearchRoomDialog({required String title}) {
+    showDialog(
+      context: AppRouter.navigatorKey.currentContext!,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SizedBox(
+              width: 400.w, height: 300.h, child: const SearchDialogContent()),
+        );
+      },
+    );
   }
 
   static void showAlert({required String title, required String message}) {

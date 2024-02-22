@@ -47,7 +47,10 @@ class _SearchDialogContentState extends State<SearchDialogContent> {
               itemCount: matchList.length,
               itemBuilder: (context, index) {
                 String matchId = matchList.keys.elementAt(index);
-                return MatchListItem(matchId, matchList[matchId]!);
+                return MatchListItem(
+                    matchId: matchId,
+                    match: matchList[matchId]!,
+                    isPrivate: "private");
               }),
         )
       ],

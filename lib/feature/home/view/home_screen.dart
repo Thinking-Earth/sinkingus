@@ -1,8 +1,8 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
+import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/home/view/match_list_item.dart';
 import 'package:sinking_us/feature/home/viewmodel/home_screen_viewmodel.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
@@ -18,21 +18,20 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   Map<String, Match> matchList = {};
 
-  _HomeScreenState() {
-    FirebaseDatabase.instance.ref('lobby/public').onChildAdded.listen((event) {
-      if (event.snapshot.exists) {
-        final newMatch =
-            Match.fromJson(event.snapshot.value as Map<String, dynamic>);
-        setState(() {
-          matchList[event.snapshot.key!] = newMatch;
-        });
-      }
+  _HomeScreenState() {}
+
+  void refreshMatchList() async {
+    matchList =
+        await ref.read(matchDomainControllerProvider.notifier).getMatchList();
+    setState(() {
+      matchList = matchList;
     });
   }
 
   @override
   void initState() {
     super.initState();
+    refreshMatchList();
   }
 
   @override
@@ -50,6 +49,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             width: 400.w,
             child: Column(
               children: [
+                InkWell(
+                  onTap: refreshMatchList,
+                  child: Container(
+                    width: 100.w,
+                    height: 30.h,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.bgPink,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      "refresh",
+                      style: AppTypography.labelCute,
+                    ),
+                  ),
+                ),
                 Container(
                   width: 400.w,
                   height: 230.h,
@@ -58,7 +73,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     itemCount: matchList.length,
                     itemBuilder: (context, index) {
                       String matchId = matchList.keys.elementAt(index);
-                      return MatchListItem(matchId, matchList[matchId]!);
+                      return MatchListItem(
+                          matchId: matchId,
+                          match: matchList[matchId]!,
+                          isPrivate: "public");
                     },
                   ),
                 ),

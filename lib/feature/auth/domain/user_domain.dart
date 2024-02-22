@@ -4,9 +4,9 @@ import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 part 'user_domain.g.dart';
 
 class UserDomainState {
-  UserDomainState({this.userData});
+  UserDomainState({this.userInfo});
 
-  UserInfoModel? userData;
+  UserInfoModel? userInfo;
 }
 
 @Riverpod(keepAlive: true)
@@ -17,13 +17,11 @@ class UserDomainController extends _$UserDomainController {
   }
 
   void setState() {
-    state = UserDomainState(
-      userData: state.userData
-    );
+    state = UserDomainState(userInfo: state.userInfo);
   }
 
   Future<void> setUserInfo({required UserInfoModel userInfo}) async {
-    state.userData = userInfo;
+    state.userInfo = userInfo;
     setState();
   }
 }
