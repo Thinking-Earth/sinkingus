@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/src/services/raw_keyboard.dart';
@@ -47,7 +48,6 @@ class MyPlayer extends SpriteComponent
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     if (event is RawKeyDownEvent) {
-      // TODO: 팝업 시 이동 못하게 막기 (@전은지)
       Vector2 moveDirection = Vector2.zero();
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
           keysPressed.contains(LogicalKeyboardKey.keyA)) moveDirection.x += -10;
@@ -70,8 +70,9 @@ class MyPlayer extends SpriteComponent
 class OtherPlayer extends SpriteComponent {
   String role;
   String name;
+  String uid;
 
-  OtherPlayer(this.role, this.name);
+  OtherPlayer(this.role, this.name, this.uid);
 
   @override
   FutureOr<void> onLoad() async {
@@ -80,13 +81,16 @@ class OtherPlayer extends SpriteComponent {
 
     add(TextComponent(text: name, position: Vector2(0, -20)));
 
+    FirebaseDatabase.instance
+        .ref("players/$uid/position")
+        .onValue
+        .listen((event) {
+      if (event.snapshot.exists) {
+        final positionData = event.snapshot.value as List<double>;
+        position = Vector2(positionData[0], positionData[1]);
+      }
+    });
+
     return super.onLoad();
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-
-    // TODO: get position from server (@전은지)
   }
 }

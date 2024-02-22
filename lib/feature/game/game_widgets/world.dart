@@ -36,7 +36,7 @@ class MyWorld extends World {
     setJoystick();
     setEventBtn();
 
-    player = MyPlayer("worker", "temp name", size, joystick, background);
+    player = MyPlayer("default", "temp name", size, joystick, background);
 
     // add components
     parent?.add(background);

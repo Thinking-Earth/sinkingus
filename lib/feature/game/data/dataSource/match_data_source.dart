@@ -1,8 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
 
 class MatchDataSource {
   MatchDataSource();
+
+  final db = FirebaseDatabase.instance;
 
   Future<bool> isLobbyExist(
       {required String matchId, required String isPrivate}) async {
@@ -20,16 +23,16 @@ class MatchDataSource {
       required String isPrivate,
       required String uid,
       required String userName}) async {
-    final gameRef = FirebaseDatabase.instance.ref("game/$matchId");
+    final gameRef = db.ref("game/$matchId");
     final data = await gameRef.get();
     Match newMatch = Match.fromJson(data.value as Map<String, dynamic>);
 
     if (newMatch.playerCount < 10) {
-      await FirebaseDatabase.instance
+      await db
           .ref("lobby/$isPrivate/$matchId")
           .update({"playerCount": ServerValue.increment(1)});
 
-      await FirebaseDatabase.instance.ref("players/$uid").set({
+      await db.ref("players/$uid").set({
         "name": userName,
         "role": "defalt",
         "position": [0, 0]
@@ -44,28 +47,53 @@ class MatchDataSource {
     return newMatch;
   }
 
-  Future<void> buildAndJoinMatch(
+  Future<String> buildAndJoinMatch(
       {required String roomName,
       required String isPrivate,
-      required Match match}) async {
-    final newMatchId = FirebaseDatabase.instance.ref("lobby").push().key;
-    await FirebaseDatabase.instance
-        .ref("lobby/$isPrivate/$newMatchId")
-        .set(Match(roomName: roomName, playerCount: 1).toJson());
-    await FirebaseDatabase.instance.ref("game/$newMatchId").set(match.toJson());
+      required Match match,
+      required UserInfoModel userInfo}) async {
+    final newMatchId = db.ref("lobby").push().key;
+    await db.ref("lobby/$isPrivate/$newMatchId").set(Match(
+            roomName: roomName,
+            playerCount: 1,
+            isPrivate: isPrivate == "private")
+        .toJson());
+    await db.ref("game/$newMatchId").set(match.toJson());
+    await db.ref("players/${userInfo.uid}").set({
+      "name": userInfo.nick,
+      "role": "default",
+      "position": [0, 0]
+    });
+    return newMatchId!;
   }
 
-  Future<void> logOutFromMatch(
-      {required String matchId, required String uid}) async {
-    DatabaseReference dbRef = FirebaseDatabase.instance.ref("game/$matchId");
-    final data = await dbRef.child("playerCount").get();
-    final host = await dbRef.child("host").get();
+  Future<void> leaveMatch(
+      {required String matchId,
+      required String uid,
+      required Match match}) async {
+    DatabaseReference gameRef = db.ref("game/$matchId");
+    final host = await gameRef.child("host").get();
     if (host.value == uid) {
-      dbRef.remove();
+      if (match.day! == 0) {
+        db
+            .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
+            .remove();
+      }
+      gameRef.remove();
     } else {
-      int playerCount = data.value as int;
-      dbRef.child("players/$uid").remove();
-      dbRef.child("playerCount").set(playerCount - 1);
+      if (match.day! == 0) {
+        db
+            .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
+            .update({"playerCount": ServerValue.increment(-1)});
+      }
+      final List<dynamic> players = await gameRef
+          .child("players")
+          .get()
+          .then((value) => (value.value as List<dynamic>));
+      players.remove(uid);
+      await gameRef.update(
+          {"playerCount": ServerValue.increment(-1), "players": players});
     }
+    db.ref("players/$uid").remove();
   }
 }

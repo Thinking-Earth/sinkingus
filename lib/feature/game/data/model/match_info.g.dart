@@ -9,6 +9,7 @@ part of 'match_info.dart';
 _$MatchImpl _$$MatchImplFromJson(Map<String, dynamic> json) => _$MatchImpl(
       roomName: json['roomName'] as String,
       playerCount: json['playerCount'] as int,
+      isPrivate: json['isPrivate'] as bool?,
       players:
           (json['players'] as List<dynamic>?)?.map((e) => e as String).toList(),
       host: json['host'] as String?,
@@ -23,6 +24,7 @@ Map<String, dynamic> _$$MatchImplToJson(_$MatchImpl instance) =>
     <String, dynamic>{
       'roomName': instance.roomName,
       'playerCount': instance.playerCount,
+      'isPrivate': instance.isPrivate,
       'players': instance.players,
       'host': instance.host,
       'day': instance.day,

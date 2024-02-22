@@ -9,11 +9,9 @@ import 'package:sinking_us/feature/game/data/model/match_info.dart';
 part 'match_domain.g.dart';
 
 class MatchDomainState {
-  MatchDomainState(
-      {required this.matchId, required this.uid, required this.match});
+  MatchDomainState({required this.matchId, required this.match});
 
   String matchId;
-  String uid;
   Match match;
 }
 
@@ -25,13 +23,11 @@ class MatchDomainController extends _$MatchDomainController {
   MatchDomainState build() {
     return MatchDomainState(
         matchId: "not in a match",
-        uid: "my uid",
-        match: Match(roomName: "", playerCount: 0));
+        match: Match(roomName: "", playerCount: 0, isPrivate: true));
   }
 
   void setState() {
-    state = MatchDomainState(
-        matchId: state.matchId, uid: state.uid, match: state.match);
+    state = MatchDomainState(matchId: state.matchId, match: state.match);
   }
 
   void setMatchId(String matchId) {
@@ -57,13 +53,17 @@ class MatchDomainController extends _$MatchDomainController {
     state.match = Match(
         roomName: roomName,
         playerCount: 1,
+        isPrivate: isPrivate == "private",
         players: [uid],
         host: uid,
         day: 0,
         groceryList: {for (var item in GroceryType.values) item: false},
         rule: RuleType.noRule);
-    await source.buildAndJoinMatch(
-        roomName: roomName, isPrivate: isPrivate, match: state.match);
+    state.matchId = await source.buildAndJoinMatch(
+        roomName: roomName,
+        isPrivate: isPrivate,
+        match: state.match,
+        userInfo: ref.read(userDomainControllerProvider).userInfo!);
     setState();
     AppRouter.pushNamed(Routes.gameMainScreenRoute);
   }
@@ -83,6 +83,7 @@ class MatchDomainController extends _$MatchDomainController {
         // TODO: dialog로 안내
       } else {
         state.match = response;
+        state.matchId = matchId;
         setState();
         AppRouter.pushNamed(Routes.gameMainScreenRoute);
       }
@@ -92,9 +93,23 @@ class MatchDomainController extends _$MatchDomainController {
     }
   }
 
-  void logOutFromMatch() {
+  Future<void> leaveMatch() async {
     if (state.matchId != "not in a match") {
-      source.logOutFromMatch(matchId: state.matchId, uid: state.uid);
+      print("leave: triggered");
+      await source.leaveMatch(
+          matchId: state.matchId,
+          uid: ref.read(userDomainControllerProvider).userInfo!.uid,
+          match: state.match);
+      state.matchId = "not in a match";
+      setState();
+      AppRouter.pushNamed(Routes.homeScreenRoute);
+    } else {
+      print("not in a match");
     }
+  }
+
+  bool isHost() {
+    return state.match.host ==
+        ref.read(userDomainControllerProvider).userInfo!.uid;
   }
 }

@@ -22,6 +22,7 @@ Match _$MatchFromJson(Map<String, dynamic> json) {
 mixin _$Match {
   String get roomName => throw _privateConstructorUsedError;
   int get playerCount => throw _privateConstructorUsedError;
+  bool? get isPrivate => throw _privateConstructorUsedError;
   List<String>? get players => throw _privateConstructorUsedError;
   String? get host => throw _privateConstructorUsedError;
   int? get day => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $MatchCopyWith<$Res> {
   $Res call(
       {String roomName,
       int playerCount,
+      bool? isPrivate,
       List<String>? players,
       String? host,
       int? day,
@@ -63,6 +65,7 @@ class _$MatchCopyWithImpl<$Res, $Val extends Match>
   $Res call({
     Object? roomName = null,
     Object? playerCount = null,
+    Object? isPrivate = freezed,
     Object? players = freezed,
     Object? host = freezed,
     Object? day = freezed,
@@ -78,6 +81,10 @@ class _$MatchCopyWithImpl<$Res, $Val extends Match>
           ? _value.playerCount
           : playerCount // ignore: cast_nullable_to_non_nullable
               as int,
+      isPrivate: freezed == isPrivate
+          ? _value.isPrivate
+          : isPrivate // ignore: cast_nullable_to_non_nullable
+              as bool?,
       players: freezed == players
           ? _value.players
           : players // ignore: cast_nullable_to_non_nullable
@@ -112,6 +119,7 @@ abstract class _$$MatchImplCopyWith<$Res> implements $MatchCopyWith<$Res> {
   $Res call(
       {String roomName,
       int playerCount,
+      bool? isPrivate,
       List<String>? players,
       String? host,
       int? day,
@@ -132,6 +140,7 @@ class __$$MatchImplCopyWithImpl<$Res>
   $Res call({
     Object? roomName = null,
     Object? playerCount = null,
+    Object? isPrivate = freezed,
     Object? players = freezed,
     Object? host = freezed,
     Object? day = freezed,
@@ -147,6 +156,10 @@ class __$$MatchImplCopyWithImpl<$Res>
           ? _value.playerCount
           : playerCount // ignore: cast_nullable_to_non_nullable
               as int,
+      isPrivate: freezed == isPrivate
+          ? _value.isPrivate
+          : isPrivate // ignore: cast_nullable_to_non_nullable
+              as bool?,
       players: freezed == players
           ? _value._players
           : players // ignore: cast_nullable_to_non_nullable
@@ -177,6 +190,7 @@ class _$MatchImpl implements _Match {
   _$MatchImpl(
       {required this.roomName,
       required this.playerCount,
+      this.isPrivate,
       final List<String>? players,
       this.host,
       this.day,
@@ -192,6 +206,8 @@ class _$MatchImpl implements _Match {
   final String roomName;
   @override
   final int playerCount;
+  @override
+  final bool? isPrivate;
   final List<String>? _players;
   @override
   List<String>? get players {
@@ -221,7 +237,7 @@ class _$MatchImpl implements _Match {
 
   @override
   String toString() {
-    return 'Match(roomName: $roomName, playerCount: $playerCount, players: $players, host: $host, day: $day, groceryList: $groceryList, rule: $rule)';
+    return 'Match(roomName: $roomName, playerCount: $playerCount, isPrivate: $isPrivate, players: $players, host: $host, day: $day, groceryList: $groceryList, rule: $rule)';
   }
 
   @override
@@ -233,6 +249,8 @@ class _$MatchImpl implements _Match {
                 other.roomName == roomName) &&
             (identical(other.playerCount, playerCount) ||
                 other.playerCount == playerCount) &&
+            (identical(other.isPrivate, isPrivate) ||
+                other.isPrivate == isPrivate) &&
             const DeepCollectionEquality().equals(other._players, _players) &&
             (identical(other.host, host) || other.host == host) &&
             (identical(other.day, day) || other.day == day) &&
@@ -247,6 +265,7 @@ class _$MatchImpl implements _Match {
       runtimeType,
       roomName,
       playerCount,
+      isPrivate,
       const DeepCollectionEquality().hash(_players),
       host,
       day,
@@ -271,6 +290,7 @@ abstract class _Match implements Match {
   factory _Match(
       {required final String roomName,
       required final int playerCount,
+      final bool? isPrivate,
       final List<String>? players,
       final String? host,
       final int? day,
@@ -283,6 +303,8 @@ abstract class _Match implements Match {
   String get roomName;
   @override
   int get playerCount;
+  @override
+  bool? get isPrivate;
   @override
   List<String>? get players;
   @override

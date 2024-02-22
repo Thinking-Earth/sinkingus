@@ -18,8 +18,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   Map<String, Match> matchList = {};
 
-  _HomeScreenState() {}
-
   void refreshMatchList() async {
     matchList =
         await ref.read(matchDomainControllerProvider.notifier).getMatchList();
@@ -32,6 +30,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     refreshMatchList();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override
