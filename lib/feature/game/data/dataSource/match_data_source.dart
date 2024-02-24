@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
+import 'package:sinking_us/feature/game/sprites/roles.dart';
 
 class MatchDataSource {
   MatchDataSource();
@@ -34,7 +35,7 @@ class MatchDataSource {
 
       await db.ref("players/$uid").set({
         "name": userName,
-        "role": "defalt",
+        "role": RoleType.undefined.code,
         "position": [0, 0]
       });
 
@@ -61,7 +62,7 @@ class MatchDataSource {
     await db.ref("game/$newMatchId").set(match.toJson());
     await db.ref("players/${userInfo.uid}").set({
       "name": userInfo.nick,
-      "role": "default",
+      "role": RoleType.undefined.code,
       "position": [0, 0]
     });
     return newMatchId!;
