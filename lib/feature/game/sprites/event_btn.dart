@@ -5,7 +5,6 @@ import 'package:flame/events.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:sinking_us/feature/game/mini_game/custom_mini_game_dialog.dart';
-import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 abstract class EventBtn extends RectangleComponent with TapCallbacks {
   late String btnName = "";
@@ -28,9 +27,9 @@ abstract class EventBtn extends RectangleComponent with TapCallbacks {
   @override
   void onTapUp(TapUpEvent event) {
     super.onTapUp(event);
-    if(btnName == "plug off") {
+    if (btnName == "plug off") {
       MiniGameDialog.plugOff();
-    } else if(btnName == "buy necessity") {
+    } else if (btnName == "buy necessity") {
       MiniGameDialog.buyNecessity();
     }
     print("$btnName : pop up!!!!");

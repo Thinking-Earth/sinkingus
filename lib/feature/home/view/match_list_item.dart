@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sinking_us/config/routes/app_router.dart';
-import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 
 class MatchListItem extends StatelessWidget {
-  const MatchListItem(this.matchId, this.match, {super.key});
+  const MatchListItem(
+      {required this.matchId,
+      required this.match,
+      required this.isPrivate,
+      super.key});
 
   final String matchId;
   final Match match;
+  final String isPrivate;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +37,9 @@ class MatchListItem extends StatelessWidget {
           )),
         ),
         onTap: () {
-          ref.read(matchDomainControllerProvider.notifier).setMatchId(matchId);
-          AppRouter.pushNamed(Routes.gameMainScreenRoute);
+          ref
+              .read(matchDomainControllerProvider.notifier)
+              .joinMatch(matchId: matchId, isPrivate: isPrivate);
         },
       );
     });

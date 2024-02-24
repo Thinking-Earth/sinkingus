@@ -31,6 +31,7 @@ class Match with _$Match {
   factory Match({
     required String roomName,
     required int playerCount,
+    bool? isPrivate,
     List<String>? players,
     String? host,
     int? day,
