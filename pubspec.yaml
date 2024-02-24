@@ -63,6 +63,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0 #난독화 tinydb
   flame: ^1.14.0
   flame_riverpod: ^5.2.0
+  connectivity_plus: ^5.0.2 #인터넷 연결 상태 감지
 
 dev_dependencies:
   flutter_test:
