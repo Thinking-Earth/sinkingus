@@ -9,8 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 
-const CHARACTER_SIZE_X = 128.0;
-const CHARACTER_SIZE_Y = 150.0;
+final CHARACTER_SIZE_X = 120.w;
+final CHARACTER_SIZE_Y = 150.w;
 
 class MyPlayer extends SpriteComponent
     with CollisionCallbacks, KeyboardHandler, RiverpodComponentMixin {
@@ -21,14 +21,15 @@ class MyPlayer extends SpriteComponent
   SpriteComponent background;
   SpriteComponent background2;
   late final Vector2 screensize;
+  late Vector2 characterPosition;
 
-  double maxSpeed = -300.0;
+  double maxSpeed = 300.0;
   JoystickComponent joystick;
 
   MyPlayer(this.role, this.screensize, this.joystick, this.background,
       this.background2)
       : super(
-            size: Vector2.all(150.w),
+            size: Vector2(CHARACTER_SIZE_X, CHARACTER_SIZE_Y),
             anchor: Anchor.center,
             position: screensize * 0.5);
 
@@ -36,7 +37,14 @@ class MyPlayer extends SpriteComponent
   FutureOr<void> onMount() async {
     uid = ref.read(userDomainControllerProvider).userInfo!.uid;
     sprite = await Sprite.load("characters/${role.code}_idle_left.png");
-    size = Vector2(CHARACTER_SIZE_X, CHARACTER_SIZE_Y);
+    position += await FirebaseDatabase.instance
+        .ref("players/$uid/position")
+        .get()
+        .then((value) {
+      final positionData = value.value as List<dynamic>;
+      characterPosition = Vector2(positionData[0], positionData[1]);
+      return characterPosition;
+    });
 
     add(TextComponent(
         text: ref.read(userDomainControllerProvider).userInfo!.nick,
@@ -49,8 +57,9 @@ class MyPlayer extends SpriteComponent
   void update(double dt) {
     super.update(dt);
     if (!joystick.delta.isZero()) {
-      background.position.add(joystick.relativeDelta * maxSpeed * dt);
-      background2.position.add(joystick.relativeDelta * maxSpeed * dt);
+      background.position.add(joystick.relativeDelta * maxSpeed * dt * -1);
+      background2.position.add(joystick.relativeDelta * maxSpeed * dt * -1);
+      characterPosition.add(joystick.relativeDelta * maxSpeed * dt);
       transform.scale = Vector2((joystick.relativeDelta.x > 0) ? -1 : 1, 1);
       sendChangedPosition();
     }
@@ -70,6 +79,7 @@ class MyPlayer extends SpriteComponent
           keysPressed.contains(LogicalKeyboardKey.keyS)) moveDirection.y += 10;
       background.position.add(-moveDirection);
       background2.position.add(-moveDirection);
+      characterPosition.add(moveDirection);
       transform.scale = Vector2(
           (moveDirection.x > 0) ? -1 : 1, 1); // TODO: sprite 바꾸기로 대체 (@전은지)
       sendChangedPosition();
@@ -82,7 +92,7 @@ class MyPlayer extends SpriteComponent
   void sendChangedPosition() async {
     await FirebaseDatabase.instance
         .ref("players/$uid/position")
-        .set([-background.position.x, -background.position.y]);
+        .set([characterPosition.x, characterPosition.y]);
   }
 }
 
@@ -121,7 +131,7 @@ class OtherPlayer extends SpriteComponent {
         final positionData = event.snapshot.value as List<dynamic>;
         //print(positionData);
         position = //Vector2(0, 0);
-            Vector2(positionData[0] + backgroundSize.x * 0.5, positionData[1]);
+            Vector2(positionData[0], positionData[1]) + backgroundSize * 0.5;
       }
     });
 
