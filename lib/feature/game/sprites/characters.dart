@@ -57,9 +57,9 @@ class MyPlayer extends SpriteComponent
   void update(double dt) {
     super.update(dt);
     if (!joystick.delta.isZero()) {
-      background.position.add(joystick.relativeDelta * maxSpeed * dt * -1);
-      background2.position.add(joystick.relativeDelta * maxSpeed * dt * -1);
-      characterPosition.add(joystick.relativeDelta * maxSpeed * dt);
+      background.position.add(joystick.relativeDelta * maxSpeed * dt * -1.w);
+      background2.position.add(joystick.relativeDelta * maxSpeed * dt * -1.w);
+      characterPosition.add(joystick.relativeDelta * maxSpeed * dt * 1.w);
       transform.scale = Vector2((joystick.relativeDelta.x > 0) ? -1 : 1, 1);
       sendChangedPosition();
     }
@@ -70,13 +70,17 @@ class MyPlayer extends SpriteComponent
     if (event is RawKeyDownEvent) {
       Vector2 moveDirection = Vector2.zero();
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
-          keysPressed.contains(LogicalKeyboardKey.keyA)) moveDirection.x += -10;
+          keysPressed.contains(LogicalKeyboardKey.keyA))
+        moveDirection.x += -10.w;
       if (keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
-          keysPressed.contains(LogicalKeyboardKey.keyD)) moveDirection.x += 10;
+          keysPressed.contains(LogicalKeyboardKey.keyD))
+        moveDirection.x += 10.w;
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
-          keysPressed.contains(LogicalKeyboardKey.keyW)) moveDirection.y += -10;
+          keysPressed.contains(LogicalKeyboardKey.keyW))
+        moveDirection.y += -10.w;
       if (keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
-          keysPressed.contains(LogicalKeyboardKey.keyS)) moveDirection.y += 10;
+          keysPressed.contains(LogicalKeyboardKey.keyS))
+        moveDirection.y += 10.w;
       background.position.add(-moveDirection);
       background2.position.add(-moveDirection);
       characterPosition.add(moveDirection);
