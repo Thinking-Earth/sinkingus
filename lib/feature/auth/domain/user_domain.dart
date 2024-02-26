@@ -1,13 +1,12 @@
-import 'package:nakama/nakama.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sinking_us/feature/auth/data/dataSource/user_data_source.dart';
+import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 
 part 'user_domain.g.dart';
 
 class UserDomainState {
-  UserDomainState({this.userData});
+  UserDomainState({this.userInfo});
 
-  Account? userData;
+  UserInfoModel? userInfo;
 }
 
 @Riverpod(keepAlive: true)
@@ -18,13 +17,11 @@ class UserDomainController extends _$UserDomainController {
   }
 
   void setState() {
-    state = UserDomainState(
-      userData: state.userData
-    );
+    state = UserDomainState(userInfo: state.userInfo);
   }
 
-  Future<void> getUserInfo({required Session session}) async {
-    state.userData = await UserDataSource().getUserInfo(session: session);
+  Future<void> setUserInfo({required UserInfoModel userInfo}) async {
+    state.userInfo = userInfo;
     setState();
   }
 }

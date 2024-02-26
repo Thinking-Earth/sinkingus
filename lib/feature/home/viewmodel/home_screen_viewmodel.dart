@@ -1,6 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sinking_us/config/routes/app_router.dart';
-import 'package:sinking_us/config/routes/routes.dart';
+import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 part 'home_screen_viewmodel.g.dart';
 
@@ -19,7 +18,11 @@ class HomeScreenController extends _$HomeScreenController {
     state = HomeScreenState();
   }
 
+  void handlePressedBuildRoom() {
+    ShowDialogHelper.showBuildRoomDialog(title: "Build Room");
+  }
+
   void handlePressedSearchRoom() {
-    AppRouter.pushNamed(Routes.gameMainScreenRoute);
+    ShowDialogHelper.showSearchRoomDialog(title: "Search Room");
   }
 }
