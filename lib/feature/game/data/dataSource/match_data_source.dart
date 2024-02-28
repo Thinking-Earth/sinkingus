@@ -74,6 +74,7 @@ class MatchDataSource {
       required Match match}) async {
     DatabaseReference gameRef = db.ref("game/$matchId");
     final host = await gameRef.child("host").get();
+
     if (host.value == uid) {
       if (match.day! == 0) {
         db
@@ -82,18 +83,27 @@ class MatchDataSource {
       }
       gameRef.remove();
     } else {
-      if (match.day! == 0) {
-        db
+      if (match.day == 0) {
+        await db
             .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
-            .update({"playerCount": ServerValue.increment(-1)});
+            .get()
+            .then((value) {
+          if (value.exists) {
+            db
+                .ref(
+                    "lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
+                .update({"playerCount": ServerValue.increment(-1)});
+          }
+        });
       }
-      final List<dynamic> players = await gameRef
-          .child("players")
-          .get()
-          .then((value) => (value.value as List<dynamic>));
-      players.remove(uid);
-      await gameRef.update(
-          {"playerCount": ServerValue.increment(-1), "players": players});
+      await gameRef.child("players").get().then((value) {
+        if (value.exists) {
+          final players = value.value as List<dynamic>;
+          players.remove(uid);
+          gameRef.update(
+              {"playerCount": ServerValue.increment(-1), "players": players});
+        }
+      });
     }
     db.ref("players/$uid").remove();
   }
