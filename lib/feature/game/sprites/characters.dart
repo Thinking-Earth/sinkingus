@@ -5,12 +5,14 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/src/services/raw_keyboard.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
+import 'package:sinking_us/helpers/constants/app_typography.dart';
 
-final CHARACTER_SIZE_X = 120.w;
-final CHARACTER_SIZE_Y = 150.w;
+final CHARACTER_SIZE_X = 100.w;
+final CHARACTER_SIZE_Y = 120.w;
 
 class MyPlayer extends SpriteComponent
     with CollisionCallbacks, KeyboardHandler, RiverpodComponentMixin {
@@ -37,18 +39,21 @@ class MyPlayer extends SpriteComponent
   FutureOr<void> onMount() async {
     uid = ref.read(userDomainControllerProvider).userInfo!.uid;
     sprite = await Sprite.load("characters/${role.code}_idle_left.png");
-    position += await FirebaseDatabase.instance
+    await FirebaseDatabase.instance
         .ref("players/$uid/position")
         .get()
         .then((value) {
       final positionData = value.value as List<dynamic>;
       characterPosition = Vector2(positionData[0], positionData[1]);
-      return characterPosition;
+      background.position.add(-characterPosition * 1.w);
+      background2.position.add(-characterPosition * 1.w);
     });
 
     add(TextComponent(
         text: ref.read(userDomainControllerProvider).userInfo!.nick,
-        position: Vector2(0, -20)));
+        textRenderer: TextPaint(style: AppTypography.labelPixel),
+        anchor: Anchor.center,
+        position: Vector2(size.x * 0.5, -20)));
 
     return super.onMount();
   }
@@ -87,8 +92,6 @@ class MyPlayer extends SpriteComponent
       transform.scale = Vector2(
           (moveDirection.x > 0) ? -1 : 1, 1); // TODO: sprite 바꾸기로 대체 (@전은지)
       sendChangedPosition();
-
-      if (keysPressed.contains(LogicalKeyboardKey.keyP)) print(position);
     }
     return super.onKeyEvent(event, keysPressed);
   }
@@ -96,7 +99,7 @@ class MyPlayer extends SpriteComponent
   void sendChangedPosition() async {
     await FirebaseDatabase.instance
         .ref("players/$uid/position")
-        .set([characterPosition.x, characterPosition.y]);
+        .set([characterPosition.x / 1.w, characterPosition.y / 1.w]);
   }
 }
 
