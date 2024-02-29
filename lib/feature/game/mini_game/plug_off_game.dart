@@ -83,7 +83,7 @@ class PlugOffGame extends FlameGame {
     ClickableSprite xBtn = ClickableSprite(
         position: Vector2(10.w, 13.w),
         size: Vector2.all(14.w),
-        onClickEvent: () {
+        onClickEvent: (position, component) {
           bool result = plug1.isGoal &&
               plug2.isGoal &&
               plug3.isGoal &&
@@ -91,7 +91,7 @@ class PlugOffGame extends FlameGame {
               plug5.isGoal;
           Navigator.of(AppRouter.navigatorKey.currentContext!).pop(result);
         },
-        src: "minigame/plug/xBtn.png");
+        src: "minigame/xBtn.png");
 
     add(background);
     add(xBtn);

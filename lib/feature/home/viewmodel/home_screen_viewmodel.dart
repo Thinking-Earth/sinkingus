@@ -20,6 +20,9 @@ class HomeScreenController extends _$HomeScreenController {
   }
 
   void handlePressedBuildRoom() {
+    // final game = WindPowerGame();
+    // ShowDialogHelper.gameEventDialog(
+    //     title: "windpower", widget: GameWidget(game: game));
     ShowDialogHelper.showBuildRoomDialog();
   }
 

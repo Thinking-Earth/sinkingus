@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -7,6 +5,7 @@ import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:sinking_us/feature/game/mini_game/plug_off_game.dart';
+import 'package:sinking_us/feature/game/mini_game/wind_power_game.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 enum GameEventType {
@@ -57,5 +56,14 @@ class PlugOffBtn extends EventBtn {
     dialogWidget = GameWidget(
       game: game,
     );
+  }
+}
+
+class WindPowerBtn extends EventBtn {
+  WindPowerBtn(
+      {required super.vertices, required super.position, required super.size}) {
+    final game = WindPowerGame();
+    type = GameEventType.windPower;
+    dialogWidget = GameWidget(game: game);
   }
 }

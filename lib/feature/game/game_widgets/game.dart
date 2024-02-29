@@ -31,6 +31,8 @@ class SinkingUsGame extends FlameGame
 
   late PositionComponent gameUI;
 
+  double mapRatio = 2.4.w;
+
   // TODO: 게임로직 짜기 (@전은지)
   // Director of the game
   @override
@@ -46,15 +48,17 @@ class SinkingUsGame extends FlameGame
     Sprite backgroundSprite = await Sprite.load("map1.jpg");
     Sprite backgroundSprite2 = await Sprite.load("map2.png");
     background = SpriteComponent(sprite: backgroundSprite)
-      ..size = backgroundSprite.originalSize * 2.4.w
+      ..size = backgroundSprite.originalSize * mapRatio
       ..anchor = Anchor.topCenter
-      ..position = Vector2(0, backgroundSprite.originalSize.y * -1.2.w) +
-          camera.viewport.virtualSize * 0.5;
+      ..position =
+          Vector2(0, backgroundSprite.originalSize.y * mapRatio * -0.5) +
+              camera.viewport.virtualSize * 0.5;
     final background2 = SpriteComponent(sprite: backgroundSprite2)
-      ..size = backgroundSprite.originalSize * 2.4.w
+      ..size = backgroundSprite.originalSize * mapRatio
       ..anchor = Anchor.topCenter
-      ..position = Vector2(0, backgroundSprite.originalSize.y * -1.2.w) +
-          camera.viewport.virtualSize * 0.5;
+      ..position =
+          Vector2(0, backgroundSprite.originalSize.y * mapRatio * -0.5) +
+              camera.viewport.virtualSize * 0.5;
 
     // set my character
     player = MyPlayer(RoleType.undefined, camera.viewport.size, joystick,
@@ -96,12 +100,33 @@ class SinkingUsGame extends FlameGame
   }
 
   void setEventBtn() {
+    // TODO: vertices 간단히
     PlugOffBtn plugOffBtn = PlugOffBtn(vertices: [
       Vector2(-1, -1),
       Vector2(-1, 1),
       Vector2(1, 1),
       Vector2(1, -1)
     ], position: Vector2(4051.2.w, 1531.2.w), size: Vector2(28.8.w, 45.6.w));
-    eventBtns.add(plugOffBtn);
+    WindPowerBtn windPowerBtn = WindPowerBtn(
+        vertices: [
+          Vector2(0.258, -0.369),
+          Vector2(0.258, -0.493),
+          Vector2(1, -1),
+          Vector2(0.393, -0.328),
+          Vector2(0.483, -0.246),
+          Vector2(0.910, 0.287),
+          Vector2(0.865, 0.315),
+          Vector2(0.258, -0.137),
+          Vector2(0.236, -0.26),
+          Vector2(0.169, -0.26),
+          Vector2(0.191, 0.973),
+          Vector2(-0.101, 0.973),
+          Vector2(0.0112, -0.205),
+          Vector2(-1.0, -0.26),
+          Vector2(0.101, -0.438),
+        ],
+        position: Vector2(1160.5, 1603) * mapRatio,
+        size: Vector2(89, 146) * mapRatio);
+    eventBtns.addAll([plugOffBtn, windPowerBtn]);
   }
 }

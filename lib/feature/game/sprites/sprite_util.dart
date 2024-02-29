@@ -53,11 +53,14 @@ class DragableSprite extends PositionComponent with DragCallbacks {
 }
 
 class ClickableSprite extends PositionComponent with TapCallbacks {
-  Function onClickEvent;
+  Function(Vector2 position, PositionComponent sprite) onClickEvent;
   String src;
+  Vector2? extraPosition;
+  late SpriteComponent sprite;
 
   ClickableSprite(
       {required Vector2 position,
+      this.extraPosition,
       required Vector2 size,
       required this.onClickEvent,
       required this.src})
@@ -65,9 +68,9 @@ class ClickableSprite extends PositionComponent with TapCallbacks {
 
   @override
   FutureOr<void> onLoad() async {
-    final sprite = SpriteComponent(
+    sprite = SpriteComponent(
         sprite: await Sprite.load(src),
-        position: -position,
+        position: -position + (extraPosition ?? Vector2.zero()),
         size: Vector2(455.3.w, 256.w));
     add(sprite);
     return super.onLoad();
@@ -75,7 +78,7 @@ class ClickableSprite extends PositionComponent with TapCallbacks {
 
   @override
   void onTapUp(TapUpEvent event) {
-    onClickEvent();
+    onClickEvent(event.canvasPosition, this);
     super.onTapUp(event);
   }
 }
