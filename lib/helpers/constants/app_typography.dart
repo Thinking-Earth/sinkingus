@@ -95,6 +95,8 @@ class AppTypography {
   );
 
   ///////////////////////////////////////////////////////////////////////////////////////////
-  static final labelPixel = TextStyle(
+  static final blackPixel = TextStyle(
       fontFamily: 'Galmuri', fontSize: 10.sp, color: AppColors.textBlack);
+  static final whitePixel = TextStyle(
+      fontFamily: 'Galmuri', fontSize: 10.sp, color: AppColors.textWhite);
 }

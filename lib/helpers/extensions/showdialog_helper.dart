@@ -17,7 +17,7 @@ class ShowDialogHelper {
         builder: (BuildContext context) {
           return Dialog(
               backgroundColor: Colors.black,
-              child: SizedBox(width: 400.w, height: 280.h, child: widget));
+              child: SizedBox(width: 455.3.w, height: 256.w, child: widget));
         }).then((value) {
       print(value);
     });

@@ -50,7 +50,7 @@ class TextBox extends TextBoxComponent {
   TextBox(String text)
       : super(
             text: text,
-            textRenderer: TextPaint(style: AppTypography.labelPixel),
+            textRenderer: TextPaint(style: AppTypography.blackPixel),
             size: Vector2(100.w, 30.h),
             align: Anchor.center);
 

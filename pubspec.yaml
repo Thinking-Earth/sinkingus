@@ -86,6 +86,11 @@ flutter:
     - assets/images/characters/
     - assets/images/etc/
     - assets/images/minigame/
+    - assets/images/minigame/plug/
+    - assets/images/minigame/tree/
+    - assets/images/minigame/trash/
+    - assets/images/minigame/wind/
+    - assets/images/minigame/water/
     - assets/svgs/
 
   fonts:

@@ -1,7 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
-import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 
 class MatchDataSource {

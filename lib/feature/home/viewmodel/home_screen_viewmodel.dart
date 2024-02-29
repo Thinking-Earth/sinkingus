@@ -1,3 +1,4 @@
+import 'package:flame/game.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
@@ -19,7 +20,6 @@ class HomeScreenController extends _$HomeScreenController {
   }
 
   void handlePressedBuildRoom() {
-    //ShowDialogHelper.gameEventDialog(title: "test", widget: Container());
     ShowDialogHelper.showBuildRoomDialog();
   }
 

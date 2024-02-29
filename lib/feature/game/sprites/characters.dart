@@ -51,7 +51,7 @@ class MyPlayer extends SpriteComponent
 
     add(TextComponent(
         text: ref.read(userDomainControllerProvider).userInfo!.nick,
-        textRenderer: TextPaint(style: AppTypography.labelPixel),
+        textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         position: Vector2(size.x * 0.5, -20)));
 

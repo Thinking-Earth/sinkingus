@@ -96,10 +96,12 @@ class SinkingUsGame extends FlameGame
   }
 
   void setEventBtn() {
-    PlugOffBtn plugOffBtn = PlugOffBtn(
-        vertices: [Vector2(0, 0), Vector2(1, 1), Vector2(1, 0)],
-        position: background.size * 0.5,
-        size: Vector2(300, 300));
+    PlugOffBtn plugOffBtn = PlugOffBtn(vertices: [
+      Vector2(-1, -1),
+      Vector2(-1, 1),
+      Vector2(1, 1),
+      Vector2(1, -1)
+    ], position: Vector2(4051.2.w, 1531.2.w), size: Vector2(28.8.w, 45.6.w));
     eventBtns.add(plugOffBtn);
   }
 }
