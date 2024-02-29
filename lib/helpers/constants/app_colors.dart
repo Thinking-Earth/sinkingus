@@ -6,16 +6,22 @@ class AppColors {
 
   ///272727
   static const Color black10 = Color(0xFF272727);
+
   ///54545B
   static const Color black20 = Color(0xFF54545B);
+
   ///7A7A81
   static const Color black30 = Color(0xFF7A7A81);
+
   ///AEAEB5
   static const Color black35 = Color(0xFFAEAEB5);
+
   ///D1D1D7
   static const Color black40 = Color(0xFFD1D1D7);
+
   ///EBEBED
   static const Color black50 = Color(0xFFEBEBED);
+
   ///F9FAFE
   static const Color black60 = Color(0xFFF9FAFE);
 
@@ -24,6 +30,7 @@ class AppColors {
   static const Color green30 = Color(0xFFE3FBF2);
 
   static const Color textBlack = Color(0xFF272727);
+  static const Color textWhite = Color.fromARGB(255, 254, 254, 254);
   static const Color textRed = Color(0xFFFF6969);
   static const Color bgRed = Color(0xFFFF6969);
   static const Color blue10 = Color(0xFF407DD4);

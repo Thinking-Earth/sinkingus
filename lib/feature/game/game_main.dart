@@ -23,24 +23,17 @@ class _GameMainState extends ConsumerState<GameMain> {
     listener = AppLifecycleListener(
         onHide: ref.read(matchDomainControllerProvider.notifier).leaveMatch);
 
+    String uid = ref.read(userDomainControllerProvider).userInfo!.uid;
+    String host = ref.read(matchDomainControllerProvider).match.host!;
+
     SinkingUsGame game = SinkingUsGame(
         ref.read(matchDomainControllerProvider).matchId,
-        ref.read(userDomainControllerProvider).userInfo!.uid);
+        ref.read(userDomainControllerProvider).userInfo!.uid,
+        uid == host);
 
     return RiverpodAwareGameWidget(
       key: gameWidgetKey,
       game: game,
-      overlayBuilderMap: {
-        "leaveMenu": (BuildContext context, game) {
-          return TextButton(
-              onPressed:
-                  ref.read(matchDomainControllerProvider.notifier).leaveMatch,
-              child: Container(
-                color: Colors.white,
-                child: const Text("leave game"),
-              ));
-        }
-      },
     );
   }
 

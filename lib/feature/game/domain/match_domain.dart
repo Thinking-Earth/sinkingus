@@ -30,11 +30,6 @@ class MatchDomainController extends _$MatchDomainController {
     state = MatchDomainState(matchId: state.matchId, match: state.match);
   }
 
-  void setMatchId(String matchId) {
-    state.matchId = matchId;
-    setState();
-  }
-
   Future<Map<String, Match>> getMatchList() async {
     final data = await FirebaseDatabase.instance.ref("lobby/public").get();
     Map<String, Match> matchList = {};
@@ -72,7 +67,7 @@ class MatchDomainController extends _$MatchDomainController {
       {required String matchId, required String isPrivate}) async {
     bool isMatchExist =
         await source.isLobbyExist(matchId: matchId, isPrivate: isPrivate);
-    if (isMatchExist != false) {
+    if (isMatchExist) {
       final response = await source.joinMatch(
           matchId: matchId,
           isPrivate: isPrivate,
@@ -88,7 +83,7 @@ class MatchDomainController extends _$MatchDomainController {
         AppRouter.pushNamed(Routes.gameMainScreenRoute);
       }
     } else {
-      print("The match doesn't exist");
+      print("The match doesn't exist. Maybe you should refresh the list.");
       //TODO: dialog로 안내
     }
   }
@@ -111,5 +106,24 @@ class MatchDomainController extends _$MatchDomainController {
   bool isHost() {
     return state.match.host ==
         ref.read(userDomainControllerProvider).userInfo!.uid;
+  }
+
+  void checkNotInMatch() {
+    if (state.matchId != "not in a match") {
+      leaveMatch();
+    }
+  }
+
+  void setNextDay(int newDay) {
+    state.match = state.match.copyWith(day: newDay);
+    setState();
+  }
+
+  void nextDay() {
+    if (state.match.day! < 7) {
+      source.updateDay(matchId: state.matchId);
+    } else {
+      // game end
+    }
   }
 }

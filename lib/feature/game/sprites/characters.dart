@@ -5,12 +5,14 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/src/services/raw_keyboard.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
+import 'package:sinking_us/helpers/constants/app_typography.dart';
 
-final CHARACTER_SIZE_X = 120.w;
-final CHARACTER_SIZE_Y = 150.w;
+final CHARACTER_SIZE_X = 100.w;
+final CHARACTER_SIZE_Y = 120.w;
 
 class MyPlayer extends SpriteComponent
     with CollisionCallbacks, KeyboardHandler, RiverpodComponentMixin {
@@ -37,18 +39,21 @@ class MyPlayer extends SpriteComponent
   FutureOr<void> onMount() async {
     uid = ref.read(userDomainControllerProvider).userInfo!.uid;
     sprite = await Sprite.load("characters/${role.code}_idle_left.png");
-    position += await FirebaseDatabase.instance
+    await FirebaseDatabase.instance
         .ref("players/$uid/position")
         .get()
         .then((value) {
       final positionData = value.value as List<dynamic>;
       characterPosition = Vector2(positionData[0], positionData[1]);
-      return characterPosition;
+      background.position.add(-characterPosition * 1.w);
+      background2.position.add(-characterPosition * 1.w);
     });
 
     add(TextComponent(
         text: ref.read(userDomainControllerProvider).userInfo!.nick,
-        position: Vector2(0, -20)));
+        textRenderer: TextPaint(style: AppTypography.blackPixel),
+        anchor: Anchor.center,
+        position: Vector2(size.x * 0.5, -20)));
 
     return super.onMount();
   }
@@ -57,9 +62,9 @@ class MyPlayer extends SpriteComponent
   void update(double dt) {
     super.update(dt);
     if (!joystick.delta.isZero()) {
-      background.position.add(joystick.relativeDelta * maxSpeed * dt * -1);
-      background2.position.add(joystick.relativeDelta * maxSpeed * dt * -1);
-      characterPosition.add(joystick.relativeDelta * maxSpeed * dt);
+      background.position.add(joystick.relativeDelta * maxSpeed * dt * -1.w);
+      background2.position.add(joystick.relativeDelta * maxSpeed * dt * -1.w);
+      characterPosition.add(joystick.relativeDelta * maxSpeed * dt * 1.w);
       transform.scale = Vector2((joystick.relativeDelta.x > 0) ? -1 : 1, 1);
       sendChangedPosition();
     }
@@ -70,21 +75,23 @@ class MyPlayer extends SpriteComponent
     if (event is RawKeyDownEvent) {
       Vector2 moveDirection = Vector2.zero();
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
-          keysPressed.contains(LogicalKeyboardKey.keyA)) moveDirection.x += -10;
+          keysPressed.contains(LogicalKeyboardKey.keyA))
+        moveDirection.x += -10.w;
       if (keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
-          keysPressed.contains(LogicalKeyboardKey.keyD)) moveDirection.x += 10;
+          keysPressed.contains(LogicalKeyboardKey.keyD))
+        moveDirection.x += 10.w;
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
-          keysPressed.contains(LogicalKeyboardKey.keyW)) moveDirection.y += -10;
+          keysPressed.contains(LogicalKeyboardKey.keyW))
+        moveDirection.y += -10.w;
       if (keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
-          keysPressed.contains(LogicalKeyboardKey.keyS)) moveDirection.y += 10;
+          keysPressed.contains(LogicalKeyboardKey.keyS))
+        moveDirection.y += 10.w;
       background.position.add(-moveDirection);
       background2.position.add(-moveDirection);
       characterPosition.add(moveDirection);
       transform.scale = Vector2(
           (moveDirection.x > 0) ? -1 : 1, 1); // TODO: sprite 바꾸기로 대체 (@전은지)
       sendChangedPosition();
-
-      if (keysPressed.contains(LogicalKeyboardKey.keyP)) print(position);
     }
     return super.onKeyEvent(event, keysPressed);
   }
@@ -92,7 +99,7 @@ class MyPlayer extends SpriteComponent
   void sendChangedPosition() async {
     await FirebaseDatabase.instance
         .ref("players/$uid/position")
-        .set([characterPosition.x, characterPosition.y]);
+        .set([characterPosition.x / 1.w, characterPosition.y / 1.w]);
   }
 }
 
@@ -129,9 +136,9 @@ class OtherPlayer extends SpriteComponent {
         .listen((event) {
       if (event.snapshot.exists) {
         final positionData = event.snapshot.value as List<dynamic>;
-        //print(positionData);
         position = //Vector2(0, 0);
-            Vector2(positionData[0], positionData[1]) + backgroundSize * 0.5;
+            Vector2(positionData[0], positionData[1]) * 1.w +
+                backgroundSize * 0.5;
       }
     });
 
