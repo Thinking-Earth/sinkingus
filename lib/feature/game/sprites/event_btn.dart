@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -35,8 +37,8 @@ abstract class EventBtn extends PositionComponent
       : super(position: position, size: size) {
     anchor = Anchor.center;
     final stroke = PolygonComponent.relative(vertices, parentSize: size)
-      ..paint = (BasicPalette.red.paint()
-        ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 4.0));
+      ..paint = (BasicPalette.yellow.paint()
+        ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10.0));
     add(stroke);
   }
 
