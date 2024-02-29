@@ -27,6 +27,7 @@ mixin _$Match {
   String? get host => throw _privateConstructorUsedError;
   int? get day => throw _privateConstructorUsedError;
   Map<GroceryType, bool>? get groceryList => throw _privateConstructorUsedError;
+  List<int>? get gameEventList => throw _privateConstructorUsedError;
   RuleType? get rule => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $MatchCopyWith<$Res> {
       String? host,
       int? day,
       Map<GroceryType, bool>? groceryList,
+      List<int>? gameEventList,
       RuleType? rule});
 }
 
@@ -70,6 +72,7 @@ class _$MatchCopyWithImpl<$Res, $Val extends Match>
     Object? host = freezed,
     Object? day = freezed,
     Object? groceryList = freezed,
+    Object? gameEventList = freezed,
     Object? rule = freezed,
   }) {
     return _then(_value.copyWith(
@@ -101,6 +104,10 @@ class _$MatchCopyWithImpl<$Res, $Val extends Match>
           ? _value.groceryList
           : groceryList // ignore: cast_nullable_to_non_nullable
               as Map<GroceryType, bool>?,
+      gameEventList: freezed == gameEventList
+          ? _value.gameEventList
+          : gameEventList // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
       rule: freezed == rule
           ? _value.rule
           : rule // ignore: cast_nullable_to_non_nullable
@@ -124,6 +131,7 @@ abstract class _$$MatchImplCopyWith<$Res> implements $MatchCopyWith<$Res> {
       String? host,
       int? day,
       Map<GroceryType, bool>? groceryList,
+      List<int>? gameEventList,
       RuleType? rule});
 }
 
@@ -145,6 +153,7 @@ class __$$MatchImplCopyWithImpl<$Res>
     Object? host = freezed,
     Object? day = freezed,
     Object? groceryList = freezed,
+    Object? gameEventList = freezed,
     Object? rule = freezed,
   }) {
     return _then(_$MatchImpl(
@@ -176,6 +185,10 @@ class __$$MatchImplCopyWithImpl<$Res>
           ? _value._groceryList
           : groceryList // ignore: cast_nullable_to_non_nullable
               as Map<GroceryType, bool>?,
+      gameEventList: freezed == gameEventList
+          ? _value._gameEventList
+          : gameEventList // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
       rule: freezed == rule
           ? _value.rule
           : rule // ignore: cast_nullable_to_non_nullable
@@ -195,9 +208,11 @@ class _$MatchImpl implements _Match {
       this.host,
       this.day,
       final Map<GroceryType, bool>? groceryList,
+      final List<int>? gameEventList,
       this.rule})
       : _players = players,
-        _groceryList = groceryList;
+        _groceryList = groceryList,
+        _gameEventList = gameEventList;
 
   factory _$MatchImpl.fromJson(Map<String, dynamic> json) =>
       _$$MatchImplFromJson(json);
@@ -232,12 +247,22 @@ class _$MatchImpl implements _Match {
     return EqualUnmodifiableMapView(value);
   }
 
+  final List<int>? _gameEventList;
+  @override
+  List<int>? get gameEventList {
+    final value = _gameEventList;
+    if (value == null) return null;
+    if (_gameEventList is EqualUnmodifiableListView) return _gameEventList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final RuleType? rule;
 
   @override
   String toString() {
-    return 'Match(roomName: $roomName, playerCount: $playerCount, isPrivate: $isPrivate, players: $players, host: $host, day: $day, groceryList: $groceryList, rule: $rule)';
+    return 'Match(roomName: $roomName, playerCount: $playerCount, isPrivate: $isPrivate, players: $players, host: $host, day: $day, groceryList: $groceryList, gameEventList: $gameEventList, rule: $rule)';
   }
 
   @override
@@ -256,6 +281,8 @@ class _$MatchImpl implements _Match {
             (identical(other.day, day) || other.day == day) &&
             const DeepCollectionEquality()
                 .equals(other._groceryList, _groceryList) &&
+            const DeepCollectionEquality()
+                .equals(other._gameEventList, _gameEventList) &&
             (identical(other.rule, rule) || other.rule == rule));
   }
 
@@ -270,6 +297,7 @@ class _$MatchImpl implements _Match {
       host,
       day,
       const DeepCollectionEquality().hash(_groceryList),
+      const DeepCollectionEquality().hash(_gameEventList),
       rule);
 
   @JsonKey(ignore: true)
@@ -295,6 +323,7 @@ abstract class _Match implements Match {
       final String? host,
       final int? day,
       final Map<GroceryType, bool>? groceryList,
+      final List<int>? gameEventList,
       final RuleType? rule}) = _$MatchImpl;
 
   factory _Match.fromJson(Map<String, dynamic> json) = _$MatchImpl.fromJson;
@@ -313,6 +342,8 @@ abstract class _Match implements Match {
   int? get day;
   @override
   Map<GroceryType, bool>? get groceryList;
+  @override
+  List<int>? get gameEventList;
   @override
   RuleType? get rule;
   @override

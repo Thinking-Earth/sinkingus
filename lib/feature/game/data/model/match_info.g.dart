@@ -17,6 +17,9 @@ _$MatchImpl _$$MatchImplFromJson(Map<String, dynamic> json) => _$MatchImpl(
       groceryList: (json['groceryList'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry($enumDecode(_$GroceryTypeEnumMap, k), e as bool),
       ),
+      gameEventList: (json['gameEventList'] as List<dynamic>?)
+          ?.map((e) => e as int)
+          .toList(),
       rule: $enumDecodeNullable(_$RuleTypeEnumMap, json['rule']),
     );
 
@@ -30,6 +33,7 @@ Map<String, dynamic> _$$MatchImplToJson(_$MatchImpl instance) =>
       'day': instance.day,
       'groceryList': instance.groceryList
           ?.map((k, e) => MapEntry(_$GroceryTypeEnumMap[k]!, e)),
+      'gameEventList': instance.gameEventList,
       'rule': _$RuleTypeEnumMap[instance.rule],
     };
 

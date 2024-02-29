@@ -19,10 +19,11 @@ class HomeScreenController extends _$HomeScreenController {
   }
 
   void handlePressedBuildRoom() {
-    ShowDialogHelper.showBuildRoomDialog(title: "Build Room");
+    //ShowDialogHelper.gameEventDialog(title: "test", widget: Container());
+    ShowDialogHelper.showBuildRoomDialog();
   }
 
   void handlePressedSearchRoom() {
-    ShowDialogHelper.showSearchRoomDialog(title: "Search Room");
+    ShowDialogHelper.showSearchRoomDialog();
   }
 }

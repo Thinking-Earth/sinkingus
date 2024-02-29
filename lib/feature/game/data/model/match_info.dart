@@ -36,6 +36,7 @@ class Match with _$Match {
     String? host,
     int? day,
     Map<GroceryType, bool>? groceryList,
+    List<int>? gameEventList,
     RuleType? rule,
   }) = _Match;
 

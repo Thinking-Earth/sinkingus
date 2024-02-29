@@ -19,6 +19,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Map<String, Match> matchList = {};
 
   void refreshMatchList() async {
+    ref.read(matchDomainControllerProvider.notifier).checkNotInMatch();
     matchList =
         await ref.read(matchDomainControllerProvider.notifier).getMatchList();
     setState(() {

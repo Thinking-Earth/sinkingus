@@ -18,38 +18,34 @@ class AppTypography {
   /// 20.sp
   /// FontWeight.w700
   static final header1 = TextStyle(
-    fontFamily: 'NotoSans',
-    fontSize: 20.sp,
-    fontWeight: FontWeight.w700,
-    color: AppColors.textBlack
-  );
+      fontFamily: 'NotoSans',
+      fontSize: 20.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.textBlack);
 
   /// 16.sp
   /// FontWeight.w700
   static final body1 = TextStyle(
-    fontFamily: 'NotoSans',
-    fontSize: 16.sp,
-    fontWeight: FontWeight.w700,
-    color: AppColors.textBlack
-  );
+      fontFamily: 'NotoSans',
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.textBlack);
 
   /// 14.sp
   /// FontWeight.w700
   static final body2 = TextStyle(
-    fontFamily: 'NotoSans',
-    fontSize: 14.sp,
-    fontWeight: FontWeight.w700,
-    color: AppColors.textBlack
-  );
+      fontFamily: 'NotoSans',
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.textBlack);
 
   /// 12.sp
   /// FontWeight.w700
   static final alertGrey = TextStyle(
-    fontFamily: 'NotoSans',
-    fontSize: 12.sp,
-    fontWeight: FontWeight.w700,
-    color: AppColors.black40
-  );
+      fontFamily: 'NotoSans',
+      fontSize: 12.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.black40);
 
   /// 12.sp
   /// FontWeight.w700
@@ -97,4 +93,8 @@ class AppTypography {
     fontWeight: FontWeight.w400,
     color: AppColors.textBlack,
   );
+
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  static final labelPixel = TextStyle(
+      fontFamily: 'Galmuri', fontSize: 10.sp, color: AppColors.textBlack);
 }

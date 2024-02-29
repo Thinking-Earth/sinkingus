@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
+import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 
 class MatchDataSource {
@@ -43,6 +44,8 @@ class MatchDataSource {
       players.add(uid);
       await gameRef.update(
           {"playerCount": newMatch.playerCount + 1, "players": players});
+    } else {
+      return null;
     }
 
     return newMatch;
@@ -106,5 +109,12 @@ class MatchDataSource {
       });
     }
     db.ref("players/$uid").remove();
+  }
+
+  void updateDay({required String matchId}) async {
+    await db.ref("game/$matchId").update({
+      "day": ServerValue.increment(1),
+      "gameEventList": List<int>.filled(6, 1)
+    });
   }
 }

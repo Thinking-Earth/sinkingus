@@ -136,9 +136,9 @@ class OtherPlayer extends SpriteComponent {
         .listen((event) {
       if (event.snapshot.exists) {
         final positionData = event.snapshot.value as List<dynamic>;
-        //print(positionData);
         position = //Vector2(0, 0);
-            Vector2(positionData[0], positionData[1]) + backgroundSize * 0.5;
+            Vector2(positionData[0], positionData[1]) * 1.w +
+                backgroundSize * 0.5;
       }
     });
 

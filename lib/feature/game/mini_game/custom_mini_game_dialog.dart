@@ -8,16 +8,12 @@ class MiniGameDialog {
   const MiniGameDialog._();
 
   static void buyNecessity() {
-    ShowDialogHelper.miniGameDialog(
-      title: "Buy Necessity", 
-      widget: buyNecessityWidget()
-    );
+    ShowDialogHelper.gameEventDialog(
+        title: "Buy Necessity", widget: buyNecessityWidget());
   }
 
   static void plugOff() {
-    ShowDialogHelper.miniGameDialog(
-      title: "Plug OFF", 
-      widget: plugOffWidget()
-    );
+    ShowDialogHelper.gameEventDialog(
+        title: "Plug OFF", widget: plugOffWidget());
   }
 }

@@ -84,6 +84,8 @@ flutter:
   assets:
     - assets/images/
     - assets/images/characters/
+    - assets/images/etc/
+    - assets/images/minigame/
     - assets/svgs/
 
   fonts:
@@ -95,3 +97,6 @@ flutter:
       fonts:
         - asset: assets/fonts/NotoSans-Regular.ttf
           weight: 400
+    - family: Galmuri
+      fonts:
+        - asset: assets/fonts/Galmuri9.ttf
