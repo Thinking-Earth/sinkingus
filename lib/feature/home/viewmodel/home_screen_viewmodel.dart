@@ -1,6 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sinking_us/feature/game/mini_game/sun_power_game.dart';
+import 'package:sinking_us/feature/game/mini_game/tree_game.dart';
 import 'package:sinking_us/feature/game/mini_game/water_off_game.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
@@ -22,7 +23,7 @@ class HomeScreenController extends _$HomeScreenController {
   }
 
   void handlePressedBuildRoom() {
-    final game = WaterOffGame();
+    final game = TreeGame();
     // ShowDialogHelper.gameEventDialog(
     //     title: "sun power", widget: GameWidget(game: game));
     ShowDialogHelper.showBuildRoomDialog();

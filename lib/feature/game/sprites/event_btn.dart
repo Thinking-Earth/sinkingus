@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:sinking_us/feature/game/mini_game/plug_off_game.dart';
 import 'package:sinking_us/feature/game/mini_game/sun_power_game.dart';
 import 'package:sinking_us/feature/game/mini_game/trash_game.dart';
+import 'package:sinking_us/feature/game/mini_game/tree_game.dart';
 import 'package:sinking_us/feature/game/mini_game/water_off_game.dart';
 import 'package:sinking_us/feature/game/mini_game/wind_power_game.dart';
 import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
@@ -90,6 +91,15 @@ class WaterOffBtn extends EventBtn {
       {required super.vertices, required super.position, required super.size}) {
     final game = WaterOffGame();
     type = GameEventType.waterOff;
+    dialogWidget = GameWidget(game: game);
+  }
+}
+
+class TreeBtn extends EventBtn {
+  TreeBtn(
+      {required super.vertices, required super.position, required super.size}) {
+    final game = TreeGame();
+    type = GameEventType.tree;
     dialogWidget = GameWidget(game: game);
   }
 }

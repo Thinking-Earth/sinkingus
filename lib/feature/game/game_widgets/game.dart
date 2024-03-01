@@ -169,7 +169,22 @@ class SinkingUsGame extends FlameGame
         ],
         position: Vector2(493.5, 890.5) * mapRatio,
         size: Vector2(51, 33) * mapRatio);
-    eventBtns
-        .addAll([plugOffBtn, windPowerBtn, trashBtn, sunPowerBtn, waterOffBtn]);
+    TreeBtn treeBtn = TreeBtn(
+        vertices: [
+          Vector2(-1, -1),
+          Vector2(-1, 1),
+          Vector2(1, 1),
+          Vector2(1, -1)
+        ],
+        position: Vector2(320, 325) * mapRatio,
+        size: Vector2(49, 40) * mapRatio);
+    eventBtns.addAll([
+      plugOffBtn,
+      windPowerBtn,
+      trashBtn,
+      sunPowerBtn,
+      waterOffBtn,
+      treeBtn
+    ]);
   }
 }
