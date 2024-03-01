@@ -82,3 +82,20 @@ class ClickableSprite extends PositionComponent with TapCallbacks {
     super.onTapUp(event);
   }
 }
+
+class ClickablePolygon extends PolygonComponent with TapCallbacks {
+  Function onClickEvent;
+  late Vector2 parentSize;
+
+  ClickablePolygon(super._vertices, {required this.onClickEvent});
+
+  ClickablePolygon.relative(super.vertices,
+      {required this.onClickEvent, required super.parentSize})
+      : super.relative();
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    onClickEvent();
+    super.onTapDown(event);
+  }
+}

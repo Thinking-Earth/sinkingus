@@ -101,12 +101,15 @@ class SinkingUsGame extends FlameGame
 
   void setEventBtn() {
     // TODO: vertices 간단히
-    PlugOffBtn plugOffBtn = PlugOffBtn(vertices: [
-      Vector2(-1, -1),
-      Vector2(-1, 1),
-      Vector2(1, 1),
-      Vector2(1, -1)
-    ], position: Vector2(4051.2.w, 1531.2.w), size: Vector2(28.8.w, 45.6.w));
+    PlugOffBtn plugOffBtn = PlugOffBtn(
+        vertices: [
+          Vector2(-1, -1),
+          Vector2(-1, 1),
+          Vector2(1, 1),
+          Vector2(1, -1)
+        ],
+        position: Vector2(1688, 638) * mapRatio,
+        size: Vector2(12, 19) * mapRatio);
     WindPowerBtn windPowerBtn = WindPowerBtn(
         vertices: [
           Vector2(0.258, -0.369),
@@ -127,6 +130,15 @@ class SinkingUsGame extends FlameGame
         ],
         position: Vector2(1160.5, 1603) * mapRatio,
         size: Vector2(89, 146) * mapRatio);
-    eventBtns.addAll([plugOffBtn, windPowerBtn]);
+    TrashBtn trashBtn = TrashBtn(
+        vertices: [
+          Vector2(-1, -1),
+          Vector2(-1, 1),
+          Vector2(1, 1),
+          Vector2(1, -1)
+        ],
+        position: Vector2(258, 1555) * mapRatio,
+        size: Vector2(41, 28) * mapRatio);
+    eventBtns.addAll([plugOffBtn, windPowerBtn, trashBtn]);
   }
 }

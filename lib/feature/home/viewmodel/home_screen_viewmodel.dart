@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sinking_us/feature/game/mini_game/trash_game.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 part 'home_screen_viewmodel.g.dart';
@@ -20,7 +21,7 @@ class HomeScreenController extends _$HomeScreenController {
   }
 
   void handlePressedBuildRoom() {
-    // final game = WindPowerGame();
+    // final game = TrashGame();
     // ShowDialogHelper.gameEventDialog(
     //     title: "windpower", widget: GameWidget(game: game));
     ShowDialogHelper.showBuildRoomDialog();

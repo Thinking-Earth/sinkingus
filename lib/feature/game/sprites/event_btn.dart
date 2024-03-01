@@ -1,11 +1,12 @@
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:sinking_us/feature/game/mini_game/plug_off_game.dart';
+import 'package:sinking_us/feature/game/mini_game/trash_game.dart';
 import 'package:sinking_us/feature/game/mini_game/wind_power_game.dart';
+import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 enum GameEventType {
@@ -23,8 +24,7 @@ enum GameEventType {
   final String name;
 }
 
-abstract class EventBtn extends PositionComponent
-    with TapCallbacks, RiverpodComponentMixin {
+abstract class EventBtn extends PositionComponent with RiverpodComponentMixin {
   late GameEventType type;
   late Widget dialogWidget;
   late TextComponent tempText = TextComponent();
@@ -35,16 +35,13 @@ abstract class EventBtn extends PositionComponent
       required Vector2 size})
       : super(position: position, size: size) {
     anchor = Anchor.center;
-    final stroke = PolygonComponent.relative(vertices, parentSize: size)
+    final stroke = ClickablePolygon.relative(vertices, parentSize: size,
+        onClickEvent: () {
+      ShowDialogHelper.gameEventDialog(title: type.name, widget: dialogWidget);
+    })
       ..paint = (BasicPalette.yellow.paint()
         ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10.0));
     add(stroke);
-  }
-
-  @override
-  void onTapUp(TapUpEvent event) {
-    super.onTapUp(event);
-    ShowDialogHelper.gameEventDialog(title: type.name, widget: dialogWidget);
   }
 }
 
@@ -64,6 +61,15 @@ class WindPowerBtn extends EventBtn {
       {required super.vertices, required super.position, required super.size}) {
     final game = WindPowerGame();
     type = GameEventType.windPower;
+    dialogWidget = GameWidget(game: game);
+  }
+}
+
+class TrashBtn extends EventBtn {
+  TrashBtn(
+      {required super.vertices, required super.position, required super.size}) {
+    final game = TrashGame();
+    type = GameEventType.trash;
     dialogWidget = GameWidget(game: game);
   }
 }
