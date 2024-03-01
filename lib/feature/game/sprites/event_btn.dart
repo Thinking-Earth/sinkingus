@@ -4,7 +4,9 @@ import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:sinking_us/feature/game/mini_game/plug_off_game.dart';
+import 'package:sinking_us/feature/game/mini_game/sun_power_game.dart';
 import 'package:sinking_us/feature/game/mini_game/trash_game.dart';
+import 'package:sinking_us/feature/game/mini_game/water_off_game.dart';
 import 'package:sinking_us/feature/game/mini_game/wind_power_game.dart';
 import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
@@ -70,6 +72,24 @@ class TrashBtn extends EventBtn {
       {required super.vertices, required super.position, required super.size}) {
     final game = TrashGame();
     type = GameEventType.trash;
+    dialogWidget = GameWidget(game: game);
+  }
+}
+
+class SunPowerBtn extends EventBtn {
+  SunPowerBtn(
+      {required super.vertices, required super.position, required super.size}) {
+    final game = SunPowerGame();
+    type = GameEventType.sunPower;
+    dialogWidget = GameWidget(game: game);
+  }
+}
+
+class WaterOffBtn extends EventBtn {
+  WaterOffBtn(
+      {required super.vertices, required super.position, required super.size}) {
+    final game = WaterOffGame();
+    type = GameEventType.waterOff;
     dialogWidget = GameWidget(game: game);
   }
 }

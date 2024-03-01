@@ -132,13 +132,44 @@ class SinkingUsGame extends FlameGame
         size: Vector2(89, 146) * mapRatio);
     TrashBtn trashBtn = TrashBtn(
         vertices: [
+          Vector2(-0.02, -0.5),
+          Vector2(0.5, -1.07),
+          Vector2(1.05, -0.214),
+          Vector2(1.0, 0.18),
+          Vector2(0.25, 0.929),
+          Vector2(0.0, 0.929),
+          Vector2(-0.9, 0.55),
+          Vector2(-1.0, 0.0714),
+          Vector2(-0.75, -0.643),
+          Vector2(-0.4, -0.643),
+        ],
+        position: Vector2(258, 1555) * mapRatio,
+        size: Vector2(40, 28) * mapRatio);
+    SunPowerBtn sunPowerBtn = SunPowerBtn(
+        vertices: [
           Vector2(-1, -1),
           Vector2(-1, 1),
           Vector2(1, 1),
           Vector2(1, -1)
         ],
-        position: Vector2(258, 1555) * mapRatio,
-        size: Vector2(41, 28) * mapRatio);
-    eventBtns.addAll([plugOffBtn, windPowerBtn, trashBtn]);
+        position: Vector2(1000, 1555) * mapRatio,
+        size: Vector2(40, 28) * mapRatio);
+    WaterOffBtn waterOffBtn = WaterOffBtn(
+        vertices: [
+          Vector2(-0.882, -1.0),
+          Vector2(0.843, -1.0),
+          Vector2(1.0, -0.515),
+          Vector2(1.0, 0.212),
+          Vector2(0.765, 0.697),
+          Vector2(0.333, 1.0),
+          Vector2(-0.373, 1.0),
+          Vector2(-0.765, 0.636),
+          Vector2(-1.0, 0.212),
+          Vector2(-1.0, -0.515),
+        ],
+        position: Vector2(493.5, 890.5) * mapRatio,
+        size: Vector2(51, 33) * mapRatio);
+    eventBtns
+        .addAll([plugOffBtn, windPowerBtn, trashBtn, sunPowerBtn, waterOffBtn]);
   }
 }

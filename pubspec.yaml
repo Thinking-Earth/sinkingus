@@ -87,6 +87,7 @@ flutter:
     - assets/images/etc/
     - assets/images/minigame/
     - assets/images/minigame/plug/
+    - assets/images/minigame/sun/
     - assets/images/minigame/tree/
     - assets/images/minigame/trash/
     - assets/images/minigame/wind/
