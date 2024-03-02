@@ -78,11 +78,9 @@ class MatchDataSource {
     final host = await gameRef.child("host").get();
 
     if (host.value == uid) {
-      if (match.day! == 0) {
-        db
-            .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
-            .remove();
-      }
+      db
+          .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
+          .remove();
       gameRef.remove();
     } else {
       if (match.day == 0) {
@@ -110,10 +108,15 @@ class MatchDataSource {
     db.ref("players/$uid").remove();
   }
 
-  void updateDay({required String matchId}) async {
+  Future<void> updateDay({required String matchId}) async {
     await db.ref("game/$matchId").update({
       "day": ServerValue.increment(1),
       "gameEventList": List<int>.filled(6, 1)
     });
+  }
+
+  Future<void> deleteLobby(
+      {required String matchId, required bool isPrivate}) async {
+    await db.ref("lobby/${isPrivate ? "private" : "public"}/$matchId").remove();
   }
 }

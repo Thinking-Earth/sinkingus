@@ -13,28 +13,51 @@ class GameUI extends PositionComponent with RiverpodComponentMixin {
   Vector2 cameraSize;
   bool isHost;
   SinkingUsGame game;
+  late HudButtonComponent gameLeaveBtn, gameStartBtn;
+  late Timer timer;
+  int remainingSec = 30; // TODO: test version time
+  late TextComponent timerConponent;
+
   GameUI(this.game, this.cameraSize, this.isHost);
 
   @override
   FutureOr<void> onLoad() async {
-    final gameLeaveBtn = HudButtonComponent(
+    gameLeaveBtn = HudButtonComponent(
         button: SpriteComponent(
             sprite: await Sprite.load("etc/leave.png"),
             size: Vector2.all(20.w)),
         onPressed: () async {
+          game.pauseEngine();
+          game.removeFromParent();
           await ref.read(matchDomainControllerProvider.notifier).leaveMatch();
         },
         size: Vector2.all(20.w),
         position: Vector2(cameraSize.x, 0),
         anchor: Anchor.topRight);
 
-    final gameStartBtn = HudButtonComponent(
+    gameStartBtn = HudButtonComponent(
         button: TextBox("Start Game"),
-        onPressed: () {
-          if (isHost) hostStartGame();
-        },
+        onPressed: hostStartGame,
         size: Vector2(100.w, 30.h),
         position: Vector2(cameraSize.x * 0.5, 0),
+        anchor: Anchor.topCenter);
+
+    timer = Timer(1, onTick: () {
+      remainingSec -= 1;
+      timerConponent.text =
+          "0${remainingSec ~/ 60} : ${(remainingSec % 60 < 10) ? "0" : ""}${remainingSec % 60}";
+      if (remainingSec == 0) {
+        timer.pause();
+        if (isHost) {
+          ref.read(matchDomainControllerProvider.notifier).hostNextDay();
+        }
+      }
+    }, repeat: true, autoStart: false);
+
+    timerConponent = TextComponent(
+        text: "02:30",
+        textRenderer: TextPaint(style: AppTypography.timerPixel),
+        position: Vector2(cameraSize.x * 0.5, 10.w),
         anchor: Anchor.topCenter);
 
     if (isHost) {
@@ -45,9 +68,33 @@ class GameUI extends PositionComponent with RiverpodComponentMixin {
     return super.onLoad();
   }
 
-  void hostStartGame() {
-    game.startGame();
-    ref.read(matchDomainControllerProvider.notifier).nextDay();
+  @override
+  void update(double dt) {
+    timer.update(dt);
+    super.update(dt);
+  }
+
+  // called when day updated to 1
+  void startGame() {
+    add(timerConponent);
+    timer.start();
+  }
+
+  // called when day updated
+  void nextDay() {
+    remainingSec = 30; // test version time
+    timer.resume();
+  }
+
+  void hostStartGame() async {
+    if (game.players.length >= 5) {
+      await ref.read(matchDomainControllerProvider.notifier).hostStartGame();
+      gameStartBtn.removeFromParent();
+    } else {
+      // TODO: 사람이 적어서 게임 시작 불가로 바꾸기
+      await ref.read(matchDomainControllerProvider.notifier).hostStartGame();
+      gameStartBtn.removeFromParent();
+    }
   }
 }
 

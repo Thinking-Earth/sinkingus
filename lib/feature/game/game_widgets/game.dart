@@ -19,7 +19,7 @@ class SinkingUsGame extends FlameGame
     with HasKeyboardHandlerComponents, RiverpodGameMixin {
   SinkingUsGame(this.matchId, this.uid, this.isHost);
 
-  late SpriteComponent player;
+  late MyPlayer player;
   late SpriteComponent background;
   late List<PositionComponent> eventBtns =
       List<PositionComponent>.empty(growable: true);
@@ -29,7 +29,7 @@ class SinkingUsGame extends FlameGame
   late String uid;
   late List<OtherPlayer> players = List<OtherPlayer>.empty(growable: true);
 
-  late PositionComponent gameUI;
+  late GameUI gameUI;
 
   double mapRatio = 2.4.w;
 
@@ -93,15 +93,26 @@ class SinkingUsGame extends FlameGame
     FirebaseDatabase.instance.ref("game/$matchId/day").onValue.listen((event) {
       if (event.snapshot.exists) {
         int day = (event.snapshot.value as int);
-        print(day);
+        if (day == 1) {
+          startGame();
+        } else if (day == 8) {
+          // game end
+        } else if (day > 1) {
+          gameUI.nextDay();
+        }
+        player.nextDay();
+      } else {
+        // TODO: 게임이 호스트에 의해 종료됨
       }
     });
 
     return super.onMount();
   }
 
+  // called when day updated
   void startGame() {
     background.addAll(eventBtns);
+    gameUI.startGame();
   }
 
   @override
@@ -128,13 +139,22 @@ class SinkingUsGame extends FlameGame
     TreeBtn treeBtn = TreeBtn(
         position: Vector2(377.5, 457) * mapRatio,
         size: Vector2(41, 58) * mapRatio);
+    BuyNecessityBtn buyNecessityBtn = BuyNecessityBtn(
+        position: Vector2(1731.5, 1561.5) * mapRatio,
+        size: Vector2(63, 35) * mapRatio);
+    NationalAssemblyBtn nationalAssemblyBtn = NationalAssemblyBtn(
+        position: Vector2(1119, 192.5) * mapRatio,
+        size: Vector2(166, 101) * mapRatio);
+
     eventBtns.addAll([
       plugOffBtn,
       windPowerBtn,
       trashBtn,
       sunPowerBtn,
       waterOffBtn,
-      treeBtn
+      treeBtn,
+      buyNecessityBtn,
+      nationalAssemblyBtn
     ]);
   }
 }

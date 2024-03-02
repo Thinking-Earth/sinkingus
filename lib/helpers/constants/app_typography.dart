@@ -99,4 +99,9 @@ class AppTypography {
       fontFamily: 'Galmuri', fontSize: 10.sp, color: AppColors.textBlack);
   static final whitePixel = TextStyle(
       fontFamily: 'Galmuri', fontSize: 10.sp, color: AppColors.textWhite);
+  static final timerPixel = TextStyle(
+      fontFamily: 'Galmuri',
+      fontSize: 20.sp,
+      color: AppColors.textBlack,
+      fontWeight: FontWeight.w900);
 }

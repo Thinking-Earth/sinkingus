@@ -120,12 +120,14 @@ class MatchDomainController extends _$MatchDomainController {
     setState();
   }
 
-  void nextDay() {
-    if (state.match.day! < 7) {
-      source.updateDay(matchId: state.matchId);
-      setNextDay(state.match.day! + 1);
-    } else {
-      // game end
-    }
+  Future<void> hostStartGame() async {
+    await source.deleteLobby(
+        matchId: state.matchId, isPrivate: state.match.isPrivate!);
+    hostNextDay();
+  }
+
+  void hostNextDay() {
+    setNextDay(state.match.day! + 1);
+    source.updateDay(matchId: state.matchId);
   }
 }

@@ -3,6 +3,8 @@ import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:sinking_us/feature/game/mini_game/dialog_buy_necessity.dart';
+import 'package:sinking_us/feature/game/mini_game/national_assembly_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/plug_off_game.dart';
 import 'package:sinking_us/feature/game/mini_game/sun_power_game.dart';
 import 'package:sinking_us/feature/game/mini_game/trash_game.dart';
@@ -173,5 +175,43 @@ class TreeBtn extends EventBtn {
     final game = TreeGame();
     type = GameEventType.tree;
     dialogWidget = GameWidget(game: game);
+  }
+}
+
+class BuyNecessityBtn extends EventBtn {
+  BuyNecessityBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-1, -1),
+          Vector2(1, -1),
+          Vector2(1, 1),
+          Vector2(-1, 1)
+        ]) {
+    type = GameEventType.buyNecessity;
+    dialogWidget = buyNecessityWidget();
+  }
+}
+
+class NationalAssemblyBtn extends EventBtn {
+  NationalAssemblyBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-1.0, -1.0),
+          Vector2(-0.892, -1.0),
+          Vector2(-0.711, -0.743),
+          Vector2(-0.325, -0.545),
+          Vector2(0.325, -0.545),
+          Vector2(0.59, -0.644),
+          Vector2(0.916, -1.0),
+          Vector2(1.01, -1.0),
+          Vector2(1.0, 0.624),
+          Vector2(0.928, 0.644),
+          Vector2(0.747, 0.822),
+          Vector2(0.41, 1.02),
+          Vector2(-0.398, 1.02),
+          Vector2(-0.699, 0.822),
+          Vector2(-0.916, 0.644),
+          Vector2(-1.0, 0.624),
+        ]) {
+    type = GameEventType.nationalAssembly;
+    dialogWidget = nationalAssemblyWidget();
   }
 }

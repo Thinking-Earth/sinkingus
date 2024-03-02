@@ -23,7 +23,9 @@ class MyPlayer extends SpriteComponent
   SpriteComponent background;
   SpriteComponent background2;
   late final Vector2 screensize;
-  late Vector2 characterPosition;
+  Vector2 characterPosition = Vector2(0, 0);
+  Vector2 oldCharacterPosition = Vector2(0, 0);
+  double dtSum = 0;
 
   double maxSpeed = 300.0;
   JoystickComponent joystick;
@@ -47,6 +49,7 @@ class MyPlayer extends SpriteComponent
       characterPosition = Vector2(positionData[0], positionData[1]);
       background.position.add(-characterPosition * 1.w);
       background2.position.add(-characterPosition * 1.w);
+      oldCharacterPosition = characterPosition.clone();
     });
 
     add(TextComponent(
@@ -66,7 +69,16 @@ class MyPlayer extends SpriteComponent
       background2.position.add(joystick.relativeDelta * maxSpeed * dt * -1.w);
       characterPosition.add(joystick.relativeDelta * maxSpeed * dt * 1.w);
       transform.scale = Vector2((joystick.relativeDelta.x > 0) ? -1 : 1, 1);
+    }
+
+    if (dtSum > 0.1 &&
+        (oldCharacterPosition.x != characterPosition.x ||
+            oldCharacterPosition.y != characterPosition.y)) {
       sendChangedPosition();
+      dtSum = 0;
+      oldCharacterPosition = characterPosition.clone();
+    } else {
+      dtSum += dt;
     }
   }
 
@@ -91,7 +103,6 @@ class MyPlayer extends SpriteComponent
       characterPosition.add(moveDirection);
       transform.scale = Vector2(
           (moveDirection.x > 0) ? -1 : 1, 1); // TODO: sprite 바꾸기로 대체 (@전은지)
-      sendChangedPosition();
     }
     return super.onKeyEvent(event, keysPressed);
   }
@@ -100,6 +111,16 @@ class MyPlayer extends SpriteComponent
     await FirebaseDatabase.instance
         .ref("players/$uid/position")
         .set([characterPosition.x / 1.w, characterPosition.y / 1.w]);
+  }
+
+  void nextDay() {
+    characterPosition = Vector2.zero();
+    oldCharacterPosition = Vector2.zero();
+    sendChangedPosition();
+    background.position =
+        Vector2(0, background.size.y * -0.5) + screensize * 0.5;
+    background2.position =
+        Vector2(0, background2.size.y * -0.5) + screensize * 0.5;
   }
 }
 
