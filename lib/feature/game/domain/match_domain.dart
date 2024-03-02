@@ -52,6 +52,7 @@ class MatchDomainController extends _$MatchDomainController {
         players: [uid],
         host: uid,
         day: 0,
+        natureScore: 100,
         groceryList: {for (var item in GroceryType.values) item: false},
         rule: RuleType.noRule);
     state.matchId = await source.buildAndJoinMatch(
@@ -122,6 +123,7 @@ class MatchDomainController extends _$MatchDomainController {
   void nextDay() {
     if (state.match.day! < 7) {
       source.updateDay(matchId: state.matchId);
+      setNextDay(state.match.day! + 1);
     } else {
       // game end
     }

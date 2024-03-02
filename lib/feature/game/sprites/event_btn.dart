@@ -31,6 +31,7 @@ abstract class EventBtn extends PositionComponent with RiverpodComponentMixin {
   late GameEventType type;
   late Widget dialogWidget;
   late TextComponent tempText = TextComponent();
+  List<Vector2> vertices = [];
 
   EventBtn(
       {required List<Vector2> vertices,
@@ -49,8 +50,13 @@ abstract class EventBtn extends PositionComponent with RiverpodComponentMixin {
 }
 
 class PlugOffBtn extends EventBtn {
-  PlugOffBtn(
-      {required super.vertices, required super.position, required super.size}) {
+  PlugOffBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-1, -1),
+          Vector2(-1, 1),
+          Vector2(1, 1),
+          Vector2(1, -1)
+        ]) {
     final game = PlugOffGame();
     type = GameEventType.plugOff;
     dialogWidget = GameWidget(
@@ -60,8 +66,24 @@ class PlugOffBtn extends EventBtn {
 }
 
 class WindPowerBtn extends EventBtn {
-  WindPowerBtn(
-      {required super.vertices, required super.position, required super.size}) {
+  WindPowerBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(0.258, -0.369),
+          Vector2(0.258, -0.493),
+          Vector2(1, -1),
+          Vector2(0.393, -0.328),
+          Vector2(0.483, -0.246),
+          Vector2(0.910, 0.287),
+          Vector2(0.865, 0.315),
+          Vector2(0.258, -0.137),
+          Vector2(0.236, -0.26),
+          Vector2(0.169, -0.26),
+          Vector2(0.191, 0.973),
+          Vector2(-0.101, 0.973),
+          Vector2(0.0112, -0.205),
+          Vector2(-1.0, -0.26),
+          Vector2(0.101, -0.438),
+        ]) {
     final game = WindPowerGame();
     type = GameEventType.windPower;
     dialogWidget = GameWidget(game: game);
@@ -69,8 +91,19 @@ class WindPowerBtn extends EventBtn {
 }
 
 class TrashBtn extends EventBtn {
-  TrashBtn(
-      {required super.vertices, required super.position, required super.size}) {
+  TrashBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-0.02, -0.5),
+          Vector2(0.5, -1.07),
+          Vector2(1.05, -0.214),
+          Vector2(1.0, 0.18),
+          Vector2(0.25, 0.929),
+          Vector2(0.0, 0.929),
+          Vector2(-0.9, 0.55),
+          Vector2(-1.0, 0.0714),
+          Vector2(-0.75, -0.643),
+          Vector2(-0.4, -0.643),
+        ]) {
     final game = TrashGame();
     type = GameEventType.trash;
     dialogWidget = GameWidget(game: game);
@@ -78,17 +111,33 @@ class TrashBtn extends EventBtn {
 }
 
 class SunPowerBtn extends EventBtn {
-  SunPowerBtn(
-      {required super.vertices, required super.position, required super.size}) {
+  SunPowerBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-0.867, -0.565),
+          Vector2(1.0, -0.957),
+          Vector2(1.0, 0.565),
+          Vector2(-0.867, 0.957),
+        ]) {
     final game = SunPowerGame();
     type = GameEventType.sunPower;
-    dialogWidget = GameWidget(game: game);
+    dialogWidget = game;
   }
 }
 
 class WaterOffBtn extends EventBtn {
-  WaterOffBtn(
-      {required super.vertices, required super.position, required super.size}) {
+  WaterOffBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-0.882, -1.0),
+          Vector2(0.843, -1.0),
+          Vector2(1.0, -0.515),
+          Vector2(1.0, 0.212),
+          Vector2(0.765, 0.697),
+          Vector2(0.333, 1.0),
+          Vector2(-0.373, 1.0),
+          Vector2(-0.765, 0.636),
+          Vector2(-1.0, 0.212),
+          Vector2(-1.0, -0.515),
+        ]) {
     final game = WaterOffGame();
     type = GameEventType.waterOff;
     dialogWidget = GameWidget(game: game);
@@ -96,8 +145,31 @@ class WaterOffBtn extends EventBtn {
 }
 
 class TreeBtn extends EventBtn {
-  TreeBtn(
-      {required super.vertices, required super.position, required super.size}) {
+  TreeBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-0.805, -0.897),
+          Vector2(-0.0732, -0.276),
+          Vector2(0.171, -0.448),
+          Vector2(-0.0732, -0.655),
+          Vector2(0.122, -0.655),
+          Vector2(0.171, -0.897),
+          Vector2(0.366, -0.655),
+          Vector2(1.0, -0.931),
+          Vector2(0.463, -0.414),
+          Vector2(0.268, 0.172),
+          Vector2(0.268, 0.517),
+          Vector2(0.561, 0.966),
+          Vector2(0.171, 0.862),
+          Vector2(-0.0732, 1.03),
+          Vector2(-0.268, 0.862),
+          Vector2(-0.756, 0.966),
+          Vector2(-0.412, 0.414),
+          Vector2(-0.366, -0.103),
+          Vector2(-0.512, -0.276),
+          Vector2(-0.951, -0.345),
+          Vector2(-0.61, -0.483),
+          Vector2(-0.854, -0.759),
+        ]) {
     final game = TreeGame();
     type = GameEventType.tree;
     dialogWidget = GameWidget(game: game);

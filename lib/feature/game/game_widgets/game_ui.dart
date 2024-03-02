@@ -6,12 +6,14 @@ import 'package:flame/input.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
+import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
 class GameUI extends PositionComponent with RiverpodComponentMixin {
   Vector2 cameraSize;
   bool isHost;
-  GameUI(this.cameraSize, this.isHost);
+  SinkingUsGame game;
+  GameUI(this.game, this.cameraSize, this.isHost);
 
   @override
   FutureOr<void> onLoad() async {
@@ -28,7 +30,9 @@ class GameUI extends PositionComponent with RiverpodComponentMixin {
 
     final gameStartBtn = HudButtonComponent(
         button: TextBox("Start Game"),
-        onPressed: hostStartGame,
+        onPressed: () {
+          if (isHost) hostStartGame();
+        },
         size: Vector2(100.w, 30.h),
         position: Vector2(cameraSize.x * 0.5, 0),
         anchor: Anchor.topCenter);
@@ -42,6 +46,7 @@ class GameUI extends PositionComponent with RiverpodComponentMixin {
   }
 
   void hostStartGame() {
+    game.startGame();
     ref.read(matchDomainControllerProvider.notifier).nextDay();
   }
 }

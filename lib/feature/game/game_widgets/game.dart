@@ -64,6 +64,18 @@ class SinkingUsGame extends FlameGame
     player = MyPlayer(RoleType.undefined, camera.viewport.size, joystick,
         background, background2);
 
+    setEventBtn();
+
+    gameUI = GameUI(this, camera.viewport.size, isHost);
+
+    add(background);
+    add(player);
+    add(background2);
+    camera.viewport.add(joystick);
+
+    //UI
+    camera.viewport.add(gameUI);
+
     FirebaseDatabase.instance
         .ref("game/$matchId/players")
         .onChildAdded
@@ -78,20 +90,18 @@ class SinkingUsGame extends FlameGame
       }
     });
 
-    setEventBtn();
-
-    gameUI = GameUI(camera.viewport.size, isHost);
-
-    add(background);
-    background.addAll(eventBtns);
-    add(player);
-    add(background2);
-    camera.viewport.add(joystick);
-
-    //UI
-    camera.viewport.add(gameUI);
+    FirebaseDatabase.instance.ref("game/$matchId/day").onValue.listen((event) {
+      if (event.snapshot.exists) {
+        int day = (event.snapshot.value as int);
+        print(day);
+      }
+    });
 
     return super.onMount();
+  }
+
+  void startGame() {
+    background.addAll(eventBtns);
   }
 
   @override
@@ -100,84 +110,24 @@ class SinkingUsGame extends FlameGame
   }
 
   void setEventBtn() {
-    // TODO: vertices 간단히
     PlugOffBtn plugOffBtn = PlugOffBtn(
-        vertices: [
-          Vector2(-1, -1),
-          Vector2(-1, 1),
-          Vector2(1, 1),
-          Vector2(1, -1)
-        ],
         position: Vector2(1688, 638) * mapRatio,
         size: Vector2(12, 19) * mapRatio);
     WindPowerBtn windPowerBtn = WindPowerBtn(
-        vertices: [
-          Vector2(0.258, -0.369),
-          Vector2(0.258, -0.493),
-          Vector2(1, -1),
-          Vector2(0.393, -0.328),
-          Vector2(0.483, -0.246),
-          Vector2(0.910, 0.287),
-          Vector2(0.865, 0.315),
-          Vector2(0.258, -0.137),
-          Vector2(0.236, -0.26),
-          Vector2(0.169, -0.26),
-          Vector2(0.191, 0.973),
-          Vector2(-0.101, 0.973),
-          Vector2(0.0112, -0.205),
-          Vector2(-1.0, -0.26),
-          Vector2(0.101, -0.438),
-        ],
         position: Vector2(1160.5, 1603) * mapRatio,
         size: Vector2(89, 146) * mapRatio);
     TrashBtn trashBtn = TrashBtn(
-        vertices: [
-          Vector2(-0.02, -0.5),
-          Vector2(0.5, -1.07),
-          Vector2(1.05, -0.214),
-          Vector2(1.0, 0.18),
-          Vector2(0.25, 0.929),
-          Vector2(0.0, 0.929),
-          Vector2(-0.9, 0.55),
-          Vector2(-1.0, 0.0714),
-          Vector2(-0.75, -0.643),
-          Vector2(-0.4, -0.643),
-        ],
         position: Vector2(258, 1555) * mapRatio,
         size: Vector2(40, 28) * mapRatio);
     SunPowerBtn sunPowerBtn = SunPowerBtn(
-        vertices: [
-          Vector2(-1, -1),
-          Vector2(-1, 1),
-          Vector2(1, 1),
-          Vector2(1, -1)
-        ],
-        position: Vector2(1000, 1555) * mapRatio,
-        size: Vector2(40, 28) * mapRatio);
+        position: Vector2(1882, 264) * mapRatio,
+        size: Vector2(30, 46) * mapRatio);
     WaterOffBtn waterOffBtn = WaterOffBtn(
-        vertices: [
-          Vector2(-0.882, -1.0),
-          Vector2(0.843, -1.0),
-          Vector2(1.0, -0.515),
-          Vector2(1.0, 0.212),
-          Vector2(0.765, 0.697),
-          Vector2(0.333, 1.0),
-          Vector2(-0.373, 1.0),
-          Vector2(-0.765, 0.636),
-          Vector2(-1.0, 0.212),
-          Vector2(-1.0, -0.515),
-        ],
         position: Vector2(493.5, 890.5) * mapRatio,
         size: Vector2(51, 33) * mapRatio);
     TreeBtn treeBtn = TreeBtn(
-        vertices: [
-          Vector2(-1, -1),
-          Vector2(-1, 1),
-          Vector2(1, 1),
-          Vector2(1, -1)
-        ],
-        position: Vector2(320, 325) * mapRatio,
-        size: Vector2(49, 40) * mapRatio);
+        position: Vector2(377.5, 457) * mapRatio,
+        size: Vector2(41, 58) * mapRatio);
     eventBtns.addAll([
       plugOffBtn,
       windPowerBtn,

@@ -128,7 +128,10 @@ class OtherPlayer extends SpriteComponent {
     anchor = Anchor.center;
 
     add(TextComponent(
-        text: name, position: Vector2(0, -20), anchor: Anchor.topCenter));
+        text: name,
+        textRenderer: TextPaint(style: AppTypography.blackPixel),
+        anchor: Anchor.center,
+        position: Vector2(size.x * 0.5, -20)));
 
     FirebaseDatabase.instance
         .ref("players/$uid/position")
@@ -136,9 +139,10 @@ class OtherPlayer extends SpriteComponent {
         .listen((event) {
       if (event.snapshot.exists) {
         final positionData = event.snapshot.value as List<dynamic>;
-        position = //Vector2(0, 0);
-            Vector2(positionData[0], positionData[1]) * 1.w +
-                backgroundSize * 0.5;
+        position = Vector2(positionData[0], positionData[1]) * 1.w +
+            backgroundSize * 0.5;
+      } else {
+        removeFromParent();
       }
     });
 
