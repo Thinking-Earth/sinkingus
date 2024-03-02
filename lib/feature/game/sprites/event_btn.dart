@@ -1,152 +1,217 @@
-import 'dart:async';
-
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
+import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
+import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:sinking_us/feature/game/mini_game/custom_mini_game_dialog.dart';
+import 'package:sinking_us/feature/game/mini_game/dialog_buy_necessity.dart';
+import 'package:sinking_us/feature/game/mini_game/national_assembly_dialog.dart';
+import 'package:sinking_us/feature/game/mini_game/plug_off_game.dart';
+import 'package:sinking_us/feature/game/mini_game/sun_power_game.dart';
+import 'package:sinking_us/feature/game/mini_game/trash_game.dart';
+import 'package:sinking_us/feature/game/mini_game/tree_game.dart';
+import 'package:sinking_us/feature/game/mini_game/water_off_game.dart';
+import 'package:sinking_us/feature/game/mini_game/wind_power_game.dart';
+import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
+import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
-abstract class EventBtn extends RectangleComponent with TapCallbacks {
-  late String btnName = "";
+enum GameEventType {
+  buyNecessity(-1, "Buy Necessity"),
+  nationalAssembly(-2, "National Assembly"),
+  plugOff(0, "Plug Off"),
+  sunPower(1, "Sun Power"),
+  windPower(2, "Wind Power"),
+  trash(3, "Trash"),
+  tree(4, "Tree"),
+  waterOff(5, "Water Off");
+
+  const GameEventType(this.jsonIndex, this.name);
+  final int jsonIndex;
+  final String name;
+}
+
+abstract class EventBtn extends PositionComponent with RiverpodComponentMixin {
+  late GameEventType type;
+  late Widget dialogWidget;
   late TextComponent tempText = TextComponent();
-  late Widget dialogContent;
+  List<Vector2> vertices = [];
 
-  @override
-  Paint get paint => BasicPalette.red.paint()..style = PaintingStyle.stroke;
-
-  @override
-  Anchor get anchor => Anchor.center;
-
-  @override
-  FutureOr<void> onLoad() {
-    tempText.text = btnName;
-    add(tempText);
-    return super.onLoad();
+  EventBtn(
+      {required List<Vector2> vertices,
+      required Vector2 position,
+      required Vector2 size})
+      : super(position: position, size: size) {
+    anchor = Anchor.center;
+    final stroke = ClickablePolygon.relative(vertices, parentSize: size,
+        onClickEvent: () {
+      ShowDialogHelper.gameEventDialog(title: type.name, widget: dialogWidget);
+    })
+      ..paint = (BasicPalette.yellow.paint()
+        ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10.0));
+    add(stroke);
   }
+}
 
-  @override
-  void onTapUp(TapUpEvent event) {
-    super.onTapUp(event);
-    if (btnName == "plug off") {
-      MiniGameDialog.plugOff();
-    } else if (btnName == "buy necessity") {
-      MiniGameDialog.buyNecessity();
-    }
-    print("$btnName : pop up!!!!");
-    // TODO: popup show with dialogContent (@오종현)
+class PlugOffBtn extends EventBtn {
+  PlugOffBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-1, -1),
+          Vector2(-1, 1),
+          Vector2(1, 1),
+          Vector2(1, -1)
+        ]) {
+    final game = PlugOffGame();
+    type = GameEventType.plugOff;
+    dialogWidget = GameWidget(
+      game: game,
+    );
+  }
+}
+
+class WindPowerBtn extends EventBtn {
+  WindPowerBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(0.258, -0.369),
+          Vector2(0.258, -0.493),
+          Vector2(1, -1),
+          Vector2(0.393, -0.328),
+          Vector2(0.483, -0.246),
+          Vector2(0.910, 0.287),
+          Vector2(0.865, 0.315),
+          Vector2(0.258, -0.137),
+          Vector2(0.236, -0.26),
+          Vector2(0.169, -0.26),
+          Vector2(0.191, 0.973),
+          Vector2(-0.101, 0.973),
+          Vector2(0.0112, -0.205),
+          Vector2(-1.0, -0.26),
+          Vector2(0.101, -0.438),
+        ]) {
+    final game = WindPowerGame();
+    type = GameEventType.windPower;
+    dialogWidget = GameWidget(game: game);
+  }
+}
+
+class TrashBtn extends EventBtn {
+  TrashBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-0.02, -0.5),
+          Vector2(0.5, -1.07),
+          Vector2(1.05, -0.214),
+          Vector2(1.0, 0.18),
+          Vector2(0.25, 0.929),
+          Vector2(0.0, 0.929),
+          Vector2(-0.9, 0.55),
+          Vector2(-1.0, 0.0714),
+          Vector2(-0.75, -0.643),
+          Vector2(-0.4, -0.643),
+        ]) {
+    final game = TrashGame();
+    type = GameEventType.trash;
+    dialogWidget = GameWidget(game: game);
+  }
+}
+
+class SunPowerBtn extends EventBtn {
+  SunPowerBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-0.867, -0.565),
+          Vector2(1.0, -0.957),
+          Vector2(1.0, 0.565),
+          Vector2(-0.867, 0.957),
+        ]) {
+    final game = SunPowerGame();
+    type = GameEventType.sunPower;
+    dialogWidget = game;
+  }
+}
+
+class WaterOffBtn extends EventBtn {
+  WaterOffBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-0.882, -1.0),
+          Vector2(0.843, -1.0),
+          Vector2(1.0, -0.515),
+          Vector2(1.0, 0.212),
+          Vector2(0.765, 0.697),
+          Vector2(0.333, 1.0),
+          Vector2(-0.373, 1.0),
+          Vector2(-0.765, 0.636),
+          Vector2(-1.0, 0.212),
+          Vector2(-1.0, -0.515),
+        ]) {
+    final game = WaterOffGame();
+    type = GameEventType.waterOff;
+    dialogWidget = GameWidget(game: game);
+  }
+}
+
+class TreeBtn extends EventBtn {
+  TreeBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-0.805, -0.897),
+          Vector2(-0.0732, -0.276),
+          Vector2(0.171, -0.448),
+          Vector2(-0.0732, -0.655),
+          Vector2(0.122, -0.655),
+          Vector2(0.171, -0.897),
+          Vector2(0.366, -0.655),
+          Vector2(1.0, -0.931),
+          Vector2(0.463, -0.414),
+          Vector2(0.268, 0.172),
+          Vector2(0.268, 0.517),
+          Vector2(0.561, 0.966),
+          Vector2(0.171, 0.862),
+          Vector2(-0.0732, 1.03),
+          Vector2(-0.268, 0.862),
+          Vector2(-0.756, 0.966),
+          Vector2(-0.412, 0.414),
+          Vector2(-0.366, -0.103),
+          Vector2(-0.512, -0.276),
+          Vector2(-0.951, -0.345),
+          Vector2(-0.61, -0.483),
+          Vector2(-0.854, -0.759),
+        ]) {
+    final game = TreeGame();
+    type = GameEventType.tree;
+    dialogWidget = GameWidget(game: game);
   }
 }
 
 class BuyNecessityBtn extends EventBtn {
-  // TODO: set position & size when design set
-  // 상위에서 안받고 그냥 여기서 수치 넣기
-  BuyNecessityBtn(Vector2 position) {
-    this.position = position;
-    size = Vector2(300, 200);
+  BuyNecessityBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-1, -1),
+          Vector2(1, -1),
+          Vector2(1, 1),
+          Vector2(-1, 1)
+        ]) {
+    type = GameEventType.buyNecessity;
+    dialogWidget = buyNecessityWidget();
   }
-
-  @override
-  String get btnName => "buy necessity";
-
-  @override
-  // TODO: implement dialogContent (@오종현)
-  Widget get dialogContent => super.dialogContent;
 }
 
 class NationalAssemblyBtn extends EventBtn {
-  NationalAssemblyBtn(Vector2 position) {
-    this.position = position;
-    size = Vector2(300, 200);
+  NationalAssemblyBtn({required super.position, required super.size})
+      : super(vertices: [
+          Vector2(-1.0, -1.0),
+          Vector2(-0.892, -1.0),
+          Vector2(-0.711, -0.743),
+          Vector2(-0.325, -0.545),
+          Vector2(0.325, -0.545),
+          Vector2(0.59, -0.644),
+          Vector2(0.916, -1.0),
+          Vector2(1.01, -1.0),
+          Vector2(1.0, 0.624),
+          Vector2(0.928, 0.644),
+          Vector2(0.747, 0.822),
+          Vector2(0.41, 1.02),
+          Vector2(-0.398, 1.02),
+          Vector2(-0.699, 0.822),
+          Vector2(-0.916, 0.644),
+          Vector2(-1.0, 0.624),
+        ]) {
+    type = GameEventType.nationalAssembly;
+    dialogWidget = nationalAssemblyWidget();
   }
-
-  @override
-  String get btnName => "national assembly";
-
-  @override
-  // TODO: implement dialogContent (@오종현)
-  Widget get dialogContent => super.dialogContent;
-}
-
-class PlugOffGameBtn extends EventBtn {
-  PlugOffGameBtn(Vector2 position) {
-    this.position = position;
-    size = Vector2(300, 200);
-  }
-
-  @override
-  String get btnName => "plug off";
-
-  @override
-  // TODO: implement dialogContent (@오종현)
-  Widget get dialogContent => super.dialogContent;
-}
-
-class SunPowerGameBtn extends EventBtn {
-  SunPowerGameBtn(Vector2 position) {
-    this.position = position;
-    size = Vector2(300, 200);
-  }
-
-  @override
-  String get btnName => "sun power";
-
-  @override
-  // TODO: implement dialogContent (@오종현)
-  Widget get dialogContent => super.dialogContent;
-}
-
-class WindPowerGameBtn extends EventBtn {
-  WindPowerGameBtn(Vector2 position) {
-    this.position = position;
-    size = Vector2(300, 200);
-  }
-
-  @override
-  String get btnName => "wind power";
-
-  @override
-  // TODO: implement dialogContent (@오종현)
-  Widget get dialogContent => super.dialogContent;
-}
-
-class TrashGameBtn extends EventBtn {
-  TrashGameBtn(Vector2 position) {
-    this.position = position;
-    size = Vector2(300, 200);
-  }
-
-  @override
-  String get btnName => "trash";
-
-  @override
-  // TODO: implement dialogContent (@오종현)
-  Widget get dialogContent => super.dialogContent;
-}
-
-class TreeGameBtn extends EventBtn {
-  TreeGameBtn(Vector2 position) {
-    this.position = position;
-    size = Vector2(300, 200);
-  }
-
-  @override
-  String get btnName => "tree";
-
-  @override
-  // TODO: implement dialogContent (@오종현)
-  Widget get dialogContent => super.dialogContent;
-}
-
-class WaterOffGameBtn extends EventBtn {
-  WaterOffGameBtn(Vector2 position) {
-    this.position = position;
-    size = Vector2(300, 200);
-  }
-
-  @override
-  String get btnName => "water off";
-
-  @override
-  // TODO: implement dialogContent (@오종현)
-  Widget get dialogContent => super.dialogContent;
 }

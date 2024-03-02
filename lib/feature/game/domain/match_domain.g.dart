@@ -7,7 +7,7 @@ part of 'match_domain.dart';
 // **************************************************************************
 
 String _$matchDomainControllerHash() =>
-    r'360d440760212881c88253bdb2890b90878bb9b2';
+    r'e17194c7216211e6065a562081871c72d31637d8';
 
 /// See also [MatchDomainController].
 @ProviderFor(MatchDomainController)

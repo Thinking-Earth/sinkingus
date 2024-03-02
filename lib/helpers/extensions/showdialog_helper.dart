@@ -10,36 +10,27 @@ import 'package:sinking_us/helpers/constants/app_colors.dart';
 class ShowDialogHelper {
   const ShowDialogHelper._();
 
-  static void miniGameDialog({required String title, required Widget widget}) {
+  static void gameEventDialog({required String title, required Widget widget}) {
     showDialog(
         context: AppRouter.navigatorKey.currentContext!,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return AlertDialog(
-              title: Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        AppRouter.pop();
-                      },
-                      icon: const Icon(CupertinoIcons.xmark)),
-                  const Spacer(),
-                  Text(title),
-                  const Spacer()
-                ],
-              ),
-              content: SizedBox(width: 800.w, height: 360.h, child: widget));
-        });
+          return Dialog(
+              backgroundColor: Colors.black,
+              child: SizedBox(width: 455.3.w, height: 256.w, child: widget));
+        }).then((value) {
+      print(value);
+    });
   }
 
-  static void showBuildRoomDialog({required String title}) {
+  static void showBuildRoomDialog() {
     showDialog(
         context: AppRouter.navigatorKey.currentContext!,
         builder: (BuildContext context) {
           return StatefulBuilder(
             builder: (context, setState) {
               return AlertDialog(
-                title: Text(title),
+                title: Text("Build Room"),
                 content: SizedBox(
                     width: 400.w,
                     height: 300.h,
@@ -52,12 +43,12 @@ class ShowDialogHelper {
         });
   }
 
-  static void showSearchRoomDialog({required String title}) {
+  static void showSearchRoomDialog() {
     showDialog(
       context: AppRouter.navigatorKey.currentContext!,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title),
+          title: Text("Search Room"),
           content: SizedBox(
               width: 400.w, height: 300.h, child: const SearchDialogContent()),
         );
@@ -87,28 +78,31 @@ class ShowDialogHelper {
         });
   }
 
-  static void showAlertWithAction({required VoidCallback onPressed, required String title, required String message}) {
-    showCupertinoDialog(context: AppRouter.navigatorKey.currentContext!, builder: (context) {
-      return CupertinoAlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          CupertinoDialogAction(
-            isDefaultAction: true, 
-            onPressed: (){
-              AppRouter.pop();
-              onPressed();
-            },
-            child: const Text(
-              "확인", 
-              style: TextStyle(
-                color: AppColors.green10
-              ),
-            ),
-          )
-        ],
-      );
-    });
+  static void showAlertWithAction(
+      {required VoidCallback onPressed,
+      required String title,
+      required String message}) {
+    showCupertinoDialog(
+        context: AppRouter.navigatorKey.currentContext!,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: [
+              CupertinoDialogAction(
+                isDefaultAction: true,
+                onPressed: () {
+                  AppRouter.pop();
+                  onPressed();
+                },
+                child: const Text(
+                  "확인",
+                  style: TextStyle(color: AppColors.green10),
+                ),
+              )
+            ],
+          );
+        });
   }
 
   static void showLoading() {

@@ -14,9 +14,13 @@ _$MatchImpl _$$MatchImplFromJson(Map<String, dynamic> json) => _$MatchImpl(
           (json['players'] as List<dynamic>?)?.map((e) => e as String).toList(),
       host: json['host'] as String?,
       day: json['day'] as int?,
+      natureScore: json['natureScore'] as int?,
       groceryList: (json['groceryList'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry($enumDecode(_$GroceryTypeEnumMap, k), e as bool),
       ),
+      gameEventList: (json['gameEventList'] as List<dynamic>?)
+          ?.map((e) => e as int)
+          .toList(),
       rule: $enumDecodeNullable(_$RuleTypeEnumMap, json['rule']),
     );
 
@@ -28,8 +32,10 @@ Map<String, dynamic> _$$MatchImplToJson(_$MatchImpl instance) =>
       'players': instance.players,
       'host': instance.host,
       'day': instance.day,
+      'natureScore': instance.natureScore,
       'groceryList': instance.groceryList
           ?.map((k, e) => MapEntry(_$GroceryTypeEnumMap[k]!, e)),
+      'gameEventList': instance.gameEventList,
       'rule': _$RuleTypeEnumMap[instance.rule],
     };
 
