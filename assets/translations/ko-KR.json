@@ -1,0 +1,11 @@
+{
+    "language" : "ko_KR",
+    "showing_language" : "한국어 - KR",
+    "noti_noti" : "알림",
+    "noti_ok" : "확인",
+    "noti_cancel" : "취소",
+
+    "build_room" : "방 만들기",
+    "join_room" : "방 참여하기",
+    "refresh" : "새로고침"
+}

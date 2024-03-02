@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,7 @@ class AppBootstrapper {
     setPathUrlStrategy();
     await LocalStorageBase.init();
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await EasyLocalization.ensureInitialized();
     FirestoreBase.init();
     NetWorkStatusManagement.init();
     await SystemChrome.setPreferredOrientations([
@@ -24,6 +26,13 @@ class AppBootstrapper {
       DeviceOrientation.landscapeRight
     ]);
 
-    runApp(SinkingUs(idToken: "test",));
+    runApp(
+      EasyLocalization(
+        supportedLocales: const [Locale('en', 'US'), Locale('ko', 'KR'), Locale('ja', 'JP')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en', 'US'),
+        child: SinkingUs(idToken: "test",)
+      )
+    );
   }
 }

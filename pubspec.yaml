@@ -64,6 +64,8 @@ dependencies:
   flame: ^1.14.0
   flame_riverpod: ^5.2.0
   connectivity_plus: ^5.0.2 #인터넷 연결 상태 감지
+  easy_localization: ^3.0.5 #지역 위치 파악 및 언어팩 연결
+  intl: ^0.18.0 #다국어 및 다국 시간
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +95,7 @@ flutter:
     - assets/images/minigame/wind/
     - assets/images/minigame/water/
     - assets/svgs/
+    - assets/translations/
 
   fonts:
     - family: Jalnan

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,10 +27,10 @@ class SinkingUs extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size realSize = MediaQuery.of(context).size;
     final Size customSize;
-    if (realSize.width < 844) {
-      customSize = Size(844, realSize.height);
+    if ((844 / 390) > realSize.width / realSize.height) {
+      customSize = Size(realSize.width, realSize.width*(390 / 844));
     } else {
-      customSize = realSize;
+      customSize = Size(realSize.height*(844 / 390), realSize.height);
     }
 
     return ProviderScope(
@@ -38,26 +39,25 @@ class SinkingUs extends StatelessWidget {
         child: ScreenUtilInit(
           designSize: const Size(844, 390),
           useInheritedMediaQuery: true,
+          ensureScreenSize: true,
+          minTextAdapt: true,
           builder: (context, widget) {
-            return Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 844),
-                child: MaterialApp(
-                  title: "Sinking US",
-                  debugShowCheckedModeBanner: false,
-                  initialRoute: Routes.initialRoute,
-                  theme: AppTheme.light(),
-                  onGenerateRoute: AppRouter.generateRoute,
-                  navigatorKey: AppRouter.navigatorKey,
-                  localizationsDelegates: const [
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  supportedLocales: const [
-                    Locale('en', 'US'),
-                    Locale('ko', 'KR'),
-                  ],
+            return Container(
+              color: Colors.black,
+              child: Center(
+                child: AspectRatio(
+                  aspectRatio: 844 / 390,
+                  child: MaterialApp(
+                    title: "Sinking US",
+                    debugShowCheckedModeBanner: false,
+                    initialRoute: Routes.initialRoute,
+                    theme: AppTheme.light(),
+                    onGenerateRoute: AppRouter.generateRoute,
+                    navigatorKey: AppRouter.navigatorKey,
+                    localizationsDelegates: context.localizationDelegates,
+                    supportedLocales: context.supportedLocales,
+                    locale: context.locale,
+                  ),
                 ),
               ),
             );
