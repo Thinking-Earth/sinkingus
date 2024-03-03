@@ -8,10 +8,10 @@ import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/feature/game/game_widgets/game_ui.dart';
 import 'package:sinking_us/feature/game/sprites/characters.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
-import 'package:sinking_us/feature/game/sprites/roles.dart';
 
 /// Director: 서버와 소통, 게임로직 관리
 
@@ -23,6 +23,7 @@ class SinkingUsGame extends FlameGame
   late SpriteComponent background;
   late List<PositionComponent> eventBtns =
       List<PositionComponent>.empty(growable: true);
+  int currentEvent = -1;
 
   late String matchId;
   bool isHost;
@@ -61,8 +62,8 @@ class SinkingUsGame extends FlameGame
               camera.viewport.virtualSize * 0.5;
 
     // set my character
-    player = MyPlayer(RoleType.undefined, camera.viewport.size, joystick,
-        background, background2);
+    player =
+        MyPlayer(uid, camera.viewport.size, joystick, background, background2);
 
     setEventBtn();
 
@@ -94,11 +95,15 @@ class SinkingUsGame extends FlameGame
       if (event.snapshot.exists) {
         int day = (event.snapshot.value as int);
         if (day == 1) {
-          startGame();
+          background.addAll(eventBtns);
+          gameUI.startGame();
         } else if (day == 8) {
           // game end
         } else if (day > 1) {
-          gameUI.nextDay();
+          if (currentEvent > -1) {
+            Navigator.of(AppRouter.navigatorKey.currentContext!).pop(false);
+          }
+          gameUI.nextDay(day);
         }
         player.nextDay();
       } else {
@@ -109,12 +114,6 @@ class SinkingUsGame extends FlameGame
     return super.onMount();
   }
 
-  // called when day updated
-  void startGame() {
-    background.addAll(eventBtns);
-    gameUI.startGame();
-  }
-
   @override
   Color backgroundColor() {
     return const Color.fromRGBO(103, 103, 103, 1.0);
@@ -123,38 +122,50 @@ class SinkingUsGame extends FlameGame
   void setEventBtn() {
     PlugOffBtn plugOffBtn = PlugOffBtn(
         position: Vector2(1688, 638) * mapRatio,
-        size: Vector2(12, 19) * mapRatio);
+        size: Vector2(12, 19) * mapRatio,
+        game: this);
     WindPowerBtn windPowerBtn = WindPowerBtn(
         position: Vector2(1160.5, 1603) * mapRatio,
-        size: Vector2(89, 146) * mapRatio);
+        size: Vector2(89, 146) * mapRatio,
+        game: this);
     TrashBtn trashBtn = TrashBtn(
         position: Vector2(258, 1555) * mapRatio,
-        size: Vector2(40, 28) * mapRatio);
+        size: Vector2(40, 28) * mapRatio,
+        game: this);
     SunPowerBtn sunPowerBtn = SunPowerBtn(
         position: Vector2(1882, 264) * mapRatio,
-        size: Vector2(30, 46) * mapRatio);
+        size: Vector2(30, 46) * mapRatio,
+        game: this);
     WaterOffBtn waterOffBtn = WaterOffBtn(
         position: Vector2(493.5, 890.5) * mapRatio,
-        size: Vector2(51, 33) * mapRatio);
+        size: Vector2(51, 33) * mapRatio,
+        game: this);
     TreeBtn treeBtn = TreeBtn(
         position: Vector2(377.5, 457) * mapRatio,
-        size: Vector2(41, 58) * mapRatio);
+        size: Vector2(41, 58) * mapRatio,
+        game: this);
     BuyNecessityBtn buyNecessityBtn = BuyNecessityBtn(
         position: Vector2(1731.5, 1561.5) * mapRatio,
-        size: Vector2(63, 35) * mapRatio);
+        size: Vector2(63, 35) * mapRatio,
+        game: this);
     NationalAssemblyBtn nationalAssemblyBtn = NationalAssemblyBtn(
         position: Vector2(1119, 192.5) * mapRatio,
-        size: Vector2(166, 101) * mapRatio);
+        size: Vector2(166, 101) * mapRatio,
+        game: this);
 
     eventBtns.addAll([
       plugOffBtn,
+      sunPowerBtn,
       windPowerBtn,
       trashBtn,
-      sunPowerBtn,
-      waterOffBtn,
       treeBtn,
+      waterOffBtn,
       buyNecessityBtn,
       nationalAssemblyBtn
     ]);
+  }
+
+  void setCurrentEvent(int currentEvent) {
+    this.currentEvent = currentEvent;
   }
 }

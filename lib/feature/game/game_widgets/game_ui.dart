@@ -2,12 +2,15 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
+import 'package:sinking_us/feature/game/sprites/news.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
+import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 class GameUI extends PositionComponent with RiverpodComponentMixin {
   Vector2 cameraSize;
@@ -17,6 +20,7 @@ class GameUI extends PositionComponent with RiverpodComponentMixin {
   late Timer timer;
   int remainingSec = 30; // TODO: test version time
   late TextComponent timerConponent;
+  late News news;
 
   GameUI(this.game, this.cameraSize, this.isHost);
 
@@ -60,6 +64,8 @@ class GameUI extends PositionComponent with RiverpodComponentMixin {
         position: Vector2(cameraSize.x * 0.5, 10.w),
         anchor: Anchor.topCenter);
 
+    news = News();
+
     if (isHost) {
       add(gameStartBtn);
     }
@@ -77,13 +83,20 @@ class GameUI extends PositionComponent with RiverpodComponentMixin {
   // called when day updated to 1
   void startGame() {
     add(timerConponent);
-    timer.start();
+    news.text = "Game started";
+    ShowDialogHelper.gameEventDialog(
+            text: "news", widget: GameWidget(game: news))
+        .then((value) => value ? timer.start() : ());
   }
 
   // called when day updated
-  void nextDay() {
+  void nextDay(int day) {
+    timer.pause();
+    news.text = "It's day $day";
     remainingSec = 30; // test version time
-    timer.resume();
+    ShowDialogHelper.gameEventDialog(
+            text: "news", widget: GameWidget(game: news))
+        .then((value) => value ? timer.resume() : ());
   }
 
   void hostStartGame() async {

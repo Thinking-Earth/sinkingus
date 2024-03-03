@@ -17,8 +17,8 @@ final CHARACTER_SIZE_Y = 120.w;
 class MyPlayer extends SpriteComponent
     with CollisionCallbacks, KeyboardHandler, RiverpodComponentMixin {
   int money = 0;
-  RoleType role;
-  late String uid;
+  RoleType role = RoleType.undefined;
+  String uid;
 
   SpriteComponent background;
   SpriteComponent background2;
@@ -30,7 +30,7 @@ class MyPlayer extends SpriteComponent
   double maxSpeed = 300.0;
   JoystickComponent joystick;
 
-  MyPlayer(this.role, this.screensize, this.joystick, this.background,
+  MyPlayer(this.uid, this.screensize, this.joystick, this.background,
       this.background2)
       : super(
             size: Vector2(CHARACTER_SIZE_X, CHARACTER_SIZE_Y),
@@ -39,7 +39,6 @@ class MyPlayer extends SpriteComponent
 
   @override
   FutureOr<void> onMount() async {
-    uid = ref.read(userDomainControllerProvider).userInfo!.uid;
     sprite = await Sprite.load("characters/${role.code}_idle_left.png");
     await FirebaseDatabase.instance
         .ref("players/$uid/position")

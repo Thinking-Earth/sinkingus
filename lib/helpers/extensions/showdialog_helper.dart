@@ -10,17 +10,17 @@ import 'package:sinking_us/helpers/constants/app_colors.dart';
 class ShowDialogHelper {
   const ShowDialogHelper._();
 
-  static void gameEventDialog({required String title, required Widget widget}) {
-    showDialog(
+  static Future<bool> gameEventDialog(
+      {required String text, required Widget widget}) async {
+    bool result = await showDialog(
         context: AppRouter.navigatorKey.currentContext!,
         barrierDismissible: true,
         builder: (BuildContext context) {
           return Dialog(
               backgroundColor: Colors.black,
               child: SizedBox(width: 455.3.w, height: 256.w, child: widget));
-        }).then((value) {
-      print(value);
-    });
+        }).then((value) => value);
+    return result;
   }
 
   static void showBuildRoomDialog() {
