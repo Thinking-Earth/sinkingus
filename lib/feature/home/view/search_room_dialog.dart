@@ -40,7 +40,7 @@ class _SearchDialogContentState extends State<SearchDialogContent> {
               });
             },
             icon: const Icon(Icons.search)),
-        Container(
+        SizedBox(
           width: 350.w,
           height: 200.h,
           child: ListView.builder(

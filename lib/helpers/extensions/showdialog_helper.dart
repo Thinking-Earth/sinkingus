@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,9 +67,9 @@ class ShowDialogHelper {
             actions: [
               CupertinoDialogAction(
                   isDefaultAction: true,
-                  child: const Text(
-                    "확인",
-                    style: TextStyle(color: AppColors.green10),
+                  child: Text(
+                    tr("noti_ok"),
+                    style: const TextStyle(color: AppColors.green10),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -95,14 +96,22 @@ class ShowDialogHelper {
                   AppRouter.pop();
                   onPressed();
                 },
-                child: const Text(
-                  "확인",
-                  style: TextStyle(color: AppColors.green10),
+                child: Text(
+                  tr("noti_ok"),
+                  style: const TextStyle(color: AppColors.green10),
                 ),
               )
             ],
           );
         });
+  }
+
+  static void showSnackBar({required String content}) {
+    ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!).showSnackBar(
+      SnackBar(
+        content: Text(content),
+      )
+    );
   }
 
   static void showLoading() {
