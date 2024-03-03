@@ -45,9 +45,9 @@ class MyPlayer extends SpriteComponent
         .get()
         .then((value) {
       final positionData = value.value as List<dynamic>;
-      characterPosition = Vector2(positionData[0], positionData[1]);
-      background.position.add(-characterPosition * 1.w);
-      background2.position.add(-characterPosition * 1.w);
+      characterPosition = Vector2(positionData[0], positionData[1]) * 1.w;
+      background.position.add(-characterPosition);
+      background2.position.add(-characterPosition);
       oldCharacterPosition = characterPosition.clone();
     });
 
@@ -107,9 +107,11 @@ class MyPlayer extends SpriteComponent
   }
 
   void sendChangedPosition() async {
-    await FirebaseDatabase.instance
-        .ref("players/$uid/position")
-        .set([characterPosition.x / 1.w, characterPosition.y / 1.w]);
+    if (isMounted) {
+      await FirebaseDatabase.instance
+          .ref("players/$uid/position")
+          .set([characterPosition.x / 1.w, characterPosition.y / 1.w]);
+    }
   }
 
   void nextDay() {

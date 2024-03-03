@@ -9,10 +9,14 @@ import 'package:sinking_us/feature/game/data/model/match_info.dart';
 part 'match_domain.g.dart';
 
 class MatchDomainState {
-  MatchDomainState({required this.matchId, required this.match});
+  MatchDomainState(
+      {required this.matchId,
+      required this.match,
+      required this.dayChangedTime});
 
   String matchId;
   Match match;
+  int dayChangedTime;
 }
 
 @Riverpod(keepAlive: true)
@@ -23,11 +27,15 @@ class MatchDomainController extends _$MatchDomainController {
   MatchDomainState build() {
     return MatchDomainState(
         matchId: "not in a match",
-        match: Match(roomName: "", playerCount: 0, isPrivate: true));
+        match: Match(roomName: "", playerCount: 0, isPrivate: true),
+        dayChangedTime: 0);
   }
 
   void setState() {
-    state = MatchDomainState(matchId: state.matchId, match: state.match);
+    state = MatchDomainState(
+        matchId: state.matchId,
+        match: state.match,
+        dayChangedTime: state.dayChangedTime);
   }
 
   Future<Map<String, Match>> getMatchList() async {
@@ -116,6 +124,7 @@ class MatchDomainController extends _$MatchDomainController {
   }
 
   void setNextDay(int newDay) {
+    state.dayChangedTime = DateTime.now().millisecondsSinceEpoch;
     state.match = state.match.copyWith(day: newDay);
     setState();
   }
@@ -127,7 +136,6 @@ class MatchDomainController extends _$MatchDomainController {
   }
 
   void hostNextDay() {
-    setNextDay(state.match.day! + 1);
     source.updateDay(matchId: state.matchId);
   }
 }

@@ -8,21 +8,23 @@ import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
+import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 import 'package:sinking_us/feature/game/sprites/news.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
-class GameUI extends PositionComponent with RiverpodComponentMixin {
+class GameUI extends PositionComponent
+    with RiverpodComponentMixin, HasGameReference<SinkingUsGame> {
   Vector2 cameraSize;
   bool isHost;
-  SinkingUsGame game;
   late HudButtonComponent gameLeaveBtn, gameStartBtn;
   late Timer timer;
-  int remainingSec = 30; // TODO: test version time
-  late TextComponent timerConponent;
+  int oneDay = 10;
+  int remainingSec = 10; // TODO: test version time
+  late TextComponent timerComponent;
   late News news;
 
-  GameUI(this.game, this.cameraSize, this.isHost);
+  GameUI(this.cameraSize, this.isHost);
 
   @override
   FutureOr<void> onLoad() async {
@@ -48,8 +50,9 @@ class GameUI extends PositionComponent with RiverpodComponentMixin {
 
     timer = Timer(1, onTick: () {
       remainingSec -= 1;
-      timerConponent.text =
+      timerComponent.text =
           "0${remainingSec ~/ 60} : ${(remainingSec % 60 < 10) ? "0" : ""}${remainingSec % 60}";
+      print(remainingSec);
       if (remainingSec == 0) {
         timer.pause();
         if (isHost) {
@@ -58,20 +61,33 @@ class GameUI extends PositionComponent with RiverpodComponentMixin {
       }
     }, repeat: true, autoStart: false);
 
-    timerConponent = TextComponent(
-        text: "02:30",
+    timerComponent = TextComponent(
+        text: "",
         textRenderer: TextPaint(style: AppTypography.timerPixel),
         position: Vector2(cameraSize.x * 0.5, 10.w),
         anchor: Anchor.topCenter);
 
-    news = News();
+    news = News(game);
 
-    if (isHost) {
-      add(gameStartBtn);
-    }
     add(gameLeaveBtn);
 
     return super.onLoad();
+  }
+
+  @override
+  void onMount() {
+    if (isHost && game.day == 0) {
+      add(gameStartBtn);
+    } else if (game.day > 0) {
+      int elapsedSec = (DateTime.now().millisecondsSinceEpoch -
+                  ref.read(matchDomainControllerProvider).dayChangedTime) ~/
+              1000 -
+          8;
+      remainingSec = oneDay - elapsedSec; // TODO: test version time
+      add(timerComponent);
+      timer.resume();
+    }
+    super.onMount();
   }
 
   @override
@@ -82,21 +98,40 @@ class GameUI extends PositionComponent with RiverpodComponentMixin {
 
   // called when day updated to 1
   void startGame() {
-    add(timerConponent);
+    ref.read(matchDomainControllerProvider.notifier).setNextDay(1);
+    add(timerComponent);
     news.text = "Game started";
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
-        .then((value) => value ? timer.start() : ());
+        .then((value) {
+      game.setCurrentEvent(GameEventType.undefined.id);
+      value ? timer.start() : ();
+    });
   }
 
   // called when day updated
   void nextDay(int day) {
-    timer.pause();
+    ref.read(matchDomainControllerProvider.notifier).setNextDay(day);
+    remainingSec = oneDay; // TODO: test version time
     news.text = "It's day $day";
-    remainingSec = 30; // test version time
+    timer.stop();
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
-        .then((value) => value ? timer.resume() : ());
+        .then((value) {
+      timer = Timer(1, onTick: () {
+        remainingSec -= 1;
+        timerComponent.text =
+            "0${remainingSec ~/ 60} : ${(remainingSec % 60 < 10) ? "0" : ""}${remainingSec % 60}";
+        print(remainingSec);
+        if (remainingSec == 0) {
+          timer.pause();
+          if (isHost) {
+            ref.read(matchDomainControllerProvider.notifier).hostNextDay();
+          }
+        }
+      }, repeat: true, autoStart: true);
+      game.setCurrentEvent(GameEventType.undefined.id);
+    });
   }
 
   void hostStartGame() async {

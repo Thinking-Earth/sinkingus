@@ -26,6 +26,7 @@ class SinkingUsGame extends FlameGame
   int currentEvent = -1;
 
   late String matchId;
+  int day = -1;
   bool isHost;
   late String uid;
   late List<OtherPlayer> players = List<OtherPlayer>.empty(growable: true);
@@ -33,6 +34,15 @@ class SinkingUsGame extends FlameGame
   late GameUI gameUI;
 
   double mapRatio = 2.4.w;
+
+  @override
+  FutureOr<void> onLoad() async {
+    await FirebaseDatabase.instance
+        .ref("game/$matchId/day")
+        .once()
+        .then((value) => day = value.snapshot.value as int);
+    return super.onLoad();
+  }
 
   // TODO: 게임로직 짜기 (@전은지)
   // Director of the game
@@ -67,7 +77,7 @@ class SinkingUsGame extends FlameGame
 
     setEventBtn();
 
-    gameUI = GameUI(this, camera.viewport.size, isHost);
+    gameUI = GameUI(camera.viewport.size, isHost);
 
     add(background);
     add(player);
@@ -77,39 +87,49 @@ class SinkingUsGame extends FlameGame
     //UI
     camera.viewport.add(gameUI);
 
-    FirebaseDatabase.instance
-        .ref("game/$matchId/players")
-        .onChildAdded
-        .listen((event) {
-      if (event.snapshot.exists) {
-        if (event.snapshot.value.toString() != uid) {
-          OtherPlayer newPlayer =
-              OtherPlayer(event.snapshot.value.toString(), background.size);
-          players.add(newPlayer);
-          background.add(newPlayer);
-        }
-      }
-    });
-
-    FirebaseDatabase.instance.ref("game/$matchId/day").onValue.listen((event) {
-      if (event.snapshot.exists) {
-        int day = (event.snapshot.value as int);
-        if (day == 1) {
-          background.addAll(eventBtns);
-          gameUI.startGame();
-        } else if (day == 8) {
-          // game end
-        } else if (day > 1) {
-          if (currentEvent > -1) {
-            Navigator.of(AppRouter.navigatorKey.currentContext!).pop(false);
+    if (day == 0) {
+      FirebaseDatabase.instance
+          .ref("game/$matchId/players")
+          .onChildAdded
+          .listen((event) {
+        if (event.snapshot.exists) {
+          if (event.snapshot.value.toString() != uid) {
+            OtherPlayer newPlayer =
+                OtherPlayer(event.snapshot.value.toString(), background.size);
+            players.add(newPlayer);
+            background.add(newPlayer);
           }
-          gameUI.nextDay(day);
         }
-        player.nextDay();
-      } else {
-        // TODO: 게임이 호스트에 의해 종료됨
-      }
-    });
+      });
+
+      FirebaseDatabase.instance
+          .ref("game/$matchId/day")
+          .onValue
+          .listen((event) {
+        if (event.snapshot.exists) {
+          int newDay = (event.snapshot.value as int);
+          if (day < newDay) {
+            print("new day");
+            if (newDay == 1) {
+              gameUI.startGame();
+            } else if (newDay == 8) {
+              // game end
+            } else if (newDay > 1) {
+              if (currentEvent > -1) {
+                Navigator.of(AppRouter.navigatorKey.currentContext!).pop(false);
+              }
+              gameUI.nextDay(newDay);
+            }
+            day = newDay;
+            player.nextDay();
+          } else if (newDay > 0) {
+            background.addAll(eventBtns);
+          }
+        } else {
+          // TODO: 게임이 호스트에 의해 종료됨
+        }
+      });
+    }
 
     return super.onMount();
   }
@@ -122,36 +142,28 @@ class SinkingUsGame extends FlameGame
   void setEventBtn() {
     PlugOffBtn plugOffBtn = PlugOffBtn(
         position: Vector2(1688, 638) * mapRatio,
-        size: Vector2(12, 19) * mapRatio,
-        game: this);
+        size: Vector2(12, 19) * mapRatio);
     WindPowerBtn windPowerBtn = WindPowerBtn(
         position: Vector2(1160.5, 1603) * mapRatio,
-        size: Vector2(89, 146) * mapRatio,
-        game: this);
+        size: Vector2(89, 146) * mapRatio);
     TrashBtn trashBtn = TrashBtn(
         position: Vector2(258, 1555) * mapRatio,
-        size: Vector2(40, 28) * mapRatio,
-        game: this);
+        size: Vector2(40, 28) * mapRatio);
     SunPowerBtn sunPowerBtn = SunPowerBtn(
         position: Vector2(1882, 264) * mapRatio,
-        size: Vector2(30, 46) * mapRatio,
-        game: this);
+        size: Vector2(30, 46) * mapRatio);
     WaterOffBtn waterOffBtn = WaterOffBtn(
         position: Vector2(493.5, 890.5) * mapRatio,
-        size: Vector2(51, 33) * mapRatio,
-        game: this);
+        size: Vector2(51, 33) * mapRatio);
     TreeBtn treeBtn = TreeBtn(
         position: Vector2(377.5, 457) * mapRatio,
-        size: Vector2(41, 58) * mapRatio,
-        game: this);
+        size: Vector2(41, 58) * mapRatio);
     BuyNecessityBtn buyNecessityBtn = BuyNecessityBtn(
         position: Vector2(1731.5, 1561.5) * mapRatio,
-        size: Vector2(63, 35) * mapRatio,
-        game: this);
+        size: Vector2(63, 35) * mapRatio);
     NationalAssemblyBtn nationalAssemblyBtn = NationalAssemblyBtn(
         position: Vector2(1119, 192.5) * mapRatio,
-        size: Vector2(166, 101) * mapRatio,
-        game: this);
+        size: Vector2(166, 101) * mapRatio);
 
     eventBtns.addAll([
       plugOffBtn,

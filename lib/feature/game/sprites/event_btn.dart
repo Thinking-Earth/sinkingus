@@ -16,21 +16,23 @@ import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 enum GameEventType {
-  plugOff(0, "Plug Off"),
-  sunPower(1, "Sun Power"),
-  windPower(2, "Wind Power"),
-  trash(3, "Trash"),
-  tree(4, "Tree"),
-  waterOff(5, "Water Off"),
-  buyNecessity(6, "Buy Necessity"),
-  nationalAssembly(7, "National Assembly");
+  plugOff(0),
+  sunPower(1),
+  windPower(2),
+  trash(3),
+  tree(4),
+  waterOff(5),
+  buyNecessity(6),
+  nationalAssembly(7),
+  news(8),
+  undefined(-1);
 
-  const GameEventType(this.jsonIndex, this.name);
-  final int jsonIndex;
-  final String name;
+  const GameEventType(this.id);
+  final int id;
 }
 
-abstract class EventBtn extends PositionComponent with RiverpodComponentMixin {
+abstract class EventBtn extends PositionComponent
+    with RiverpodComponentMixin, HasGameReference<SinkingUsGame> {
   late GameEventType type;
   late Widget dialogWidget;
   late TextComponent tempText = TextComponent();
@@ -39,8 +41,7 @@ abstract class EventBtn extends PositionComponent with RiverpodComponentMixin {
   EventBtn(
       {required List<Vector2> vertices,
       required Vector2 position,
-      required Vector2 size,
-      required SinkingUsGame game})
+      required Vector2 size})
       : super(position: position, size: size) {
     anchor = Anchor.center;
     final stroke = ClickablePolygon.relative(vertices, parentSize: size,
@@ -48,7 +49,7 @@ abstract class EventBtn extends PositionComponent with RiverpodComponentMixin {
       game.setCurrentEvent(type.index);
       ShowDialogHelper.gameEventDialog(text: type.name, widget: dialogWidget)
           .then((value) {
-        game.setCurrentEvent(-1);
+        game.setCurrentEvent(GameEventType.undefined.id);
       });
     })
       ..paint = (BasicPalette.yellow.paint()
@@ -58,8 +59,7 @@ abstract class EventBtn extends PositionComponent with RiverpodComponentMixin {
 }
 
 class PlugOffBtn extends EventBtn {
-  PlugOffBtn(
-      {required super.position, required super.size, required super.game})
+  PlugOffBtn({required super.position, required super.size})
       : super(vertices: [
           Vector2(-1, -1),
           Vector2(-1, 1),
@@ -75,8 +75,7 @@ class PlugOffBtn extends EventBtn {
 }
 
 class WindPowerBtn extends EventBtn {
-  WindPowerBtn(
-      {required super.position, required super.size, required super.game})
+  WindPowerBtn({required super.position, required super.size})
       : super(vertices: [
           Vector2(0.258, -0.369),
           Vector2(0.258, -0.493),
@@ -101,7 +100,7 @@ class WindPowerBtn extends EventBtn {
 }
 
 class TrashBtn extends EventBtn {
-  TrashBtn({required super.position, required super.size, required super.game})
+  TrashBtn({required super.position, required super.size})
       : super(vertices: [
           Vector2(-0.02, -0.5),
           Vector2(0.5, -1.07),
@@ -121,8 +120,7 @@ class TrashBtn extends EventBtn {
 }
 
 class SunPowerBtn extends EventBtn {
-  SunPowerBtn(
-      {required super.position, required super.size, required super.game})
+  SunPowerBtn({required super.position, required super.size})
       : super(vertices: [
           Vector2(-0.867, -0.565),
           Vector2(1.0, -0.957),
@@ -136,8 +134,7 @@ class SunPowerBtn extends EventBtn {
 }
 
 class WaterOffBtn extends EventBtn {
-  WaterOffBtn(
-      {required super.position, required super.size, required super.game})
+  WaterOffBtn({required super.position, required super.size})
       : super(vertices: [
           Vector2(-0.882, -1.0),
           Vector2(0.843, -1.0),
@@ -157,7 +154,7 @@ class WaterOffBtn extends EventBtn {
 }
 
 class TreeBtn extends EventBtn {
-  TreeBtn({required super.position, required super.size, required super.game})
+  TreeBtn({required super.position, required super.size})
       : super(vertices: [
           Vector2(-0.805, -0.897),
           Vector2(-0.0732, -0.276),
@@ -189,8 +186,7 @@ class TreeBtn extends EventBtn {
 }
 
 class BuyNecessityBtn extends EventBtn {
-  BuyNecessityBtn(
-      {required super.position, required super.size, required super.game})
+  BuyNecessityBtn({required super.position, required super.size})
       : super(vertices: [
           Vector2(-1, -1),
           Vector2(1, -1),
@@ -203,8 +199,7 @@ class BuyNecessityBtn extends EventBtn {
 }
 
 class NationalAssemblyBtn extends EventBtn {
-  NationalAssemblyBtn(
-      {required super.position, required super.size, required super.game})
+  NationalAssemblyBtn({required super.position, required super.size})
       : super(vertices: [
           Vector2(-1.0, -1.0),
           Vector2(-0.892, -1.0),
