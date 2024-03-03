@@ -33,10 +33,11 @@ class SinkingUsGame extends FlameGame
 
   late GameUI gameUI;
 
-  double mapRatio = 2.4.w;
+  double mapRatio = 1.8.w;
 
   @override
   FutureOr<void> onLoad() async {
+    camera.viewport.size = Vector2(844.w, 390.h);
     await FirebaseDatabase.instance
         .ref("game/$matchId/day")
         .once()

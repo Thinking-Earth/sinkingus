@@ -14,7 +14,12 @@ import 'package:sinking_us/helpers/constants/app_typography.dart';
 final CHARACTER_SIZE_X = 100.w;
 final CHARACTER_SIZE_Y = 120.w;
 
-class MyPlayer extends SpriteComponent
+enum CharacterState {
+  idle,
+  walk;
+}
+
+class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     with CollisionCallbacks, KeyboardHandler, RiverpodComponentMixin {
   int money = 0;
   RoleType role = RoleType.undefined;
@@ -27,8 +32,9 @@ class MyPlayer extends SpriteComponent
   Vector2 oldCharacterPosition = Vector2(0, 0);
   double dtSum = 0;
 
-  double maxSpeed = 300.0;
+  double maxSpeed = 200.0;
   JoystickComponent joystick;
+  late TextComponent nameText;
 
   MyPlayer(this.uid, this.screensize, this.joystick, this.background,
       this.background2)
@@ -37,9 +43,29 @@ class MyPlayer extends SpriteComponent
             anchor: Anchor.center,
             position: screensize * 0.5);
 
+  late Sprite idle;
+  late Sprite walk1;
+  late Sprite walk2;
+
+  late SpriteAnimation idleAnimation;
+  late SpriteAnimation walkAnimation;
+
   @override
   FutureOr<void> onMount() async {
-    sprite = await Sprite.load("characters/${role.code}_idle_left.png");
+    idle = await Sprite.load("characters/${role.code}_idle.png");
+    walk1 = await Sprite.load("characters/${role.code}_walk1.png");
+    walk2 = await Sprite.load("characters/${role.code}_walk2.png");
+    idleAnimation = SpriteAnimation.spriteList([idle], stepTime: 0.2);
+    walkAnimation =
+        SpriteAnimation.spriteList([walk1, idle, walk2, idle], stepTime: 0.2);
+
+    animations = {
+      CharacterState.idle: idleAnimation,
+      CharacterState.walk: walkAnimation,
+    };
+
+    current = CharacterState.idle;
+
     await FirebaseDatabase.instance
         .ref("players/$uid/position")
         .get()
@@ -51,11 +77,13 @@ class MyPlayer extends SpriteComponent
       oldCharacterPosition = characterPosition.clone();
     });
 
-    add(TextComponent(
+    nameText = TextComponent(
         text: ref.read(userDomainControllerProvider).userInfo!.nick,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        position: Vector2(size.x * 0.5, -20)));
+        position: Vector2(size.x * 0.5, -20));
+
+    add(nameText);
 
     return super.onMount();
   }
@@ -64,10 +92,22 @@ class MyPlayer extends SpriteComponent
   void update(double dt) {
     super.update(dt);
     if (!joystick.delta.isZero()) {
+      if (joystick.relativeDelta.x > 0) {
+        transform.scale = Vector2(-1, 1);
+        nameText.scale = Vector2(-1, 1);
+        current = CharacterState.walk;
+      } else {
+        transform.scale = Vector2(1, 1);
+        nameText.scale = Vector2(1, 1);
+        current = CharacterState.walk;
+      }
       background.position.add(joystick.relativeDelta * maxSpeed * dt * -1.w);
       background2.position.add(joystick.relativeDelta * maxSpeed * dt * -1.w);
       characterPosition.add(joystick.relativeDelta * maxSpeed * dt * 1.w);
-      transform.scale = Vector2((joystick.relativeDelta.x > 0) ? -1 : 1, 1);
+    }
+
+    if (oldCharacterPosition == characterPosition) {
+      current = CharacterState.idle;
     }
 
     if (dtSum > 0.1 &&
@@ -97,11 +137,18 @@ class MyPlayer extends SpriteComponent
       if (keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
           keysPressed.contains(LogicalKeyboardKey.keyS))
         moveDirection.y += 10.w;
+      if (moveDirection.x >= 0) {
+        current = CharacterState.walk;
+        scale = Vector2(-1, 1);
+        nameText.scale = Vector2(-1, 1);
+      } else if (moveDirection.x < 0) {
+        current = CharacterState.walk;
+        scale = Vector2(1, 1);
+        nameText.scale = Vector2(1, 1);
+      }
       background.position.add(-moveDirection);
       background2.position.add(-moveDirection);
       characterPosition.add(moveDirection);
-      transform.scale = Vector2(
-          (moveDirection.x > 0) ? -1 : 1, 1); // TODO: sprite 바꾸기로 대체 (@전은지)
     }
     return super.onKeyEvent(event, keysPressed);
   }
@@ -112,6 +159,13 @@ class MyPlayer extends SpriteComponent
           .ref("players/$uid/position")
           .set([characterPosition.x / 1.w, characterPosition.y / 1.w]);
     }
+  }
+
+  void setRole(RoleType newRole) async {
+    role = newRole;
+    idle = await Sprite.load("characters/${role.code}_idle.png");
+    walk1 = await Sprite.load("characters/${role.code}_walk1.png");
+    walk2 = await Sprite.load("characters/${role.code}_walk2.png");
   }
 
   void nextDay() {

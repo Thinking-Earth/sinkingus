@@ -114,22 +114,11 @@ class GameUI extends PositionComponent
     ref.read(matchDomainControllerProvider.notifier).setNextDay(day);
     remainingSec = oneDay; // TODO: test version time
     news.text = "It's day $day";
-    timer.stop();
+    timer.pause();
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
-      timer = Timer(1, onTick: () {
-        remainingSec -= 1;
-        timerComponent.text =
-            "0${remainingSec ~/ 60} : ${(remainingSec % 60 < 10) ? "0" : ""}${remainingSec % 60}";
-        print(remainingSec);
-        if (remainingSec == 0) {
-          timer.pause();
-          if (isHost) {
-            ref.read(matchDomainControllerProvider.notifier).hostNextDay();
-          }
-        }
-      }, repeat: true, autoStart: true);
+      timer.start();
       game.setCurrentEvent(GameEventType.undefined.id);
     });
   }

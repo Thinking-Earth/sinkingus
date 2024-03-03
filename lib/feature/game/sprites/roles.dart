@@ -6,7 +6,7 @@ enum RoleType {
   nature("nature"),
   politician("politician"),
   business("business"),
-  undefined("default");
+  undefined("worker");
 
   const RoleType(this.code);
   final String code;
