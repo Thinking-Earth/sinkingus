@@ -1,0 +1,12 @@
+{
+    "language" : "en_US",
+    "showing_language" : "English - US",
+    "noti_noti" : "Notification",
+    "noti_ok" : "OK",
+    "noti_cancel" : "Cancel",
+
+
+    "build_room" : "Create Room",
+    "join_room" : "Join Room",
+    "refresh" : "Refresh"
+}
