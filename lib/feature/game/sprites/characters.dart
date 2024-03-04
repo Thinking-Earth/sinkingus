@@ -11,8 +11,8 @@ import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
-final CHARACTER_SIZE_X = 100.w;
-final CHARACTER_SIZE_Y = 120.w;
+const double CHARACTER_SIZE_X = 100 * 1.4;
+const double CHARACTER_SIZE_Y = 128 * 1.4;
 
 enum CharacterState {
   idle,
@@ -36,19 +36,19 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   JoystickComponent joystick;
   late TextComponent nameText;
 
-  MyPlayer(this.uid, this.screensize, this.joystick, this.background,
-      this.background2)
-      : super(
-            size: Vector2(CHARACTER_SIZE_X, CHARACTER_SIZE_Y),
-            anchor: Anchor.center,
-            position: screensize * 0.5);
-
   late Sprite idle;
   late Sprite walk1;
   late Sprite walk2;
 
   late SpriteAnimation idleAnimation;
   late SpriteAnimation walkAnimation;
+
+  MyPlayer(this.uid, this.screensize, this.joystick, this.background,
+      this.background2)
+      : super(
+            size: Vector2(CHARACTER_SIZE_X * 1.w, CHARACTER_SIZE_Y * 1.w),
+            anchor: Anchor.center,
+            position: screensize * 0.5);
 
   @override
   FutureOr<void> onMount() async {
@@ -81,7 +81,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
         text: ref.read(userDomainControllerProvider).userInfo!.nick,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        position: Vector2(size.x * 0.5, -20));
+        position: Vector2(size.x * 0.5, 0));
 
     add(nameText);
 
@@ -179,11 +179,22 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   }
 }
 
-class OtherPlayer extends SpriteComponent {
+class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState> {
   RoleType role = RoleType.undefined;
   late String name = "";
   String uid;
   Vector2 backgroundSize;
+  late TextComponent nameText;
+
+  Vector2 oldPosition = Vector2.zero();
+  double dtSum = 0;
+
+  late Sprite idle;
+  late Sprite walk1;
+  late Sprite walk2;
+
+  late SpriteAnimation idleAnimation;
+  late SpriteAnimation walkAnimation;
 
   OtherPlayer(this.uid, this.backgroundSize);
 
@@ -199,29 +210,68 @@ class OtherPlayer extends SpriteComponent {
   FutureOr<void> onLoad() async {
     await getUserInfo();
 
-    sprite = await Sprite.load("characters/${role.code}_idle_left.png");
-    size = Vector2(CHARACTER_SIZE_X, CHARACTER_SIZE_Y);
+    idle = await Sprite.load("characters/${role.code}_idle.png");
+    walk1 = await Sprite.load("characters/${role.code}_walk1.png");
+    walk2 = await Sprite.load("characters/${role.code}_walk2.png");
+    idleAnimation = SpriteAnimation.spriteList([idle], stepTime: 0.2);
+    walkAnimation =
+        SpriteAnimation.spriteList([walk1, idle, walk2, idle], stepTime: 0.2);
+
+    animations = {
+      CharacterState.idle: idleAnimation,
+      CharacterState.walk: walkAnimation,
+    };
+
+    current = CharacterState.idle;
+
+    size = Vector2(CHARACTER_SIZE_X * 1.w, CHARACTER_SIZE_Y * 1.w);
     anchor = Anchor.center;
 
-    add(TextComponent(
+    nameText = TextComponent(
         text: name,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        position: Vector2(size.x * 0.5, -20)));
+        position: Vector2(size.x * 0.5, 0));
+    add(nameText);
 
     FirebaseDatabase.instance
         .ref("players/$uid/position")
         .onValue
         .listen((event) {
       if (event.snapshot.exists) {
+        oldPosition = position.clone();
         final positionData = event.snapshot.value as List<dynamic>;
         position = Vector2(positionData[0], positionData[1]) * 1.w +
             backgroundSize * 0.5;
+        if (position.x - oldPosition.x > 0) {
+          transform.scale = Vector2(-1, 1);
+          nameText.scale = Vector2(-1, 1);
+          current = CharacterState.walk;
+        } else {
+          transform.scale = Vector2(1, 1);
+          nameText.scale = Vector2(1, 1);
+          current = CharacterState.walk;
+        }
       } else {
         removeFromParent();
       }
     });
 
     return super.onLoad();
+  }
+
+  @override
+  void update(double dt) {
+    if (dtSum > 0.2) {
+      if (oldPosition == position) {
+        current = CharacterState.idle;
+      } else {
+        oldPosition = position.clone();
+      }
+      dtSum = 0;
+    } else {
+      dtSum += dt;
+    }
+    super.update(dt);
   }
 }
