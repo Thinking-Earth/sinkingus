@@ -31,9 +31,11 @@ class _GameMainState extends ConsumerState<GameMain> {
         ref.read(userDomainControllerProvider).userInfo!.uid,
         uid == host);
 
-    return RiverpodAwareGameWidget(
-      key: gameWidgetKey,
-      game: game,
+    return ClipRect(
+      child: RiverpodAwareGameWidget(
+        key: gameWidgetKey,
+        game: game,
+      ),
     );
   }
 

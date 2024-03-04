@@ -186,7 +186,7 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState> {
   Vector2 backgroundSize;
   late TextComponent nameText;
 
-  Vector2 oldPosition = Vector2.zero();
+  late Vector2 oldPosition;
   double dtSum = 0;
 
   late Sprite idle;
@@ -209,6 +209,8 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState> {
   @override
   FutureOr<void> onLoad() async {
     await getUserInfo();
+
+    oldPosition = backgroundSize * 0.5;
 
     idle = await Sprite.load("characters/${role.code}_idle.png");
     walk1 = await Sprite.load("characters/${role.code}_walk1.png");

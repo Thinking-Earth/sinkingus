@@ -38,19 +38,4 @@ class News extends FlameGame {
     timer.update(dt);
     super.update(dt);
   }
-
-  // @override
-  // void onGameResize(Vector2 size) {
-  //   timer = Timer(8,
-  //       onTick: () =>
-  //           Navigator.of(AppRouter.navigatorKey.currentContext!).pop(true));
-  //   TextBoxComponent newsText = TextBoxComponent(
-  //       text: text,
-  //       textRenderer: TextPaint(style: AppTypography.whitePixel),
-  //       boxConfig: TextBoxConfig(timePerChar: 0.1, growingBox: true),
-  //       position: size * 0.5,
-  //       anchor: Anchor.center);
-  //   add(newsText);
-  //   super.onGameResize(size);
-  // }
 }

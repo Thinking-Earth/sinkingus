@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -27,6 +28,9 @@ class SinkingUsGame extends FlameGame
 
   late String matchId;
   int day = -1;
+  int hp = 60;
+  int natureScore = 100;
+  int money = 100;
   bool isHost;
   late String uid;
   late List<OtherPlayer> players = List<OtherPlayer>.empty(growable: true);
@@ -37,7 +41,6 @@ class SinkingUsGame extends FlameGame
 
   @override
   FutureOr<void> onLoad() async {
-    camera.viewport.size = Vector2(844.w, 390.h);
     await FirebaseDatabase.instance
         .ref("game/$matchId/day")
         .once()
