@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -8,10 +9,10 @@ import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/feature/game/game_widgets/game_ui.dart';
 import 'package:sinking_us/feature/game/sprites/characters.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
-import 'package:sinking_us/feature/game/sprites/roles.dart';
 
 /// Director: 서버와 소통, 게임로직 관리
 
@@ -23,15 +24,29 @@ class SinkingUsGame extends FlameGame
   late SpriteComponent background;
   late List<PositionComponent> eventBtns =
       List<PositionComponent>.empty(growable: true);
+  int currentEvent = -1;
 
   late String matchId;
+  int day = -1;
+  int hp = 60;
+  int natureScore = 100;
+  int money = 100;
   bool isHost;
   late String uid;
   late List<OtherPlayer> players = List<OtherPlayer>.empty(growable: true);
 
   late GameUI gameUI;
 
-  double mapRatio = 2.4.w;
+  double mapRatio = 1.8.w;
+
+  @override
+  FutureOr<void> onLoad() async {
+    await FirebaseDatabase.instance
+        .ref("game/$matchId/day")
+        .once()
+        .then((value) => day = value.snapshot.value as int);
+    return super.onLoad();
+  }
 
   // TODO: 게임로직 짜기 (@전은지)
   // Director of the game
@@ -61,12 +76,12 @@ class SinkingUsGame extends FlameGame
               camera.viewport.virtualSize * 0.5;
 
     // set my character
-    player = MyPlayer(RoleType.undefined, camera.viewport.size, joystick,
-        background, background2);
+    player =
+        MyPlayer(uid, camera.viewport.size, joystick, background, background2);
 
     setEventBtn();
 
-    gameUI = GameUI(this, camera.viewport.size, isHost);
+    gameUI = GameUI(camera.viewport.size, isHost);
 
     add(background);
     add(player);
@@ -76,43 +91,51 @@ class SinkingUsGame extends FlameGame
     //UI
     camera.viewport.add(gameUI);
 
-    FirebaseDatabase.instance
-        .ref("game/$matchId/players")
-        .onChildAdded
-        .listen((event) {
-      if (event.snapshot.exists) {
-        if (event.snapshot.value.toString() != uid) {
-          OtherPlayer newPlayer =
-              OtherPlayer(event.snapshot.value.toString(), background.size);
-          players.add(newPlayer);
-          background.add(newPlayer);
+    if (day == 0) {
+      FirebaseDatabase.instance
+          .ref("game/$matchId/players")
+          .onChildAdded
+          .listen((event) {
+        if (event.snapshot.exists) {
+          if (event.snapshot.value.toString() != uid) {
+            OtherPlayer newPlayer =
+                OtherPlayer(event.snapshot.value.toString(), background.size);
+            players.add(newPlayer);
+            background.add(newPlayer);
+          }
         }
-      }
-    });
+      });
 
-    FirebaseDatabase.instance.ref("game/$matchId/day").onValue.listen((event) {
-      if (event.snapshot.exists) {
-        int day = (event.snapshot.value as int);
-        if (day == 1) {
-          startGame();
-        } else if (day == 8) {
-          // game end
-        } else if (day > 1) {
-          gameUI.nextDay();
+      FirebaseDatabase.instance
+          .ref("game/$matchId/day")
+          .onValue
+          .listen((event) {
+        if (event.snapshot.exists) {
+          int newDay = (event.snapshot.value as int);
+          if (day < newDay) {
+            print("new day");
+            if (newDay == 1) {
+              gameUI.startGame();
+            } else if (newDay == 8) {
+              // game end
+            } else if (newDay > 1) {
+              if (currentEvent > -1) {
+                Navigator.of(AppRouter.navigatorKey.currentContext!).pop(false);
+              }
+              gameUI.nextDay(newDay);
+            }
+            day = newDay;
+            player.nextDay();
+          } else if (newDay > 0) {
+            background.addAll(eventBtns);
+          }
+        } else {
+          // TODO: 게임이 호스트에 의해 종료됨
         }
-        player.nextDay();
-      } else {
-        // TODO: 게임이 호스트에 의해 종료됨
-      }
-    });
+      });
+    }
 
     return super.onMount();
-  }
-
-  // called when day updated
-  void startGame() {
-    background.addAll(eventBtns);
-    gameUI.startGame();
   }
 
   @override
@@ -148,13 +171,17 @@ class SinkingUsGame extends FlameGame
 
     eventBtns.addAll([
       plugOffBtn,
+      sunPowerBtn,
       windPowerBtn,
       trashBtn,
-      sunPowerBtn,
-      waterOffBtn,
       treeBtn,
+      waterOffBtn,
       buyNecessityBtn,
       nationalAssemblyBtn
     ]);
+  }
+
+  void setCurrentEvent(int currentEvent) {
+    this.currentEvent = currentEvent;
   }
 }

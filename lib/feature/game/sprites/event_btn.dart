@@ -3,6 +3,7 @@ import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/mini_game/dialog_buy_necessity.dart';
 import 'package:sinking_us/feature/game/mini_game/national_assembly_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/plug_off_game.dart';
@@ -15,21 +16,23 @@ import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 enum GameEventType {
-  buyNecessity(-1, "Buy Necessity"),
-  nationalAssembly(-2, "National Assembly"),
-  plugOff(0, "Plug Off"),
-  sunPower(1, "Sun Power"),
-  windPower(2, "Wind Power"),
-  trash(3, "Trash"),
-  tree(4, "Tree"),
-  waterOff(5, "Water Off");
+  plugOff(0),
+  sunPower(1),
+  windPower(2),
+  trash(3),
+  tree(4),
+  waterOff(5),
+  buyNecessity(6),
+  nationalAssembly(7),
+  news(8),
+  undefined(-1);
 
-  const GameEventType(this.jsonIndex, this.name);
-  final int jsonIndex;
-  final String name;
+  const GameEventType(this.id);
+  final int id;
 }
 
-abstract class EventBtn extends PositionComponent with RiverpodComponentMixin {
+abstract class EventBtn extends PositionComponent
+    with RiverpodComponentMixin, HasGameReference<SinkingUsGame> {
   late GameEventType type;
   late Widget dialogWidget;
   late TextComponent tempText = TextComponent();
@@ -43,12 +46,19 @@ abstract class EventBtn extends PositionComponent with RiverpodComponentMixin {
     anchor = Anchor.center;
     final stroke = ClickablePolygon.relative(vertices, parentSize: size,
         onClickEvent: () {
-      ShowDialogHelper.gameEventDialog(title: type.name, widget: dialogWidget);
+      game.setCurrentEvent(type.index);
+      ShowDialogHelper.gameEventDialog(text: type.name, widget: dialogWidget)
+          .then((value) {
+        game.setCurrentEvent(GameEventType.undefined.id);
+        onEventEnd();
+      });
     })
       ..paint = (BasicPalette.yellow.paint()
         ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10.0));
     add(stroke);
   }
+
+  void onEventEnd();
 }
 
 class PlugOffBtn extends EventBtn {
@@ -59,12 +69,15 @@ class PlugOffBtn extends EventBtn {
           Vector2(1, 1),
           Vector2(1, -1)
         ]) {
-    final game = PlugOffGame();
+    final minigame = PlugOffGame();
     type = GameEventType.plugOff;
     dialogWidget = GameWidget(
-      game: game,
+      game: minigame,
     );
   }
+
+  @override
+  void onEventEnd() {}
 }
 
 class WindPowerBtn extends EventBtn {
@@ -86,9 +99,14 @@ class WindPowerBtn extends EventBtn {
           Vector2(-1.0, -0.26),
           Vector2(0.101, -0.438),
         ]) {
-    final game = WindPowerGame();
+    final minigame = WindPowerGame();
     type = GameEventType.windPower;
-    dialogWidget = GameWidget(game: game);
+    dialogWidget = GameWidget(game: minigame);
+  }
+
+  @override
+  void onEventEnd() {
+    // TODO: implement onEventEnd
   }
 }
 
@@ -106,9 +124,14 @@ class TrashBtn extends EventBtn {
           Vector2(-0.75, -0.643),
           Vector2(-0.4, -0.643),
         ]) {
-    final game = TrashGame();
+    final minigame = TrashGame();
     type = GameEventType.trash;
-    dialogWidget = GameWidget(game: game);
+    dialogWidget = GameWidget(game: minigame);
+  }
+
+  @override
+  void onEventEnd() {
+    // TODO: implement onEventEnd
   }
 }
 
@@ -120,9 +143,14 @@ class SunPowerBtn extends EventBtn {
           Vector2(1.0, 0.565),
           Vector2(-0.867, 0.957),
         ]) {
-    final game = SunPowerGame();
+    final minigame = SunPowerGame();
     type = GameEventType.sunPower;
-    dialogWidget = game;
+    dialogWidget = minigame;
+  }
+
+  @override
+  void onEventEnd() {
+    // TODO: implement onEventEnd
   }
 }
 
@@ -140,9 +168,14 @@ class WaterOffBtn extends EventBtn {
           Vector2(-1.0, 0.212),
           Vector2(-1.0, -0.515),
         ]) {
-    final game = WaterOffGame();
+    final minigame = WaterOffGame();
     type = GameEventType.waterOff;
-    dialogWidget = GameWidget(game: game);
+    dialogWidget = GameWidget(game: minigame);
+  }
+
+  @override
+  void onEventEnd() {
+    // TODO: implement onEventEnd
   }
 }
 
@@ -172,9 +205,14 @@ class TreeBtn extends EventBtn {
           Vector2(-0.61, -0.483),
           Vector2(-0.854, -0.759),
         ]) {
-    final game = TreeGame();
+    final minigame = TreeGame();
     type = GameEventType.tree;
-    dialogWidget = GameWidget(game: game);
+    dialogWidget = GameWidget(game: minigame);
+  }
+
+  @override
+  void onEventEnd() {
+    // TODO: implement onEventEnd
   }
 }
 
@@ -188,6 +226,11 @@ class BuyNecessityBtn extends EventBtn {
         ]) {
     type = GameEventType.buyNecessity;
     dialogWidget = buyNecessityWidget();
+  }
+
+  @override
+  void onEventEnd() {
+    // TODO: implement onEventEnd
   }
 }
 
@@ -213,5 +256,10 @@ class NationalAssemblyBtn extends EventBtn {
         ]) {
     type = GameEventType.nationalAssembly;
     dialogWidget = nationalAssemblyWidget();
+  }
+
+  @override
+  void onEventEnd() {
+    // TODO: implement onEventEnd
   }
 }
