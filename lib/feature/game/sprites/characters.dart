@@ -8,6 +8,7 @@ import 'package:flutter/src/services/raw_keyboard.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
+import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
@@ -179,7 +180,8 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   }
 }
 
-class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState> {
+class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
+    with HasGameReference<SinkingUsGame> {
   RoleType role = RoleType.undefined;
   late String name = "";
   String uid;
@@ -255,6 +257,7 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState> {
           current = CharacterState.walk;
         }
       } else {
+        game.deletePlayer(this);
         removeFromParent();
       }
     });

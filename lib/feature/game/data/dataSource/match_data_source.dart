@@ -28,7 +28,8 @@ class MatchDataSource {
     final data = await gameRef.get();
     Match newMatch = Match.fromJson(data.value as Map<String, dynamic>);
 
-    if (newMatch.playerCount < 10) {
+    if (newMatch.playerCount < 6) {
+      // TODO: 트랜잭션 재도전
       await db
           .ref("lobby/$isPrivate/$matchId")
           .update({"playerCount": ServerValue.increment(1)});
@@ -108,11 +109,39 @@ class MatchDataSource {
     db.ref("players/$uid").remove();
   }
 
+  Future<void> hostStartGame({required String matchId}) async {
+    final uploadList =
+        await db.ref("game/$matchId/players").get().then((value) {
+      if (value.exists) return value.value as Iterable<dynamic>;
+    });
+    await db.ref("game/$matchId/status").set(
+        {for (var element in uploadList!) element.toString(): "undefined"});
+  }
+
   Future<void> updateDay({required String matchId}) async {
     await db.ref("game/$matchId").update({
       "day": ServerValue.increment(1),
       "gameEventList": List<int>.filled(6, 0)
     });
+  }
+
+  Future<Map<String, String>> getPlayersStatus(
+      {required String matchId}) async {
+    return await FirebaseDatabase.instance
+        .ref("game/$matchId/status")
+        .get()
+        .then((value) {
+      return value.value as Map<String, String>;
+    });
+  }
+
+  void sendStatus(
+      {required String matchId,
+      required String uid,
+      required String status}) async {
+    await FirebaseDatabase.instance
+        .ref("game/$matchId/status")
+        .update({uid: status});
   }
 
   Future<void> deleteLobby(

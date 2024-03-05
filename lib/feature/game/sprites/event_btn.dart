@@ -63,7 +63,9 @@ abstract class EventBtn extends PositionComponent
             onEventEnd();
           });
         } else {
-          // TODO: 이미 누가 완료한 미션입니다.
+          ShowDialogHelper.showSnackBar(
+              content:
+                  "Someone already complete the mission. Try another day.");
         }
       });
     })

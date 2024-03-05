@@ -193,10 +193,9 @@ class GameUI extends PositionComponent
     }
   }
 
-  void gameEnd() {
-    // TODO: 게임결과 다이얼로그
-    // TODO: leaveGame
-    print("game end");
+  void gameEnd(String status) async {
+    ref.read(matchDomainControllerProvider.notifier).sendStatus(status: status);
+    // TODO: dialog
   }
 }
 

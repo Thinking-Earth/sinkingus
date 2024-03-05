@@ -12,6 +12,7 @@ import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/feature/game/game_widgets/game_ui.dart';
 import 'package:sinking_us/feature/game/sprites/characters.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
+import 'package:sinking_us/feature/game/sprites/roles.dart';
 
 /// Director: 서버와 소통, 게임로직 관리
 
@@ -48,8 +49,6 @@ class SinkingUsGame extends FlameGame
     return super.onLoad();
   }
 
-  // TODO: 게임로직 짜기 (@전은지)
-  // Director of the game
   @override
   FutureOr<void> onMount() async {
     final knobPaint = BasicPalette.white.withAlpha(200).paint();
@@ -113,7 +112,6 @@ class SinkingUsGame extends FlameGame
         if (event.snapshot.exists) {
           int newDay = (event.snapshot.value as int);
           if (day < newDay) {
-            print("new day");
             if (newDay == 1) {
               gameUI.startGame();
               background.addAll(eventBtns);
@@ -131,7 +129,7 @@ class SinkingUsGame extends FlameGame
             background.addAll(eventBtns);
           }
         } else {
-          // TODO: 게임이 호스트에 의해 종료됨
+          gameEnd();
         }
       });
     }
@@ -139,9 +137,43 @@ class SinkingUsGame extends FlameGame
     return super.onMount();
   }
 
-  void gameEnd() {
-    // TODO: 승패 계산
-    gameUI.gameEnd();
+  void deletePlayer(OtherPlayer otherPlayer) {
+    players.remove(otherPlayer);
+  }
+
+  void gameEnd() async {
+    Map<String, String> playersStatus = await FirebaseDatabase.instance
+        .ref("game/$matchId/status")
+        .get()
+        .then((value) {
+      return value.value as Map<String, String>;
+    });
+    String status = "undefined";
+    if (day == 8) {
+      switch (player.role) {
+        case RoleType.worker:
+          status = "win";
+          break;
+        case RoleType.business:
+          if (money >= 3000) status = "win";
+          break;
+        case RoleType.politician:
+          if (!playersStatus.values.contains("hp die")) status = "win";
+          break;
+        case RoleType.nature:
+          if (natureScore >= 50) status = "win";
+          break;
+        case RoleType.undefined:
+          break;
+      }
+    } else {
+      if (hp == 0) {
+        status = "hp die";
+      } else if (natureScore == 0) {
+        status = "nature die";
+      }
+    }
+    gameUI.gameEnd(status);
   }
 
   @override

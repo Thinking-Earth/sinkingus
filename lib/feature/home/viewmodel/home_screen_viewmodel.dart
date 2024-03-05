@@ -1,5 +1,4 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sinking_us/feature/game/mini_game/sun_power_game.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 part 'home_screen_viewmodel.g.dart';

@@ -6,6 +6,7 @@ import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/feature/home/view/build_room_dialog.dart';
 import 'package:sinking_us/feature/home/view/search_room_dialog.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
+import 'package:sinking_us/helpers/constants/app_typography.dart';
 
 @immutable
 class ShowDialogHelper {
@@ -107,11 +108,18 @@ class ShowDialogHelper {
   }
 
   static void showSnackBar({required String content}) {
-    ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!).showSnackBar(
-      SnackBar(
-        content: Text(content),
-      )
-    );
+    ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!)
+        .showSnackBar(SnackBar(
+      content: Text(
+        content,
+        textAlign: TextAlign.center,
+        style: AppTypography.whitePixel,
+      ),
+      shape: const StadiumBorder(),
+      behavior: SnackBarBehavior.floating,
+      width: 300.w,
+      elevation: 30,
+    ));
   }
 
   static void showLoading() {
