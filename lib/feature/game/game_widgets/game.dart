@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -25,10 +24,11 @@ class SinkingUsGame extends FlameGame
   late List<PositionComponent> eventBtns =
       List<PositionComponent>.empty(growable: true);
   int currentEvent = -1;
+  double dtSum = 0;
 
   late String matchId;
   int day = -1;
-  int hp = 60;
+  int hp = 100;
   int natureScore = 100;
   int money = 100;
   bool isHost;
@@ -116,8 +116,9 @@ class SinkingUsGame extends FlameGame
             print("new day");
             if (newDay == 1) {
               gameUI.startGame();
+              background.addAll(eventBtns);
             } else if (newDay == 8) {
-              // game end
+              gameEnd();
             } else if (newDay > 1) {
               if (currentEvent > -1) {
                 Navigator.of(AppRouter.navigatorKey.currentContext!).pop(false);
@@ -136,6 +137,26 @@ class SinkingUsGame extends FlameGame
     }
 
     return super.onMount();
+  }
+
+  void gameEnd() {
+    // TODO: 승패 계산
+    gameUI.gameEnd();
+  }
+
+  @override
+  void update(double dt) {
+    if (hp == 0 || natureScore == 0) {
+      gameEnd();
+    }
+
+    if (dtSum > 3) {
+      hp -= 1;
+      dtSum = 0;
+    } else {
+      dtSum += dt;
+    }
+    super.update(dt);
   }
 
   @override

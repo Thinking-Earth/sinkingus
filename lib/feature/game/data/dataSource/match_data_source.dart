@@ -111,7 +111,7 @@ class MatchDataSource {
   Future<void> updateDay({required String matchId}) async {
     await db.ref("game/$matchId").update({
       "day": ServerValue.increment(1),
-      "gameEventList": List<int>.filled(6, 1)
+      "gameEventList": List<int>.filled(6, 0)
     });
   }
 

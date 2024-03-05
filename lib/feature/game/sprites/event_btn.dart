@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
@@ -12,6 +15,7 @@ import 'package:sinking_us/feature/game/mini_game/trash_game.dart';
 import 'package:sinking_us/feature/game/mini_game/tree_game.dart';
 import 'package:sinking_us/feature/game/mini_game/water_off_game.dart';
 import 'package:sinking_us/feature/game/mini_game/wind_power_game.dart';
+import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
@@ -46,11 +50,21 @@ abstract class EventBtn extends PositionComponent
     anchor = Anchor.center;
     final stroke = ClickablePolygon.relative(vertices, parentSize: size,
         onClickEvent: () {
-      game.setCurrentEvent(type.index);
-      ShowDialogHelper.gameEventDialog(text: type.name, widget: dialogWidget)
+      FirebaseDatabase.instance
+          .ref("game/${game.matchId}/gameEventList/${type.id}")
+          .once()
           .then((value) {
-        game.setCurrentEvent(GameEventType.undefined.id);
-        onEventEnd();
+        if (!(value.snapshot.value == 1)) {
+          game.setCurrentEvent(type.index);
+          ShowDialogHelper.gameEventDialog(
+                  text: type.name, widget: dialogWidget)
+              .then((value) {
+            game.setCurrentEvent(GameEventType.undefined.id);
+            onEventEnd();
+          });
+        } else {
+          // TODO: 이미 누가 완료한 미션입니다.
+        }
       });
     })
       ..paint = (BasicPalette.yellow.paint()
@@ -58,7 +72,34 @@ abstract class EventBtn extends PositionComponent
     add(stroke);
   }
 
-  void onEventEnd();
+  void onEventEnd() async {
+    bool result = await solvedMinigame();
+    if (result) {
+      game.money += 50;
+      if (game.player.role == RoleType.nature) {
+        game.natureScore = min(game.natureScore + 30, 100);
+      }
+    }
+  }
+
+  Future<bool> solvedMinigame() async {
+    final result = await FirebaseDatabase.instance
+        .ref("game/${game.matchId}/gameEventList/${type.id}")
+        .get()
+        .then((value) {
+      if (!value.exists) return false;
+      if (value.value == 1) return false;
+      return true;
+    });
+
+    if (!result) return false;
+
+    await FirebaseDatabase.instance
+        .ref("game/${game.matchId}/gameEventList/${type.id}")
+        .set(1);
+
+    return true;
+  }
 }
 
 class PlugOffBtn extends EventBtn {
@@ -75,9 +116,6 @@ class PlugOffBtn extends EventBtn {
       game: minigame,
     );
   }
-
-  @override
-  void onEventEnd() {}
 }
 
 class WindPowerBtn extends EventBtn {
@@ -103,11 +141,6 @@ class WindPowerBtn extends EventBtn {
     type = GameEventType.windPower;
     dialogWidget = GameWidget(game: minigame);
   }
-
-  @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
-  }
 }
 
 class TrashBtn extends EventBtn {
@@ -128,11 +161,6 @@ class TrashBtn extends EventBtn {
     type = GameEventType.trash;
     dialogWidget = GameWidget(game: minigame);
   }
-
-  @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
-  }
 }
 
 class SunPowerBtn extends EventBtn {
@@ -146,11 +174,6 @@ class SunPowerBtn extends EventBtn {
     final minigame = SunPowerGame();
     type = GameEventType.sunPower;
     dialogWidget = minigame;
-  }
-
-  @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
   }
 }
 
@@ -171,11 +194,6 @@ class WaterOffBtn extends EventBtn {
     final minigame = WaterOffGame();
     type = GameEventType.waterOff;
     dialogWidget = GameWidget(game: minigame);
-  }
-
-  @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
   }
 }
 
@@ -208,11 +226,6 @@ class TreeBtn extends EventBtn {
     final minigame = TreeGame();
     type = GameEventType.tree;
     dialogWidget = GameWidget(game: minigame);
-  }
-
-  @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
   }
 }
 
