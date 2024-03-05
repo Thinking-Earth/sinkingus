@@ -1,5 +1,4 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sinking_us/feature/game/mini_game/sun_power_game.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 part 'home_screen_viewmodel.g.dart';
@@ -20,10 +19,6 @@ class HomeScreenController extends _$HomeScreenController {
   }
 
   void handlePressedBuildRoom() {
-    // TODO: 이 부분을 주석 해제하고 맨 아랫줄을 주석처리하면 테스트 가능 (@오종현)
-    // final game = SunPowerGame();
-    // ShowDialogHelper.gameEventDialog(
-    //     title: "sun power", widget: game);
     ShowDialogHelper.showBuildRoomDialog();
   }
 
