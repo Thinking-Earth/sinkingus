@@ -16,7 +16,7 @@ class MatchDomainState {
       required this.match,
       required this.dayChangedTime,
       required this.hpdt,
-      required this.moneydt,
+      required this.money,
       required this.natureScoredt});
 
   String matchId;
@@ -24,7 +24,7 @@ class MatchDomainState {
   int dayChangedTime;
   int hpdt;
   int natureScoredt;
-  int moneydt;
+  int money;
 }
 
 @Riverpod(keepAlive: true)
@@ -39,7 +39,7 @@ class MatchDomainController extends _$MatchDomainController {
         dayChangedTime: 0,
         hpdt: 0,
         natureScoredt: 0,
-        moneydt: 0);
+        money: 100);
   }
 
   void setState() {
@@ -49,7 +49,7 @@ class MatchDomainController extends _$MatchDomainController {
         dayChangedTime: state.dayChangedTime,
         hpdt: state.hpdt,
         natureScoredt: state.natureScoredt,
-        moneydt: state.moneydt);
+        money: state.money);
   }
 
   Future<Map<String, Match>> getMatchList() async {
@@ -160,5 +160,18 @@ class MatchDomainController extends _$MatchDomainController {
         matchId: state.matchId,
         uid: ref.read(userDomainControllerProvider).userInfo!.uid,
         status: status);
+  }
+
+  bool setDt(int? hpdt, int? natureScoredt, int? moneydt) {
+    if (state.money + (moneydt ?? 0) < 0) {
+      return false;
+    }
+    state.money = state.money + (moneydt ?? 0);
+    state.hpdt = hpdt ?? 0;
+    state.natureScoredt = natureScoredt ?? 0;
+    setState();
+    state.hpdt = 0;
+    state.natureScoredt = 0;
+    return true;
   }
 }

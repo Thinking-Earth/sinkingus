@@ -6,13 +6,15 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
+import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
-import 'package:sinking_us/feature/game/game_widgets/game.dart';
+import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
+import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 @JsonEnum(valueField: 'code')
 enum GroceryType {
@@ -63,7 +65,7 @@ class GroceryListItem extends SpriteComponent
     add(buyBtn);
 
     final buyText = TextComponent(
-        text: "buy",
+        text: tr("buy"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         size: Vector2(168.w, 57.w) / 3,
@@ -87,22 +89,22 @@ class GroceryListItem extends SpriteComponent
   }
 }
 
-class BuyDialog extends SpriteComponent with HasGameReference<SinkingUsGame> {
-  late GroceryType type;
+class BuyDialog extends SpriteComponent with RiverpodComponentMixin {
+  GroceryType type;
 
-  BuyDialog() : super(size: Vector2(455.3.w, 256.w));
+  BuyDialog(this.type) : super(size: Vector2(455.3.w, 256.w));
 
   @override
   FutureOr<void> onLoad() async {
     sprite = await Sprite.load("store/dialog.png");
 
     final buyText = TextComponent(
-        text: "buy",
+        text: tr("buy"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         position: Vector2(730.w, 439.w) / 3);
     final cancelText = TextComponent(
-        text: "cancel",
+        text: tr("close"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         position: Vector2(904.w, 439.w) / 3);
@@ -110,7 +112,16 @@ class BuyDialog extends SpriteComponent with HasGameReference<SinkingUsGame> {
     final buyBtn = ClickablePolygon.relative(
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
-      removeFromParent();
+      bool canBuy = ref
+          .read(matchDomainControllerProvider.notifier)
+          .setDt(20, -1 * type.destroyScore, -1 * type.price);
+      if (canBuy) {
+        print("${type.code} buy success");
+        ShowDialogHelper.showSnackBar(content: tr("buy_success"));
+      } else {
+        print("${type.code} buy fail");
+        ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
+      }
     }, parentSize: Vector2(134.w, 42.w) / 3)
       ..position = Vector2(663.w, 419.w) / 3
       ..paint = BasicPalette.transparent.paint();
@@ -125,6 +136,7 @@ class BuyDialog extends SpriteComponent with HasGameReference<SinkingUsGame> {
 
     final description = TextComponent(
         text: tr("${type.code}_description"),
+        textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         position: Vector2(684.w, 357.w) / 3);
 
@@ -138,7 +150,8 @@ class BuyDialog extends SpriteComponent with HasGameReference<SinkingUsGame> {
   }
 }
 
-class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
+class BuyNecessityDialog extends FlameGame
+    with HasKeyboardHandlerComponents, RiverpodGameMixin {
   late Scroller scroller;
   late PositionComponent listView;
   late BuyDialog dialog;
@@ -198,8 +211,6 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
       ..position = Vector2(1250.w, 666.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
-    dialog = BuyDialog();
-
     add(background);
     add(listView);
     add(background2);
@@ -212,7 +223,7 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
   }
 
   void showBuyDialog(GroceryType type) {
-    dialog.type = type;
+    dialog = BuyDialog(type);
     add(dialog);
   }
 }

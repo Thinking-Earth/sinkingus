@@ -9,6 +9,11 @@
   "join_room": "방 참여하기",
   "refresh": "새로고침",
 
+  "buy": "구매",
+  "close": "닫기",
+  "buy_success": "구매했습니다.",
+  "buy_fail": "돈이 부족합니다.",
+
   "goodWater_name": "환경친화 생수",
   "badWater_name": "환경파괴 생수",
   "goodFood_name": "환경친화 밀키트",

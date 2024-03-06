@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
+import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 
 class GameState extends PositionComponent
@@ -31,7 +32,7 @@ class GameState extends PositionComponent
         } else {
           natureScore = max(natureScore + ns.natureScoredt, 0);
         }
-        money += ns.moneydt;
+        money = ns.money;
       });
     });
 
@@ -81,7 +82,7 @@ class GameState extends PositionComponent
     }
 
     if (dtSum > 3) {
-      hp -= 1;
+      if (currentEvent != GameEventType.news.id) hp -= 1;
       dtSum = 0;
     } else {
       dtSum += dt;

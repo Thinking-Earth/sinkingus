@@ -249,7 +249,12 @@ class BuyNecessityBtn extends EventBtn {
         ]) {
     final dialog = BuyNecessityDialog();
     type = GameEventType.buyNecessity;
-    dialogWidget = GameWidget(
+
+    final GlobalKey<RiverpodAwareGameWidgetState> gameWidgetKey =
+        GlobalKey<RiverpodAwareGameWidgetState>();
+
+    dialogWidget = RiverpodAwareGameWidget(
+      key: gameWidgetKey,
       game: dialog,
     );
   }
