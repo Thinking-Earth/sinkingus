@@ -9,12 +9,10 @@ import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
+import 'package:sinking_us/feature/game/game_widgets/game_riverpod.dart';
 import 'package:sinking_us/feature/game/game_widgets/game_ui.dart';
 import 'package:sinking_us/feature/game/sprites/characters.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
-import 'package:sinking_us/feature/game/sprites/roles.dart';
-
-/// Director: 서버와 소통, 게임로직 관리
 
 class SinkingUsGame extends FlameGame
     with HasKeyboardHandlerComponents, RiverpodGameMixin {
@@ -24,28 +22,28 @@ class SinkingUsGame extends FlameGame
   late SpriteComponent background;
   late List<PositionComponent> eventBtns =
       List<PositionComponent>.empty(growable: true);
-  int currentEvent = -1;
   double dtSum = 0;
 
-  late String matchId;
-  int day = -1;
-  int hp = 100;
-  int natureScore = 100;
-  int money = 100;
+  String uid, matchId;
   bool isHost;
-  late String uid;
+  int day = -1;
+
   late List<OtherPlayer> players = List<OtherPlayer>.empty(growable: true);
 
+  late GameState state;
   late GameUI gameUI;
 
   double mapRatio = 1.8.w;
 
   @override
   FutureOr<void> onLoad() async {
+    state = GameState();
+    add(state);
     await FirebaseDatabase.instance
         .ref("game/$matchId/day")
         .once()
         .then((value) => day = value.snapshot.value as int);
+
     return super.onLoad();
   }
 
@@ -113,14 +111,16 @@ class SinkingUsGame extends FlameGame
           int newDay = (event.snapshot.value as int);
           if (day < newDay) {
             if (newDay == 1) {
+              state.startGame();
               gameUI.startGame();
               background.addAll(eventBtns);
             } else if (newDay == 8) {
-              gameEnd();
+              state.gameEnd();
             } else if (newDay > 1) {
-              if (currentEvent > -1) {
+              if (state.currentEvent > -1) {
                 Navigator.of(AppRouter.navigatorKey.currentContext!).pop(false);
               }
+              state.nextDay();
               gameUI.nextDay(newDay);
             }
             day = newDay;
@@ -129,7 +129,9 @@ class SinkingUsGame extends FlameGame
             background.addAll(eventBtns);
           }
         } else {
-          gameEnd();
+          if (!isHost) {
+            state.leaveMatch();
+          }
         }
       });
     }
@@ -139,56 +141,6 @@ class SinkingUsGame extends FlameGame
 
   void deletePlayer(OtherPlayer otherPlayer) {
     players.remove(otherPlayer);
-  }
-
-  void gameEnd() async {
-    Map<String, String> playersStatus = await FirebaseDatabase.instance
-        .ref("game/$matchId/status")
-        .get()
-        .then((value) {
-      return value.value as Map<String, String>;
-    });
-    String status = "undefined";
-    if (day == 8) {
-      switch (player.role) {
-        case RoleType.worker:
-          status = "win";
-          break;
-        case RoleType.business:
-          if (money >= 3000) status = "win";
-          break;
-        case RoleType.politician:
-          if (!playersStatus.values.contains("hp die")) status = "win";
-          break;
-        case RoleType.nature:
-          if (natureScore >= 50) status = "win";
-          break;
-        case RoleType.undefined:
-          break;
-      }
-    } else {
-      if (hp == 0) {
-        status = "hp die";
-      } else if (natureScore == 0) {
-        status = "nature die";
-      }
-    }
-    gameUI.gameEnd(status);
-  }
-
-  @override
-  void update(double dt) {
-    if (hp == 0 || natureScore == 0) {
-      gameEnd();
-    }
-
-    if (dtSum > 3) {
-      hp -= 1;
-      dtSum = 0;
-    } else {
-      dtSum += dt;
-    }
-    super.update(dt);
   }
 
   @override
@@ -232,9 +184,5 @@ class SinkingUsGame extends FlameGame
       buyNecessityBtn,
       nationalAssemblyBtn
     ]);
-  }
-
-  void setCurrentEvent(int currentEvent) {
-    this.currentEvent = currentEvent;
   }
 }

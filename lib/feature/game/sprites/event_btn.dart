@@ -56,11 +56,11 @@ abstract class EventBtn extends PositionComponent
             .once()
             .then((value) {
           if (value.snapshot.value as int == 0) {
-            game.setCurrentEvent(type.index);
+            game.state.currentEvent = type.index;
             ShowDialogHelper.gameEventDialog(
                     text: type.name, widget: dialogWidget)
                 .then((value) {
-              game.setCurrentEvent(GameEventType.undefined.id);
+              game.state.currentEvent = GameEventType.undefined.id;
               onEventEnd();
             });
           } else {
@@ -70,10 +70,10 @@ abstract class EventBtn extends PositionComponent
           }
         });
       } else {
-        game.setCurrentEvent(type.index);
+        game.state.currentEvent = type.index;
         ShowDialogHelper.gameEventDialog(text: type.name, widget: dialogWidget)
             .then((value) {
-          game.setCurrentEvent(GameEventType.undefined.id);
+          game.state.currentEvent = GameEventType.undefined.id;
         });
       }
     })
@@ -85,9 +85,9 @@ abstract class EventBtn extends PositionComponent
   void onEventEnd() async {
     bool result = await solvedMinigame();
     if (result) {
-      game.money += 50;
+      game.state.money += 50;
       if (game.player.role == RoleType.nature) {
-        game.natureScore = min(game.natureScore + 30, 100);
+        game.state.natureScore = min(game.state.natureScore + 30, 100);
       }
     }
   }

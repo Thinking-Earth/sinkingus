@@ -27,9 +27,7 @@ class _GameMainState extends ConsumerState<GameMain> {
     String host = ref.read(matchDomainControllerProvider).match.host!;
 
     SinkingUsGame game = SinkingUsGame(
-        ref.read(matchDomainControllerProvider).matchId,
-        ref.read(userDomainControllerProvider).userInfo!.uid,
-        uid == host);
+        ref.read(matchDomainControllerProvider).matchId, uid, uid == host);
 
     return ClipRect(
       child: RiverpodAwareGameWidget(

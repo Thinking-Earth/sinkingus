@@ -16,7 +16,7 @@ class ShowDialogHelper {
       {required String text, required Widget widget}) async {
     bool result = await showDialog(
         context: AppRouter.navigatorKey.currentContext!,
-        barrierDismissible: true, // TODO: false
+        barrierDismissible: false, // TODO: false
         builder: (BuildContext context) {
           return Dialog(
               backgroundColor: Colors.black,

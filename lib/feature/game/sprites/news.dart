@@ -17,7 +17,7 @@ class News extends FlameGame {
 
   @override
   void onMount() {
-    game.setCurrentEvent(type.id);
+    game.state.currentEvent = type.id;
     timer = Timer(8, onTick: () {
       remove(newsText);
       Navigator.of(AppRouter.navigatorKey.currentContext!).pop(true);

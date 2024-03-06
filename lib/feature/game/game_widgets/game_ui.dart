@@ -39,7 +39,7 @@ class GameUI extends PositionComponent
         onPressed: () async {
           game.pauseEngine();
           game.removeFromParent();
-          await ref.read(matchDomainControllerProvider.notifier).leaveMatch();
+          game.state.leaveMatch();
         },
         size: Vector2.all(18 * 1.8),
         position: Vector2(cameraSize.x, 0),
@@ -80,7 +80,7 @@ class GameUI extends PositionComponent
         size: Vector2.all(18) * 1.8);
 
     moneyComponent = TextComponent(
-        text: "${game.money}",
+        text: "${game.state.money}",
         anchor: Anchor.topRight,
         position: coinUi.position + Vector2(-3.w, 3 * 1.8),
         textRenderer: TextPaint(style: AppTypography.blackPixel));
@@ -106,7 +106,7 @@ class GameUI extends PositionComponent
       if (remainingSec == 0) {
         timer.pause();
         if (isHost) {
-          ref.read(matchDomainControllerProvider.notifier).hostNextDay();
+          game.state.hostNextDay();
         }
       }
     }, repeat: true, autoStart: false);
@@ -150,32 +150,30 @@ class GameUI extends PositionComponent
     timer.update(dt);
     super.update(dt);
 
-    moneyComponent.text = "${game.money}";
-    hp.scale = Vector2(game.hp / 100, 1);
-    natureScore.scale = Vector2(game.natureScore / 100, 1);
+    moneyComponent.text = "${game.state.money}";
+    hp.scale = Vector2(game.state.hp / 100, 1);
+    natureScore.scale = Vector2(game.state.natureScore / 100, 1);
   }
 
   // called when day updated to 1
   void startGame() {
-    ref.read(matchDomainControllerProvider.notifier).setNextDay(1);
     add(timerComponent);
     news.text = "Game started";
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
-      game.setCurrentEvent(GameEventType.undefined.id);
+      game.state.currentEvent = GameEventType.undefined.id;
       value ? timer.start() : ();
     });
   }
 
   // called when day updated
   void nextDay(int day) {
-    ref.read(matchDomainControllerProvider.notifier).setNextDay(day);
     news.text = "It's day $day";
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
-      game.setCurrentEvent(GameEventType.undefined.id);
+      game.state.currentEvent = GameEventType.undefined.id;
       timer.pause();
       remainingSec = oneDay;
       timer.start();
@@ -183,19 +181,14 @@ class GameUI extends PositionComponent
   }
 
   void hostStartGame() async {
-    if (game.players.length >= 5) {
-      await ref.read(matchDomainControllerProvider.notifier).hostStartGame();
+    if (game.players.length == 5) {
       gameStartBtn.removeFromParent();
+      game.state.hostStartGame();
     } else {
-      // TODO: 사람이 적어서 게임 시작 불가로 바꾸기
-      await ref.read(matchDomainControllerProvider.notifier).hostStartGame();
+      // TODO: 사람이 6명이어야 게임 시작 가능
       gameStartBtn.removeFromParent();
+      game.state.hostStartGame();
     }
-  }
-
-  void gameEnd(String status) async {
-    ref.read(matchDomainControllerProvider.notifier).sendStatus(status: status);
-    // TODO: dialog
   }
 }
 

@@ -14,11 +14,17 @@ class MatchDomainState {
   MatchDomainState(
       {required this.matchId,
       required this.match,
-      required this.dayChangedTime});
+      required this.dayChangedTime,
+      required this.hpdt,
+      required this.moneydt,
+      required this.natureScoredt});
 
   String matchId;
   Match match;
   int dayChangedTime;
+  int hpdt;
+  int natureScoredt;
+  int moneydt;
 }
 
 @Riverpod(keepAlive: true)
@@ -30,14 +36,20 @@ class MatchDomainController extends _$MatchDomainController {
     return MatchDomainState(
         matchId: "not in a match",
         match: Match(roomName: "", playerCount: 0, isPrivate: true),
-        dayChangedTime: 0);
+        dayChangedTime: 0,
+        hpdt: 0,
+        natureScoredt: 0,
+        moneydt: 0);
   }
 
   void setState() {
     state = MatchDomainState(
         matchId: state.matchId,
         match: state.match,
-        dayChangedTime: state.dayChangedTime);
+        dayChangedTime: state.dayChangedTime,
+        hpdt: state.hpdt,
+        natureScoredt: state.natureScoredt,
+        moneydt: state.moneydt);
   }
 
   Future<Map<String, Match>> getMatchList() async {
@@ -107,7 +119,7 @@ class MatchDomainController extends _$MatchDomainController {
           match: state.match);
       state.matchId = "not in a match";
       setState();
-      AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
+      AppRouter.popAndPushNamed(Routes.homeScreenRoute);
     }
   }
 
