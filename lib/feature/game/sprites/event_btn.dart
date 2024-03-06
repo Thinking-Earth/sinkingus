@@ -7,7 +7,7 @@ import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
-import 'package:sinking_us/feature/game/mini_game/dialog_buy_necessity.dart';
+import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/national_assembly_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/plug_off_game.dart';
 import 'package:sinking_us/feature/game/mini_game/sun_power_game.dart';
@@ -44,30 +44,38 @@ abstract class EventBtn extends PositionComponent
 
   EventBtn(
       {required List<Vector2> vertices,
-      required Vector2 position,
-      required Vector2 size})
-      : super(position: position, size: size) {
+      required super.position,
+      required super.size})
+      : super() {
     anchor = Anchor.center;
     final stroke = ClickablePolygon.relative(vertices, parentSize: size,
         onClickEvent: () {
-      FirebaseDatabase.instance
-          .ref("game/${game.matchId}/gameEventList/${type.id}")
-          .once()
-          .then((value) {
-        if (!(value.snapshot.value == 1)) {
-          game.setCurrentEvent(type.index);
-          ShowDialogHelper.gameEventDialog(
-                  text: type.name, widget: dialogWidget)
-              .then((value) {
-            game.setCurrentEvent(GameEventType.undefined.id);
-            onEventEnd();
-          });
-        } else {
-          ShowDialogHelper.showSnackBar(
-              content:
-                  "Someone already complete the mission. Try another day.");
-        }
-      });
+      if (type.id < 6) {
+        FirebaseDatabase.instance
+            .ref("game/${game.matchId}/gameEventList/${type.id}")
+            .once()
+            .then((value) {
+          if (value.snapshot.value as int == 0) {
+            game.setCurrentEvent(type.index);
+            ShowDialogHelper.gameEventDialog(
+                    text: type.name, widget: dialogWidget)
+                .then((value) {
+              game.setCurrentEvent(GameEventType.undefined.id);
+              onEventEnd();
+            });
+          } else {
+            ShowDialogHelper.showSnackBar(
+                content:
+                    "Someone already complete the mission. Try another day.");
+          }
+        });
+      } else {
+        game.setCurrentEvent(type.index);
+        ShowDialogHelper.gameEventDialog(text: type.name, widget: dialogWidget)
+            .then((value) {
+          game.setCurrentEvent(GameEventType.undefined.id);
+        });
+      }
     })
       ..paint = (BasicPalette.yellow.paint()
         ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10.0));
@@ -239,8 +247,11 @@ class BuyNecessityBtn extends EventBtn {
           Vector2(1, 1),
           Vector2(-1, 1)
         ]) {
+    final dialog = BuyNecessityDialog();
     type = GameEventType.buyNecessity;
-    dialogWidget = buyNecessityWidget();
+    dialogWidget = GameWidget(
+      game: dialog,
+    );
   }
 
   @override

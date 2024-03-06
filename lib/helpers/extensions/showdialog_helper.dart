@@ -16,11 +16,13 @@ class ShowDialogHelper {
       {required String text, required Widget widget}) async {
     bool result = await showDialog(
         context: AppRouter.navigatorKey.currentContext!,
-        barrierDismissible: true,
+        barrierDismissible: true, // TODO: false
         builder: (BuildContext context) {
           return Dialog(
               backgroundColor: Colors.black,
-              child: SizedBox(width: 455.3.w, height: 256.w, child: widget));
+              child: ClipRect(
+                  child:
+                      SizedBox(width: 455.3.w, height: 256.w, child: widget)));
         }).then((value) => value);
     return result;
   }
