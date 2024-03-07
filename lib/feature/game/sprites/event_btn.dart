@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
-import 'package:sinking_us/feature/game/mini_game/national_assembly_dialog.dart';
+import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/plug_off_game.dart';
 import 'package:sinking_us/feature/game/mini_game/sun_power_game.dart';
 import 'package:sinking_us/feature/game/mini_game/trash_game.dart';
@@ -291,8 +291,16 @@ class NationalAssemblyBtn extends EventBtn {
           Vector2(-0.916, 0.644),
           Vector2(-1.0, 0.624),
         ]) {
+    final dialog = PolicyDialog();
     type = GameEventType.nationalAssembly;
-    dialogWidget = nationalAssemblyWidget();
+
+    final GlobalKey<RiverpodAwareGameWidgetState> gameWidgetKey =
+        GlobalKey<RiverpodAwareGameWidgetState>();
+
+    dialogWidget = dialogWidget = RiverpodAwareGameWidget(
+      key: gameWidgetKey,
+      game: dialog,
+    );
   }
 
   @override
