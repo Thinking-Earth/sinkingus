@@ -1,10 +1,14 @@
+import 'dart:math';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
-import 'package:sinking_us/feature/game/mini_game/dialog_buy_necessity.dart';
+import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/national_assembly_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/plug_off_game.dart';
 import 'package:sinking_us/feature/game/mini_game/sun_power_game.dart';
@@ -12,6 +16,7 @@ import 'package:sinking_us/feature/game/mini_game/trash_game.dart';
 import 'package:sinking_us/feature/game/mini_game/tree_game.dart';
 import 'package:sinking_us/feature/game/mini_game/water_off_game.dart';
 import 'package:sinking_us/feature/game/mini_game/wind_power_game.dart';
+import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
@@ -40,25 +45,77 @@ abstract class EventBtn extends PositionComponent
 
   EventBtn(
       {required List<Vector2> vertices,
-      required Vector2 position,
-      required Vector2 size})
-      : super(position: position, size: size) {
+      required super.position,
+      required super.size})
+      : super() {
     anchor = Anchor.center;
     final stroke = ClickablePolygon.relative(vertices, parentSize: size,
         onClickEvent: () {
-      game.setCurrentEvent(type.index);
-      ShowDialogHelper.gameEventDialog(text: type.name, widget: dialogWidget)
-          .then((value) {
-        game.setCurrentEvent(GameEventType.undefined.id);
-        onEventEnd();
-      });
+      if (type.id < 6) {
+        FirebaseDatabase.instance
+            .ref("game/${game.matchId}/gameEventList/${type.id}")
+            .once()
+            .then((value) {
+          if (value.snapshot.value as int == 0) {
+            game.state.currentEvent = type.index;
+            ShowDialogHelper.gameEventDialog(
+                    text: type.name, widget: dialogWidget)
+                .then((value) {
+              game.state.currentEvent = GameEventType.undefined.id;
+              onEventEnd();
+            });
+          } else {
+            ShowDialogHelper.showSnackBar(
+                content:
+                    "Someone already complete the mission. Try another day.");
+          }
+        });
+      } else {
+        game.state.currentEvent = type.index;
+        ShowDialogHelper.gameEventDialog(text: type.name, widget: dialogWidget)
+            .then((value) {
+          game.state.currentEvent = GameEventType.undefined.id;
+        });
+      }
     })
       ..paint = (BasicPalette.yellow.paint()
         ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 10.0));
     add(stroke);
   }
 
-  void onEventEnd();
+  void onEventEnd() async {
+    bool result = await solvedMinigame();
+    if (result) {
+      int moneydt = 50;
+      int natureScoredt = 0;
+      if (game.player.role == RoleType.nature) {
+        natureScoredt =
+            min(game.state.natureScore + 30, 100) - game.state.natureScore;
+      }
+      ref
+          .read(matchDomainControllerProvider.notifier)
+          .setDt(0, natureScoredt, moneydt);
+    }
+  }
+
+  Future<bool> solvedMinigame() async {
+    final result = await FirebaseDatabase.instance
+        .ref("game/${game.matchId}/gameEventList/${type.id}")
+        .get()
+        .then((value) {
+      if (!value.exists) return false;
+      if (value.value == 1) return false;
+      return true;
+    });
+
+    if (!result) return false;
+
+    await FirebaseDatabase.instance
+        .ref("game/${game.matchId}/gameEventList/${type.id}")
+        .set(1);
+
+    return true;
+  }
 }
 
 class PlugOffBtn extends EventBtn {
@@ -75,9 +132,6 @@ class PlugOffBtn extends EventBtn {
       game: minigame,
     );
   }
-
-  @override
-  void onEventEnd() {}
 }
 
 class WindPowerBtn extends EventBtn {
@@ -103,11 +157,6 @@ class WindPowerBtn extends EventBtn {
     type = GameEventType.windPower;
     dialogWidget = GameWidget(game: minigame);
   }
-
-  @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
-  }
 }
 
 class TrashBtn extends EventBtn {
@@ -128,11 +177,6 @@ class TrashBtn extends EventBtn {
     type = GameEventType.trash;
     dialogWidget = GameWidget(game: minigame);
   }
-
-  @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
-  }
 }
 
 class SunPowerBtn extends EventBtn {
@@ -146,11 +190,6 @@ class SunPowerBtn extends EventBtn {
     final minigame = SunPowerGame();
     type = GameEventType.sunPower;
     dialogWidget = minigame;
-  }
-
-  @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
   }
 }
 
@@ -171,11 +210,6 @@ class WaterOffBtn extends EventBtn {
     final minigame = WaterOffGame();
     type = GameEventType.waterOff;
     dialogWidget = GameWidget(game: minigame);
-  }
-
-  @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
   }
 }
 
@@ -209,11 +243,6 @@ class TreeBtn extends EventBtn {
     type = GameEventType.tree;
     dialogWidget = GameWidget(game: minigame);
   }
-
-  @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
-  }
 }
 
 class BuyNecessityBtn extends EventBtn {
@@ -224,8 +253,16 @@ class BuyNecessityBtn extends EventBtn {
           Vector2(1, 1),
           Vector2(-1, 1)
         ]) {
+    final dialog = BuyNecessityDialog();
     type = GameEventType.buyNecessity;
-    dialogWidget = buyNecessityWidget();
+
+    final GlobalKey<RiverpodAwareGameWidgetState> gameWidgetKey =
+        GlobalKey<RiverpodAwareGameWidgetState>();
+
+    dialogWidget = RiverpodAwareGameWidget(
+      key: gameWidgetKey,
+      game: dialog,
+    );
   }
 
   @override

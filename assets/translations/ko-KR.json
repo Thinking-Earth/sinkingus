@@ -1,11 +1,34 @@
 {
-    "language" : "ko_KR",
-    "showing_language" : "한국어 - KR",
-    "noti_noti" : "알림",
-    "noti_ok" : "확인",
-    "noti_cancel" : "취소",
+  "language": "ko_KR",
+  "showing_language": "한국어 - KR",
+  "noti_noti": "알림",
+  "noti_ok": "확인",
+  "noti_cancel": "취소",
 
-    "build_room" : "방 만들기",
-    "join_room" : "방 참여하기",
-    "refresh" : "새로고침"
+  "build_room": "방 만들기",
+  "join_room": "방 참여하기",
+  "refresh": "새로고침",
+
+  "buy": "구매",
+  "close": "닫기",
+  "buy_success": "구매했습니다.",
+  "buy_fail": "돈이 부족합니다.",
+
+  "goodWater_name": "환경친화 생수",
+  "badWater_name": "환경파괴 생수",
+  "goodFood_name": "환경친화 밀키트",
+  "badFood_name": "플라스틱 도시락",
+  "goodAir_name": "환경친화 산소통",
+  "badAir_name": "환경파괴 산소통",
+  "goodClothes_name": "재활용섬유 옷",
+  "badClothes_name": "플라스틱 섬유 옷",
+
+  "goodWater_description": "환경친화 생수입니다.",
+  "badWater_description": "환경파괴 생수입니다.",
+  "goodFood_description": "환경친화 밀키트입니다.",
+  "badFood_description": "플라스틱 도시락입니다.",
+  "goodAir_description": "환경친화 산소통입니다.",
+  "badAir_description": "환경파괴 산소통입니다.",
+  "goodClothes_description": "재활용섬유 옷입니다.",
+  "badClothes_description": "플라스틱 섬유 옷입니다."
 }

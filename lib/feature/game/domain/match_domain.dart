@@ -5,6 +5,8 @@ import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/data/dataSource/match_data_source.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
+import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
+import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 part 'match_domain.g.dart';
 
@@ -12,11 +14,17 @@ class MatchDomainState {
   MatchDomainState(
       {required this.matchId,
       required this.match,
-      required this.dayChangedTime});
+      required this.dayChangedTime,
+      required this.hpdt,
+      required this.money,
+      required this.natureScoredt});
 
   String matchId;
   Match match;
   int dayChangedTime;
+  int hpdt;
+  int natureScoredt;
+  int money;
 }
 
 @Riverpod(keepAlive: true)
@@ -28,14 +36,20 @@ class MatchDomainController extends _$MatchDomainController {
     return MatchDomainState(
         matchId: "not in a match",
         match: Match(roomName: "", playerCount: 0, isPrivate: true),
-        dayChangedTime: 0);
+        dayChangedTime: 0,
+        hpdt: 0,
+        natureScoredt: 0,
+        money: 100);
   }
 
   void setState() {
     state = MatchDomainState(
         matchId: state.matchId,
         match: state.match,
-        dayChangedTime: state.dayChangedTime);
+        dayChangedTime: state.dayChangedTime,
+        hpdt: state.hpdt,
+        natureScoredt: state.natureScoredt,
+        money: state.money);
   }
 
   Future<Map<String, Match>> getMatchList() async {
@@ -83,8 +97,7 @@ class MatchDomainController extends _$MatchDomainController {
           uid: ref.read(userDomainControllerProvider).userInfo!.uid,
           userName: ref.read(userDomainControllerProvider).userInfo!.nick);
       if (response == null) {
-        print("Too many people.");
-        // TODO: dialog로 안내
+        ShowDialogHelper.showSnackBar(content: "Too many people in the room");
       } else {
         state.match = response;
         state.matchId = matchId;
@@ -92,23 +105,21 @@ class MatchDomainController extends _$MatchDomainController {
         AppRouter.pushNamed(Routes.gameMainScreenRoute);
       }
     } else {
-      print("The match doesn't exist. Maybe you should refresh the list.");
-      //TODO: dialog로 안내
+      ShowDialogHelper.showSnackBar(
+          content:
+              "The match doesn't exist. Maybe you should refresh the list.");
     }
   }
 
   Future<void> leaveMatch() async {
     if (state.matchId != "not in a match") {
-      print("leave: triggered");
       await source.leaveMatch(
           matchId: state.matchId,
           uid: ref.read(userDomainControllerProvider).userInfo!.uid,
           match: state.match);
       state.matchId = "not in a match";
       setState();
-      AppRouter.pushNamed(Routes.homeScreenRoute);
-    } else {
-      print("not in a match");
+      AppRouter.popAndPushNamed(Routes.homeScreenRoute);
     }
   }
 
@@ -132,10 +143,35 @@ class MatchDomainController extends _$MatchDomainController {
   Future<void> hostStartGame() async {
     await source.deleteLobby(
         matchId: state.matchId, isPrivate: state.match.isPrivate!);
+    source.hostStartGame(matchId: state.matchId);
     hostNextDay();
   }
 
   void hostNextDay() {
     source.updateDay(matchId: state.matchId);
+  }
+
+  Future<Map<String, String>> getPlayersStatus() async {
+    return await source.getPlayersStatus(matchId: state.matchId);
+  }
+
+  void sendStatus({required String status}) {
+    source.sendStatus(
+        matchId: state.matchId,
+        uid: ref.read(userDomainControllerProvider).userInfo!.uid,
+        status: status);
+  }
+
+  bool setDt(int? hpdt, int? natureScoredt, int? moneydt) {
+    if (state.money + (moneydt ?? 0) < 0) {
+      return false;
+    }
+    state.money = state.money + (moneydt ?? 0);
+    state.hpdt = hpdt ?? 0;
+    state.natureScoredt = natureScoredt ?? 0;
+    setState();
+    state.hpdt = 0;
+    state.natureScoredt = 0;
+    return true;
   }
 }

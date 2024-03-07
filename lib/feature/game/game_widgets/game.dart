@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -10,11 +9,10 @@ import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
+import 'package:sinking_us/feature/game/game_widgets/game_riverpod.dart';
 import 'package:sinking_us/feature/game/game_widgets/game_ui.dart';
 import 'package:sinking_us/feature/game/sprites/characters.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
-
-/// Director: 서버와 소통, 게임로직 관리
 
 class SinkingUsGame extends FlameGame
     with HasKeyboardHandlerComponents, RiverpodGameMixin {
@@ -24,32 +22,31 @@ class SinkingUsGame extends FlameGame
   late SpriteComponent background;
   late List<PositionComponent> eventBtns =
       List<PositionComponent>.empty(growable: true);
-  int currentEvent = -1;
+  double dtSum = 0;
 
-  late String matchId;
-  int day = -1;
-  int hp = 60;
-  int natureScore = 100;
-  int money = 100;
+  String uid, matchId;
   bool isHost;
-  late String uid;
+  int day = -1;
+
   late List<OtherPlayer> players = List<OtherPlayer>.empty(growable: true);
 
+  late GameState state;
   late GameUI gameUI;
 
   double mapRatio = 1.8.w;
 
   @override
   FutureOr<void> onLoad() async {
+    state = GameState();
+    add(state);
     await FirebaseDatabase.instance
         .ref("game/$matchId/day")
         .once()
         .then((value) => day = value.snapshot.value as int);
+
     return super.onLoad();
   }
 
-  // TODO: 게임로직 짜기 (@전은지)
-  // Director of the game
   @override
   FutureOr<void> onMount() async {
     final knobPaint = BasicPalette.white.withAlpha(200).paint();
@@ -113,15 +110,17 @@ class SinkingUsGame extends FlameGame
         if (event.snapshot.exists) {
           int newDay = (event.snapshot.value as int);
           if (day < newDay) {
-            print("new day");
             if (newDay == 1) {
+              state.startGame();
               gameUI.startGame();
+              background.addAll(eventBtns);
             } else if (newDay == 8) {
-              // game end
+              state.gameEnd();
             } else if (newDay > 1) {
-              if (currentEvent > -1) {
+              if (state.currentEvent > -1) {
                 Navigator.of(AppRouter.navigatorKey.currentContext!).pop(false);
               }
+              state.nextDay();
               gameUI.nextDay(newDay);
             }
             day = newDay;
@@ -130,12 +129,18 @@ class SinkingUsGame extends FlameGame
             background.addAll(eventBtns);
           }
         } else {
-          // TODO: 게임이 호스트에 의해 종료됨
+          if (!isHost) {
+            state.leaveMatch();
+          }
         }
       });
     }
 
     return super.onMount();
+  }
+
+  void deletePlayer(OtherPlayer otherPlayer) {
+    players.remove(otherPlayer);
   }
 
   @override
@@ -179,9 +184,5 @@ class SinkingUsGame extends FlameGame
       buyNecessityBtn,
       nationalAssemblyBtn
     ]);
-  }
-
-  void setCurrentEvent(int currentEvent) {
-    this.currentEvent = currentEvent;
   }
 }

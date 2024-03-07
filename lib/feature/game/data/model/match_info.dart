@@ -1,22 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
 
 part 'match_info.freezed.dart';
 part 'match_info.g.dart';
-
-@JsonEnum(valueField: 'code')
-enum GroceryType {
-  goodWater("goodWater"),
-  badWater("badWater"),
-  goodFood("goodFood"),
-  badFood("badFood"),
-  goodAir("goodAir"),
-  badAir("badAir"),
-  goodClothes("goodClothes"),
-  badClothes("badClothes");
-
-  const GroceryType(this.code);
-  final String code;
-}
 
 @JsonEnum(valueField: 'code')
 enum RuleType {

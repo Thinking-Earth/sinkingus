@@ -21,10 +21,10 @@ class GameUI extends PositionComponent
   bool isHost;
   late HudButtonComponent gameLeaveBtn;
   late TextButton gameStartBtn;
-  late SpriteComponent hpUi, natureUi, coinUi;
+  late RectangleComponent hp, natureScore;
   late Timer timer;
-  int oneDay = 10;
-  int remainingSec = 10; // TODO: test version time
+  int oneDay = 30; // TODO: test version time
+  int remainingSec = 30;
   late TextComponent timerComponent, moneyComponent;
   late News news;
 
@@ -39,44 +39,48 @@ class GameUI extends PositionComponent
         onPressed: () async {
           game.pauseEngine();
           game.removeFromParent();
-          await ref.read(matchDomainControllerProvider.notifier).leaveMatch();
+          game.state.leaveMatch();
         },
         size: Vector2.all(18 * 1.8),
         position: Vector2(cameraSize.x, 0),
         anchor: Anchor.topRight);
 
-    hpUi = SpriteComponent(
+    hp = RectangleComponent(
+        anchor: Anchor.centerLeft,
+        position: Vector2(23, 9) * 1.8,
+        size: Vector2(58, 8) * 1.8,
+        scale: Vector2.all(1),
+        paint: Paint()..color = const Color.fromARGB(255, 225, 234, 0));
+
+    final hpUi = SpriteComponent(
         sprite: await Sprite.load("etc/hpBar.png"),
         position: Vector2(5.w, 0),
         anchor: Anchor.topLeft,
         size: Vector2(89, 18) * 1.8)
-      ..add(RectangleComponent(
-          anchor: Anchor.centerLeft,
-          position: Vector2(23, 9) * 1.8,
-          size: Vector2(58, 8) * 1.8,
-          scale: Vector2(game.hp / 100, 1),
-          paint: Paint()..color = const Color.fromARGB(255, 225, 234, 0)));
+      ..add(hp);
 
-    natureUi = SpriteComponent(
+    natureScore = RectangleComponent(
+        anchor: Anchor.centerLeft,
+        position: Vector2(23, 9) * 1.8,
+        size: Vector2(58, 8) * 1.8,
+        scale: Vector2.all(1),
+        paint: Paint()..color = const Color.fromARGB(255, 0, 247, 86));
+
+    final natureUi = SpriteComponent(
         sprite: await Sprite.load("etc/natureScoreBar.png"),
         position: Vector2(hpUi.size.x + 3.w, 0),
         anchor: Anchor.topLeft,
         size: Vector2(89, 18) * 1.8)
-      ..add(RectangleComponent(
-          anchor: Anchor.centerLeft,
-          position: Vector2(23, 9) * 1.8,
-          size: Vector2(58, 8) * 1.8,
-          scale: Vector2(game.hp / 100, 1),
-          paint: Paint()..color = const Color.fromARGB(255, 0, 247, 86)));
+      ..add(natureScore);
 
-    coinUi = SpriteComponent(
+    final coinUi = SpriteComponent(
         sprite: await Sprite.load("etc/coin.png"),
         anchor: Anchor.topLeft,
         position: Vector2(cameraSize.x - gameLeaveBtn.size.x - 30.w * 1.8, 0),
         size: Vector2.all(18) * 1.8);
 
     moneyComponent = TextComponent(
-        text: "${game.money}",
+        text: "${game.state.money}",
         anchor: Anchor.topRight,
         position: coinUi.position + Vector2(-3.w, 3 * 1.8),
         textRenderer: TextPaint(style: AppTypography.blackPixel));
@@ -102,7 +106,7 @@ class GameUI extends PositionComponent
       if (remainingSec == 0) {
         timer.pause();
         if (isHost) {
-          ref.read(matchDomainControllerProvider.notifier).hostNextDay();
+          game.state.hostNextDay();
         }
       }
     }, repeat: true, autoStart: false);
@@ -135,7 +139,7 @@ class GameUI extends PositionComponent
                   ref.read(matchDomainControllerProvider).dayChangedTime) ~/
               1000 -
           8;
-      remainingSec = oneDay - elapsedSec; // TODO: test version time
+      remainingSec = oneDay - elapsedSec;
       add(timerComponent);
     }
     super.onMount();
@@ -145,44 +149,45 @@ class GameUI extends PositionComponent
   void update(double dt) {
     timer.update(dt);
     super.update(dt);
+
+    moneyComponent.text = "${game.state.money}";
+    hp.scale = Vector2(game.state.hp / 100, 1);
+    natureScore.scale = Vector2(game.state.natureScore / 100, 1);
   }
 
   // called when day updated to 1
   void startGame() {
-    ref.read(matchDomainControllerProvider.notifier).setNextDay(1);
     add(timerComponent);
     news.text = "Game started";
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
-      game.setCurrentEvent(GameEventType.undefined.id);
+      game.state.currentEvent = GameEventType.undefined.id;
       value ? timer.start() : ();
     });
   }
 
   // called when day updated
   void nextDay(int day) {
-    ref.read(matchDomainControllerProvider.notifier).setNextDay(day);
     news.text = "It's day $day";
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
-      game.setCurrentEvent(GameEventType.undefined.id);
+      game.state.currentEvent = GameEventType.undefined.id;
       timer.pause();
-      remainingSec = oneDay; // TODO: test version time
+      remainingSec = oneDay;
       timer.start();
     });
-    timer.resume();
   }
 
   void hostStartGame() async {
-    if (game.players.length >= 5) {
-      await ref.read(matchDomainControllerProvider.notifier).hostStartGame();
+    if (game.players.length == 5) {
       gameStartBtn.removeFromParent();
+      game.state.hostStartGame();
     } else {
-      // TODO: 사람이 적어서 게임 시작 불가로 바꾸기
-      await ref.read(matchDomainControllerProvider.notifier).hostStartGame();
+      // TODO: 사람이 6명이어야 게임 시작 가능
       gameStartBtn.removeFromParent();
+      game.state.hostStartGame();
     }
   }
 }
