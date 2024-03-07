@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
+import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
@@ -17,6 +18,8 @@ class GameState extends PositionComponent
   int currentEvent = -1;
 
   double dtSum = 0;
+
+  String playerName = "";
 
   @override
   void onMount() {
@@ -35,6 +38,8 @@ class GameState extends PositionComponent
         money = ns.money;
       });
     });
+
+    playerName = ref.read(userDomainControllerProvider).userInfo!.nick;
 
     return super.onMount();
   }

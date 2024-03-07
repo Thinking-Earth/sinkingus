@@ -5,9 +5,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/src/services/raw_keyboard.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
@@ -21,7 +19,11 @@ enum CharacterState {
 }
 
 class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
-    with CollisionCallbacks, KeyboardHandler, RiverpodComponentMixin {
+    with
+        CollisionCallbacks,
+        KeyboardHandler,
+        RiverpodComponentMixin,
+        HasGameReference<SinkingUsGame> {
   int money = 0;
   RoleType role = RoleType.undefined;
   String uid;
@@ -52,7 +54,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
             position: screensize * 0.5);
 
   @override
-  FutureOr<void> onMount() async {
+  FutureOr<void> onLoad() async {
     idle = await Sprite.load("characters/${role.code}_idle.png");
     walk1 = await Sprite.load("characters/${role.code}_walk1.png");
     walk2 = await Sprite.load("characters/${role.code}_walk2.png");
@@ -79,14 +81,14 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     });
 
     nameText = TextComponent(
-        text: ref.read(userDomainControllerProvider).userInfo!.nick,
+        text: game.state.playerName,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         position: Vector2(size.x * 0.5, 0));
 
     add(nameText);
 
-    return super.onMount();
+    return super.onLoad();
   }
 
   @override
