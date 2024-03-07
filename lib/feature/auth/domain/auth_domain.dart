@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sinking_us/feature/auth/data/dataSource/auth_data_source.dart';
 import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
@@ -68,7 +69,30 @@ class AuthDomainController extends _$AuthDomainController {
     return null;
   }
 
-  Future<void> socialSignInWithApple() async {
-
+  Future<UserInfoModel?> socialSignInWithApple() async {
+    try {
+      final AuthorizationCredentialAppleID credentialAppleID = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName
+        ]
+      );
+      UserInfoModel userInfo = UserInfoModel(
+        email: credentialAppleID.email ?? "AppleEmailError", 
+        nick: "${credentialAppleID.familyName}${credentialAppleID.givenName}", 
+        profileURL: "https://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg",
+        uid: credentialAppleID.identityToken ?? credentialAppleID.email ?? "nouid"
+      );
+      final credential = OAuthProvider('apple.com').credential(
+        idToken: credentialAppleID.identityToken,
+        accessToken: credentialAppleID.authorizationCode
+      );
+      await state.authDataSource.socialLoginWithApple(userInfo: userInfo);
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      return userInfo;
+    } catch (e) {
+      ShowDialogHelper.showAlert(title: "오류", message: e.toString());
+    }
+    return null;
   }
 }

@@ -35,7 +35,16 @@ class LoginScreenController extends _$LoginScreenController {
     }
   }
 
-  void handlePressedSignInApple() {
+  void handlePressedSignInApple() async {
+    ShowDialogHelper.showLoading();
+    final UserInfoModel? userInfo = await ref.read(authDomainControllerProvider.notifier).socialSignInWithApple();
+    if(userInfo != null) {
+      ref.read(userDomainControllerProvider.notifier).setUserInfo(userInfo: userInfo);
+      ShowDialogHelper.closeLoading();
+      AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
+    } else {
+      ShowDialogHelper.showAlert(title: "알림", message: "애플 로그인에 문제가 발생하였습니다. 다시 한번 시도하거나 다른 로그인 방법으로 시도해주세요.");
+    }
     ref.read(authDomainControllerProvider.notifier).socialSignInWithApple();
   }
 }
