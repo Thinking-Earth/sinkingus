@@ -30,9 +30,11 @@ class _GameMainState extends ConsumerState<GameMain> {
         ref.read(matchDomainControllerProvider).matchId, uid, uid == host);
 
     return ClipRect(
-      child: RiverpodAwareGameWidget(
-        key: gameWidgetKey,
-        game: game,
+      child: SafeArea(
+        child: RiverpodAwareGameWidget(
+          key: gameWidgetKey,
+          game: game,
+        ),
       ),
     );
   }

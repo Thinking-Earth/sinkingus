@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: f5628cd9c92ed11083f425fd1f8f1bc60ecdda458c81d73b143aeda036c35fe7
+      sha256: "2489c399d8b23a12704bd9e056e3df957c69ceec621f4fc8d69fa7cd5211d1f4"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.16"
+    version: "1.3.24"
   analyzer:
     dependency: transitive
     description:
@@ -197,26 +197,26 @@ packages:
     dependency: "direct main"
     description:
       name: cloud_firestore
-      sha256: "8bfbb5a2edbc6052452326d60de0113fea2bcbf081d34a3f8e45c8b38307b31c"
+      sha256: f7488f2092c1b33d855ac4bdd46de9a3bb8029c4ea5caebb52dfaf812c90f0a4
       url: "https://pub.dev"
     source: hosted
-    version: "4.14.0"
+    version: "4.15.7"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
-      sha256: "73ff438fe46028f0e19f55da18b6ddc6906ab750562cd7d9ffab77ff8c0c4307"
+      sha256: adff62e6d3736d8c529a417487d81c5bec1be227e0c04ba95ef64364485aee09
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.0"
+    version: "6.1.8"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
-      sha256: "232e45e95970d3a6baab8f50f9c3a6e2838d145d9d91ec9a7392837c44296397"
+      sha256: "73efac045b40263001b9265a375b1bd4032945dc6b888698d8add927dc74b818"
       url: "https://pub.dev"
     source: hosted
-    version: "3.9.0"
+    version: "3.10.7"
   cloud_functions:
     dependency: "direct main"
     description:
@@ -405,10 +405,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: "96607c0e829a581c2a483c658f04e8b159964c3bae2730f73297070bc85d40bb"
+      sha256: a746f861618eef57a11d8b658a2db1fa5a336fc82ba65b7763d7e2292687de2b
       url: "https://pub.dev"
     source: hosted
-    version: "2.24.2"
+    version: "2.26.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -421,10 +421,10 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: d585bdf3c656c3f7821ba1bd44da5f13365d22fcecaf5eb75c4295246aaa83c0
+      sha256: c8e1d59385eee98de63c92f961d2a7062c5d9a65e7f45bdc7f1b0b205aab2492
       url: "https://pub.dev"
     source: hosted
-    version: "2.10.0"
+    version: "2.11.5"
   firebase_database:
     dependency: "direct main"
     description:
@@ -657,10 +657,10 @@ packages:
     dependency: "direct dev"
     description:
       name: freezed
-      sha256: "6c5031daae12c7072b3a87eff98983076434b4889ef2a44384d0cae3f82372ba"
+      sha256: "57247f692f35f068cae297549a46a9a097100685c6780fe67177503eea5ed4e5"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.6"
+    version: "2.4.7"
   freezed_annotation:
     dependency: "direct main"
     description:
