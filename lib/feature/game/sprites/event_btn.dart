@@ -6,6 +6,7 @@ import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/national_assembly_dialog.dart';
@@ -85,10 +86,15 @@ abstract class EventBtn extends PositionComponent
   void onEventEnd() async {
     bool result = await solvedMinigame();
     if (result) {
-      game.state.money += 50;
+      int moneydt = 50;
+      int natureScoredt = 0;
       if (game.player.role == RoleType.nature) {
-        game.state.natureScore = min(game.state.natureScore + 30, 100);
+        natureScoredt =
+            min(game.state.natureScore + 30, 100) - game.state.natureScore;
       }
+      ref
+          .read(matchDomainControllerProvider.notifier)
+          .setDt(0, natureScoredt, moneydt);
     }
   }
 

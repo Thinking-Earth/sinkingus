@@ -82,7 +82,7 @@ class GameState extends PositionComponent
 
   @override
   void update(double dt) {
-    if (hp == 0 || natureScore == 0) {
+    if (hp < 0 || natureScore < 0) {
       gameEnd();
     }
 
