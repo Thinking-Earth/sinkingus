@@ -41,9 +41,10 @@ class MatchDataSource {
       GroceryType.goodWater: castedData['groceryList']['goodWater'],
       GroceryType.badWater: castedData['groceryList']['badWater']
     };
+    final RuleType rule = castedData['rule'] != 'noRule' ? RuleType.getById(castedData['rule']) : RuleType.noRule;
     Match newMatch = Match(
       roomName: castedData['roomName'],
-      rule: RuleType.getById(castedData['rule']),
+      rule: rule,
       day: castedData['day'],
       players: List<String>.from(castedData['players']),
       host: castedData['host'],
