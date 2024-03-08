@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,22 +6,25 @@ import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/feature/home/view/build_room_dialog.dart';
 import 'package:sinking_us/feature/home/view/search_room_dialog.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
+import 'package:sinking_us/helpers/constants/app_typography.dart';
 
 @immutable
 class ShowDialogHelper {
   const ShowDialogHelper._();
 
-  static void gameEventDialog({required String title, required Widget widget}) {
-    showDialog(
+  static Future<bool> gameEventDialog(
+      {required String text, required Widget widget}) async {
+    bool result = await showDialog(
         context: AppRouter.navigatorKey.currentContext!,
-        barrierDismissible: true,
+        barrierDismissible: false, // TODO: false
         builder: (BuildContext context) {
           return Dialog(
               backgroundColor: Colors.black,
-              child: SizedBox(width: 455.3.w, height: 256.w, child: widget));
-        }).then((value) {
-      print(value);
-    });
+              child: ClipRect(
+                  child:
+                      SizedBox(width: 455.3.w, height: 256.w, child: widget)));
+        }).then((value) => value);
+    return result;
   }
 
   static void showBuildRoomDialog() {
@@ -66,9 +70,9 @@ class ShowDialogHelper {
             actions: [
               CupertinoDialogAction(
                   isDefaultAction: true,
-                  child: const Text(
-                    "확인",
-                    style: TextStyle(color: AppColors.green10),
+                  child: Text(
+                    tr("noti_ok"),
+                    style: const TextStyle(color: AppColors.green10),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -95,14 +99,29 @@ class ShowDialogHelper {
                   AppRouter.pop();
                   onPressed();
                 },
-                child: const Text(
-                  "확인",
-                  style: TextStyle(color: AppColors.green10),
+                child: Text(
+                  tr("noti_ok"),
+                  style: const TextStyle(color: AppColors.green10),
                 ),
               )
             ],
           );
         });
+  }
+
+  static void showSnackBar({required String content}) {
+    ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!)
+        .showSnackBar(SnackBar(
+      content: Text(
+        content,
+        textAlign: TextAlign.center,
+        style: AppTypography.whitePixel,
+      ),
+      shape: const StadiumBorder(),
+      behavior: SnackBarBehavior.floating,
+      width: 300.w,
+      elevation: 30,
+    ));
   }
 
   static void showLoading() {

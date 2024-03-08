@@ -7,7 +7,7 @@ part of 'auth_domain.dart';
 // **************************************************************************
 
 String _$authDomainControllerHash() =>
-    r'368a32ebfc2014321c124f66639a0fa947821a9b';
+    r'fc8fe3fc417c0c31536ebf9f56b1a0fce9010725';
 
 /// See also [AuthDomainController].
 @ProviderFor(AuthDomainController)

@@ -8,31 +8,45 @@ import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sinking_us/config/routes/app_router.dart';
+import 'package:sinking_us/feature/game/game_widgets/game_riverpod.dart';
 import 'package:sinking_us/feature/game/game_widgets/game_ui.dart';
 import 'package:sinking_us/feature/game/sprites/characters.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
-import 'package:sinking_us/feature/game/sprites/roles.dart';
-
-/// Director: 서버와 소통, 게임로직 관리
 
 class SinkingUsGame extends FlameGame
     with HasKeyboardHandlerComponents, RiverpodGameMixin {
   SinkingUsGame(this.matchId, this.uid, this.isHost);
 
-  late SpriteComponent player;
+  late MyPlayer player;
   late SpriteComponent background;
   late List<PositionComponent> eventBtns =
       List<PositionComponent>.empty(growable: true);
+  double dtSum = 0;
 
-  late String matchId;
+  String uid, matchId;
   bool isHost;
-  late String uid;
+  int day = -1;
+
   late List<OtherPlayer> players = List<OtherPlayer>.empty(growable: true);
 
-  late PositionComponent gameUI;
+  late GameState state;
+  late GameUI gameUI;
 
-  // TODO: 게임로직 짜기 (@전은지)
-  // Director of the game
+  double mapRatio = 1.8.w;
+
+  @override
+  FutureOr<void> onLoad() async {
+    state = GameState();
+    add(state);
+    await FirebaseDatabase.instance
+        .ref("game/$matchId/day")
+        .once()
+        .then((value) => day = value.snapshot.value as int);
+
+    return super.onLoad();
+  }
+
   @override
   FutureOr<void> onMount() async {
     final knobPaint = BasicPalette.white.withAlpha(200).paint();
@@ -46,40 +60,25 @@ class SinkingUsGame extends FlameGame
     Sprite backgroundSprite = await Sprite.load("map1.jpg");
     Sprite backgroundSprite2 = await Sprite.load("map2.png");
     background = SpriteComponent(sprite: backgroundSprite)
-      ..size = backgroundSprite.originalSize * 2.4.w
+      ..size = backgroundSprite.originalSize * mapRatio
       ..anchor = Anchor.topCenter
-      ..position = Vector2(0, backgroundSprite.originalSize.y * -1.2.w) +
-          camera.viewport.virtualSize * 0.5;
+      ..position =
+          Vector2(0, backgroundSprite.originalSize.y * mapRatio * -0.5) +
+              camera.viewport.virtualSize * 0.5;
     final background2 = SpriteComponent(sprite: backgroundSprite2)
-      ..size = backgroundSprite.originalSize * 2.4.w
+      ..size = backgroundSprite.originalSize * mapRatio
       ..anchor = Anchor.topCenter
-      ..position = Vector2(0, backgroundSprite.originalSize.y * -1.2.w) +
-          camera.viewport.virtualSize * 0.5;
+      ..position =
+          Vector2(0, backgroundSprite.originalSize.y * mapRatio * -0.5) +
+              camera.viewport.virtualSize * 0.5;
 
     // set my character
-    player = MyPlayer(RoleType.undefined, camera.viewport.size, joystick,
-        background, background2);
-
-    FirebaseDatabase.instance
-        .ref("game/$matchId/players")
-        .onChildAdded
-        .listen((event) {
-      if (event.snapshot.exists) {
-        if (event.snapshot.value.toString() != uid) {
-          OtherPlayer newPlayer =
-              OtherPlayer(event.snapshot.value.toString(), background.size);
-          players.add(newPlayer);
-          background.add(newPlayer);
-        }
-      }
-    });
-
-    setEventBtn();
+    player =
+        MyPlayer(uid, camera.viewport.size, joystick, background, background2);
 
     gameUI = GameUI(camera.viewport.size, isHost);
 
     add(background);
-    background.addAll(eventBtns);
     add(player);
     add(background2);
     camera.viewport.add(joystick);
@@ -87,7 +86,61 @@ class SinkingUsGame extends FlameGame
     //UI
     camera.viewport.add(gameUI);
 
+    if (day == 0) {
+      FirebaseDatabase.instance
+          .ref("game/$matchId/players")
+          .onChildAdded
+          .listen((event) {
+        if (event.snapshot.exists) {
+          if (event.snapshot.value.toString() != uid) {
+            OtherPlayer newPlayer =
+                OtherPlayer(event.snapshot.value.toString(), background.size);
+            players.add(newPlayer);
+            background.add(newPlayer);
+          }
+        }
+      });
+
+      FirebaseDatabase.instance
+          .ref("game/$matchId/day")
+          .onValue
+          .listen((event) {
+        if (event.snapshot.exists) {
+          int newDay = (event.snapshot.value as int);
+          if (day < newDay) {
+            if (newDay == 1) {
+              state.startGame();
+              gameUI.startGame();
+              background.addAll(eventBtns);
+            } else if (newDay == 8) {
+              state.gameEnd();
+            } else if (newDay > 1) {
+              if (state.currentEvent > -1) {
+                Navigator.of(AppRouter.navigatorKey.currentContext!).pop(false);
+              }
+              state.nextDay();
+              gameUI.nextDay(newDay);
+            }
+            day = newDay;
+            player.nextDay();
+          } else if (newDay > 0) {
+            background.addAll(eventBtns);
+          }
+        } else {
+          if (!isHost) {
+            state.leaveMatch();
+          }
+        }
+      });
+    }
+
+    setEventBtn();
+
     return super.onMount();
+  }
+
+  void deletePlayer(OtherPlayer otherPlayer) {
+    players.remove(otherPlayer);
   }
 
   @override
@@ -96,12 +149,40 @@ class SinkingUsGame extends FlameGame
   }
 
   void setEventBtn() {
-    PlugOffBtn plugOffBtn = PlugOffBtn(vertices: [
-      Vector2(-1, -1),
-      Vector2(-1, 1),
-      Vector2(1, 1),
-      Vector2(1, -1)
-    ], position: Vector2(4051.2.w, 1531.2.w), size: Vector2(28.8.w, 45.6.w));
-    eventBtns.add(plugOffBtn);
+    PlugOffBtn plugOffBtn = PlugOffBtn(
+        position: Vector2(1688, 638) * mapRatio,
+        size: Vector2(12, 19) * mapRatio);
+    WindPowerBtn windPowerBtn = WindPowerBtn(
+        position: Vector2(1160.5, 1603) * mapRatio,
+        size: Vector2(89, 146) * mapRatio);
+    TrashBtn trashBtn = TrashBtn(
+        position: Vector2(258, 1555) * mapRatio,
+        size: Vector2(40, 28) * mapRatio);
+    SunPowerBtn sunPowerBtn = SunPowerBtn(
+        position: Vector2(1882, 264) * mapRatio,
+        size: Vector2(30, 46) * mapRatio);
+    WaterOffBtn waterOffBtn = WaterOffBtn(
+        position: Vector2(493.5, 890.5) * mapRatio,
+        size: Vector2(51, 33) * mapRatio);
+    TreeBtn treeBtn = TreeBtn(
+        position: Vector2(377.5, 457) * mapRatio,
+        size: Vector2(41, 58) * mapRatio);
+    BuyNecessityBtn buyNecessityBtn = BuyNecessityBtn(
+        position: Vector2(1731.5, 1561.5) * mapRatio,
+        size: Vector2(63, 35) * mapRatio);
+    PolicyBtn nationalAssemblyBtn = PolicyBtn(
+        position: Vector2(1120, 192.5) * mapRatio,
+        size: Vector2(166, 101) * mapRatio);
+
+    eventBtns.addAll([
+      plugOffBtn,
+      sunPowerBtn,
+      windPowerBtn,
+      trashBtn,
+      treeBtn,
+      waterOffBtn,
+      buyNecessityBtn,
+      nationalAssemblyBtn
+    ]);
   }
 }

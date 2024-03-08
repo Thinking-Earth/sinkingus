@@ -34,7 +34,7 @@ dependencies:
   firebase_core: ^2.21.0
   firebase_messaging: ^14.7.9
   firebase_auth: ^4.11.1
-  cloud_firestore: ^4.1.0 #firestore 서버
+  cloud_firestore: ^4.15.7 #firestore 서버
   firebase_database: ^10.3.4 #realtime firebase 서버
   flutter_local_notifications: ^16.3.0 #push notification
   firebase_storage: ^11.4.1
@@ -64,6 +64,9 @@ dependencies:
   flame: ^1.14.0
   flame_riverpod: ^5.2.0
   connectivity_plus: ^5.0.2 #인터넷 연결 상태 감지
+  easy_localization: ^3.0.5 #지역 위치 파악 및 언어팩 연결
+  intl: ^0.18.0 #다국어 및 다국 시간
+  animated_text_kit: ^4.2.2 #애니메이션 텍스트
 
 dev_dependencies:
   flutter_test:
@@ -73,7 +76,7 @@ dev_dependencies:
   riverpod_generator: ^2.3.9
   build_runner: ^2.4.6
   riverpod_lint: ^2.3.7
-  freezed: ^2.0.3+1
+  freezed: ^2.4.7
   json_serializable: ^6.2.0
 
 # The following section is specific to Flutter packages.
@@ -85,13 +88,17 @@ flutter:
     - assets/images/
     - assets/images/characters/
     - assets/images/etc/
+    - assets/images/store/
+    - assets/images/policy/
     - assets/images/minigame/
     - assets/images/minigame/plug/
+    - assets/images/minigame/sun/
     - assets/images/minigame/tree/
     - assets/images/minigame/trash/
     - assets/images/minigame/wind/
     - assets/images/minigame/water/
     - assets/svgs/
+    - assets/translations/
 
   fonts:
     - family: Jalnan

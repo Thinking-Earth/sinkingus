@@ -14,6 +14,7 @@ _$MatchImpl _$$MatchImplFromJson(Map<String, dynamic> json) => _$MatchImpl(
           (json['players'] as List<dynamic>?)?.map((e) => e as String).toList(),
       host: json['host'] as String?,
       day: json['day'] as int?,
+      natureScore: json['natureScore'] as int?,
       groceryList: (json['groceryList'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry($enumDecode(_$GroceryTypeEnumMap, k), e as bool),
       ),
@@ -31,6 +32,7 @@ Map<String, dynamic> _$$MatchImplToJson(_$MatchImpl instance) =>
       'players': instance.players,
       'host': instance.host,
       'day': instance.day,
+      'natureScore': instance.natureScore,
       'groceryList': instance.groceryList
           ?.map((k, e) => MapEntry(_$GroceryTypeEnumMap[k]!, e)),
       'gameEventList': instance.gameEventList,
@@ -38,16 +40,21 @@ Map<String, dynamic> _$$MatchImplToJson(_$MatchImpl instance) =>
     };
 
 const _$GroceryTypeEnumMap = {
-  GroceryType.goodWater: 'goodWater',
-  GroceryType.badWater: 'badWater',
+  GroceryType.goodClothes: 'goodClothes',
+  GroceryType.badClothes: 'badClothes',
   GroceryType.goodFood: 'goodFood',
   GroceryType.badFood: 'badFood',
   GroceryType.goodAir: 'goodAir',
   GroceryType.badAir: 'badAir',
-  GroceryType.goodClothes: 'goodClothes',
-  GroceryType.badClothes: 'badClothes',
+  GroceryType.goodWater: 'goodWater',
+  GroceryType.badWater: 'badWater',
 };
 
 const _$RuleTypeEnumMap = {
-  RuleType.noRule: 'noRule',
+  RuleType.noRule: 0,
+  RuleType.A: 1,
+  RuleType.greenGrowthStrategy: 2,
+  RuleType.greenDeal: 3,
+  RuleType.parisAgreement: 4,
+  RuleType.carbonNeutrality: 5,
 };

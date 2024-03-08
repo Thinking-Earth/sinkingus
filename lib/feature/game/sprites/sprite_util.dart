@@ -53,29 +53,51 @@ class DragableSprite extends PositionComponent with DragCallbacks {
 }
 
 class ClickableSprite extends PositionComponent with TapCallbacks {
-  Function onClickEvent;
+  Function(Vector2 position, PositionComponent sprite) onClickEvent;
   String src;
+  Vector2? extraPosition;
+  Vector2? spriteSize;
+  late SpriteComponent sprite;
 
   ClickableSprite(
       {required Vector2 position,
-      required Vector2 size,
+      this.extraPosition,
+      this.spriteSize,
+      required super.size,
       required this.onClickEvent,
       required this.src})
-      : super(position: position, size: size);
+      : super(position: position);
 
   @override
   FutureOr<void> onLoad() async {
-    final sprite = SpriteComponent(
+    sprite = SpriteComponent(
         sprite: await Sprite.load(src),
-        position: -position,
-        size: Vector2(455.3.w, 256.w));
+        position: -position + (extraPosition ?? Vector2.zero()),
+        size: spriteSize ?? Vector2(455.3.w, 256.w));
     add(sprite);
     return super.onLoad();
   }
 
   @override
   void onTapUp(TapUpEvent event) {
-    onClickEvent();
+    onClickEvent(event.canvasPosition, this);
     super.onTapUp(event);
+  }
+}
+
+class ClickablePolygon extends PolygonComponent with TapCallbacks {
+  Function onClickEvent;
+  late Vector2 parentSize;
+
+  ClickablePolygon(super._vertices, {required this.onClickEvent});
+
+  ClickablePolygon.relative(super.vertices,
+      {required this.onClickEvent, required super.parentSize})
+      : super.relative();
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    onClickEvent();
+    super.onTapDown(event);
   }
 }

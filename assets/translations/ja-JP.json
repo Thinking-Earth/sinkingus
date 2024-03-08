@@ -1,0 +1,11 @@
+{
+    "language" : "ja_JP",
+    "showing_language" : "日本語 - JP",
+    "noti_noti" : "通知",
+    "noti_ok" : "確認",
+    "noti_cancel" : "取消",
+
+    "build_room" : "部屋作成",
+    "join_room" : "部屋参加",
+    "refresh" : "リフレッシュ"
+}

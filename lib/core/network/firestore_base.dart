@@ -15,12 +15,15 @@ class FirestoreBase {
   }
 
   Future<UserInfoModel?> getUserInfo({required String email}) async {
-    try {
-      DocumentSnapshot snapshot = await _firestore!.collection("users").doc(email).get();
-      return UserInfoModel.fromJson(snapshot.data() as Map<String, dynamic>);
-    } catch (e) {
-      print(e);
-    }
+    DocumentSnapshot snapshot = await _firestore!.collection("users").doc(email).get();
+    // return UserInfoModel(
+    //   email: email, 
+    //   nick: snapshot['nick'], 
+    //   profileURL: snapshot['profileURL'], 
+    //   uid: snapshot['uid']
+    // );
+    //플러터 내부 버그
+    return UserInfoModel.fromJson(Map<String, dynamic>.from(snapshot.data() as Map));
   }
 
   Future<void> signInFirestore({required UserInfoModel userInfo}) async {
