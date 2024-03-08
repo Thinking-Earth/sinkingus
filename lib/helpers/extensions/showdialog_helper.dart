@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
-import 'package:sinking_us/feature/home/view/build_room_dialog.dart';
-import 'package:sinking_us/feature/home/view/search_room_dialog.dart';
+import 'package:sinking_us/feature/home/widgets/build_room_dialog.dart';
+import 'package:sinking_us/feature/home/widgets/search_room_dialog.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
