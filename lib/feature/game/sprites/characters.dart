@@ -74,7 +74,8 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
         .get()
         .then((value) {
       final positionData = value.value as List<dynamic>;
-      characterPosition = Vector2(positionData[0], positionData[1]) * 1.w;
+      characterPosition =
+          Vector2(positionData[0] * 0.1, positionData[1] * 0.1) * 1.w;
       background.position.add(-characterPosition);
       background2.position.add(-characterPosition);
       oldCharacterPosition = characterPosition.clone();
