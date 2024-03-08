@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
+import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
+import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 
 class MatchDataSource {
@@ -26,7 +30,29 @@ class MatchDataSource {
       required String userName}) async {
     final gameRef = db.ref("game/$matchId");
     final data = await gameRef.get();
-    Match newMatch = Match.fromJson(data.value as Map<String, dynamic>);
+    final Map<dynamic, dynamic> castedData = Map<String, dynamic>.from(data.value as Map);
+    Map<GroceryType, bool> groceryList = {
+      GroceryType.goodClothes: castedData['groceryList']['goodClothes'],
+      GroceryType.badClothes: castedData['groceryList']['badClothes'],
+      GroceryType.goodFood: castedData['groceryList']['goodFood'],
+      GroceryType.badFood: castedData['groceryList']['badFood'],
+      GroceryType.goodAir: castedData['groceryList']['goodAir'],
+      GroceryType.badAir: castedData['groceryList']['badAir'],
+      GroceryType.goodWater: castedData['groceryList']['goodWater'],
+      GroceryType.badWater: castedData['groceryList']['badWater']
+    };
+    Match newMatch = Match(
+      roomName: castedData['roomName'],
+      rule: RuleType.getById(castedData['rule']),
+      day: castedData['day'],
+      players: List<String>.from(castedData['players']),
+      host: castedData['host'],
+      natureScore: castedData['natureScore'],
+      groceryList: groceryList,
+      gameEventList: castedData['gameEventList'],
+      isPrivate: castedData['isPrivate'],
+      playerCount: 2
+    );
 
     if (newMatch.playerCount < 6) {
       // TODO: 트랜잭션 재도전
@@ -131,7 +157,7 @@ class MatchDataSource {
         .ref("game/$matchId/status")
         .get()
         .then((value) {
-      return value.value as Map<String, String>;
+      return Map<String, String>.from(value.value as Map);
     });
   }
 
