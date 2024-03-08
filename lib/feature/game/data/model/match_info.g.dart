@@ -40,16 +40,21 @@ Map<String, dynamic> _$$MatchImplToJson(_$MatchImpl instance) =>
     };
 
 const _$GroceryTypeEnumMap = {
-  GroceryType.goodWater: 'goodWater',
-  GroceryType.badWater: 'badWater',
+  GroceryType.goodClothes: 'goodClothes',
+  GroceryType.badClothes: 'badClothes',
   GroceryType.goodFood: 'goodFood',
   GroceryType.badFood: 'badFood',
   GroceryType.goodAir: 'goodAir',
   GroceryType.badAir: 'badAir',
-  GroceryType.goodClothes: 'goodClothes',
-  GroceryType.badClothes: 'badClothes',
+  GroceryType.goodWater: 'goodWater',
+  GroceryType.badWater: 'badWater',
 };
 
 const _$RuleTypeEnumMap = {
-  RuleType.noRule: 'noRule',
+  RuleType.noRule: 0,
+  RuleType.A: 1,
+  RuleType.greenGrowthStrategy: 2,
+  RuleType.greenDeal: 3,
+  RuleType.parisAgreement: 4,
+  RuleType.carbonNeutrality: 5,
 };

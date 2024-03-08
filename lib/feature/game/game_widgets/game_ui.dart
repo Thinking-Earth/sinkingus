@@ -5,7 +5,6 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:flame/palette.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
@@ -23,8 +22,8 @@ class GameUI extends PositionComponent
   late TextButton gameStartBtn;
   late RectangleComponent hp, natureScore;
   late Timer timer;
-  int oneDay = 30; // TODO: test version time
-  int remainingSec = 30;
+  int oneDay = 150; // TODO: test version time
+  int remainingSec = 150;
   late TextComponent timerComponent, moneyComponent;
   late News news;
 

@@ -6,6 +6,7 @@ import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/data/dataSource/match_data_source.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
 import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
+import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 part 'match_domain.g.dart';
@@ -173,5 +174,9 @@ class MatchDomainController extends _$MatchDomainController {
     state.hpdt = 0;
     state.natureScoredt = 0;
     return true;
+  }
+
+  void setRule(int ruleId) {
+    source.setRule(matchId: state.matchId, ruleId: ruleId);
   }
 }

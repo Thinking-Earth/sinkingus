@@ -13,7 +13,28 @@
           "package_name": "com.thinking.earth.sinking_us"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "57185542814-0n3fqpfe3pgil903pue48ihtsjv2ubtg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thinking.earth.sinking_us",
+            "certificate_hash": "1c6b8bc20c44e568e5e22d244f21a11df9ab5d39"
+          }
+        },
+        {
+          "client_id": "57185542814-qrgdm0m8m572kfjsrgh6gvp676potsgb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thinking.earth.sinking_us",
+            "certificate_hash": "4ce3fccce882602623d296716641c6dccc4ac7c4"
+          }
+        },
+        {
+          "client_id": "57185542814-0u0fnlmff0t7k54i2jlls5i5husr3ktp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBT9mllcD78Scg2Kkpa50ZWXq3RZBeG5UY"
@@ -21,7 +42,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "57185542814-0u0fnlmff0t7k54i2jlls5i5husr3ktp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "57185542814-5nprhhtrhajtf5ib7m5l503eovsrl5cs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.thinking.earth.sinkingUs.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }

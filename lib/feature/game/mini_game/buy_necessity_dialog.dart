@@ -6,26 +6,26 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
-import 'package:flame_riverpod/flame_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
-import 'package:sinking_us/feature/game/domain/match_domain.dart';
+import 'package:sinking_us/feature/game/game_widgets/game_riverpod.dart';
 import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 @JsonEnum(valueField: 'code')
 enum GroceryType {
-  goodWater(0, "goodWater", 120, 10),
-  badWater(1, "badWater", 60, 20),
-  goodFood(2, "goodFood", 120, 10),
-  badFood(3, "badFood", 60, 20),
-  goodAir(4, "goodAir", 120, 10),
-  badAir(5, "badAir", 60, 20),
-  goodClothes(6, "goodClothes", 120, 10),
-  badClothes(7, "badClothes", 60, 20);
+  goodClothes(0, "goodClothes", 160, 15),
+  badClothes(1, "badClothes", 40, 30),
+  goodFood(2, "goodFood", 190, 12),
+  badFood(3, "badFood", 70, 25),
+  goodAir(4, "goodAir", 220, 8),
+  badAir(5, "badAir", 100, 20),
+  goodWater(6, "goodWater", 250, 5),
+  badWater(7, "badWater", 130, 18);
 
   const GroceryType(this.id, this.code, this.price, this.destroyScore);
   final String code;
@@ -89,7 +89,8 @@ class GroceryListItem extends SpriteComponent
   }
 }
 
-class BuyDialog extends SpriteComponent with RiverpodComponentMixin {
+class BuyDialog extends SpriteComponent
+    with HasGameReference<BuyNecessityDialog> {
   GroceryType type;
 
   BuyDialog(this.type) : super(size: Vector2(455.3.w, 256.w));
@@ -103,6 +104,7 @@ class BuyDialog extends SpriteComponent with RiverpodComponentMixin {
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         position: Vector2(730.w, 439.w) / 3);
+
     final cancelText = TextComponent(
         text: tr("close"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
@@ -112,15 +114,16 @@ class BuyDialog extends SpriteComponent with RiverpodComponentMixin {
     final buyBtn = ClickablePolygon.relative(
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
-      bool canBuy = ref
-          .read(matchDomainControllerProvider.notifier)
-          .setDt(20, -1 * type.destroyScore, -1 * type.price);
-      if (canBuy) {
-        print("${type.code} buy success");
-        ShowDialogHelper.showSnackBar(content: tr("buy_success"));
+      if (game.state.rule.restrict >= type.destroyScore) {
+        bool canBuy =
+            game.state.setDt(20, -1 * type.destroyScore, -1 * type.price);
+        if (canBuy) {
+          ShowDialogHelper.showSnackBar(content: tr("buy_success"));
+        } else {
+          ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
+        }
       } else {
-        print("${type.code} buy fail");
-        ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
+        ShowDialogHelper.showSnackBar(content: "규칙에 위배됩니다");
       }
     }, parentSize: Vector2(134.w, 42.w) / 3)
       ..position = Vector2(663.w, 419.w) / 3
@@ -150,11 +153,63 @@ class BuyDialog extends SpriteComponent with RiverpodComponentMixin {
   }
 }
 
-class BuyNecessityDialog extends FlameGame
-    with HasKeyboardHandlerComponents, RiverpodGameMixin {
+class Scroller extends PositionComponent with DragCallbacks, KeyboardHandler {
+  PositionComponent listView;
+  double scrollPosition = 0;
+
+  Scroller({required this.listView})
+      : super(
+            size: Vector2(152.w, 44.w) / 3,
+            position: Vector2(111.w, 666.w) / 3);
+
+  @override
+  FutureOr<void> onLoad() async {
+    final scrollSpriteComponent = SpriteComponent(
+        sprite: await Sprite.load("store/scroll.png"),
+        size: Vector2(455.3.w, 256.w),
+        position: -position + Vector2(111.w / 3 - 455.3.w / 2 + 76.w / 3, 0));
+    add(scrollSpriteComponent);
+    return super.onLoad();
+  }
+
+  @override
+  void update(double dt) {
+    position.x = 111.w / 3 + scrollPosition;
+    listView.position.x = -scrollPosition * 2090 / 989;
+    super.update(dt);
+  }
+
+  @override
+  void onDragUpdate(DragUpdateEvent event) {
+    if (event.localDelta.x > 0) {
+      scrollPosition = min(989.w / 3, scrollPosition + event.localDelta.x);
+    }
+    if (event.localDelta.x < 0) {
+      scrollPosition = max(0, scrollPosition + event.localDelta.x);
+    }
+    super.onDragUpdate(event);
+  }
+
+  @override
+  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
+      scrollPosition = max(0.w, scrollPosition - 20.w);
+    }
+    if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
+      scrollPosition = min(989.w / 3, scrollPosition + 20.w);
+    }
+    return super.onKeyEvent(event, keysPressed);
+  }
+}
+
+class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
   late Scroller scroller;
   late PositionComponent listView;
   late BuyDialog dialog;
+
+  GameState state;
+
+  BuyNecessityDialog({required this.state});
 
   @override
   FutureOr<void> onMount() async {
@@ -193,7 +248,7 @@ class BuyNecessityDialog extends FlameGame
       badClothes
     ]);
 
-    scroller = Scroller(scrollView: listView);
+    scroller = Scroller(listView: listView);
 
     ClickablePolygon leftScrollBtn = ClickablePolygon.relative(
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],

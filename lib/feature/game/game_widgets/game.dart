@@ -76,8 +76,6 @@ class SinkingUsGame extends FlameGame
     player =
         MyPlayer(uid, camera.viewport.size, joystick, background, background2);
 
-    setEventBtn();
-
     gameUI = GameUI(camera.viewport.size, isHost);
 
     add(background);
@@ -136,6 +134,8 @@ class SinkingUsGame extends FlameGame
       });
     }
 
+    setEventBtn();
+
     return super.onMount();
   }
 
@@ -170,8 +170,8 @@ class SinkingUsGame extends FlameGame
     BuyNecessityBtn buyNecessityBtn = BuyNecessityBtn(
         position: Vector2(1731.5, 1561.5) * mapRatio,
         size: Vector2(63, 35) * mapRatio);
-    NationalAssemblyBtn nationalAssemblyBtn = NationalAssemblyBtn(
-        position: Vector2(1119, 192.5) * mapRatio,
+    PolicyBtn nationalAssemblyBtn = PolicyBtn(
+        position: Vector2(1120, 192.5) * mapRatio,
         size: Vector2(166, 101) * mapRatio);
 
     eventBtns.addAll([

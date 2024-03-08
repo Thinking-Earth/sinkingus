@@ -148,4 +148,8 @@ class MatchDataSource {
       {required String matchId, required bool isPrivate}) async {
     await db.ref("lobby/${isPrivate ? "private" : "public"}/$matchId").remove();
   }
+
+  void setRule({required String matchId, required int ruleId}) {
+    db.ref("game/$matchId/rule").set(ruleId);
+  }
 }

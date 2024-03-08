@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -6,6 +7,7 @@ import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
+import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 
@@ -14,12 +16,24 @@ class GameState extends PositionComponent
   late int hp = 100;
   late int natureScore = 100;
   late int money = 100;
-
+  String playerName = "";
   int currentEvent = -1;
+  RuleType rule = RuleType.noRule;
 
   double dtSum = 0;
 
-  String playerName = "";
+  @override
+  FutureOr<void> onLoad() {
+    FirebaseDatabase.instance
+        .ref("game/${game.matchId}/rule")
+        .onValue
+        .listen((event) {
+      if (event.snapshot.exists) {
+        rule = RuleType.getById(event.snapshot.value as int);
+      }
+    });
+    return super.onLoad();
+  }
 
   @override
   void onMount() {
@@ -113,5 +127,15 @@ class GameState extends PositionComponent
 
   void leaveMatch() async {
     ref.read(matchDomainControllerProvider.notifier).leaveMatch();
+  }
+
+  void setRule(RuleType newRule) {
+    ref.read(matchDomainControllerProvider.notifier).setRule(newRule.id);
+  }
+
+  bool setDt(int? hpdt, int? natureScoredt, int? moneydt) {
+    return ref
+        .read(matchDomainControllerProvider.notifier)
+        .setDt(hpdt, natureScoredt, moneydt);
   }
 }

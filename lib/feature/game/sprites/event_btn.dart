@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -252,17 +253,15 @@ class BuyNecessityBtn extends EventBtn {
           Vector2(1, -1),
           Vector2(1, 1),
           Vector2(-1, 1)
-        ]) {
-    final dialog = BuyNecessityDialog();
+        ]);
+
+  @override
+  FutureOr<void> onLoad() {
+    final dialog = BuyNecessityDialog(state: game.state);
     type = GameEventType.buyNecessity;
 
-    final GlobalKey<RiverpodAwareGameWidgetState> gameWidgetKey =
-        GlobalKey<RiverpodAwareGameWidgetState>();
-
-    dialogWidget = RiverpodAwareGameWidget(
-      key: gameWidgetKey,
-      game: dialog,
-    );
+    dialogWidget = GameWidget(game: dialog);
+    return super.onLoad();
   }
 
   @override
@@ -271,8 +270,8 @@ class BuyNecessityBtn extends EventBtn {
   }
 }
 
-class NationalAssemblyBtn extends EventBtn {
-  NationalAssemblyBtn({required super.position, required super.size})
+class PolicyBtn extends EventBtn {
+  PolicyBtn({required super.position, required super.size})
       : super(vertices: [
           Vector2(-1.0, -1.0),
           Vector2(-0.892, -1.0),
@@ -290,17 +289,16 @@ class NationalAssemblyBtn extends EventBtn {
           Vector2(-0.699, 0.822),
           Vector2(-0.916, 0.644),
           Vector2(-1.0, 0.624),
-        ]) {
-    final dialog = PolicyDialog();
+        ]);
+
+  @override
+  FutureOr<void> onLoad() {
+    final dialog =
+        PolicyDialog(playerRole: game.player.role, state: game.state);
     type = GameEventType.nationalAssembly;
 
-    final GlobalKey<RiverpodAwareGameWidgetState> gameWidgetKey =
-        GlobalKey<RiverpodAwareGameWidgetState>();
-
-    dialogWidget = dialogWidget = RiverpodAwareGameWidget(
-      key: gameWidgetKey,
-      game: dialog,
-    );
+    dialogWidget = GameWidget(game: dialog);
+    return super.onLoad();
   }
 
   @override
