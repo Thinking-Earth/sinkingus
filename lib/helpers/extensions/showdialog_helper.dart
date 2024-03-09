@@ -35,7 +35,7 @@ class ShowDialogHelper {
           return StatefulBuilder(
             builder: (context, setState) {
               return AlertDialog(
-                title: Text("Build Room"),
+                title: const Text("Build Room"),
                 content: SizedBox(
                     width: 400.w,
                     height: 300.h,

@@ -7,6 +7,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
@@ -26,7 +27,12 @@ class GameUI extends PositionComponent
   late Timer timer;
   int oneDay = 30; // TODO: test version time
   int remainingSec = 30;
-  late TextComponent timerComponent, moneyComponent;
+
+  late TextBoxComponent timerComponent,
+      moneyComponent,
+      dayComponent,
+      peopleComponent;
+
   late News news;
 
   GameUI(this.cameraSize, this.isHost);
@@ -36,7 +42,7 @@ class GameUI extends PositionComponent
     gameLeaveBtn = HudButtonComponent(
         button: SpriteComponent(
             sprite: await Sprite.load("etc/leave.png"),
-            size: Vector2.all(18 * 1.8)),
+            size: Vector2.all(18.w)),
         onPressed: () async {
           print("pressed");
           game.pauseEngine();
@@ -49,42 +55,60 @@ class GameUI extends PositionComponent
 
     hp = RectangleComponent(
         anchor: Anchor.centerLeft,
-        position: Vector2(23, 9) * 1.8,
-        size: Vector2(58, 8) * 1.8,
-        scale: Vector2.all(1),
+        position: Vector2(23, 9) * 1.w,
+        size: Vector2(58, 8) * 1.w,
         paint: Paint()..color = const Color.fromARGB(255, 225, 234, 0));
 
     final hpUi = SpriteComponent(
         sprite: await Sprite.load("etc/hpBar.png"),
         position: Vector2(5.w, 0),
         anchor: Anchor.topLeft,
-        size: Vector2(89, 18) * 1.8)
+        size: Vector2(89, 18) * 1.w)
       ..add(hp);
 
     natureScore = RectangleComponent(
         anchor: Anchor.centerLeft,
-        position: Vector2(23, 9) * 1.8,
-        size: Vector2(58, 8) * 1.8,
-        scale: Vector2.all(1),
+        position: Vector2(23, 9) * 1.w,
+        size: Vector2(58, 8) * 1.w,
         paint: Paint()..color = const Color.fromARGB(255, 0, 247, 86));
 
     final natureUi = SpriteComponent(
         sprite: await Sprite.load("etc/natureScoreBar.png"),
         position: Vector2(hpUi.size.x + 3.w, 0),
         anchor: Anchor.topLeft,
-        size: Vector2(89, 18) * 1.8)
+        size: Vector2(89, 18) * 1.w)
       ..add(natureScore);
 
     final coinUi = SpriteComponent(
         sprite: await Sprite.load("etc/coin.png"),
-        anchor: Anchor.topLeft,
-        position: Vector2(cameraSize.x - gameLeaveBtn.size.x - 30.w * 1.8, 0),
-        size: Vector2.all(18) * 1.8);
-
-    moneyComponent = TextComponent(
-        text: "${game.state.money}",
         anchor: Anchor.topRight,
-        position: coinUi.position + Vector2(-3.w, 3 * 1.8),
+        position: Vector2(cameraSize.x - gameLeaveBtn.size.x - 60.w, 0.5.w),
+        size: Vector2.all(18.w));
+
+    moneyComponent = TextBoxComponent(
+        text: "${game.state.money}",
+        size: Vector2(25.w, 18.w),
+        anchor: Anchor.topRight,
+        align: Anchor.centerRight,
+        position: coinUi.position - Vector2(coinUi.size.x, 0),
+        textRenderer: TextPaint(style: AppTypography.blackPixel));
+
+    peopleComponent = TextBoxComponent(
+        text: "${game.players.length + 1}/6",
+        size: Vector2(25.w, 18.w),
+        anchor: Anchor.topRight,
+        align: Anchor.centerRight,
+        position:
+            moneyComponent.position - Vector2(moneyComponent.size.x + 20.w, 0),
+        textRenderer: TextPaint(style: AppTypography.blackPixel));
+
+    dayComponent = TextBoxComponent(
+        text: "DAY ${game.day}",
+        size: Vector2(40.w, 18.w),
+        anchor: Anchor.topRight,
+        align: Anchor.centerRight,
+        position: peopleComponent.position -
+            Vector2(peopleComponent.size.x + 20.w, 0),
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     gameStartBtn = TextButton(
@@ -113,19 +137,22 @@ class GameUI extends PositionComponent
       }
     }, repeat: true, autoStart: false);
 
-    timerComponent = TextComponent(
+    timerComponent = TextBoxComponent(
         text: "",
         textRenderer: TextPaint(style: AppTypography.timerPixel),
         position: Vector2(cameraSize.x * 0.5, 10.w),
-        anchor: Anchor.topCenter);
+        anchor: Anchor.topCenter,
+        align: Anchor.topCenter);
 
     news = News(game: game);
 
     add(gameLeaveBtn);
     add(hpUi);
     add(natureUi);
-    add(moneyComponent);
     add(coinUi);
+    add(moneyComponent);
+    add(peopleComponent);
+    add(dayComponent);
     add(minimap);
 
     return super.onLoad();
@@ -153,6 +180,8 @@ class GameUI extends PositionComponent
     super.update(dt);
 
     moneyComponent.text = "${game.state.money}";
+    peopleComponent.text = "${game.players.length + 1}/6";
+    dayComponent.text = "DAY ${game.day}";
     hp.scale = Vector2(game.state.hp / 100, 1);
     natureScore.scale = Vector2(game.state.natureScore / 100, 1);
   }
