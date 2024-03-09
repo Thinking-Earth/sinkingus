@@ -14,6 +14,7 @@ class ShowDialogHelper {
 
   static Future<bool> gameEventDialog(
       {required String text, required Widget widget}) async {
+        print(AppRouter.navigatorKey.currentContext!);
     bool result = await showDialog(
         context: AppRouter.navigatorKey.currentContext!,
         barrierDismissible: false, // TODO: false
@@ -62,24 +63,25 @@ class ShowDialogHelper {
 
   static void showAlert({required String title, required String message}) {
     showCupertinoDialog(
-        context: AppRouter.navigatorKey.currentContext!,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text(title),
-            content: Text(message),
-            actions: [
-              CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text(
-                    tr("noti_ok"),
-                    style: const TextStyle(color: AppColors.green10),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  })
-            ],
-          );
-        });
+      context: AppRouter.navigatorKey.currentContext!,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            CupertinoDialogAction(
+                isDefaultAction: true,
+                child: Text(
+                  tr("noti_ok"),
+                  style: const TextStyle(color: AppColors.green10),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                })
+          ],
+        );
+      }
+    );
   }
 
   static void showAlertWithAction(
@@ -87,26 +89,27 @@ class ShowDialogHelper {
       required String title,
       required String message}) {
     showCupertinoDialog(
-        context: AppRouter.navigatorKey.currentContext!,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text(title),
-            content: Text(message),
-            actions: [
-              CupertinoDialogAction(
-                isDefaultAction: true,
-                onPressed: () {
-                  AppRouter.pop();
-                  onPressed();
-                },
-                child: Text(
-                  tr("noti_ok"),
-                  style: const TextStyle(color: AppColors.green10),
-                ),
-              )
-            ],
-          );
-        });
+      context: AppRouter.navigatorKey.currentContext!,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () {
+                AppRouter.pop();
+                onPressed();
+              },
+              child: Text(
+                tr("noti_ok"),
+                style: const TextStyle(color: AppColors.green10),
+              ),
+            )
+          ],
+        );
+      }
+    );
   }
 
   static void showSnackBar({required String content}) {

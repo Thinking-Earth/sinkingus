@@ -8,6 +8,7 @@ import 'package:sinking_us/feature/home/viewmodel/home_screen_viewmodel.dart';
 import 'package:sinking_us/feature/home/widgets/game_block_btn.dart';
 import 'package:sinking_us/feature/home/widgets/match_list_item.dart';
 import 'package:sinking_us/helpers/constants/app_images.dart';
+import 'package:sinking_us/helpers/constants/app_typography.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -61,16 +62,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     SizedBox(
                       width: 400.w,
                       height: 230.h,
-                      child: ListView.builder(
-                        itemCount: matchList.length,
-                        itemBuilder: (context, index) {
-                          String matchId = matchList.keys.elementAt(index);
-                          return MatchListItem(
-                              matchId: matchId,
-                              match: matchList[matchId]!,
-                              isPrivate: "public");
-                        },
-                      ),
+                      child: matchList.isNotEmpty 
+                        ? ListView.builder(
+                            itemCount: matchList.length,
+                            itemBuilder: (context, index) {
+                              String matchId = matchList.keys.elementAt(index);
+                              return MatchListItem(
+                                  matchId: matchId,
+                                  match: matchList[matchId]!,
+                                  isPrivate: "public");
+                            },
+                          )
+                        : Center(
+                            child: Text(
+                              "There are no rooms left.\nCreate a room and enjoy the game!",
+                              textAlign: TextAlign.center,
+                              style: AppTypography.blackPixel,
+                            ),
+                          ),
                     ),
                     Row(
                       children: [

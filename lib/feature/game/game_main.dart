@@ -29,11 +29,16 @@ class _GameMainState extends ConsumerState<GameMain> {
     SinkingUsGame game = SinkingUsGame(
         ref.read(matchDomainControllerProvider).matchId, uid, uid == host);
 
-    return ClipRect(
-      child: SafeArea(
-        child: RiverpodAwareGameWidget(
-          key: gameWidgetKey,
-          game: game,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: ClipRect(
+          child: SafeArea(
+            child: RiverpodAwareGameWidget(
+              key: gameWidgetKey,
+              game: game,
+            ),
+          ),
         ),
       ),
     );

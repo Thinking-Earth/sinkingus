@@ -99,6 +99,7 @@ flutter:
     - assets/images/minigame/water/
     - assets/svgs/
     - assets/translations/
+    - assets/images/home/
 
   fonts:
     - family: Jalnan

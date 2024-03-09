@@ -206,7 +206,7 @@ class GameUI extends PositionComponent
       gameStartBtn.removeFromParent();
       game.state.hostStartGame();
     } else {
-      // TODO: 사람이 6명이어야 게임 시작 가능
+      //TODO: 사람이 6명이어야 게임 시작 가능
       gameStartBtn.removeFromParent();
       game.state.hostStartGame();
     }
