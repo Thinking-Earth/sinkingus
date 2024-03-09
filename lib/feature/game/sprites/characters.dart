@@ -35,7 +35,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   Vector2 oldCharacterPosition = Vector2(0, 0);
   double dtSum = 0;
 
-  double maxSpeed = 200.0;
+  double maxSpeed = 100.w;
   JoystickComponent joystick;
   late TextComponent nameText;
 
@@ -75,7 +75,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
         .then((value) {
       final positionData = value.value as List<dynamic>;
       characterPosition =
-          Vector2(positionData[0] * 0.1, positionData[1] * 0.1) * 1.w;
+          Vector2(positionData[0] * 1.0, positionData[1] * 1.0) * 1.w;
       background.position.add(-characterPosition);
       background2.position.add(-characterPosition);
       oldCharacterPosition = characterPosition.clone();
@@ -110,11 +110,12 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       characterPosition.add(joystick.relativeDelta * maxSpeed * dt * 1.w);
     }
 
-    if (oldCharacterPosition == characterPosition) {
+    if (oldCharacterPosition == characterPosition &&
+        current == CharacterState.walk) {
       current = CharacterState.idle;
     }
 
-    if (dtSum > 0.1 &&
+    if (dtSum > 0.2 &&
         (oldCharacterPosition.x != characterPosition.x ||
             oldCharacterPosition.y != characterPosition.y)) {
       sendChangedPosition();
@@ -130,23 +131,27 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     if (event is RawKeyDownEvent) {
       Vector2 moveDirection = Vector2.zero();
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
-          keysPressed.contains(LogicalKeyboardKey.keyA))
+          keysPressed.contains(LogicalKeyboardKey.keyA)) {
         moveDirection.x += -10.w;
+      }
       if (keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
-          keysPressed.contains(LogicalKeyboardKey.keyD))
+          keysPressed.contains(LogicalKeyboardKey.keyD)) {
         moveDirection.x += 10.w;
+      }
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
-          keysPressed.contains(LogicalKeyboardKey.keyW))
+          keysPressed.contains(LogicalKeyboardKey.keyW)) {
         moveDirection.y += -10.w;
+      }
       if (keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
-          keysPressed.contains(LogicalKeyboardKey.keyS))
+          keysPressed.contains(LogicalKeyboardKey.keyS)) {
         moveDirection.y += 10.w;
+      }
       if (moveDirection.x >= 0) {
-        current = CharacterState.walk;
+        if (current == CharacterState.idle) current = CharacterState.walk;
         scale = Vector2(-1, 1);
         nameText.scale = Vector2(-1, 1);
       } else if (moveDirection.x < 0) {
-        current = CharacterState.walk;
+        if (current == CharacterState.idle) current = CharacterState.walk;
         scale = Vector2(1, 1);
         nameText.scale = Vector2(1, 1);
       }
