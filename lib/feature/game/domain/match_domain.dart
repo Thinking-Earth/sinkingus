@@ -59,7 +59,7 @@ class MatchDomainController extends _$MatchDomainController {
     if (data.exists) {
       for (var element in data.children) {
         matchList[element.key!] =
-            Match.fromJson(element.value as Map<String, dynamic>);
+            Match.fromJson(Map<String, dynamic>.from(element.value as Map));
       }
     }
     return matchList;

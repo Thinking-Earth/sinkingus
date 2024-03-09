@@ -5,6 +5,7 @@ import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
+// ignore: must_be_immutable
 class BuildDialogContent extends StatelessWidget {
   BuildDialogContent({required this.setState, super.key});
 

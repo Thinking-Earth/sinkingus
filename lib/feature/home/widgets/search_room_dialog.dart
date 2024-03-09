@@ -2,7 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
-import 'package:sinking_us/feature/home/view/match_list_item.dart';
+import 'package:sinking_us/feature/home/widgets/match_list_item.dart';
 
 class SearchDialogContent extends StatefulWidget {
   const SearchDialogContent({super.key});
