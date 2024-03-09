@@ -108,6 +108,7 @@ class SinkingUsGame extends FlameGame
         if (event.snapshot.exists) {
           int newDay = (event.snapshot.value as int);
           if (day < newDay) {
+            day = newDay;
             if (newDay == 1) {
               state.startGame();
               gameUI.startGame();
@@ -121,7 +122,6 @@ class SinkingUsGame extends FlameGame
               state.nextDay();
               gameUI.nextDay(newDay);
             }
-            day = newDay;
             player.nextDay();
           } else if (newDay > 0) {
             background.addAll(eventBtns);

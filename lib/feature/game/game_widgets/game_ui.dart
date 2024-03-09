@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -9,6 +10,7 @@ import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
+import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 import 'package:sinking_us/feature/game/sprites/news.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
@@ -22,8 +24,8 @@ class GameUI extends PositionComponent
   late TextButton gameStartBtn;
   late RectangleComponent hp, natureScore;
   late Timer timer;
-  int oneDay = 150; // TODO: test version time
-  int remainingSec = 150;
+  int oneDay = 30; // TODO: test version time
+  int remainingSec = 30;
   late TextComponent timerComponent, moneyComponent;
   late News news;
 
@@ -36,6 +38,7 @@ class GameUI extends PositionComponent
             sprite: await Sprite.load("etc/leave.png"),
             size: Vector2.all(18 * 1.8)),
         onPressed: () async {
+          print("pressed");
           game.pauseEngine();
           game.removeFromParent();
           game.state.leaveMatch();
@@ -116,7 +119,7 @@ class GameUI extends PositionComponent
         position: Vector2(cameraSize.x * 0.5, 10.w),
         anchor: Anchor.topCenter);
 
-    news = News(game);
+    news = News(game: game);
 
     add(gameLeaveBtn);
     add(hpUi);
@@ -157,7 +160,7 @@ class GameUI extends PositionComponent
   // called when day updated to 1
   void startGame() {
     add(timerComponent);
-    news.text = "Game started";
+    news.text = "Game Started";
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
@@ -168,7 +171,7 @@ class GameUI extends PositionComponent
 
   // called when day updated
   void nextDay(int day) {
-    news.text = "It's day $day";
+    news.text = setNewsText();
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
@@ -177,6 +180,25 @@ class GameUI extends PositionComponent
       remainingSec = oneDay;
       timer.start();
     });
+  }
+
+  String setNewsText() {
+    // TODO: tr 처리
+    String text = "";
+    if (game.state.rule.id == RuleType.carbonNeutrality.id) {
+      text = tr("news_greenplation");
+    } else if (game.state.natureScore > 80) {
+      text = tr("news_80");
+    } else if (game.state.natureScore > 60) {
+      text = tr("news_60");
+    } else if (game.state.natureScore > 40) {
+      text = tr("news_40");
+    } else if (game.state.natureScore > 20) {
+      text = tr("news_20");
+    } else if (game.state.natureScore > 0) {
+      text = tr("news_0");
+    }
+    return text;
   }
 
   void hostStartGame() async {
