@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/collisions.dart';
@@ -35,7 +36,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   Vector2 oldCharacterPosition = Vector2(0, 0);
   double dtSum = 0;
 
-  double maxSpeed = 100.w;
+  double maxSpeed = 80.w;
   JoystickComponent joystick;
   late TextComponent nameText;
 
@@ -81,11 +82,12 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       oldCharacterPosition = characterPosition.clone();
     });
 
-    nameText = TextComponent(
+    nameText = TextBoxComponent(
         text: game.state.playerName,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        position: Vector2(size.x * 0.5, 0));
+        align: Anchor.bottomCenter,
+        position: Vector2(size.x * 0.5, 10.w));
 
     add(nameText);
 
@@ -132,20 +134,25 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       Vector2 moveDirection = Vector2.zero();
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
           keysPressed.contains(LogicalKeyboardKey.keyA)) {
-        moveDirection.x += -10.w;
+        moveDirection.x += -5.w;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
           keysPressed.contains(LogicalKeyboardKey.keyD)) {
-        moveDirection.x += 10.w;
+        moveDirection.x += 5.w;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
           keysPressed.contains(LogicalKeyboardKey.keyW)) {
-        moveDirection.y += -10.w;
+        moveDirection.y += -5.w;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
           keysPressed.contains(LogicalKeyboardKey.keyS)) {
-        moveDirection.y += 10.w;
+        moveDirection.y += 5.w;
       }
+
+      if (moveDirection.x != 0 && moveDirection.y != 0) {
+        moveDirection /= pow(2, 1 / 2) as double;
+      }
+
       if (moveDirection.x >= 0) {
         if (current == CharacterState.idle) current = CharacterState.walk;
         scale = Vector2(-1, 1);

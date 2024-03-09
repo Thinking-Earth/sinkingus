@@ -139,7 +139,8 @@ class GameUI extends PositionComponent
         text: "",
         textRenderer: TextPaint(style: AppTypography.timerPixel),
         position: Vector2(cameraSize.x * 0.5, 10.w),
-        anchor: Anchor.topCenter);
+        anchor: Anchor.topCenter,
+        align: Anchor.topCenter);
 
     news = News(game: game);
 
