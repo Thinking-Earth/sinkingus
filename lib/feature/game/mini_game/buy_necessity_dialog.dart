@@ -191,7 +191,7 @@ class Scroller extends PositionComponent with DragCallbacks, KeyboardHandler {
   }
 
   @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
       scrollPosition = max(0.w, scrollPosition - 20.w);
     }

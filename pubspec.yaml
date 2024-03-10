@@ -45,7 +45,7 @@ dependencies:
   sign_in_with_apple: ^5.0.0 #애플 로그인
 
   #Status management
-  flutter_riverpod: ^2.4.9 #상태관리 패키지
+  flutter_riverpod: 2.4.9 #상태관리 패키지
   riverpod_annotation: ^2.3.3 #riverpod
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
@@ -61,7 +61,7 @@ dependencies:
   flutter_svg: ^2.0.9 #svg 사용하기 위함
   shared_preferences: ^2.2.2 #tinydb
   flutter_secure_storage: ^9.0.0 #난독화 tinydb
-  flame: ^1.14.0
+  flame: ^1.16.0
   flame_riverpod: ^5.2.0
   connectivity_plus: ^5.0.2 #인터넷 연결 상태 감지
   easy_localization: ^3.0.5 #지역 위치 파악 및 언어팩 연결
