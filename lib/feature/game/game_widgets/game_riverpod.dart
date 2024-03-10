@@ -5,6 +5,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
+import 'package:sinking_us/feature/game/chats/domain/chat_domain.dart';
+import 'package:sinking_us/feature/game/chats/presentation/viewmodel/chat_viewmodel.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
@@ -128,6 +130,10 @@ class GameState extends PositionComponent
 
   void leaveMatch() async {
     ref.read(matchDomainControllerProvider.notifier).leaveMatch();
+    ref.read(chatDomainControllerProvider.notifier).outChatRoom(
+      ref.read(openChatViewModelControllerProvider).chatID, 
+      nick: ref.read(userDomainControllerProvider).userInfo!.nick
+    );
   }
 
   void setRule(RuleType newRule) {
