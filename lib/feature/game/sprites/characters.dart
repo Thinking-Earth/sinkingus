@@ -104,41 +104,12 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   void update(double dt) {
     super.update(dt);
 
-    if (moveForce.x > 0) {
-      transform.scale = Vector2(-1, 1);
-      nameText.scale = Vector2(-1, 1);
-      current = CharacterState.walk;
-    } else if (moveForce.x < 0) {
-      transform.scale = Vector2(1, 1);
-      nameText.scale = Vector2(1, 1);
-      current = CharacterState.walk;
-    } else if (moveForce.y != 0) {
-      current = CharacterState.walk;
-    }
-
     if (moveForce != Vector2.zero()) {
-      // hitbox.position = Vector2(size.x * 0.5, size.y - 28.w) + moveForce;
-
-      // if (hitbox.isColliding) {
-      //   final intersections = hitbox.intersections(game.background.hitbox);
-      //   Vector2 intersection = Vector2.zero();
-      //   if (intersections.length == 1) {
-      //     intersection = intersections.first;
-      //   } else if (intersections.length > 1) {
-      //     for (Vector2 point in intersections) {
-      //       intersection += point;
-      //     }
-      //     intersection /= intersection.length;
-      //   }
-      //   //moveForce = Vector2.zero();
-      //   print(hitbox.absoluteCenter);
-      //   print(intersection);
-
-      //   double length = (hitbox.absoluteCenter - intersection).length;
-      //   moveForce += (hitbox.absoluteCenter - intersection)
-      //           .scaled(hitbox.radius - length) /
-      //       length;
-      // }
+      if (!hitbox.isColliding) {
+        transform.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
+        nameText.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
+      }
+      current = CharacterState.walk;
 
       background.position.add(-moveForce);
       characterPosition.add(moveForce);
@@ -174,7 +145,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
 
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    if (event is KeyDownEvent) {
+    if (event is KeyDownEvent || event is KeyRepeatEvent) {
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
           keysPressed.contains(LogicalKeyboardKey.keyA)) {
         moveForce.x += -5.w;
