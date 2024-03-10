@@ -43,7 +43,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       backgroundColor: const Color(0xFF80E6EF),
       body: Stack(
         children: [
-          Image.asset(AppImages.homeBg, width: 844.w,),
+          Image.asset(
+            AppImages.homeBg, 
+            width: 844.w,
+            fit: BoxFit.cover,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
