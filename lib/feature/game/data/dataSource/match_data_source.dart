@@ -50,7 +50,7 @@ class MatchDataSource {
       groceryList: groceryList,
       gameEventList: castedData['gameEventList'],
       isPrivate: castedData['isPrivate'],
-      playerCount: 2
+      playerCount: castedData['playerCount']
     );
 
     if (newMatch.playerCount < 6) {
