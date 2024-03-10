@@ -27,10 +27,12 @@ class GameUI extends PositionComponent
   late Timer timer;
   int oneDay = 30; // TODO: test version time
   int remainingSec = 30;
+
   late TextBoxComponent timerComponent,
       moneyComponent,
       dayComponent,
       peopleComponent;
+
   late News news;
 
   GameUI(this.cameraSize, this.isHost);
@@ -233,7 +235,7 @@ class GameUI extends PositionComponent
       gameStartBtn.removeFromParent();
       game.state.hostStartGame();
     } else {
-      // TODO: 사람이 6명이어야 게임 시작 가능
+      //TODO: 사람이 6명이어야 게임 시작 가능
       gameStartBtn.removeFromParent();
       game.state.hostStartGame();
     }

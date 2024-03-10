@@ -21,20 +21,28 @@ class MatchListItem extends StatelessWidget {
       return InkWell(
         child: Container(
           height: 50.h,
-          color: Colors.white,
-          padding: const EdgeInsets.all(10.0),
-          child: Center(
-              child: Row(
+          margin: EdgeInsets.symmetric(vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.w),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.white,
+                blurRadius: 2.w,
+                spreadRadius: 4.w
+              )
+            ]
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(match.roomName),
-              const Spacer(
-                flex: 2,
-              ),
               Text(
                 "${match.playerCount}/10",
               )
             ],
-          )),
+          ),
         ),
         onTap: () {
           ref
