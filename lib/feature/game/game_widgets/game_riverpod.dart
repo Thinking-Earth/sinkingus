@@ -101,7 +101,8 @@ class GameState extends PositionComponent
     }
 
     if (dtSum > 3) {
-      if (currentEvent != GameEventType.news.id) hp -= 1;
+      if (currentEvent != GameEventType.news.id &&
+          currentEvent != GameEventType.undefined.id) hp -= 1;
       dtSum = 0;
     } else {
       dtSum += dt;

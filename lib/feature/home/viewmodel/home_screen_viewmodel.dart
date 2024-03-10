@@ -19,10 +19,6 @@ class HomeScreenController extends _$HomeScreenController {
   }
 
   void handlePressedBuildRoom() {
-    // TODO: 이 부분을 주석 해제하고 맨 아랫줄을 주석처리하면 테스트 가능 (@오종현)
-    // final game = PolicyDialog(playerRole: RoleType.politician);
-    // ShowDialogHelper.gameEventDialog(
-    //     text: "sun power", widget: GameWidget(game: game));
     ShowDialogHelper.showBuildRoomDialog();
   }
 
