@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/palette.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 
 class Background extends PositionComponent
@@ -172,12 +171,15 @@ class Background extends PositionComponent
         Vector2(378, 1176) * mapRatio,
         Vector2(378, 900) * mapRatio,
         Vector2(399, 874) * mapRatio,
-        Vector2(399, 873) * mapRatio,
+        Vector2(399, 776) * mapRatio,
         Vector2(293, 768) * mapRatio,
         Vector2(166, 719) * mapRatio,
         Vector2(57, 625) * mapRatio,
         Vector2(4, 468) * mapRatio,
-        Vector2(43, 347) * mapRatio,
+        Vector2(14, 421) * mapRatio,
+        Vector2(116, 403) * mapRatio,
+        Vector2(171, 313) * mapRatio,
+        Vector2(159, 237) * mapRatio,
         Vector2(205, 215) * mapRatio,
         Vector2(329, 177) * mapRatio,
         Vector2(476, 177) * mapRatio,
@@ -192,6 +194,7 @@ class Background extends PositionComponent
         Vector2(532, 761) * mapRatio,
         Vector2(448, 777) * mapRatio,
         Vector2(448, 879) * mapRatio,
+        Vector2(472, 899) * mapRatio,
         Vector2(570, 899) * mapRatio,
         Vector2(586, 915) * mapRatio,
         Vector2(586, 975) * mapRatio,
@@ -224,10 +227,80 @@ class Background extends PositionComponent
         Vector2(1623, 663) * mapRatio,
         Vector2(1623, 772) * mapRatio,
         Vector2(1564, 772) * mapRatio
+      ]),
+    ]);
+
+    background.addAll([
+      RectangleHitbox(
+          position: Vector2(1667, 230) * mapRatio,
+          size: Vector2(227, 213) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(1643, 659) * mapRatio,
+          size: Vector2(79, 128) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(1642, 827) * mapRatio,
+          size: Vector2(37, 63) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(968, 958) * mapRatio,
+          size: Vector2(61, 40) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(1200, 1393) * mapRatio,
+          size: Vector2(53, 51) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(172, 562) * mapRatio,
+          size: Vector2(39, 57) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(407, 199) * mapRatio,
+          size: Vector2(148, 157) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(358, 428) * mapRatio,
+          size: Vector2(39, 59) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(422, 502) * mapRatio,
+          size: Vector2(39, 60) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(654, 544) * mapRatio,
+          size: Vector2(39, 59) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(892, 221) * mapRatio,
+          size: Vector2(41, 339) * mapRatio),
+      RectangleHitbox(
+          position: Vector2(1308, 229) * mapRatio,
+          size: Vector2(43, 331) * mapRatio),
+      PolygonHitbox([
+        Vector2(994, 222) * mapRatio,
+        Vector2(988, 225) * mapRatio,
+        Vector2(990, 381) * mapRatio,
+        Vector2(995, 397) * mapRatio,
+        Vector2(1003, 434) * mapRatio,
+        Vector2(1023, 470) * mapRatio,
+        Vector2(1047, 471) * mapRatio,
+        Vector2(1059, 457) * mapRatio,
+        Vector2(1062, 393) * mapRatio,
+        Vector2(1027, 379) * mapRatio,
+        Vector2(1026, 256) * mapRatio,
+        Vector2(1066, 244) * mapRatio,
+        Vector2(1173, 244) * mapRatio,
+        Vector2(1207, 256) * mapRatio,
+        Vector2(1211, 378) * mapRatio,
+        Vector2(1177, 417) * mapRatio,
+        Vector2(1177, 457) * mapRatio,
+        Vector2(1190, 468) * mapRatio,
+        Vector2(1223, 468) * mapRatio,
+        Vector2(1242, 436) * mapRatio,
+        Vector2(1252, 386) * mapRatio,
+        Vector2(1254, 232) * mapRatio,
+        Vector2(1295, 226) * mapRatio,
+        Vector2(1296, 419) * mapRatio,
+        Vector2(1268, 482) * mapRatio,
+        Vector2(1210, 541) * mapRatio,
+        Vector2(1132, 568) * mapRatio,
+        Vector2(1108, 567) * mapRatio,
+        Vector2(1042, 543) * mapRatio,
+        Vector2(979, 485) * mapRatio,
+        Vector2(951, 418) * mapRatio,
+        Vector2(945, 361) * mapRatio,
       ])
     ]);
-    wall
-      ..debugMode = true
-      ..debugColor = BasicPalette.magenta.color;
   }
 }
