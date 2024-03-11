@@ -6,14 +6,9 @@ const String basePath = "assets/images";
 class AppImages {
   const AppImages._();
 
-  static String timerEllipse = "$basePath/timer_ellipse.png";
-  static String kakaoLogin = "$basePath/kakao_login.png";
-  static String googleLogin = "$basePath/google_login.png";
-  static String appleLogin = "$basePath/apple_login.png";
-  static String stopButton = "$basePath/stop_button.png";
-  static String cameraButton = "$basePath/camera_button.png";
-  static String restartbutton = "$basePath/restart_button.png";
-  static String trab = "$basePath/trab.png";
-  static String amazedTrab = "$basePath/amazed_trab.png";
-  static String triangle = "$basePath/triangle.png";
+  static const String homeBg = '$basePath/home/home_bg.png';
+  static const String refreshIcon = '$basePath/home/refresh_icon.png';
+  static const String leftArrowBtn = '$basePath/home/left_arrow_btn.png';
+  static const String rightArrowBtn = '$basePath/home/right_arrow_btn.png';
+  static const String gameBlockBtn = '$basePath/home/game_block_btn.png';
 }

@@ -1,136 +1,111 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sinking_us/helpers/constants/app_colors.dart';
 
 @immutable
 class AppTypography {
   const AppTypography._();
 
-  static final headline_1 = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 128.sp,
-    fontWeight: FontWeight.w700,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
-  static final headline_1_2 = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 48.sp,
-    fontWeight: FontWeight.w600,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
-  static final headline_2 = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 96.sp,
-    fontWeight: FontWeight.w600,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
-  static final headline_2_1 = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 32.sp,
-    fontWeight: FontWeight.w600,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
-  static final headline_3 = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 24.sp,
-    fontWeight: FontWeight.w700,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
-  static final caption = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 13.sp,
-    fontWeight: FontWeight.w500,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
+  /// 22.sp
+  /// FontWeight.w700
   static final title = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 24.sp,
-    fontWeight: FontWeight.w600,
-    color: Colors.black,
-    decoration: TextDecoration.none,
+    fontFamily: 'NotoSans',
+    fontSize: 22.sp,
+    fontWeight: FontWeight.w700,
+    color: AppColors.textBlack,
   );
 
-  static final body = TextStyle(
-    fontFamily: "Pretendard",
+  /// 20.sp
+  /// FontWeight.w700
+  static final header1 = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 20.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.textBlack);
+
+  /// 16.sp
+  /// FontWeight.w700
+  static final body1 = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 16.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.textBlack);
+
+  /// 14.sp
+  /// FontWeight.w700
+  static final body2 = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.textBlack);
+
+  /// 12.sp
+  /// FontWeight.w700
+  static final alertGrey = TextStyle(
+      fontFamily: 'NotoSans',
+      fontSize: 12.sp,
+      fontWeight: FontWeight.w700,
+      color: AppColors.black40);
+
+  /// 12.sp
+  /// FontWeight.w700
+  static final label1 = TextStyle(
+    fontFamily: 'NotoSans',
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w700,
+    color: AppColors.textBlack,
+  );
+
+  ////////////////////////////////////////Jalnan/////////////////////////////////////////////
+
+  /// 22.sp
+  /// FontWeight.w400
+  static final titleCute = TextStyle(
+    fontFamily: 'Jalnan',
+    fontSize: 22.sp,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textBlack,
+  );
+
+  /// 20.sp
+  /// FontWeight.w400
+  static final headerCute = TextStyle(
+    fontFamily: 'Jalnan',
     fontSize: 20.sp,
-    fontWeight: FontWeight.w600,
-    color: Colors.black,
-    decoration: TextDecoration.none,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textBlack,
   );
 
-  static final body_3 = TextStyle(
-    fontFamily: "Pretendard",
+  /// 16.sp
+  /// FontWeight.w400
+  static final bodyCute = TextStyle(
+    fontFamily: 'Jalnan',
     fontSize: 16.sp,
-    fontWeight: FontWeight.w500,
-    color: Colors.black,
-    decoration: TextDecoration.none,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textBlack,
   );
 
-  static final body_5 = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 20.sp,
-    fontWeight: FontWeight.w700,
-    color: Colors.black,
-    decoration: TextDecoration.none,
+  /// 12.sp
+  /// FontWeight.w400
+  static final labelCute = TextStyle(
+    fontFamily: 'Jalnan',
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+    color: AppColors.textBlack,
   );
 
-  static final mainCaption_1 = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 16.sp,
-    fontWeight: FontWeight.w700,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
-  static final mainCaption_2 = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 14.sp,
-    fontWeight: FontWeight.w500,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
-  static final subTitle_1 = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 20.sp,
-    fontWeight: FontWeight.w700,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
-  static final mainSubtitle = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 15.sp,
-    fontWeight: FontWeight.w500,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
-  //mytrab
-  static final iconTxt = TextStyle(
-    fontFamily: "Pretendard",
-    fontSize: 10.sp,
-    fontWeight: FontWeight.w700,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
-
-  static final semibold = TextStyle(
-    fontFamily: "Pretendard Variable",
-    fontSize: 15.sp,
-    fontWeight: FontWeight.w600,
-    color: Colors.black,
-    decoration: TextDecoration.none,
-  );
+  ///////////////////////////////////////////////////////////////////////////////////////////
+  static final blackPixel = TextStyle(
+      fontFamily: 'Galmuri', fontSize: 10.sp, color: AppColors.textBlack);
+  static final whitePixel = TextStyle(
+      fontFamily: 'Galmuri', fontSize: 10.sp, color: AppColors.textWhite);
+  static final grayPixel = TextStyle(
+      fontFamily: 'Galmuri',
+      fontSize: 10.sp,
+      color: const Color.fromARGB(255, 166, 166, 166));
+  static final timerPixel = TextStyle(
+      fontFamily: 'Galmuri',
+      fontSize: 20.sp,
+      color: AppColors.textBlack,
+      fontWeight: FontWeight.w900);
 }

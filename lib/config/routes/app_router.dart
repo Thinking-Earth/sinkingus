@@ -14,7 +14,7 @@ class AppRouter {
     final routeName = settings.name;
     final routeBuilder = Routes.routeExist(routeName)
         ? Routes.getRoute(routeName)
-        : Routes.getRoute(Routes.NotFoundScreenRoute);
+        : Routes.getRoute(Routes.notFoundScreenRoute);
 
     return MaterialPageRoute<dynamic>(
       builder: (_) => routeBuilder(),
@@ -22,6 +22,13 @@ class AppRouter {
         name: routeName,
         arguments: settings.arguments,
       ),
+    );
+  }
+
+  static Future<dynamic> pushAndReplaceNamed(String routeName, {dynamic args}){
+    return navigatorKey.currentState!.pushReplacementNamed(
+      routeName,
+      arguments: args
     );
   }
 
@@ -57,7 +64,7 @@ class AppRouter {
 
   static void popUntilRoot() {
     navigatorKey.currentState!.popUntil(
-      ModalRoute.withName(Routes.HomeScreenRoute),
+      ModalRoute.withName(Routes.homeScreenRoute),
     );
   }
 }
