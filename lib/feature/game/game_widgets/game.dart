@@ -24,6 +24,7 @@ class SinkingUsGame extends FlameGame
 
   late MyPlayer player;
   late Background background;
+  late SpriteComponent background2;
   late List<PositionComponent> eventBtns =
       List<PositionComponent>.empty(growable: true);
 
@@ -50,20 +51,32 @@ class SinkingUsGame extends FlameGame
 
     background = Background(mapRatio: mapRatio);
 
+    Sprite background2Sprite = await Sprite.load("map2.png");
+    background2 = SpriteComponent(
+        sprite: background2Sprite,
+        size: background2Sprite.originalSize * mapRatio,
+        anchor: Anchor.topCenter,
+        position:
+            Vector2(0, background2Sprite.originalSize.y * mapRatio * -0.5) +
+                camera.viewport.virtualSize * 0.5,
+        priority: 2)
+      ..debugMode = true;
+
     final knobPaint = BasicPalette.white.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.white.withAlpha(100).paint();
     final joystick = JoystickComponent(
-      knob: CircleComponent(radius: 15.w, paint: knobPaint),
-      background: CircleComponent(radius: 50.w, paint: backgroundPaint),
-      margin: EdgeInsets.only(left: 20.w, bottom: 20.h),
-    );
+        knob: CircleComponent(radius: 15.w, paint: knobPaint),
+        background: CircleComponent(radius: 50.w, paint: backgroundPaint),
+        margin: EdgeInsets.only(left: 20.w, bottom: 20.h),
+        priority: 4);
 
-    player = MyPlayer(uid, camera.viewport.size, joystick, background);
+    player = MyPlayer(uid, camera.viewport.size, joystick);
 
     gameUI = GameUI(camera.viewport.size, isHost);
 
     add(background);
     add(player);
+    add(background2);
     camera.viewport.add(joystick);
 
     //UI

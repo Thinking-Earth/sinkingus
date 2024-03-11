@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
-import 'package:sinking_us/feature/game/sprites/background.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
@@ -26,7 +25,6 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   RoleType role = RoleType.undefined;
   String uid;
 
-  Background background;
   late final Vector2 screensize;
   Vector2 characterPosition = Vector2(0, 0);
   Vector2 oldCharacterPosition = Vector2(0, 0);
@@ -46,7 +44,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   late SpriteAnimation idleAnimation;
   late SpriteAnimation walkAnimation;
 
-  MyPlayer(this.uid, this.screensize, this.joystick, this.background)
+  MyPlayer(this.uid, this.screensize, this.joystick)
       : super(
             size: Vector2(CHARACTER_SIZE_X * 1.w, CHARACTER_SIZE_Y * 1.w),
             anchor: Anchor.center,
@@ -77,7 +75,8 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       final positionData = value.value as List<dynamic>;
       characterPosition =
           Vector2(positionData[0] * 1.0, positionData[1] * 1.0) * 1.w;
-      background.position.add(-characterPosition);
+      game.background.position.add(-characterPosition);
+      game.background2.position.add(-characterPosition);
       oldCharacterPosition = characterPosition.clone();
     });
 
@@ -111,7 +110,9 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       }
       current = CharacterState.walk;
 
-      background.position.add(-moveForce);
+      game.background.position.add(-moveForce);
+      game.background2.position.add(-moveForce);
+
       characterPosition.add(moveForce);
       moveForce = Vector2.zero();
     }
@@ -148,19 +149,19 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     if (event is KeyDownEvent || event is KeyRepeatEvent) {
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
           keysPressed.contains(LogicalKeyboardKey.keyA)) {
-        moveForce.x += -5.w;
+        moveForce.x += -maxSpeed / 20;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
           keysPressed.contains(LogicalKeyboardKey.keyD)) {
-        moveForce.x += 5.w;
+        moveForce.x += maxSpeed / 20;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
           keysPressed.contains(LogicalKeyboardKey.keyW)) {
-        moveForce.y += -5.w;
+        moveForce.y += -maxSpeed / 20;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
           keysPressed.contains(LogicalKeyboardKey.keyS)) {
-        moveForce.y += 5.w;
+        moveForce.y += maxSpeed / 20;
       }
 
       if (moveForce.x != 0 && moveForce.y != 0) {
@@ -202,8 +203,10 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     characterPosition = Vector2.zero();
     oldCharacterPosition = Vector2.zero();
     sendChangedPosition();
-    background.position =
-        Vector2(0, background.size.y * -0.5) + screensize * 0.5;
+    game.background.position =
+        Vector2(0, game.background2.size.y * -0.5) + screensize * 0.5;
+    game.background2.position =
+        Vector2(0, game.background2.size.y * -0.5) + screensize * 0.5;
   }
 }
 
