@@ -63,6 +63,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          tr('homePage_listWorld'), 
+                          style: AppTypography.blackPixel.copyWith(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        InkWell(
+                          onTap: refreshMatchList,
+                          child: Image.asset(AppImages.refreshIcon),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 8.h,),
                     SizedBox(
                       width: 400.w,
                       height: 230.h,
@@ -84,24 +101,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               style: AppTypography.blackPixel,
                             ),
                           ),
-                    ),
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: (){},
-                          child: Image.asset(AppImages.leftArrowBtn, width: 20.w,),
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: refreshMatchList,
-                          child: Image.asset(AppImages.refreshIcon, width: 20.w,),
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: (){},
-                          child: Image.asset(AppImages.rightArrowBtn, width: 20.w,),
-                        ),
-                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

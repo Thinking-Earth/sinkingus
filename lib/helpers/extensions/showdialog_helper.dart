@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
-import 'package:sinking_us/feature/home/widgets/build_room_dialog.dart';
-import 'package:sinking_us/feature/home/widgets/search_room_dialog.dart';
+import 'package:sinking_us/feature/home/view/build_room_dialog.dart';
+import 'package:sinking_us/feature/home/view/search_room_dialog.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
@@ -30,34 +30,51 @@ class ShowDialogHelper {
 
   static void showBuildRoomDialog() {
     showDialog(
-        context: AppRouter.navigatorKey.currentContext!,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-            builder: (context, setState) {
-              return AlertDialog(
-                title: const Text("Build Room"),
-                content: SizedBox(
-                    width: 400.w,
-                    height: 300.h,
-                    child: BuildDialogContent(
-                      setState: setState,
-                    )),
-              );
-            },
-          );
-        });
+      context: AppRouter.navigatorKey.currentContext!,
+      builder: (BuildContext context) {
+        return SizedBox(
+          width: 844.w,
+          height: 390.h,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                right: 0,
+                child: SizedBox(
+                  width: 400.w,
+                  height: 348.h,
+                  child: const BuildDialogContent()
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    );
   }
 
   static void showSearchRoomDialog() {
     showDialog(
       context: AppRouter.navigatorKey.currentContext!,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Search Room"),
-          content: SizedBox(
-              width: 400.w, height: 300.h, child: const SearchDialogContent()),
+        return SizedBox(
+          width: 844.w,
+          height: 390.h,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                right: 0,
+                child: SizedBox(
+                  width: 400.w,
+                  height: 348.h,
+                  child: const SearchDialogContent()
+                ),
+              ),
+            ],
+          ),
         );
-      },
+      }
     );
   }
 
