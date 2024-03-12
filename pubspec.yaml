@@ -67,6 +67,7 @@ dependencies:
   easy_localization: ^3.0.5 #지역 위치 파악 및 언어팩 연결
   intl: ^0.18.0 #다국어 및 다국 시간
   animated_text_kit: ^4.2.2 #애니메이션 텍스트
+  lottie: ^3.1.0 #mp4 to json
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +101,7 @@ flutter:
     - assets/svgs/
     - assets/translations/
     - assets/images/home/
+    - assets/jsons/
 
   fonts:
     - family: Jalnan
