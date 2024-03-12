@@ -22,7 +22,7 @@ enum CharacterState {
 class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     with KeyboardHandler, HasGameReference<SinkingUsGame>, CollisionCallbacks {
   int money = 0;
-  RoleType role = RoleType.undefined;
+  RoleType role = RoleType.politician;
   String uid;
 
   late final Vector2 screensize;

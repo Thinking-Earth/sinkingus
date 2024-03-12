@@ -5,16 +5,49 @@
   "noti_ok": "확인",
   "noti_cancel": "취소",
 
-  "build_room": "방 만들기",
-  "join_room": "방 참여하기",
+  "build_room": "Earth 만들기",
+  "join_room": "Earth 참여하기",
   "refresh": "새로고침",
 
-  "news_greenplation": "제목: 지금 경제는 그린인플레이션...서민들 \"삶이 빡빡해요\"\n\n최근 탄소배출과 관련된 산업규제로 필수 원자재의 생산이 어려워지면서 그린플레이션이 발생하고 있습니다. 그린플레이션은 친환경을 뜻하는 ‘그린’과 물가가 상승하는 ‘인플레이션’의 합성어입니다. 물가안정을 위해 적절한 규제 완화가 필요해 보입니다.",
+  "searchPage_infoText": "Earth 이름으로 검색.",
+  "searchPage_info_notFound": "찾고 있는 Earth가 존재하지 않습니다.",
+  "searchPage_hintText": "비공개 Earth 이름을 입력하세요",
+  "buildPage_makeEarth": "Earth 생성하기",
+  "buildPage_hintText": "생성할 Earth 이름을 입력하세요.",
+  "buildPage_private": "비공개 Earth   ",
+  "buildPage_createBtn": "Earth 만들기",
+
+  "homePage_listWorld": "Earth 리스트",
+
+  "game_description": "당신은 Sinking Earth의 주민입니다. 게임시간 7일동안 환경점수를 0 이상으로 유지해야합니다. 생필품을 구매해 hp을 올릴 수 있고, 총 6개의 미션을 수행해 각각 50코인을 벌 수 있습니다.",
+  "worker_description": "회사원\n미션을 수행하고 올바른 소비를 통해 생존해야합니다. 건강한 소비와 여론생성을 통해 엔딩을 보세요.\n\n승리조건: 그냥 살아남기",
+  "nature_description": "환경운동가\n미션을 수행했을 때 환경점수 30을 추가로 받습니다.\n\n승리조건: 종료시 환경점수 50이상",
+  "business_description": "사업가\nhp가 떨어지지 않고, 원하는 생필품을 유통하여 판매할 수 있습니다. 생필품 유통 시 가격의 3배를 초기비용으로 지불해야합니다.\n\n승리조건: 종료시 3000코인 이상",
+  "politician_description": "정치인\n판매항목에 대한 법률을 제정할 수 있다. 각 사람들의 상황과 의견을 잘 종합해야 한다.\n\n승리조건: 모두 살아남기",
+
+  "mission_already_done": "누군가가 이미 미션을 수행했습니다.\n다른 날에 다시 시도하세요.",
+
+  "rule_select_abort": "정치인만 규칙을 정할 수 있습니다.",
+
+  "rule_abort": "제정된 법률에 위배됩니다.",
+  "activate_abort": "아직 개시되지 않은 상품입니다.",
+
+  "news_greenplation": "제목: 지금 경제는 그린플레이션...서민들 \"삶이 빡빡해요\"\n\n최근 탄소배출과 관련된 산업규제로 필수 원자재의 생산이 어려워지면서 그린플레이션이 발생하고 있습니다. 그린플레이션은 친환경을 뜻하는 ‘그린’과 물가가 상승하는 ‘인플레이션’의 합성어입니다. 물가안정을 위해 적절한 규제 완화가 필요해 보입니다.",
   "news_80": "제목: 탄소배출 감소 규제 효과를 보여... 기후 안정되다\n\n최근 보도에 의하면 전 세계적으로 환경과 기후가 안정적인 상태를 유지하고 있어, 지속 가능한 미래에 대한 희망이 높아지고 있습니다.",
   "news_60": "제목: 미세먼지 농도 전년대비 증가하다\n\n미세먼지 농도가 증가하며 깨끗한 공기를 마시기가 어려워졌습니다. 이러한 미세먼지 증가의 원인으로는 사막화 가속이 있겠습니다.",
   "news_40": "제목: 지구온난화 결국 식량부족으로 이어져\n\n최근 계속된 홍수, 태풍 등의 기후이상으로 전세계가 식량부족에 시달리고 있습니다. 대체재로는 식용 곤충이 떠오르고 있지만, 근본적인 원인 해결이 필요해 보입니다.",
   "news_20": "제목: 해수면 상승 심각해... 고지대 땅값 올라\n\n평균온도 증가에 따라 해수면이 상승하며 전세계 50개의 도시가 물에 잠겼습니다. 이대로 계속된다면 세계는 멸망할 것입니다.",
   "news_0": "제목: 세계 멸망 임박\n\n지구는 더이상 인간이 살기에 적합한 땅이 아닙니다. 각국 정부들은 해체 위기에 놓였고 사람들은 하루하루를 불안 속에 살고 있습니다. 상태를 되돌리려면 많은 노력이 필요할 것입니다.",
+
+  "plug_off": "콘센트를 뽑아서 전기를 절약합시다.",
+  "sun_power": "태양열판 위의 먼지를 닦아주세요.",
+  "trash_game": "쓰레기를 클릭해 바다를 깨끗하게 해주세요.",
+  "tree_game": "나무를 심어서 사막을 숲으로 만들어 주세요.",
+  "water_off": "콸콸 틀어져있는 수도를 터치해서 잠궈주세요.",
+  "wind_power": "풍력발전기를 화살표 방향으로 돌려주세요.",
+
+  "select": "선택",
+  "seleted": "선택됨",
 
   "buy": "구매",
   "activate": "활성화",
@@ -31,12 +64,12 @@
   "goodClothes_name": "재활용섬유 옷",
   "badClothes_name": "플라스틱 섬유 옷",
 
-  "goodWater_description": "환경친화 생수입니다.",
-  "badWater_description": "환경파괴 생수입니다.",
-  "goodFood_description": "환경친화 밀키트입니다.",
-  "badFood_description": "플라스틱 도시락입니다.",
-  "goodAir_description": "환경친화 산소통입니다.",
-  "badAir_description": "환경파괴 산소통입니다.",
-  "goodClothes_description": "재활용섬유 옷입니다.",
-  "badClothes_description": "플라스틱 섬유 옷입니다."
+  "goodWater_description": "친환경 포장재를 사용하고 운송과정을 단축해 탄소배출을 줄인 생수.",
+  "badWater_description": "플라스틱 패트병을 사용하고 먼 타국에서 생산하여 가격을 줄인 생수.",
+  "goodFood_description": "농약을 쓰지 않고 재배한 식재료로 만들 밀키트.",
+  "badFood_description": "나무숲을 없애고 만든 들판에서 기른 소고기 도시락.",
+  "goodAir_description": "친환경 소재를 사용해 재활용이 가능한 산소통.",
+  "badAir_description": "값싼 재료로 만들었지만 재활용이 불가능한 산소통.",
+  "goodClothes_description": "비동물성 소재로 만든 품질이 좋은 옷.",
+  "badClothes_description": "합성섬유로 만들어져 미세플라스틱을 발생시키는 유행 패션."
 }

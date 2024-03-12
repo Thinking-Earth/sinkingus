@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/widgets.dart';
@@ -10,7 +11,7 @@ import 'package:sinking_us/helpers/constants/app_typography.dart';
 
 class TrashGame extends FlameGame {
   @override
-  FutureOr<void> onLoad() async {
+  FutureOr<void> onMount() async {
     SpriteComponent background = SpriteComponent(
         sprite: await Sprite.load("minigame/pop up.jpg"),
         size: Vector2(455.3.w, 256.w));
@@ -66,7 +67,7 @@ class TrashGame extends FlameGame {
         src: "minigame/trash/vinyl.png");
 
     TextBoxComponent gameText = TextBoxComponent(
-        text: "This is trash game.",
+        text: tr("trash_game"),
         align: Anchor.center,
         anchor: Anchor.center,
         position: Vector2(227.65.w, 226.w),
@@ -93,6 +94,6 @@ class TrashGame extends FlameGame {
     add(gameText);
     addAll([bottle, bottleCap, can, straw, plasticBag]);
 
-    return super.onLoad();
+    return super.onMount();
   }
 }

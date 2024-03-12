@@ -47,6 +47,7 @@ class News extends FlameGame {
 
     newsText = TextBoxComponent(
         text: text ?? "",
+        anchor: Anchor.center,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         position: Vector2(240.w, 300.w) / 3,
         size: Vector2(975.w, 303.w) / 3);

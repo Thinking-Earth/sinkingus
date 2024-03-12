@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/widgets.dart';
@@ -10,7 +11,7 @@ import 'package:sinking_us/helpers/constants/app_typography.dart';
 
 class WaterOffGame extends FlameGame {
   @override
-  FutureOr<void> onLoad() async {
+  FutureOr<void> onMount() async {
     SpriteComponent background = SpriteComponent(
         sprite: await Sprite.load("minigame/pop up.jpg"),
         size: Vector2(455.3.w, 256.w));
@@ -63,7 +64,7 @@ class WaterOffGame extends FlameGame {
         src: "minigame/water/tap.png");
 
     TextBoxComponent gameText = TextBoxComponent(
-        text: "This is water off game.",
+        text: tr("water_off"),
         align: Anchor.center,
         anchor: Anchor.center,
         position: Vector2(227.65.w, 226.w),
@@ -86,6 +87,6 @@ class WaterOffGame extends FlameGame {
     add(gameText);
     addAll([waterComponent1, waterComponent2, tap1, tap2]);
 
-    return super.onLoad();
+    return super.onMount();
   }
 }
