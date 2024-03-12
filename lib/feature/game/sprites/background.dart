@@ -58,7 +58,6 @@ class Background extends PositionComponent
     super.onRemove();
   }
 
-  //TODO: 카트 콜라이더
   void setWall() {
     wall.addAll([
       PolygonHitbox([

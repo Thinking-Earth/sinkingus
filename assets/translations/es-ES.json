@@ -16,8 +16,11 @@
   "buildPage_hintText": "Introduce el nombre de la Earth que deseas crear.",
   "buildPage_private": "Earth Privada",
   "buildPage_createBtn": "Crear Earth",
+  "host_end_game": "El juego ha terminado por el anfitrión.",
 
   "homePage_listWorld": "Lista de Earth",
+
+  "settingPage_language": "Selección de Idioma - ",
 
   "game_description": "Eres un habitante de la Sinking Earth. Debes mantener una puntuación ambiental de 0 o superior durante los 7 días del juego. Puedes aumentar tu salud comprando artículos necesarios y completando en total 6 misiones para ganar 50 monedas por cada una.",
   "worker_description": "Empleado\nDebes sobrevivir completando cada misión y a través de un consumo adecuado. Observa el final a través del consumo saludable y la creación de opiniones públicas.\n\nCondición de victoria: Sobrevivir",
@@ -28,9 +31,20 @@
   "mission_already_done": "Alguien ya ha completado la misión.\nInténtalo de nuevo otro día.",
 
   "rule_select_abort": "Solo los políticos pueden establecer reglas.",
+  "noRule": "Sin reglas",
+  "greenGrowthStrategy": "Estrategia de Crecimiento Verde",
+  "greenDeal": "Plan Verde",
+  "parisAgreement": "Acuerdo de París",
+  "carbonNeutrality": "Neutralidad de carbono",
+  "noRule_description": "Puedes comprar cualquier artículo.",
+  "greenGrowthStrategy_description": "Una política representativa de Japón destinada a activar productos descarbonizados.",
+  "greenDeal_description": "En el Plan Verde anunciado por la UE, se implementa el comercio abierto para establecer una cadena de suministro resiliente.",
+  "parisAgreement_description": "Un acuerdo destinado a mantener el aumento de la temperatura promedio global muy por debajo de 2°C en comparación con los niveles preindustriales.",
+  "carbonNeutrality_description": "Una declaración para reducir las emisiones de carbono y lograr una emisión neta cero mediante la eliminación y absorción del carbono emitido a la atmósfera.",
 
   "rule_abort": "Violación de la ley establecida.",
   "activate_abort": "Producto aún no activado.",
+  "income": "Alguien ha comprado el producto.",
 
   "news_greenplation": "Título: La economía experimenta una inflación verde... Los ciudadanos se quejan \"La vida es demasiado difícil\"\n\nRecientemente, debido a regulaciones industriales relacionadas con las emisiones de carbono, la producción de materias primas esenciales se ha vuelto difícil, lo que ha dado lugar a una inflación verde. La inflación verde es un término compuesto por 'verde', que significa amigable con el medio ambiente, y 'inflación', que es el aumento de los precios. Parece necesario moderar adecuadamente las regulaciones para la estabilizar la economía.",
 
@@ -74,5 +88,9 @@
   "goodAir_description": "Bote de oxígeno reciclable hecho de materiales ecológicos.",
   "badAir_description": "Bote de oxígeno hecho de materiales baratos pero no reciclable.",
   "goodClothes_description": "Ropa de alta calidad hecha de fibras no animales.",
-  "badClothes_description": "Moda popular hecha de fibra sintética que genera microplásticos."
+  "badClothes_description": "Moda popular hecha de fibra sintética que genera microplásticos.",
+
+  "result_win": "Victoria",
+  "result_dead": "Muerte",
+  "result_nature": "Destrucción de la Tierra"
 }

@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -215,8 +216,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
           .listen((event) {
         if (event.snapshot.exists) {
           game.state.setDt(0, 0, event.snapshot.value as int);
-          ShowDialogHelper.showSnackBar(content: "누군가가 상품을 구매했습니다.");
-          //TODO: tr처리
+          ShowDialogHelper.showSnackBar(content: tr("income"));
         }
       });
     }
