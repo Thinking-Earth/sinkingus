@@ -127,7 +127,7 @@ class MatchDataSource {
       }
       await gameRef.child("players").get().then((value) {
         if (value.exists) {
-          final players = value.value as List<dynamic>;
+          final players = List<dynamic>.from(value.value as List);
           players.remove(uid);
           gameRef.update(
               {"playerCount": ServerValue.increment(-1), "players": players});
