@@ -233,7 +233,10 @@ class GameUI extends PositionComponent
       gameStartBtn.removeFromParent();
       game.state.hostStartGame();
     } else {
-      ShowDialogHelper.showSnackBar(content: "인원이 6명이어야 게임을 시작할 수 있습니다.");
+      gameStartBtn.removeFromParent();
+      game.state.hostStartGame();
+      //TODO
+      //ShowDialogHelper.showSnackBar(content: "인원이 6명이어야 게임을 시작할 수 있습니다.");
     }
   }
 }
