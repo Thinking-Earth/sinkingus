@@ -18,7 +18,10 @@ InkWell gameBlockBtn({required String text, required VoidCallback onTap}) {
       ),
       child: Text(
         text,
-        style: AppTypography.labelCute,
+        style: AppTypography.blackPixel.copyWith(
+          fontSize: 12.sp,
+          fontWeight: FontWeight.bold
+        ),
       ),
     ),
   );

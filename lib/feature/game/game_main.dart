@@ -1,7 +1,9 @@
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
+import 'package:sinking_us/feature/game/chats/presentation/view/chat_screen.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 
@@ -33,11 +35,22 @@ class _GameMainState extends ConsumerState<GameMain> {
       canPop: false,
       child: Scaffold(
         body: ClipRect(
-          child: SafeArea(
-            child: RiverpodAwareGameWidget(
-              key: gameWidgetKey,
-              game: game,
-            ),
+          child: Stack(
+            children: [
+              SafeArea(
+                child: RiverpodAwareGameWidget(
+                  key: gameWidgetKey,
+                  game: game,
+                ),
+              ),
+              Positioned(
+                right: 16.w,
+                top: 100.h,
+                child: ChatScreen(
+                  chatID: ref.read(matchDomainControllerProvider).matchId,
+                )
+              )
+            ],
           ),
         ),
       ),

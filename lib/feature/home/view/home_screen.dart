@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
@@ -19,6 +21,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   Map<String, Match> matchList = {};
+  bool charactorController = false;
 
   void refreshMatchList() async {
     ref.read(matchDomainControllerProvider.notifier).checkNotInMatch();
@@ -39,89 +42,104 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF80E6EF),
-      body: Stack(
-        children: [
-          Image.asset(AppImages.homeBg, width: 844.w,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              //왼쪽
-              SizedBox(
-                width: 380.w,
-                height: 390.h,
-              ),
-              SizedBox(
-                width: 380.w,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 400.w,
-                      height: 230.h,
-                      child: matchList.isNotEmpty 
-                        ? ListView.builder(
-                            itemCount: matchList.length,
-                            itemBuilder: (context, index) {
-                              String matchId = matchList.keys.elementAt(index);
-                              return MatchListItem(
-                                  matchId: matchId,
-                                  match: matchList[matchId]!,
-                                  isPrivate: "public");
-                            },
-                          )
-                        : Center(
-                            child: Text(
-                              "There are no rooms left.\nCreate a room and enjoy the game!",
-                              textAlign: TextAlign.center,
-                              style: AppTypography.blackPixel,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: const Color(0xFF80E6EF),
+        body: Stack(
+          children: [
+            Image.asset(
+              AppImages.homeBg, 
+              width: 844.w,
+              fit: BoxFit.cover,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                //왼쪽
+                SizedBox(
+                  width: 380.w,
+                  height: 390.h,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        right: 100.w,
+                        top: 110.h,
+                        child: showCharactor(),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 380.w,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            tr('homePage_listWorld'), 
+                            style: AppTypography.blackPixel.copyWith(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold
                             ),
                           ),
-                    ),
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: (){},
-                          child: Image.asset(AppImages.leftArrowBtn, width: 20.w,),
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: refreshMatchList,
-                          child: Image.asset(AppImages.refreshIcon, width: 20.w,),
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: (){},
-                          child: Image.asset(AppImages.rightArrowBtn, width: 20.w,),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        gameBlockBtn(
-                          text: tr('build_room'),
-                          onTap: ref
-                              .read(homeScreenControllerProvider.notifier)
-                              .handlePressedBuildRoom,
-                        ),
-                        gameBlockBtn(
-                          text: tr("join_room"), 
-                          onTap: ref
-                              .read(homeScreenControllerProvider.notifier)
-                              .handlePressedSearchRoom,
-                        )
-                      ],
-                    ),
-                  ],
+                          InkWell(
+                            onTap: refreshMatchList,
+                            child: Image.asset(AppImages.refreshIcon),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 8.h,),
+                      SizedBox(
+                        width: 400.w,
+                        height: 230.h,
+                        child: matchList.isNotEmpty 
+                          ? ListView.builder(
+                              itemCount: matchList.length,
+                              itemBuilder: (context, index) {
+                                String matchId = matchList.keys.elementAt(index);
+                                return MatchListItem(
+                                    matchId: matchId,
+                                    match: matchList[matchId]!,
+                                    isPrivate: "public");
+                              },
+                            )
+                          : Center(
+                              child: Text(
+                                "There are no rooms left.\nCreate a room and enjoy the game!",
+                                textAlign: TextAlign.center,
+                                style: AppTypography.blackPixel,
+                              ),
+                            ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          gameBlockBtn(
+                            text: tr('build_room'),
+                            onTap: ref
+                                .read(homeScreenControllerProvider.notifier)
+                                .handlePressedBuildRoom,
+                          ),
+                          gameBlockBtn(
+                            text: tr("join_room"), 
+                            onTap: ref
+                                .read(homeScreenControllerProvider.notifier)
+                                .handlePressedSearchRoom,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

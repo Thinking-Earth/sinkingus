@@ -44,16 +44,17 @@ class MatchDataSource {
         ? RuleType.getById(castedData['rule'])
         : RuleType.noRule;
     Match newMatch = Match(
-        roomName: castedData['roomName'],
-        rule: rule,
-        day: castedData['day'],
-        players: List<String>.from(castedData['players']),
-        host: castedData['host'],
-        natureScore: castedData['natureScore'],
-        groceryList: groceryList,
-        gameEventList: castedData['gameEventList'],
-        isPrivate: castedData['isPrivate'],
-        playerCount: 2);
+      roomName: castedData['roomName'],
+      rule: rule,
+      day: castedData['day'],
+      players: List<String>.from(castedData['players']),
+      host: castedData['host'],
+      natureScore: castedData['natureScore'],
+      groceryList: groceryList,
+      gameEventList: castedData['gameEventList'],
+      isPrivate: castedData['isPrivate'],
+      playerCount: castedData['playerCount']
+    );
 
     if (newMatch.playerCount < 6) {
       // TODO: 트랜잭션 재도전
@@ -126,7 +127,7 @@ class MatchDataSource {
       }
       await gameRef.child("players").get().then((value) {
         if (value.exists) {
-          final players = value.value as List<dynamic>;
+          final players = List<dynamic>.from(value.value as List);
           players.remove(uid);
           gameRef.update(
               {"playerCount": ServerValue.increment(-1), "players": players});
