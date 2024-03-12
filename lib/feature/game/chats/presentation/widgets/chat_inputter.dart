@@ -5,7 +5,6 @@ import 'package:sinking_us/helpers/constants/app_typography.dart';
 
 Row chatInputter({
   required TextEditingController textController, 
-  required FocusNode focusNode,
   required VoidCallback onTap
 }) {
   return Row(
@@ -14,9 +13,14 @@ Row chatInputter({
       Expanded(
         child : TextField(
           controller : textController,
-          focusNode: focusNode,
           style : AppTypography.whitePixel,
           autofocus: true,
+          onSubmitted: (_){
+            onTap();
+          },
+          onTapOutside: (_){
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           decoration : InputDecoration(
             hintText : '채팅을 입력하세요.', 
             border : InputBorder.none, 

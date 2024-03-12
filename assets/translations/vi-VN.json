@@ -1,0 +1,93 @@
+{
+  "language": "ngôn ngữ",
+  "showing_language": "Tiếng Hàn - KR",
+  "noti_noti": "Thông báo",
+  "noti_ok": "Đồng ý",
+  "noti_cancel": "Hủy",
+
+  "build_room": "Tạo phòng Earth",
+  "join_room": "Tham gia Earth",
+  "refresh": "Làm mới",
+
+  "searchPage_infoText": "Tìm kiếm theo tên Earth.",
+  "searchPage_info_notFound": "Không tìm thấy tên Earth đang tìm.",
+  "searchPage_hintText": "Nhập tên vào Earth không công khai",
+  "buildPage_makeEarth": "Tạo Earth",
+  "buildPage_hintText": "Nhập tên Earth muốn tạo.",
+  "buildPage_private": "Earth không công khai",
+  "buildPage_createBtn": "Tạo Earth",
+  "host_end_game": "Trò chơi đã kết thúc bởi người chủ.",
+
+  "homePage_listWorld": "Danh sách Earth",
+
+  "settingPage_language": "Lựa chọn ngôn ngữ",
+
+  "game_description": "Người sử dụng là cư dân của Trái Đất đang chìm. Bạn phải duy trì điểm môi trường trên 0 trong 7 trong ngày thời gian chơi game. Bạn có thể mua đồ dùng cần thiết cho tăng hp, và có thể thực hiện tổng cộng 6 nhiệm vụ để  kiếm được 50 xu mỗi nhiệm vụ.",
+  "worker_description": "[Nhân viên công ty]\nPhải thực hiện nhiệm vụ và tiêu thụ đúng cách để sống sót. Hãy xem kết thúc bằng tạo dựng ý kiến công cộng và tiêu dùng lành mạnh.\n\nĐiều kiện chiến thắng: Chỉ cần sống sót",
+  "nature_description": "[Nhà hoạt động môi trường]\nNhận thêm 30 điểm môi trường khi hoàn thành nhiệm vụ.\n\nĐiều kiện chiến thắng: Đạt điểm môi trường trên 50 khi kết thúc",
+  "business_description": "[Nhà doanh nhân]\nhp không giảm, có thể lưu thông và bán các đồ dùng cần thiết trong cuộc sống. Khi lưu thông đồ dùng cần thiết phải trả 3 lần giá ban đầu.\n\nĐiều kiện chiến thắng: Đạt hơn 3000 đồng xu khi kết thúc",
+  "politician_description": "[Chính trị gia]\nCó thể ban hành luật về hạng mục bán hàng. Phải tổng hợp tình hình và ý kiến của mọi người.\n\nĐiều kiện chiến thắng: Tất cả đều sống sót",
+
+  "mission_already_done": "Ai đó đã hoàn thành nhiệm vụ rồi.\nHãy thử lại vào ngày khác.",
+
+  "rule_select_abort": "Chỉ có chính trị gia mới có thể thiết lập quy tắc.",
+  "noRule": "Không có quy tắc",
+  "greenGrowthStrategy": "Chiến lược Tăng trưởng Xanh",
+  "greenDeal": "Kế hoạch Giao dịch Xanh",
+  "parisAgreement": "Hiệp định Paris",
+  "carbonNeutrality": "Tính khí quyển",
+  "noRule_description": "Bạn có thể mua bất kỳ mặt hàng nào.",
+  "greenGrowthStrategy_description": "Một chính sách đại diện của Nhật Bản nhằm kích hoạt các sản phẩm giảm khí thải.",
+  "greenDeal_description": "Trong kế hoạch Giao dịch Xanh được công bố bởi Liên minh Châu Âu, thương mại mở được triển khai để thiết lập một chuỗi cung ứng mạnh mẽ.",
+  "parisAgreement_description": "Một hiệp định nhằm giữ cho sự tăng trưởng nhiệt độ trung bình toàn cầu không vượt quá 2°C so với mức nhiệt độ tiền công nghiệp.",
+  "carbonNeutrality_description": "Một tuyên bố nhằm giảm lượng khí thải carbon và đạt được lượng khí thải net-zero bằng cách loại bỏ và hấp thụ carbon được phát thải vào khí quyển.",
+
+  "rule_abort": "Vi phạm luật đã ban hành.",
+  "activate_abort": "Sản phẩm chưa được kích hoạt.",
+  "income": "Ai đó đã mua sản phẩm.",
+
+  "news_greenplation": "Chủ đề: Bây giờ kinh tế đang trải qua Inflation Xanh...Dân dụ \"Cuộc sống khó khăn quá\"\n\nGần đây, do quy định về khí thải carbon liên quan, việc sản xuất nguyên liệu cần thiết trở nên khó khăn, dẫn đến sự phát sinh của Inflation Xanh. Inflation Xanh kết hợp từ 'xanh' nghĩa là thân thiện với môi trường và 'inflation' nghĩa là sự tăng giá. Có vẻ như cần có sự giảm nhẹ về quy định để ổn định giá cả.",
+  "news_80": "Chủ đề: Hiệu quả của quy định giảm khí thải carbon...Khí hậu ổn định\n\nCác báo cáo gần đây cho thấy môi trường và khí hậu ổn định trên toàn thế giới, hy vọng về một tương lai bền vững đang tăng lên.",
+  "news_60": "Chủ đề: Nồng độ bụi mịn tăng so với năm trước\n\nNồng độ bụi mịn tăng lên và việc hít thở không khí trong lành trở nên khó khăn. Nguyên nhân của sự gia tăng bụi mịn này là do sa mạc hóa.",
+  "news_40": "Chủ đề: Sự nóng lên toàn cầu cuối cùng dẫn đến thiếu lương thực... \n\nGần đây, do khí hậu bất thường như lũ lụt, bão liên tục nên cả thế giới đang bị thiếu lương thực. Mặc dù côn trùng ăn được đang nổi lên như một vật liệu thay thế, nhưng dường như cần phải giải quyết nguyên nhân cơ bản.",
+  "news_20": "Chủ đề: Mực nước biển tăng cao... Giá đất cao hơn ở vùng cao\n\nVới sự tăng nhiệt độ trung bình, mực nước biển tăng cao và 50 thành phố trên toàn thế giới đã bị ngập. Nếu tiếp tục như vậy, thế giới sẽ diệt vong.",
+  "news_0": "Chủ đề: Sự diệt vong của thế giới đã gần\n\nTrái Đất không còn là nơi phù hợp cho sự sống của con người nữa. Chính phủ các nước đang rơi vào nguy cơ tan rã và mọi người đang sống trong sự lo lắng mỗi ngày. Để thay đổi tình trạng này, cần phải có nhiều nỗ lực.",
+
+  "plug_off": "Rút phích cắm để tiết kiệm điện năng.",
+  "sun_power": "Lau sạch bụi trên tấm pin mặt trời.",
+  "trash_game": "Bấm vào rác để làm sạch biển.",
+  "tree_game": "Trồng cây và biến sa mạc thành rừng.",
+  "water_off": "Hãy chạm vào nước đang sôi rồi khóa lại.",
+  "wind_power": "Xoay máy phát điện gió theo hướng mũi tên.",
+
+  "select": "Chọn",
+  "seleted": "Đã chọn",
+
+  "buy": "Mua",
+  "activate": "Kích hoạt",
+  "close": "Đóng",
+  "buy_success": "Đã mua.",
+  "buy_fail": "Không đủ tiền.",
+
+  "goodWater_name": "Nước uống thân thiện môi trường",
+  "badWater_name": "Nước uống phá hủy môi trường",
+  "goodFood_name": "Bộ phận phụ kiện thân thiện môi trường",
+  "badFood_name": "Hộp cơm nhựa",
+  "goodAir_name": "Hộp oxy thân thiện môi trường",
+  "badAir_name": "Hộp oxy phá hủy môi trường",
+  "goodClothes_name": "Quần áo từ sợi tái chế",
+  "badClothes_name": "Quần áo sợi nhựa",
+
+  "goodWater_description": "Sử dụng vật liệu đóng gói thân thiện môi trường và rút ngắn quá trình vận chuyển để giảm lượng khí thải carbon của nước uống.",
+  "badWater_description": "Sử dụng chai nhựa và được sản xuất ở nước ngoài để giảm giá.",
+  "goodFood_description": "Sản xuất từ nguyên liệu không sử dụng thuốc trừ sâu.",
+  "badFood_description": "Sử dụng để nuôi cấy ở cánh đồng sau khi cưa rừng.",
+  "goodAir_description": "Hộp oxi có thể tái chế được sản xuất từ vật liệu thân thiện môi trường.",
+  "badAir_description": "Hộp oxi có giá rẻ nhưng không thể tái chế được sản xuất từ vật liệu rẻ tiền.",
+  "goodClothes_description": "Quần áo chất lượng cao được làm từ sợi không phải từ động vật.",
+  "badClothes_description": "Thời trang phổ biến được làm từ sợi tổng hợp và gây ra rác nhựa.",
+
+  "result_win": "Thắng",
+  "result_dead": "Chết",
+  "result_nature": "Trái đất sụp đổ"
+}

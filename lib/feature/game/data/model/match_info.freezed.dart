@@ -27,7 +27,7 @@ mixin _$Match {
   String? get host => throw _privateConstructorUsedError;
   int? get day => throw _privateConstructorUsedError;
   int? get natureScore => throw _privateConstructorUsedError;
-  Map<GroceryType, bool>? get groceryList => throw _privateConstructorUsedError;
+  Map<GroceryType, int>? get groceryList => throw _privateConstructorUsedError;
   List<int>? get gameEventList => throw _privateConstructorUsedError;
   RuleType? get rule => throw _privateConstructorUsedError;
 
@@ -49,7 +49,7 @@ abstract class $MatchCopyWith<$Res> {
       String? host,
       int? day,
       int? natureScore,
-      Map<GroceryType, bool>? groceryList,
+      Map<GroceryType, int>? groceryList,
       List<int>? gameEventList,
       RuleType? rule});
 }
@@ -110,7 +110,7 @@ class _$MatchCopyWithImpl<$Res, $Val extends Match>
       groceryList: freezed == groceryList
           ? _value.groceryList
           : groceryList // ignore: cast_nullable_to_non_nullable
-              as Map<GroceryType, bool>?,
+              as Map<GroceryType, int>?,
       gameEventList: freezed == gameEventList
           ? _value.gameEventList
           : gameEventList // ignore: cast_nullable_to_non_nullable
@@ -138,7 +138,7 @@ abstract class _$$MatchImplCopyWith<$Res> implements $MatchCopyWith<$Res> {
       String? host,
       int? day,
       int? natureScore,
-      Map<GroceryType, bool>? groceryList,
+      Map<GroceryType, int>? groceryList,
       List<int>? gameEventList,
       RuleType? rule});
 }
@@ -197,7 +197,7 @@ class __$$MatchImplCopyWithImpl<$Res>
       groceryList: freezed == groceryList
           ? _value._groceryList
           : groceryList // ignore: cast_nullable_to_non_nullable
-              as Map<GroceryType, bool>?,
+              as Map<GroceryType, int>?,
       gameEventList: freezed == gameEventList
           ? _value._gameEventList
           : gameEventList // ignore: cast_nullable_to_non_nullable
@@ -221,7 +221,7 @@ class _$MatchImpl implements _Match {
       this.host,
       this.day,
       this.natureScore,
-      final Map<GroceryType, bool>? groceryList,
+      final Map<GroceryType, int>? groceryList,
       final List<int>? gameEventList,
       this.rule})
       : _players = players,
@@ -253,9 +253,9 @@ class _$MatchImpl implements _Match {
   final int? day;
   @override
   final int? natureScore;
-  final Map<GroceryType, bool>? _groceryList;
+  final Map<GroceryType, int>? _groceryList;
   @override
-  Map<GroceryType, bool>? get groceryList {
+  Map<GroceryType, int>? get groceryList {
     final value = _groceryList;
     if (value == null) return null;
     if (_groceryList is EqualUnmodifiableMapView) return _groceryList;
@@ -342,7 +342,7 @@ abstract class _Match implements Match {
       final String? host,
       final int? day,
       final int? natureScore,
-      final Map<GroceryType, bool>? groceryList,
+      final Map<GroceryType, int>? groceryList,
       final List<int>? gameEventList,
       final RuleType? rule}) = _$MatchImpl;
 
@@ -363,7 +363,7 @@ abstract class _Match implements Match {
   @override
   int? get natureScore;
   @override
-  Map<GroceryType, bool>? get groceryList;
+  Map<GroceryType, int>? get groceryList;
   @override
   List<int>? get gameEventList;
   @override

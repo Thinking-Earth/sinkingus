@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/feature/game/game_widgets/game_riverpod.dart';
+import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
@@ -37,11 +38,13 @@ enum GroceryType {
 class GroceryListItem extends SpriteComponent
     with HasGameReference<BuyNecessityDialog> {
   GroceryType type;
+  late TextComponent btnText;
+
   GroceryListItem({required this.type})
       : super(position: Vector2(418.w * (type.id - 2), 0) / 3);
 
   @override
-  FutureOr<void> onMount() async {
+  FutureOr<void> onLoad() async {
     sprite = await Sprite.load("store/${type.code}.png");
     size = Vector2(455.3.w, 256.w);
 
@@ -59,18 +62,20 @@ class GroceryListItem extends SpriteComponent
         position: Vector2(1018.w, 539.w) / 3,
         size: Vector2(168.w, 57.w) / 3,
         onClickEvent: (positon, component) {
-          game.showBuyDialog(type);
+          game.showBuyDialog(this);
         },
         src: "store/buyBtn.png");
     add(buyBtn);
 
-    final buyText = TextComponent(
-        text: tr("buy"),
-        textRenderer: TextPaint(style: AppTypography.blackPixel),
+    btnText = TextComponent(
+        text: game.role == RoleType.business ? tr("activate") : tr("buy"),
+        textRenderer: TextPaint(
+            style: (game.groceryList[type]! > -1)
+                ? AppTypography.blackPixel
+                : AppTypography.grayPixel),
         anchor: Anchor.center,
         size: Vector2(168.w, 57.w) / 3,
         position: Vector2(1018.w, 539.w) / 3 + Vector2(168.w, 57.w) / 6);
-    add(buyText);
 
     final description = TextComponent(
         text: tr("${type.code}_name"),
@@ -82,26 +87,27 @@ class GroceryListItem extends SpriteComponent
     add(priceComponent);
     add(destroyComponent);
     add(buyBtn);
-    add(buyText);
+    add(btnText);
     add(description);
 
-    return super.onMount();
+    return super.onLoad();
   }
 }
 
 class BuyDialog extends SpriteComponent
     with HasGameReference<BuyNecessityDialog> {
-  GroceryType type;
+  GroceryListItem listItem;
+  late TextComponent buyText;
 
-  BuyDialog(this.type) : super(size: Vector2(455.3.w, 256.w));
+  BuyDialog(this.listItem) : super(size: Vector2(455.3.w, 256.w));
 
   @override
   FutureOr<void> onLoad() async {
     sprite = await Sprite.load("store/dialog.png");
 
-    final buyText = TextComponent(
-        text: tr("buy"),
-        textRenderer: TextPaint(style: AppTypography.blackPixel),
+    buyText = TextComponent(
+        text: listItem.btnText.text,
+        textRenderer: listItem.btnText.textRenderer,
         anchor: Anchor.center,
         position: Vector2(730.w, 439.w) / 3);
 
@@ -114,16 +120,10 @@ class BuyDialog extends SpriteComponent
     final buyBtn = ClickablePolygon.relative(
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
-      if (game.state.rule.restrict >= type.destroyScore) {
-        bool canBuy =
-            game.state.setDt(20, -1 * type.destroyScore, -1 * type.price);
-        if (canBuy) {
-          ShowDialogHelper.showSnackBar(content: tr("buy_success"));
-        } else {
-          ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
-        }
+      if (game.role == RoleType.business) {
+        activate();
       } else {
-        ShowDialogHelper.showSnackBar(content: "규칙에 위배됩니다");
+        buy();
       }
     }, parentSize: Vector2(134.w, 42.w) / 3)
       ..position = Vector2(663.w, 419.w) / 3
@@ -138,7 +138,7 @@ class BuyDialog extends SpriteComponent
       ..paint = BasicPalette.transparent.paint();
 
     final description = TextComponent(
-        text: tr("${type.code}_description"),
+        text: tr("${listItem.type.code}_description"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         position: Vector2(684.w, 357.w) / 3);
@@ -150,6 +150,36 @@ class BuyDialog extends SpriteComponent
     add(description);
 
     return super.onLoad();
+  }
+
+  void activate() {
+    bool canActivate = game.state.setDt(0, 0, -3 * listItem.type.price);
+    if (canActivate) {
+      game.state.setActivate(listItem.type);
+      buyText.textRenderer = listItem.btnText.textRenderer =
+          TextPaint(style: AppTypography.grayPixel);
+    } else {
+      ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
+    }
+  }
+
+  void buy() {
+    if (game.groceryList[listItem.type]! == -1) {
+      if (game.state.rule.restrict >= listItem.type.destroyScore) {
+        bool canBuy = game.state.setDt(
+            20, -1 * listItem.type.destroyScore, -1 * listItem.type.price);
+        if (canBuy) {
+          ShowDialogHelper.showSnackBar(content: tr("buy_success"));
+          game.state.buy(listItem.type.price);
+        } else {
+          ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
+        }
+      } else {
+        ShowDialogHelper.showSnackBar(content: tr("rule_abort"));
+      }
+    } else {
+      ShowDialogHelper.showSnackBar(content: tr("activate_abort"));
+    }
   }
 }
 
@@ -191,7 +221,7 @@ class Scroller extends PositionComponent with DragCallbacks, KeyboardHandler {
   }
 
   @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
       scrollPosition = max(0.w, scrollPosition - 20.w);
     }
@@ -208,8 +238,10 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
   late BuyDialog dialog;
 
   GameState state;
+  RoleType role;
+  late Map<GroceryType, int> groceryList;
 
-  BuyNecessityDialog({required this.state});
+  BuyNecessityDialog({required this.state, required this.role});
 
   @override
   FutureOr<void> onMount() async {
@@ -228,6 +260,8 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
           Navigator.of(AppRouter.navigatorKey.currentContext!).pop(true);
         },
         src: "store/xBtn.png");
+
+    groceryList = await state.getGroceryList();
 
     final goodWater = GroceryListItem(type: GroceryType.goodWater);
     final badWater = GroceryListItem(type: GroceryType.badWater);
@@ -277,8 +311,8 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
     return super.onMount();
   }
 
-  void showBuyDialog(GroceryType type) {
-    dialog = BuyDialog(type);
+  void showBuyDialog(GroceryListItem listItem) {
+    dialog = BuyDialog(listItem);
     add(dialog);
   }
 }

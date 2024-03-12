@@ -4,11 +4,14 @@ import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
+import 'package:sinking_us/config/routes/app_router.dart';
+import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/chats/domain/chat_domain.dart';
 import 'package:sinking_us/feature/game/chats/presentation/viewmodel/chat_viewmodel.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
+import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
@@ -24,9 +27,11 @@ class GameState extends PositionComponent
 
   double dtSum = 0;
 
+  late StreamSubscription<DatabaseEvent> stateListener;
+
   @override
   FutureOr<void> onLoad() {
-    FirebaseDatabase.instance
+    stateListener = FirebaseDatabase.instance
         .ref("game/${game.matchId}/rule")
         .onValue
         .listen((event) {
@@ -93,7 +98,8 @@ class GameState extends PositionComponent
       }
     }
     ref.read(matchDomainControllerProvider.notifier).sendStatus(status: status);
-    // TODO: dialog
+    AppRouter.popAndPushNamed(Routes.homeScreenRoute,
+        args: status); // TODO : @오종현
   }
 
   @override
@@ -102,13 +108,16 @@ class GameState extends PositionComponent
       gameEnd();
     }
 
-    if (dtSum > 3) {
-      if (currentEvent != GameEventType.news.id &&
-          currentEvent != GameEventType.undefined.id) hp -= 1;
-      dtSum = 0;
-    } else {
-      dtSum += dt;
+    if (game.player.role != RoleType.business) {
+      if (dtSum > 3) {
+        if (currentEvent != GameEventType.news.id &&
+            currentEvent != GameEventType.undefined.id) hp -= 1;
+        dtSum = 0;
+      } else {
+        dtSum += dt;
+      }
     }
+
     super.update(dt);
   }
 
@@ -121,7 +130,8 @@ class GameState extends PositionComponent
   }
 
   void hostStartGame() async {
-    await ref.read(matchDomainControllerProvider.notifier).hostStartGame();
+    await ref.read(matchDomainControllerProvider.notifier).hostStartGame(
+        game.uid, List<String>.generate(6, (index) => game.players[index].uid));
   }
 
   void hostNextDay() {
@@ -131,9 +141,8 @@ class GameState extends PositionComponent
   void leaveMatch() async {
     ref.read(matchDomainControllerProvider.notifier).leaveMatch();
     ref.read(chatDomainControllerProvider.notifier).outChatRoom(
-      ref.read(openChatViewModelControllerProvider).chatID, 
-      nick: ref.read(userDomainControllerProvider).userInfo!.nick
-    );
+        ref.read(openChatViewModelControllerProvider).chatID,
+        nick: ref.read(userDomainControllerProvider).userInfo!.nick);
   }
 
   void setRule(RuleType newRule) {
@@ -144,5 +153,29 @@ class GameState extends PositionComponent
     return ref
         .read(matchDomainControllerProvider.notifier)
         .setDt(hpdt, natureScoredt, moneydt);
+  }
+
+  void setActivate(GroceryType type) {
+    ref.read(matchDomainControllerProvider.notifier).setStoreActive(type);
+  }
+
+  Future<Map<GroceryType, int>> getGroceryList() async {
+    return await ref
+        .read(matchDomainControllerProvider.notifier)
+        .getGroceryList();
+  }
+
+  Future<RoleType> getRole(String uid) async {
+    return await ref.read(matchDomainControllerProvider.notifier).getRole(uid);
+  }
+
+  @override
+  void onRemove() {
+    stateListener.cancel();
+    super.onRemove();
+  }
+
+  void buy(int price) {
+    ref.read(matchDomainControllerProvider.notifier).buy(price);
   }
 }

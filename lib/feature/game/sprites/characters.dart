@@ -1,15 +1,18 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:async';
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_riverpod/flame_riverpod.dart';
-import 'package:flutter/src/services/raw_keyboard.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
+import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 const double CHARACTER_SIZE_X = 100 * 1.4;
 const double CHARACTER_SIZE_Y = 128 * 1.4;
@@ -20,25 +23,22 @@ enum CharacterState {
 }
 
 class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
-    with
-        CollisionCallbacks,
-        KeyboardHandler,
-        RiverpodComponentMixin,
-        HasGameReference<SinkingUsGame> {
+    with KeyboardHandler, HasGameReference<SinkingUsGame>, CollisionCallbacks {
   int money = 0;
-  RoleType role = RoleType.undefined;
+  RoleType role = RoleType.worker;
   String uid;
 
-  SpriteComponent background;
-  SpriteComponent background2;
   late final Vector2 screensize;
   Vector2 characterPosition = Vector2(0, 0);
   Vector2 oldCharacterPosition = Vector2(0, 0);
-  double dtSum = 0;
+  double sendDtSum = 0;
+  double animationDtSum = 0;
 
   double maxSpeed = 80.w;
+  late Vector2 moveForce;
   JoystickComponent joystick;
   late TextComponent nameText;
+  late CircleHitbox hitbox;
 
   late Sprite idle;
   late Sprite walk1;
@@ -47,12 +47,15 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   late SpriteAnimation idleAnimation;
   late SpriteAnimation walkAnimation;
 
-  MyPlayer(this.uid, this.screensize, this.joystick, this.background,
-      this.background2)
+  StreamSubscription<DatabaseEvent>? moneyListener;
+
+  MyPlayer(this.uid, this.screensize, this.joystick)
       : super(
             size: Vector2(CHARACTER_SIZE_X * 1.w, CHARACTER_SIZE_Y * 1.w),
             anchor: Anchor.center,
-            position: screensize * 0.5);
+            position: screensize * 0.5) {
+    moveForce = Vector2.zero();
+  }
 
   @override
   FutureOr<void> onLoad() async {
@@ -77,8 +80,8 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       final positionData = value.value as List<dynamic>;
       characterPosition =
           Vector2(positionData[0] * 1.0, positionData[1] * 1.0) * 1.w;
-      background.position.add(-characterPosition);
-      background2.position.add(-characterPosition);
+      game.background.position.add(-characterPosition);
+      game.background2.position.add(-characterPosition);
       oldCharacterPosition = characterPosition.clone();
     });
 
@@ -89,6 +92,12 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
         align: Anchor.bottomCenter,
         position: Vector2(size.x * 0.5, 10.w));
 
+    hitbox = CircleHitbox(
+        anchor: Anchor.bottomCenter,
+        position: Vector2(size.x * 0.5, size.y - 28.w),
+        radius: 25.w);
+
+    add(hitbox);
     add(nameText);
 
     return super.onLoad();
@@ -97,74 +106,71 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   @override
   void update(double dt) {
     super.update(dt);
-    if (!joystick.delta.isZero()) {
-      if (joystick.relativeDelta.x > 0) {
-        transform.scale = Vector2(-1, 1);
-        nameText.scale = Vector2(-1, 1);
-        current = CharacterState.walk;
-      } else {
-        transform.scale = Vector2(1, 1);
-        nameText.scale = Vector2(1, 1);
-        current = CharacterState.walk;
+
+    if (moveForce != Vector2.zero()) {
+      if (!hitbox.isColliding) {
+        transform.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
+        nameText.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
       }
-      background.position.add(joystick.relativeDelta * maxSpeed * dt * -1.w);
-      background2.position.add(joystick.relativeDelta * maxSpeed * dt * -1.w);
-      characterPosition.add(joystick.relativeDelta * maxSpeed * dt * 1.w);
+      current = CharacterState.walk;
+
+      game.background.position.add(-moveForce);
+      game.background2.position.add(-moveForce);
+
+      characterPosition.add(moveForce);
+      moveForce = Vector2.zero();
     }
 
-    if (oldCharacterPosition == characterPosition &&
-        current == CharacterState.walk) {
-      current = CharacterState.idle;
+    if (!joystick.delta.isZero()) {
+      moveForce = joystick.relativeDelta * maxSpeed * dt * 1.w;
     }
 
-    if (dtSum > 0.2 &&
-        (oldCharacterPosition.x != characterPosition.x ||
-            oldCharacterPosition.y != characterPosition.y)) {
-      sendChangedPosition();
-      dtSum = 0;
-      oldCharacterPosition = characterPosition.clone();
+    if (animationDtSum > 0.3) {
+      if (oldCharacterPosition.x == characterPosition.x &&
+          oldCharacterPosition.y == characterPosition.y &&
+          current == CharacterState.walk) {
+        current = CharacterState.idle;
+        animationDtSum = 0;
+      }
     } else {
-      dtSum += dt;
+      animationDtSum += dt;
+    }
+
+    if (sendDtSum > 0.1) {
+      if (oldCharacterPosition.x != characterPosition.x ||
+          oldCharacterPosition.y != characterPosition.y) {
+        sendChangedPosition();
+        sendDtSum = 0;
+        oldCharacterPosition = characterPosition.clone();
+      }
+    } else {
+      sendDtSum += dt;
     }
   }
 
   @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    if (event is RawKeyDownEvent) {
-      Vector2 moveDirection = Vector2.zero();
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    if (event is KeyDownEvent || event is KeyRepeatEvent) {
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
           keysPressed.contains(LogicalKeyboardKey.keyA)) {
-        moveDirection.x += -5.w;
+        moveForce.x += -maxSpeed / 20;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
           keysPressed.contains(LogicalKeyboardKey.keyD)) {
-        moveDirection.x += 5.w;
+        moveForce.x += maxSpeed / 20;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
           keysPressed.contains(LogicalKeyboardKey.keyW)) {
-        moveDirection.y += -5.w;
+        moveForce.y += -maxSpeed / 20;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
           keysPressed.contains(LogicalKeyboardKey.keyS)) {
-        moveDirection.y += 5.w;
+        moveForce.y += maxSpeed / 20;
       }
 
-      if (moveDirection.x != 0 && moveDirection.y != 0) {
-        moveDirection /= pow(2, 1 / 2) as double;
+      if (moveForce.x != 0 && moveForce.y != 0) {
+        moveForce /= pow(2, 1 / 2) as double;
       }
-
-      if (moveDirection.x >= 0) {
-        if (current == CharacterState.idle) current = CharacterState.walk;
-        scale = Vector2(-1, 1);
-        nameText.scale = Vector2(-1, 1);
-      } else if (moveDirection.x < 0) {
-        if (current == CharacterState.idle) current = CharacterState.walk;
-        scale = Vector2(1, 1);
-        nameText.scale = Vector2(1, 1);
-      }
-      background.position.add(-moveDirection);
-      background2.position.add(-moveDirection);
-      characterPosition.add(moveDirection);
     }
     return super.onKeyEvent(event, keysPressed);
   }
@@ -177,21 +183,53 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     }
   }
 
-  void setRole(RoleType newRole) async {
-    role = newRole;
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (intersectionPoints.length == 2) {
+      Vector2 mid =
+          (intersectionPoints.elementAt(0) + intersectionPoints.elementAt(1)) /
+              2;
+      double length = (hitbox.absoluteCenter - mid).length;
+      moveForce +=
+          (hitbox.absoluteCenter - mid).scaled(hitbox.radius - length) / length;
+    }
+    super.onCollision(intersectionPoints, other);
+  }
+
+  void setRole() async {
+    role = await game.state.getRole(uid);
     idle = await Sprite.load("characters/${role.code}_idle.png");
     walk1 = await Sprite.load("characters/${role.code}_walk1.png");
     walk2 = await Sprite.load("characters/${role.code}_walk2.png");
+    idleAnimation = SpriteAnimation.spriteList([idle], stepTime: 0.2);
+    walkAnimation =
+        SpriteAnimation.spriteList([walk1, idle, walk2, idle], stepTime: 0.2);
+    animations = {
+      CharacterState.idle: idleAnimation,
+      CharacterState.walk: walkAnimation,
+    };
+
+    if (role == RoleType.business) {
+      moneyListener = FirebaseDatabase.instance
+          .ref("game/${game.matchId}/money")
+          .onValue
+          .listen((event) {
+        if (event.snapshot.exists) {
+          game.state.setDt(0, 0, event.snapshot.value as int);
+          ShowDialogHelper.showSnackBar(content: tr("income"));
+        }
+      });
+    }
   }
 
   void nextDay() {
     characterPosition = Vector2.zero();
     oldCharacterPosition = Vector2.zero();
     sendChangedPosition();
-    background.position =
-        Vector2(0, background.size.y * -0.5) + screensize * 0.5;
-    background2.position =
-        Vector2(0, background2.size.y * -0.5) + screensize * 0.5;
+    game.background.position =
+        Vector2(0, game.background2.size.y * -0.5) + screensize * 0.5;
+    game.background2.position =
+        Vector2(0, game.background2.size.y * -0.5) + screensize * 0.5;
   }
 }
 
@@ -212,6 +250,8 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
 
   late SpriteAnimation idleAnimation;
   late SpriteAnimation walkAnimation;
+
+  late StreamSubscription<DatabaseEvent> positionListener;
 
   OtherPlayer(this.uid, this.backgroundSize);
 
@@ -253,7 +293,7 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
         position: Vector2(size.x * 0.5, 0));
     add(nameText);
 
-    FirebaseDatabase.instance
+    positionListener = FirebaseDatabase.instance
         .ref("players/$uid/position")
         .onValue
         .listen((event) {
@@ -293,5 +333,25 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
       dtSum += dt;
     }
     super.update(dt);
+  }
+
+  void setRole() async {
+    role = await game.state.getRole(uid);
+    idle = await Sprite.load("characters/${role.code}_idle.png");
+    walk1 = await Sprite.load("characters/${role.code}_walk1.png");
+    walk2 = await Sprite.load("characters/${role.code}_walk2.png");
+    idleAnimation = SpriteAnimation.spriteList([idle], stepTime: 0.2);
+    walkAnimation =
+        SpriteAnimation.spriteList([walk1, idle, walk2, idle], stepTime: 0.2);
+    animations = {
+      CharacterState.idle: idleAnimation,
+      CharacterState.walk: walkAnimation,
+    };
+  }
+
+  @override
+  void onRemove() {
+    positionListener.cancel();
+    super.onRemove();
   }
 }

@@ -69,7 +69,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           ),
           chatInputter(
             textController: chatViewModel.chatController,
-            focusNode: chatViewModel.focusNode,
             onTap: ref.read(openChatViewModelControllerProvider.notifier).sendMsg
           ),
         ],
