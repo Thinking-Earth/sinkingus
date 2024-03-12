@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/feature/home/view/build_room_dialog.dart';
 import 'package:sinking_us/feature/home/view/search_room_dialog.dart';
+import 'package:sinking_us/feature/setting/view/setting_dialog.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
@@ -25,6 +26,28 @@ class ShowDialogHelper {
                       SizedBox(width: 455.3.w, height: 256.w, child: widget)));
         }).then((value) => value);
     return result;
+  }
+
+  static void showSettingDialog() {
+    showDialog(
+      context: AppRouter.navigatorKey.currentContext!,
+      builder: (BuildContext context) {
+        return SizedBox(
+          width: 844.w,
+          height: 390.h,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                width: 400.w,
+                height: 348.h,
+                child: const SettingDialogContent()
+              ),
+            ],
+          ),
+        );
+      }
+    );
   }
 
   static void showBuildRoomDialog() {

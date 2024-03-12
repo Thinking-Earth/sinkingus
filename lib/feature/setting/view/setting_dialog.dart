@@ -8,16 +8,15 @@ import 'package:sinking_us/helpers/constants/app_images.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BuildDialogContent extends ConsumerStatefulWidget {
-  const BuildDialogContent({super.key});
+class SettingDialogContent extends ConsumerStatefulWidget {
+  const SettingDialogContent({super.key});
 
   @override
-  ConsumerState<BuildDialogContent> createState() => _BuildDialogContentState();
+  ConsumerState<SettingDialogContent> createState() => _BuildDialogContentState();
 }
 
-class _BuildDialogContentState extends ConsumerState<BuildDialogContent> {
+class _BuildDialogContentState extends ConsumerState<SettingDialogContent> {
   TextEditingController myController = TextEditingController();
-  bool _isPrivate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +33,11 @@ class _BuildDialogContentState extends ConsumerState<BuildDialogContent> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Spacer(flex: 1,),
             Container(
               width: 140.w,
               height: 40.h,
               alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 40.h),
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(AppImages.roomName),
@@ -46,7 +45,7 @@ class _BuildDialogContentState extends ConsumerState<BuildDialogContent> {
                 )
               ),
               child: Text(
-                tr('build_room'), 
+                'Setting', 
                 style: AppTypography.blackPixel.copyWith(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold
@@ -54,28 +53,10 @@ class _BuildDialogContentState extends ConsumerState<BuildDialogContent> {
               ),
             ),
             SizedBox(height: 16.h,),
-            SizedBox(
-              width: 280.w,
-              child: gameTextField(
-                controller: myController, 
-                hintText: tr('buildPage_hintText'),
-              ),
-            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Checkbox(
-                  value: _isPrivate,
-                  checkColor: Colors.white,
-                  activeColor: AppColors.black10,
-                  onChanged: (value) {
-                    setState(() {
-                      _isPrivate = value!;
-                    });
-                  }
-                ),
                 Text(
-                  tr('buildPage_private'), 
+                  tr('settingPage_language'), 
                   style: AppTypography.blackPixel.copyWith(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500
@@ -86,11 +67,7 @@ class _BuildDialogContentState extends ConsumerState<BuildDialogContent> {
             const Spacer(flex: 3,),
             InkWell(
               onTap: () {
-                ref.read(matchDomainControllerProvider.notifier)
-                    .buildAndJoinMatch(
-                        roomName: myController.text,
-                        isPrivate: _isPrivate ? "private" : "public");
-                Navigator.of(context).pop();
+        
               },
               borderRadius: BorderRadius.circular(12),
               child: Container(
