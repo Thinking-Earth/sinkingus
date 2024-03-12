@@ -17,7 +17,7 @@ class Background extends PositionComponent
 
   @override
   FutureOr<void> onLoad() async {
-    final backgroundSprite = await Sprite.load("map1.jpg");
+    final backgroundSprite = await Sprite.load("map1.png");
 
     position = Vector2(0, backgroundSprite.originalSize.y * mapRatio * -0.5) +
         game.camera.viewport.virtualSize * 0.5;
@@ -58,7 +58,6 @@ class Background extends PositionComponent
     super.onRemove();
   }
 
-  //TODO: 카트 콜라이더
   void setWall() {
     wall.addAll([
       PolygonHitbox([
@@ -130,7 +129,8 @@ class Background extends PositionComponent
         Vector2(1849, 1526) * mapRatio,
         Vector2(1770, 1526) * mapRatio,
         Vector2(1755, 1539) * mapRatio,
-        Vector2(1698, 1539) * mapRatio,
+        Vector2(1642, 1542) * mapRatio,
+        Vector2(1642, 1548) * mapRatio,
         Vector2(1698, 1603) * mapRatio,
         Vector2(1779, 1603) * mapRatio,
         Vector2(1812, 1619) * mapRatio,
@@ -149,7 +149,8 @@ class Background extends PositionComponent
         Vector2(1374, 1480) * mapRatio,
         Vector2(1389, 1495) * mapRatio,
         Vector2(1519, 1495) * mapRatio,
-        Vector2(1534, 1473) * mapRatio,
+        Vector2(1563, 1494) * mapRatio,
+        Vector2(1575, 1466) * mapRatio,
         Vector2(1768, 1473) * mapRatio,
         Vector2(1768, 1418) * mapRatio,
         Vector2(1389, 1418) * mapRatio,
@@ -267,7 +268,7 @@ class Background extends PositionComponent
           position: Vector2(1642, 827) * mapRatio,
           size: Vector2(37, 63) * mapRatio),
       RectangleHitbox(
-          position: Vector2(968, 958) * mapRatio,
+          position: Vector2(968, 950) * mapRatio,
           size: Vector2(61, 40) * mapRatio),
       RectangleHitbox(
           position: Vector2(1200, 1393) * mapRatio,

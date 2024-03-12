@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
+import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 const double CHARACTER_SIZE_X = 100 * 1.4;
 const double CHARACTER_SIZE_Y = 128 * 1.4;
@@ -44,6 +46,8 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
 
   late SpriteAnimation idleAnimation;
   late SpriteAnimation walkAnimation;
+
+  StreamSubscription<DatabaseEvent>? moneyListener;
 
   MyPlayer(this.uid, this.screensize, this.joystick)
       : super(
@@ -204,6 +208,18 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       CharacterState.idle: idleAnimation,
       CharacterState.walk: walkAnimation,
     };
+
+    if (role == RoleType.business) {
+      moneyListener = FirebaseDatabase.instance
+          .ref("game/${game.matchId}/money")
+          .onValue
+          .listen((event) {
+        if (event.snapshot.exists) {
+          game.state.setDt(0, 0, event.snapshot.value as int);
+          ShowDialogHelper.showSnackBar(content: tr("income"));
+        }
+      });
+    }
   }
 
   void nextDay() {

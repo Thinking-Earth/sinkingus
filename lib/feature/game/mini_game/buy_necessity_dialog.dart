@@ -170,6 +170,7 @@ class BuyDialog extends SpriteComponent
             20, -1 * listItem.type.destroyScore, -1 * listItem.type.price);
         if (canBuy) {
           ShowDialogHelper.showSnackBar(content: tr("buy_success"));
+          game.state.buy(listItem.type.price);
         } else {
           ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
         }

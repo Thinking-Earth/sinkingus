@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
+import 'package:sinking_us/config/routes/app_router.dart';
+import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/chats/domain/chat_domain.dart';
 import 'package:sinking_us/feature/game/chats/presentation/viewmodel/chat_viewmodel.dart';
@@ -96,7 +98,8 @@ class GameState extends PositionComponent
       }
     }
     ref.read(matchDomainControllerProvider.notifier).sendStatus(status: status);
-    // TODO: dialog
+    AppRouter.popAndPushNamed(Routes.homeScreenRoute,
+        args: status); // TODO : @오종현
   }
 
   @override
@@ -170,5 +173,9 @@ class GameState extends PositionComponent
   void onRemove() {
     stateListener.cancel();
     super.onRemove();
+  }
+
+  void buy(int price) {
+    ref.read(matchDomainControllerProvider.notifier).buy(price);
   }
 }

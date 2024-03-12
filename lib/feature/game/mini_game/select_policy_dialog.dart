@@ -5,7 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-//import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -19,11 +18,10 @@ import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 @JsonEnum(valueField: 'id')
 enum RuleType {
   noRule(0, "noRule", 30),
-  A(1, "A", 25),
-  greenGrowthStrategy(2, "greenGrowthStrategy", 20),
-  greenDeal(3, "greenDeal", 15),
-  parisAgreement(4, "parisAgreement", 12),
-  carbonNeutrality(5, "carbonNeutrality", 5);
+  greenGrowthStrategy(1, "greenGrowthStrategy", 20),
+  greenDeal(2, "greenDeal", 15),
+  parisAgreement(3, "parisAgreement", 12),
+  carbonNeutrality(4, "carbonNeutrality", 5);
 
   const RuleType(this.id, this.code, this.restrict);
   final int id;
@@ -67,13 +65,13 @@ class PolicyListItem extends SpriteComponent
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     final titleText = TextComponent(
-        text: type.code,
+        text: tr(type.code),
         anchor: Anchor.center,
         position: Vector2(size.x * 0.5, 20.w),
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     final descriptionText = TextComponent(
-        text: type.code,
+        text: "${tr(type.code)}_description",
         anchor: Anchor.topCenter,
         position: Vector2(size.x * 0.5, 35.w),
         textRenderer: TextPaint(style: AppTypography.blackPixel));
@@ -178,13 +176,12 @@ class PolicyDialog extends FlameGame {
         position: Vector2(93.w, 93.w) / 3, size: Vector2(2388.w, 526.w));
 
     final item1 = PolicyListItem(type: RuleType.noRule);
-    final item2 = PolicyListItem(type: RuleType.A);
     final item3 = PolicyListItem(type: RuleType.greenGrowthStrategy);
     final item4 = PolicyListItem(type: RuleType.greenDeal);
     final item5 = PolicyListItem(type: RuleType.parisAgreement);
     final item6 = PolicyListItem(type: RuleType.carbonNeutrality);
 
-    listItems.addAll([item1, item2, item3, item4, item5, item6]);
+    listItems.addAll([item1, item3, item4, item5, item6]);
     listView.addAll(listItems);
 
     final scroller = Scroller(listView: listView);

@@ -9,11 +9,11 @@
   "join_room": "Earth 참여하기",
   "refresh": "새로고침",
 
-  "searchPage_infoText": "Earth 이름으로 검색.",
-  "searchPage_info_notFound": "찾고 있는 Earth가 존재하지 않습니다.",
+  "searchPage_infoText": "Earth 이름으로 검색",
+  "searchPage_info_notFound": "찾고 있는 Earth가 존재하지 않습니다",
   "searchPage_hintText": "비공개 Earth 이름을 입력하세요",
   "buildPage_makeEarth": "Earth 생성하기",
-  "buildPage_hintText": "생성할 Earth 이름을 입력하세요.",
+  "buildPage_hintText": "생성할 Earth 이름을 입력하세요",
   "buildPage_private": "비공개 Earth   ",
   "buildPage_createBtn": "Earth 만들기",
   "host_end_game": "호스트에 의해 게임이 종료되었습니다",
@@ -31,9 +31,20 @@
   "mission_already_done": "누군가가 이미 미션을 수행했습니다.\n다른 날에 다시 시도하세요.",
 
   "rule_select_abort": "정치인만 규칙을 정할 수 있습니다.",
+  "noRule": "법률 없음",
+  "greenGrowthStrategy": "녹색성장전략",
+  "greenDeal": "그린딜 계획",
+  "parisAgreement": "파리협정",
+  "carbonNeutrality": "탄소중립",
+  "noRule_description": "자유롭게 물건을 살 수 있습니다.",
+  "greenGrowthStrategy_description": "일본이 수립한 정책으로 탈탄소화 제품을 활성화하는 정책이 대표적이다.",
+  "greenDeal_description": "EU가 발표한 그린딜 계획에서는 탄력적 공급망을 위해 개방 무역을 실시한다.",
+  "parisAgreement_description": "산업화 이전 대비 지구 평균온도 상승을 2℃보다 훨씬 아래로 유지하자는 협약이다.",
+  "carbonNeutrality_description": "탄소 배출량을 줄이고 대기 중으로 배출되는 탄소를 제거, 흡수하여 순 배출량을 ‘0’으로 만들자는 선언이다.",
 
   "rule_abort": "제정된 법률에 위배됩니다.",
   "activate_abort": "아직 개시되지 않은 상품입니다.",
+  "income": "누군가가 상품을 구매했습니다.",
 
   "news_greenplation": "제목: 지금 경제는 그린플레이션...서민들 \"삶이 빡빡해요\"\n\n최근 탄소배출과 관련된 산업규제로 필수 원자재의 생산이 어려워지면서 그린플레이션이 발생하고 있습니다. 그린플레이션은 친환경을 뜻하는 ‘그린’과 물가가 상승하는 ‘인플레이션’의 합성어입니다. 물가안정을 위해 적절한 규제 완화가 필요해 보입니다.",
   "news_80": "제목: 탄소배출 감소 규제 효과를 보여... 기후 안정되다\n\n최근 보도에 의하면 전 세계적으로 환경과 기후가 안정적인 상태를 유지하고 있어, 지속 가능한 미래에 대한 희망이 높아지고 있습니다.",
@@ -74,5 +85,9 @@
   "goodAir_description": "친환경 소재를 사용해 재활용이 가능한 산소통.",
   "badAir_description": "값싼 재료로 만들었지만 재활용이 불가능한 산소통.",
   "goodClothes_description": "비동물성 소재로 만든 품질이 좋은 옷.",
-  "badClothes_description": "합성섬유로 만들어져 미세플라스틱을 발생시키는 유행 패션."
+  "badClothes_description": "합성섬유로 만들어져 미세플라스틱을 발생시키는 유행 패션.",
+
+  "result_win": "승리",
+  "result_dead": "사망",
+  "result_nature": "지구 멸망"
 }

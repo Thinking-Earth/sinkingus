@@ -1,0 +1,93 @@
+{
+  "language": "zh_CN",
+  "showing_language": "中国 - CN",
+  "noti_noti": "通知",
+  "noti_ok": "确定",
+  "noti_cancel": "取消",
+
+  "build_room": "创造地球",
+  "join_room": "加入地球",
+  "refresh": "刷新",
+
+  "searchPage_infoText": "搜索地球名称。",
+  "searchPage_info_notFound": "未找到您正在寻找的地球。",
+  "searchPage_hintText": "请输入私人地球名称",
+  "buildPage_makeEarth": "创造地球",
+  "buildPage_hintText": "请输入您要创造的地球名称。",
+  "buildPage_private": "私人地球",
+  "buildPage_createBtn": "创建地球",
+  "host_end_game": "游戏已由主持人结束。",
+
+  "homePage_listWorld": "地球列表",
+
+  "settingPage_language": "语言选择",
+
+  "game_description": "您是沉没地球的居民。在7天的游戏时间内，您必须保持环境评分为0或以上。购买生活必需品可以提Hp，并完成6个任务，每个任务可获得50枚硬币。",
+  "worker_description": "[员工]\n执行任务并通过正确的消费来生存。通过健康的消费和舆论生成观察结局。\n\n胜利条件：继续生存",
+  "nature_description": "[环保活动家]\n完成任务后，额外获得30环境评分。\n\n胜利条件：结束时环境评分超过50",
+  "business_description": "[商人]\n您的生命值不会降低，可以分销和销售所需的物品。分销生活必需品时，必须支付3倍的初始成本。\n\n胜利条件：结束时超过3000枚硬币",
+  "politician_description": "[政治家]\n可以制定销售项目的法律。必须综合考虑每个人的情况和意见。\n\n胜利条件：所有人都生存",
+
+  "mission_already_done": "有人已经完成了任务。\n请在其他日期重试。",
+
+  "rule_select_abort": "只有政治家可以制定规则。",
+  "noRule": "没有规则",
+  "greenGrowthStrategy": "绿色增长战略",
+  "greenDeal": "绿色协议",
+  "parisAgreement": "巴黎协定",
+  "carbonNeutrality": "碳中和",
+  "noRule_description": "您可以购买任何物品。",
+  "greenGrowthStrategy_description": "日本制定的旨在激活减碳产品的代表性政策。",
+  "greenDeal_description": "在欧盟发布的绿色协议中，实行开放贸易以建立弹性供应链。",
+  "parisAgreement_description": "旨在确保全球平均温度上升不超过工业化前水平的2°C的协议。",
+  "carbonNeutrality_description": "通过去除和吸收排放到大气中的碳来减少碳排放，并实现净零排放的宣言。",
+
+  "rule_abort": "违反已制定的法律。",
+  "activate_abort": "产品尚未激活。",
+  "income": "有人购买了商品。",
+
+  "news_greenplation": "标题：现在的经济是绿色通货膨胀...民众抱怨“生活太艰难了”\n\n最近，由于与碳排放相关的工业管制，必要原材料的生产变得困难，出现了绿色通货膨胀。绿色通货膨胀是“环保” 和物价上涨的“通货膨胀”的合成词。为了物价稳定，似乎需要适当放宽限制。",
+  "news_80": "标题：碳排放减少的效果明显...气候稳定\n\n最近 报道显示，全球范围内环境和气候保持稳定，人们对可持续未来充满了希望。",
+  "news_60": "标题：细颗粒物浓度比去年增加\n\n细颗粒物浓度增加，呼吸清新空气变得困难。沙漠化加速似乎是导致细颗粒物增加的原因。",
+  "news_40": "标题：全球变暖最终导致粮食短缺\n\n最近，由于持续的气候异常，如洪水、台风等，全球都面临粮食短缺。虽然食用昆虫成为替代选择，但需要解决根本原因。",
+  "news_20": "标题：海平面上升严重...高地土地价格上涨(高地地价上涨)\n\n随着平均气温上升，海平面上升，全球50个城市被水淹没。如果继续这样,世界会将灭亡",
+  "news_0": "标题：世界濒临崩溃\n\n地球不再是人类居住的合适之地。各国政府面临解体威胁，人们每天都生活在不安之中。要想扭转局面，需要付出大量努力。",
+
+  "plug_off": "拔掉插座以节约电力。",
+  "sun_power": "清理太阳能板上的灰尘。",
+  "trash_game": "点击垃圾清洁海洋。",
+  "tree_game": "种树，将沙漠变成森林。",
+  "water_off": "触摸自来水关闭。",
+  "wind_power": "将风力发电机转向箭头方向。",
+
+  "select": "选择",
+  "seleted": "已选择",
+
+  "buy": "购买",
+  "activate": "激活",
+  "close": "关闭",
+  "buy_success": "购买成功。",
+  "buy_fail": "余额不足。",
+
+  "goodWater_name": "环保水",
+  "badWater_name": "环境有害水",
+  "goodFood_name": "环保食品",
+  "badFood_name": "塑料饭盒",
+  "goodAir_name": "环保氧气罐",
+  "badAir_name": "环境有害氧气罐",
+  "goodClothes_name": "可回收纤维服装",
+  "badClothes_name": "塑料纤维服装",
+
+  "goodWater_description": "瓶装水采用环保包装材料，运输过程缩短以减少碳排放。",
+  "badWater_description": "塑料瓶装水，国外生产以降低价格。",
+  "goodFood_description": "无农药生产。",
+  "badFood_description": "毁坏树林制作的野地里的牛肉盒饭。",
+  "goodAir_description": "可回收氧气箱，由环保材料制成。",
+  "badAir_description": "廉价但不可回收的氧气箱，由廉价材料制成。",
+  "goodClothes_description": "由非动物性纤维制成的优质服装。",
+  "badClothes_description": "由合成纤维制成，产生微塑料的流行时尚。",
+
+  "result_win": "胜利",
+  "result_dead": "死亡",
+  "result_nature": "地球毁灭"
+}

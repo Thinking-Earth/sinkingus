@@ -194,4 +194,8 @@ class MatchDomainController extends _$MatchDomainController {
         .getRole(uid: uid)
         .then((value) => RoleType.getByCode(value));
   }
+
+  void buy(int price) {
+    source.buy(matchId: state.matchId, price: price);
+  }
 }
