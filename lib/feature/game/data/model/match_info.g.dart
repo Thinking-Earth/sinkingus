@@ -16,7 +16,7 @@ _$MatchImpl _$$MatchImplFromJson(Map<String, dynamic> json) => _$MatchImpl(
       day: json['day'] as int?,
       natureScore: json['natureScore'] as int?,
       groceryList: (json['groceryList'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry($enumDecode(_$GroceryTypeEnumMap, k), e as bool),
+        (k, e) => MapEntry($enumDecode(_$GroceryTypeEnumMap, k), e as int),
       ),
       gameEventList: (json['gameEventList'] as List<dynamic>?)
           ?.map((e) => e as int)

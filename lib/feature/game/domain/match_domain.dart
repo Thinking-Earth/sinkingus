@@ -76,7 +76,7 @@ class MatchDomainController extends _$MatchDomainController {
         host: uid,
         day: 0,
         natureScore: 100,
-        groceryList: {for (var item in GroceryType.values) item: false},
+        groceryList: {for (var item in GroceryType.values) item: -2},
         rule: RuleType.noRule);
     state.matchId = await source.buildAndJoinMatch(
         roomName: roomName,
@@ -178,5 +178,13 @@ class MatchDomainController extends _$MatchDomainController {
 
   void setRule(int ruleId) {
     source.setRule(matchId: state.matchId, ruleId: ruleId);
+  }
+
+  void setStoreActive(GroceryType type) {
+    source.setStoreActive(matchId: state.matchId, type: type);
+  }
+
+  Future<Map<GroceryType, int>> getGroceryList() async {
+    return await source.getGroceryList(matchId: state.matchId);
   }
 }
