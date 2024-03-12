@@ -7,6 +7,7 @@ import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
+import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
@@ -100,13 +101,16 @@ class GameState extends PositionComponent
       gameEnd();
     }
 
-    if (dtSum > 3) {
-      if (currentEvent != GameEventType.news.id &&
-          currentEvent != GameEventType.undefined.id) hp -= 1;
-      dtSum = 0;
-    } else {
-      dtSum += dt;
+    if (game.player.role != RoleType.business) {
+      if (dtSum > 3) {
+        if (currentEvent != GameEventType.news.id &&
+            currentEvent != GameEventType.undefined.id) hp -= 1;
+        dtSum = 0;
+      } else {
+        dtSum += dt;
+      }
     }
+
     super.update(dt);
   }
 
@@ -138,5 +142,15 @@ class GameState extends PositionComponent
     return ref
         .read(matchDomainControllerProvider.notifier)
         .setDt(hpdt, natureScoredt, moneydt);
+  }
+
+  void setActivate(GroceryType type) {
+    ref.read(matchDomainControllerProvider.notifier).setStoreActive(type);
+  }
+
+  Future<Map<GroceryType, int>> getGroceryList() async {
+    return await ref
+        .read(matchDomainControllerProvider.notifier)
+        .getGroceryList();
   }
 }

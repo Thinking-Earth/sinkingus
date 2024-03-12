@@ -15,16 +15,18 @@ class Background extends PositionComponent
   @override
   FutureOr<void> onLoad() async {
     final backgroundSprite = await Sprite.load("map1.jpg");
+
+    position = Vector2(0, backgroundSprite.originalSize.y * mapRatio * -0.5) +
+        game.camera.viewport.virtualSize * 0.5;
+    size = backgroundSprite.originalSize * mapRatio;
+    anchor = Anchor.topCenter;
+
     background = SpriteComponent(
         sprite: backgroundSprite,
-        size: backgroundSprite.originalSize * mapRatio,
-        anchor: Anchor.topCenter,
-        position:
-            Vector2(0, backgroundSprite.originalSize.y * mapRatio * -0.5) +
-                game.camera.viewport.virtualSize * 0.5);
+        size: backgroundSprite.originalSize * mapRatio);
 
     wall = PositionComponent();
-    setWall();
+    //setWall();
 
     background.add(wall);
 
