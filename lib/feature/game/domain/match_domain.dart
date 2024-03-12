@@ -7,6 +7,7 @@ import 'package:sinking_us/feature/game/data/dataSource/match_data_source.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
 import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
+import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 part 'match_domain.g.dart';
@@ -141,10 +142,10 @@ class MatchDomainController extends _$MatchDomainController {
     setState();
   }
 
-  Future<void> hostStartGame() async {
+  Future<void> hostStartGame(String uid, List<String> players) async {
     await source.deleteLobby(
         matchId: state.matchId, isPrivate: state.match.isPrivate!);
-    source.hostStartGame(matchId: state.matchId);
+    source.hostStartGame(matchId: state.matchId, uid: uid, players: players);
     hostNextDay();
   }
 
@@ -186,5 +187,11 @@ class MatchDomainController extends _$MatchDomainController {
 
   Future<Map<GroceryType, int>> getGroceryList() async {
     return await source.getGroceryList(matchId: state.matchId);
+  }
+
+  Future<RoleType> getRole(String uid) async {
+    return await source
+        .getRole(uid: uid)
+        .then((value) => RoleType.getByCode(value));
   }
 }

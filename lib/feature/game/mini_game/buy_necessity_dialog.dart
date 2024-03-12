@@ -153,7 +153,7 @@ class BuyDialog extends SpriteComponent
   }
 
   void activate() {
-    bool canActivate = game.state.setDt(0, 0, -2 * listItem.type.price);
+    bool canActivate = game.state.setDt(0, 0, -3 * listItem.type.price);
     if (canActivate) {
       game.state.setActivate(listItem.type);
       buyText.textRenderer = listItem.btnText.textRenderer =
@@ -174,10 +174,10 @@ class BuyDialog extends SpriteComponent
           ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
         }
       } else {
-        ShowDialogHelper.showSnackBar(content: "규칙에 위배됩니다.");
+        ShowDialogHelper.showSnackBar(content: tr("rule_abort"));
       }
     } else {
-      ShowDialogHelper.showSnackBar(content: "아직 활성화되지 않았습니다.");
+      ShowDialogHelper.showSnackBar(content: tr("activate_abort"));
     }
   }
 }

@@ -25,7 +25,7 @@ class GameUI extends PositionComponent
   late TextButton gameStartBtn;
   late RectangleComponent hp, natureScore;
   late Timer timer;
-  int oneDay = 150; // TODO: test version time => 150
+  int oneDay = 150;
   int remainingSec = 150;
 
   late TextBoxComponent timerComponent,
@@ -44,7 +44,6 @@ class GameUI extends PositionComponent
             sprite: await Sprite.load("etc/leave.png"),
             size: Vector2.all(18.w)),
         onPressed: () async {
-          print("pressed");
           game.pauseEngine();
           game.removeFromParent();
           game.state.leaveMatch();
@@ -212,7 +211,6 @@ class GameUI extends PositionComponent
   }
 
   String setNewsText() {
-    // TODO: tr 처리
     String text = "";
     if (game.state.rule.id == RuleType.carbonNeutrality.id) {
       text = tr("news_greenplation");
@@ -235,9 +233,7 @@ class GameUI extends PositionComponent
       gameStartBtn.removeFromParent();
       game.state.hostStartGame();
     } else {
-      //TODO: 사람이 6명이어야 게임 시작 가능
-      gameStartBtn.removeFromParent();
-      game.state.hostStartGame();
+      ShowDialogHelper.showSnackBar(content: "인원이 6명이어야 게임을 시작할 수 있습니다.");
     }
   }
 }

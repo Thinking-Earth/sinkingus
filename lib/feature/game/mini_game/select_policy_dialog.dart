@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -13,6 +14,7 @@ import 'package:sinking_us/feature/game/game_widgets/game_riverpod.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/feature/game/sprites/sprite_util.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
+import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 @JsonEnum(valueField: 'id')
 enum RuleType {
@@ -59,7 +61,7 @@ class PolicyListItem extends SpriteComponent
         src: "policy/selectBtn.png");
 
     select = TextComponent(
-        text: "select",
+        text: tr("select"),
         anchor: Anchor.center,
         position: Vector2(184.w, 446.w) / 3,
         textRenderer: TextPaint(style: AppTypography.blackPixel));
@@ -77,7 +79,7 @@ class PolicyListItem extends SpriteComponent
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     final destroyScoreText = TextComponent(
-        text: "-${type.restrict} 까지",
+        text: "-${type.restrict}",
         anchor: Anchor.centerLeft,
         position: Vector2(136.w, 380.w) / 3,
         textRenderer: TextPaint(style: AppTypography.blackPixel));
@@ -96,12 +98,12 @@ class PolicyListItem extends SpriteComponent
       if (game.selectedPolicyRule == type) {
         selectBtn.sprite.opacity = 0.5;
         select
-          ..text = "selected"
+          ..text = tr("selected")
           ..textRenderer = TextPaint(style: AppTypography.grayPixel);
       } else {
         selectBtn.sprite.opacity = 1;
         select
-          ..text = "select"
+          ..text = tr("select")
           ..textRenderer = TextPaint(style: AppTypography.blackPixel);
       }
     }
@@ -147,10 +149,10 @@ class PolicyDialog extends FlameGame {
   List<PolicyListItem> listItems = [];
   RuleType selectedPolicyRule = RuleType.noRule;
 
-  RoleType playerRole;
+  RoleType role;
   GameState state;
 
-  PolicyDialog({required this.playerRole, required this.state});
+  PolicyDialog({required this.role, required this.state});
 
   @override
   FutureOr<void> onLoad() async {
@@ -197,7 +199,11 @@ class PolicyDialog extends FlameGame {
   }
 
   void selectPolicy(RuleType newRule) {
-    selectedPolicyRule = newRule;
-    state.setRule(newRule);
+    if (role == RoleType.politician) {
+      selectedPolicyRule = newRule;
+      state.setRule(newRule);
+    } else {
+      ShowDialogHelper.showSnackBar(content: tr("rule_select_abort"));
+    }
   }
 }

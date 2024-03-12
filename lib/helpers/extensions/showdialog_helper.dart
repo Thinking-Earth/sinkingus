@@ -14,10 +14,9 @@ class ShowDialogHelper {
 
   static Future<bool> gameEventDialog(
       {required String text, required Widget widget}) async {
-        print(AppRouter.navigatorKey.currentContext!);
     bool result = await showDialog(
         context: AppRouter.navigatorKey.currentContext!,
-        barrierDismissible: false, // TODO: false
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
               backgroundColor: Colors.black,
@@ -30,75 +29,70 @@ class ShowDialogHelper {
 
   static void showBuildRoomDialog() {
     showDialog(
-      context: AppRouter.navigatorKey.currentContext!,
-      builder: (BuildContext context) {
-        return SizedBox(
-          width: 844.w,
-          height: 390.h,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                right: 0,
-                child: SizedBox(
-                  width: 400.w,
-                  height: 348.h,
-                  child: const BuildDialogContent()
+        context: AppRouter.navigatorKey.currentContext!,
+        builder: (BuildContext context) {
+          return SizedBox(
+            width: 844.w,
+            height: 390.h,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  right: 0,
+                  child: SizedBox(
+                      width: 400.w,
+                      height: 348.h,
+                      child: const BuildDialogContent()),
                 ),
-              ),
-            ],
-          ),
-        );
-      }
-    );
+              ],
+            ),
+          );
+        });
   }
 
   static void showSearchRoomDialog() {
     showDialog(
-      context: AppRouter.navigatorKey.currentContext!,
-      builder: (BuildContext context) {
-        return SizedBox(
-          width: 844.w,
-          height: 390.h,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                right: 0,
-                child: SizedBox(
-                  width: 400.w,
-                  height: 348.h,
-                  child: const SearchDialogContent()
+        context: AppRouter.navigatorKey.currentContext!,
+        builder: (BuildContext context) {
+          return SizedBox(
+            width: 844.w,
+            height: 390.h,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  right: 0,
+                  child: SizedBox(
+                      width: 400.w,
+                      height: 348.h,
+                      child: const SearchDialogContent()),
                 ),
-              ),
-            ],
-          ),
-        );
-      }
-    );
+              ],
+            ),
+          );
+        });
   }
 
   static void showAlert({required String title, required String message}) {
     showCupertinoDialog(
-      context: AppRouter.navigatorKey.currentContext!,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            CupertinoDialogAction(
-                isDefaultAction: true,
-                child: Text(
-                  tr("noti_ok"),
-                  style: const TextStyle(color: AppColors.green10),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                })
-          ],
-        );
-      }
-    );
+        context: AppRouter.navigatorKey.currentContext!,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: [
+              CupertinoDialogAction(
+                  isDefaultAction: true,
+                  child: Text(
+                    tr("noti_ok"),
+                    style: const TextStyle(color: AppColors.green10),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+            ],
+          );
+        });
   }
 
   static void showAlertWithAction(
@@ -106,27 +100,26 @@ class ShowDialogHelper {
       required String title,
       required String message}) {
     showCupertinoDialog(
-      context: AppRouter.navigatorKey.currentContext!,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              onPressed: () {
-                AppRouter.pop();
-                onPressed();
-              },
-              child: Text(
-                tr("noti_ok"),
-                style: const TextStyle(color: AppColors.green10),
-              ),
-            )
-          ],
-        );
-      }
-    );
+        context: AppRouter.navigatorKey.currentContext!,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: [
+              CupertinoDialogAction(
+                isDefaultAction: true,
+                onPressed: () {
+                  AppRouter.pop();
+                  onPressed();
+                },
+                child: Text(
+                  tr("noti_ok"),
+                  style: const TextStyle(color: AppColors.green10),
+                ),
+              )
+            ],
+          );
+        });
   }
 
   static void showSnackBar({required String content}) {

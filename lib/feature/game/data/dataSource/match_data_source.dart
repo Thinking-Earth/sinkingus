@@ -44,20 +44,18 @@ class MatchDataSource {
         ? RuleType.getById(castedData['rule'])
         : RuleType.noRule;
     Match newMatch = Match(
-      roomName: castedData['roomName'],
-      rule: rule,
-      day: castedData['day'],
-      players: List<String>.from(castedData['players']),
-      host: castedData['host'],
-      natureScore: castedData['natureScore'],
-      groceryList: groceryList,
-      gameEventList: castedData['gameEventList'],
-      isPrivate: castedData['isPrivate'],
-      playerCount: castedData['playerCount']
-    );
+        roomName: castedData['roomName'],
+        rule: rule,
+        day: castedData['day'],
+        players: List<String>.from(castedData['players']),
+        host: castedData['host'],
+        natureScore: castedData['natureScore'],
+        groceryList: groceryList,
+        gameEventList: castedData['gameEventList'],
+        isPrivate: castedData['isPrivate'],
+        playerCount: castedData['playerCount']);
 
     if (newMatch.playerCount < 6) {
-      // TODO: 트랜잭션 재도전
       await db
           .ref("lobby/$isPrivate/$matchId")
           .update({"playerCount": ServerValue.increment(1)});
@@ -137,13 +135,20 @@ class MatchDataSource {
     db.ref("players/$uid").remove();
   }
 
-  Future<void> hostStartGame({required String matchId}) async {
-    final uploadList =
-        await db.ref("game/$matchId/players").get().then((value) {
-      if (value.exists) return value.value as Iterable<dynamic>;
-    });
-    await db.ref("game/$matchId/status").set(
-        {for (var element in uploadList!) element.toString(): "undefined"});
+  Future<void> hostStartGame(
+      {required String matchId,
+      required String uid,
+      required List<String> players}) async {
+    List<String> shuffled = List.from(players);
+    shuffled.add(uid);
+    shuffled.shuffle();
+    db.ref("players/${shuffled[3]}/role").set(RoleType.business.code);
+    db.ref("players/${shuffled[4]}/role").set(RoleType.nature.code);
+    db.ref("players/${shuffled[5]}/role").set(RoleType.politician.code);
+
+    await db
+        .ref("game/$matchId/status")
+        .set({for (var element in players) element: "undefined"});
   }
 
   Future<void> updateDay({required String matchId}) async {
@@ -191,5 +196,12 @@ class MatchDataSource {
           for (var item in GroceryType.values)
             item: (value.value as Map<dynamic, dynamic>)[item.code]
         });
+  }
+
+  Future<String> getRole({required String uid}) async {
+    return db
+        .ref("players/$uid/role")
+        .get()
+        .then((value) => value.value as String);
   }
 }
