@@ -16,4 +16,9 @@ class AppImages {
   static const String searchBtn = '$basePath/home/search_btn.png';
   static const String searchIcon = '$basePath/home/search_icon.png';
   static const String listTile = '$basePath/home/list_tile.png';
+
+  static const String businessMan = '$basePath/characters/business_idle.png';
+  static const String natureMan = '$basePath/characters/nature_idle.png';
+  static const String politicianMan = '$basePath/characters/politician_idle.png';
+  static const String workerMan = '$basePath/characters/worker_idle.png';
 }
