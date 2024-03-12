@@ -1,14 +1,17 @@
 import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
+import 'package:sinking_us/feature/game/sprites/characters.dart';
 
 class Background extends PositionComponent
     with HasGameReference<SinkingUsGame>, CollisionCallbacks {
   late SpriteComponent background;
   late PositionComponent wall;
   double mapRatio;
+  late StreamSubscription<DatabaseEvent> playerListener;
 
   Background({required this.mapRatio});
 
@@ -26,15 +29,36 @@ class Background extends PositionComponent
         size: backgroundSprite.originalSize * mapRatio);
 
     wall = PositionComponent();
-    //setWall();
+    setWall();
 
     background.add(wall);
 
     add(background);
 
+    playerListener = FirebaseDatabase.instance
+        .ref("game/${game.matchId}/players")
+        .onChildAdded
+        .listen((event) {
+      if (event.snapshot.exists) {
+        if (event.snapshot.value.toString() != game.uid) {
+          OtherPlayer newPlayer =
+              OtherPlayer(event.snapshot.value.toString(), background.size);
+          game.players.add(newPlayer);
+          add(newPlayer);
+        }
+      }
+    });
+
     return super.onLoad();
   }
 
+  @override
+  void onRemove() {
+    playerListener.cancel();
+    super.onRemove();
+  }
+
+  //TODO: 카트 콜라이더
   void setWall() {
     wall.addAll([
       PolygonHitbox([

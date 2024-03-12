@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:async';
 import 'dart:math';
 
@@ -5,7 +7,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
@@ -22,7 +23,7 @@ enum CharacterState {
 class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     with KeyboardHandler, HasGameReference<SinkingUsGame>, CollisionCallbacks {
   int money = 0;
-  RoleType role = RoleType.politician;
+  RoleType role = RoleType.worker;
   String uid;
 
   late final Vector2 screensize;
@@ -90,8 +91,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     hitbox = CircleHitbox(
         anchor: Anchor.bottomCenter,
         position: Vector2(size.x * 0.5, size.y - 28.w),
-        radius: 25.w)
-      ..debugMode = true;
+        radius: 25.w);
 
     add(hitbox);
     add(nameText);
@@ -192,11 +192,18 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     super.onCollision(intersectionPoints, other);
   }
 
-  void setRole(RoleType newRole) async {
-    role = newRole;
+  void setRole() async {
+    role = await game.state.getRole(uid);
     idle = await Sprite.load("characters/${role.code}_idle.png");
     walk1 = await Sprite.load("characters/${role.code}_walk1.png");
     walk2 = await Sprite.load("characters/${role.code}_walk2.png");
+    idleAnimation = SpriteAnimation.spriteList([idle], stepTime: 0.2);
+    walkAnimation =
+        SpriteAnimation.spriteList([walk1, idle, walk2, idle], stepTime: 0.2);
+    animations = {
+      CharacterState.idle: idleAnimation,
+      CharacterState.walk: walkAnimation,
+    };
   }
 
   void nextDay() {
@@ -227,6 +234,8 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
 
   late SpriteAnimation idleAnimation;
   late SpriteAnimation walkAnimation;
+
+  late StreamSubscription<DatabaseEvent> positionListener;
 
   OtherPlayer(this.uid, this.backgroundSize);
 
@@ -268,7 +277,7 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
         position: Vector2(size.x * 0.5, 0));
     add(nameText);
 
-    FirebaseDatabase.instance
+    positionListener = FirebaseDatabase.instance
         .ref("players/$uid/position")
         .onValue
         .listen((event) {
@@ -308,5 +317,25 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
       dtSum += dt;
     }
     super.update(dt);
+  }
+
+  void setRole() async {
+    role = await game.state.getRole(uid);
+    idle = await Sprite.load("characters/${role.code}_idle.png");
+    walk1 = await Sprite.load("characters/${role.code}_walk1.png");
+    walk2 = await Sprite.load("characters/${role.code}_walk2.png");
+    idleAnimation = SpriteAnimation.spriteList([idle], stepTime: 0.2);
+    walkAnimation =
+        SpriteAnimation.spriteList([walk1, idle, walk2, idle], stepTime: 0.2);
+    animations = {
+      CharacterState.idle: idleAnimation,
+      CharacterState.walk: walkAnimation,
+    };
+  }
+
+  @override
+  void onRemove() {
+    positionListener.cancel();
+    super.onRemove();
   }
 }

@@ -25,9 +25,11 @@ class GameState extends PositionComponent
 
   double dtSum = 0;
 
+  late StreamSubscription<DatabaseEvent> stateListener;
+
   @override
   FutureOr<void> onLoad() {
-    FirebaseDatabase.instance
+    stateListener = FirebaseDatabase.instance
         .ref("game/${game.matchId}/rule")
         .onValue
         .listen((event) {
@@ -125,7 +127,8 @@ class GameState extends PositionComponent
   }
 
   void hostStartGame() async {
-    await ref.read(matchDomainControllerProvider.notifier).hostStartGame();
+    await ref.read(matchDomainControllerProvider.notifier).hostStartGame(
+        game.uid, List<String>.generate(6, (index) => game.players[index].uid));
   }
 
   void hostNextDay() {
@@ -135,9 +138,8 @@ class GameState extends PositionComponent
   void leaveMatch() async {
     ref.read(matchDomainControllerProvider.notifier).leaveMatch();
     ref.read(chatDomainControllerProvider.notifier).outChatRoom(
-      ref.read(openChatViewModelControllerProvider).chatID, 
-      nick: ref.read(userDomainControllerProvider).userInfo!.nick
-    );
+        ref.read(openChatViewModelControllerProvider).chatID,
+        nick: ref.read(userDomainControllerProvider).userInfo!.nick);
   }
 
   void setRule(RuleType newRule) {
@@ -158,5 +160,15 @@ class GameState extends PositionComponent
     return await ref
         .read(matchDomainControllerProvider.notifier)
         .getGroceryList();
+  }
+
+  Future<RoleType> getRole(String uid) async {
+    return await ref.read(matchDomainControllerProvider.notifier).getRole(uid);
+  }
+
+  @override
+  void onRemove() {
+    stateListener.cancel();
+    super.onRemove();
   }
 }

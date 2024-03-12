@@ -49,7 +49,7 @@ class News extends FlameGame {
         text: text ?? "",
         anchor: Anchor.center,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
-        position: Vector2(240.w, 300.w) / 3,
+        position: Vector2(726.w, 445.w) / 3,
         size: Vector2(975.w, 303.w) / 3);
 
     add(dayText);

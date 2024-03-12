@@ -49,7 +49,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         body: Stack(
           children: [
             Image.asset(
-              AppImages.homeBg, 
+              AppImages.homeBg,
               width: 844.w,
               fit: BoxFit.cover,
             ),
@@ -63,11 +63,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   height: 390.h,
                   child: Stack(
                     children: [
-                      Positioned(
-                        right: 100.w,
-                        top: 110.h,
-                        child: showCharactor(),
-                      )
+                      // Positioned(
+                      //   right: 100.w,
+                      //   top: 110.h,
+                      //   child: showCharactor(),
+                      // )
                     ],
                   ),
                 ),
@@ -81,11 +81,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            tr('homePage_listWorld'), 
+                            tr('homePage_listWorld'),
                             style: AppTypography.blackPixel.copyWith(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold
-                            ),
+                                fontSize: 20.sp, fontWeight: FontWeight.bold),
                           ),
                           InkWell(
                             onTap: refreshMatchList,
@@ -93,28 +91,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           )
                         ],
                       ),
-                      SizedBox(height: 8.h,),
+                      SizedBox(
+                        height: 8.h,
+                      ),
                       SizedBox(
                         width: 400.w,
                         height: 230.h,
-                        child: matchList.isNotEmpty 
-                          ? ListView.builder(
-                              itemCount: matchList.length,
-                              itemBuilder: (context, index) {
-                                String matchId = matchList.keys.elementAt(index);
-                                return MatchListItem(
-                                    matchId: matchId,
-                                    match: matchList[matchId]!,
-                                    isPrivate: "public");
-                              },
-                            )
-                          : Center(
-                              child: Text(
-                                "There are no rooms left.\nCreate a room and enjoy the game!",
-                                textAlign: TextAlign.center,
-                                style: AppTypography.blackPixel,
+                        child: matchList.isNotEmpty
+                            ? ListView.builder(
+                                itemCount: matchList.length,
+                                itemBuilder: (context, index) {
+                                  String matchId =
+                                      matchList.keys.elementAt(index);
+                                  return MatchListItem(
+                                      matchId: matchId,
+                                      match: matchList[matchId]!,
+                                      isPrivate: "public");
+                                },
+                              )
+                            : Center(
+                                child: Text(
+                                  "There are no rooms left.\nCreate a room and enjoy the game!",
+                                  textAlign: TextAlign.center,
+                                  style: AppTypography.blackPixel,
+                                ),
                               ),
-                            ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -126,7 +127,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 .handlePressedBuildRoom,
                           ),
                           gameBlockBtn(
-                            text: tr("join_room"), 
+                            text: tr("join_room"),
                             onTap: ref
                                 .read(homeScreenControllerProvider.notifier)
                                 .handlePressedSearchRoom,
