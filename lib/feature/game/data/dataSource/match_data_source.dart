@@ -204,4 +204,8 @@ class MatchDataSource {
         .get()
         .then((value) => value.value as String);
   }
+
+  void buy({required String matchId, required int price}) {
+    db.ref("game/$matchId/income").set(price);
+  }
 }

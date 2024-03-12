@@ -174,4 +174,8 @@ class GameState extends PositionComponent
     stateListener.cancel();
     super.onRemove();
   }
+
+  void buy(int price) {
+    ref.read(matchDomainControllerProvider.notifier).buy(price);
+  }
 }
