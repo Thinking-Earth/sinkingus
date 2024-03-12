@@ -46,7 +46,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           });
         }
       });
-      Future.delayed(const Duration(seconds: 5), (){
+      Future.delayed(const Duration(seconds: 3), (){
         initRoute();
       });
     });
