@@ -25,4 +25,8 @@ class HomeScreenController extends _$HomeScreenController {
   void handlePressedSearchRoom() {
     ShowDialogHelper.showSearchRoomDialog();
   }
+
+  void handleSetting() {
+    ShowDialogHelper.showSettingDialog();
+  }
 }
