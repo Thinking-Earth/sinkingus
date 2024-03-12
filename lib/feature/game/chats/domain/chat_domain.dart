@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
-import 'package:sinking_us/feature/game/chats/data/datasource/%08chat_datasource.dart';
+import 'package:sinking_us/feature/game/chats/data/datasource/chat_datasource.dart';
 import 'package:sinking_us/feature/game/chats/data/model/chat_model.dart';
 
 part 'chat_domain.g.dart';

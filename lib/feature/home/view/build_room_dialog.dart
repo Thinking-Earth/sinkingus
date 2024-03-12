@@ -1,10 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sinking_us/feature/game/data/model/match_info.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/home/widgets/game_textfield.dart';
-import 'package:sinking_us/feature/home/widgets/match_list_item.dart';
 import 'package:sinking_us/helpers/constants/app_colors.dart';
 import 'package:sinking_us/helpers/constants/app_images.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
