@@ -4,6 +4,8 @@
   "noti_noti": "Notification",
   "noti_ok": "OK",
   "noti_cancel": "Cancel",
+  "noti_fail_google": "Failed to log in with Google",
+  "noti_fail_apple": "There was a problem with Apple login. Please try again or attempt another login method.",
 
   "build_room": "Create Earth",
   "join_room": "Join Earth",
@@ -21,6 +23,9 @@
   "homePage_listWorld": "List of Earths",
 
   "settingPage_language": "Language Selection",
+
+  "gamePage_enterText": "Enter your chat.",
+  "gamePage_cannotStart": "The game can only start with 6 players.",
 
   "game_description": "You are a resident of Sinking Earth. You must maintain an environmental score above 0, for 7 days.",
   "worker_description": "[Office Worker]\nYou must survive by completing missions and consuming properly. Achieve endings through healthy consumption and public opinion.\n\nVictory Condition: Just survive.",

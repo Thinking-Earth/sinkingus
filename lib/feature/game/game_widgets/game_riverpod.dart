@@ -15,6 +15,7 @@ import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
+import 'package:sinking_us/feature/result/viewmodel/result_viewmodel.dart';
 
 class GameState extends PositionComponent
     with RiverpodComponentMixin, HasGameReference<SinkingUsGame> {
@@ -98,8 +99,8 @@ class GameState extends PositionComponent
       }
     }
     ref.read(matchDomainControllerProvider.notifier).sendStatus(status: status);
-    AppRouter.popAndPushNamed(Routes.homeScreenRoute,
-        args: status); // TODO : @오종현
+    ref.read(resultViewModelControllerProvider.notifier).setStatus(status);
+    AppRouter.popAndPushNamed(Routes.resultScreenRoute);
   }
 
   @override
@@ -132,7 +133,7 @@ class GameState extends PositionComponent
   void hostStartGame() async {
     await ref.read(matchDomainControllerProvider.notifier).hostStartGame(
         game.uid,
-        List<String>.generate(1, (index) => game.players[index].uid)); // TODO
+        List<String>.generate(5, (index) => game.players[index].uid)); // TODO
   }
 
   void hostNextDay() {

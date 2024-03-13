@@ -53,7 +53,8 @@ class _SearchDialogContentState extends State<SearchDialogContent> {
                     height: 60.w,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(AppImages.searchIcon)
+                        image: AssetImage(AppImages.searchIcon),
+                        fit: BoxFit.fitWidth
                       )
                     ),
                   ),

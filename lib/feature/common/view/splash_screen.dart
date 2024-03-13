@@ -22,12 +22,13 @@ class SplashScreen extends ConsumerStatefulWidget{
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
   String loadingText = 'Loading';
+  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Timer.periodic(const Duration(milliseconds: 580), (_) {
+      _timer = Timer.periodic(const Duration(milliseconds: 580), (_) {
         if(loadingText == 'Loading') {
           setState(() {
             loadingText = 'Loading.';
@@ -50,6 +51,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         initRoute();
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -100,6 +107,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     }
     
     ref.read(userDomainControllerProvider.notifier).setUserInfo(userInfo: userInfo);
-    AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
+    AppRouter.pushAndReplaceNamed(Routes.loginScreenRoute);
   }
 }

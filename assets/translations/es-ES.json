@@ -4,6 +4,8 @@
   "noti_noti": "Notificación",
   "noti_ok": "Aceptar",
   "noti_cancel": "Cancelar",
+  "noti_fail_google": "Error al iniciar sesión con Google",
+  "noti_fail_apple": "Se produjo un problema al iniciar sesión con Apple. Inténtalo de nuevo o intenta con otro método de inicio de sesión.",
 
   "build_room": "Crear Earth",
   "join_room": "Unirse a Earth",
@@ -22,11 +24,14 @@
 
   "settingPage_language": "Selección de Idioma - ",
 
+  "gamePage_enterText": "Ingrese su chat.",
+  "gamePage_cannotStart": "El juego solo puede comenzar con 6 jugadores.",
+
   "game_description": "Eres un habitante de la Sinking Earth. Debes mantener una puntuación ambiental de 0 o superior durante los 7 días del juego. Puedes aumentar tu salud comprando artículos necesarios y completando en total 6 misiones para ganar 50 monedas por cada una.",
-  "worker_description": "Empleado\nDebes sobrevivir completando cada misión y a través de un consumo adecuado. Observa el final a través del consumo saludable y la creación de opiniones públicas.\n\nCondición de victoria: Sobrevivir",
-  "nature_description": "Activista Ambiental\nRecibes 30 puntos ambientales adicionales al completar cada misión. \n\nCondición de victoria: Puntuación ambiental superior a 50 al finalizar el juego",
-  "business_description": "Empresario\nTu salud no disminuye, y puedes distribuir y vender abastos. Para empezar la negociación de abastos al inicio debes pagar el triple del precio original.\n\nCondición de victoria: Más de 3000 monedas al finalizar el juego",
-  "politician_description": "Político\nPuedes legislar sobre los artículos en venta. Debes considerar las situaciones y opiniones de cada persona.\n\nCondición de victoria: Supervivencia de todos",
+  "worker_description": "[Empleado]\nDebes sobrevivir completando cada misión y a través de un consumo adecuado. Observa el final a través del consumo saludable y la creación de opiniones públicas.\n\nCondición de victoria: Sobrevivir",
+  "nature_description": "[Activista Ambiental]\nRecibes 30 puntos ambientales adicionales al completar cada misión. \n\nCondición de victoria: Puntuación ambiental superior a 50 al finalizar el juego",
+  "business_description": "[Empresario]\nTu salud no disminuye, y puedes distribuir y vender abastos. Para empezar la negociación de abastos al inicio debes pagar el triple del precio original.\n\nCondición de victoria: Más de 3000 monedas al finalizar el juego",
+  "politician_description": "[Político]\nPuedes legislar sobre los artículos en venta. Debes considerar las situaciones y opiniones de cada persona.\n\nCondición de victoria: Supervivencia de todos",
 
   "mission_already_done": "Alguien ya ha completado la misión.\nInténtalo de nuevo otro día.",
 

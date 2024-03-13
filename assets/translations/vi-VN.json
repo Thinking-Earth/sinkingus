@@ -1,6 +1,6 @@
 {
   "language": "ngôn ngữ",
-  "showing_language": "Tiếng Hàn - KR",
+  "showing_language": "Tiếng Việt - VN",
   "noti_noti": "Thông báo",
   "noti_ok": "Đồng ý",
   "noti_cancel": "Hủy",
@@ -21,6 +21,9 @@
   "homePage_listWorld": "Danh sách Earth",
 
   "settingPage_language": "Lựa chọn ngôn ngữ",
+
+  "gamePage_enterText": "Hãy nhập tin nhắn của bạn.",
+  "gamePage_cannotStart": "Trò chơi chỉ có thể bắt đầu với 6 người chơi.",
 
   "game_description": "Người sử dụng là cư dân của Trái Đất đang chìm. Bạn phải duy trì điểm môi trường trên 0 trong 7 trong ngày thời gian chơi game. Bạn có thể mua đồ dùng cần thiết cho tăng hp, và có thể thực hiện tổng cộng 6 nhiệm vụ để  kiếm được 50 xu mỗi nhiệm vụ.",
   "worker_description": "[Nhân viên công ty]\nPhải thực hiện nhiệm vụ và tiêu thụ đúng cách để sống sót. Hãy xem kết thúc bằng tạo dựng ý kiến công cộng và tiêu dùng lành mạnh.\n\nĐiều kiện chiến thắng: Chỉ cần sống sót",

@@ -4,6 +4,8 @@
   "noti_noti": "通知",
   "noti_ok": "确定",
   "noti_cancel": "取消",
+  "noti_fail_google": "Google 登录失败",
+  "noti_fail_apple": "Apple 登录出现问题。请重试或尝试其他登录方式。",
 
   "build_room": "创造地球",
   "join_room": "加入地球",
@@ -21,6 +23,9 @@
   "homePage_listWorld": "地球列表",
 
   "settingPage_language": "语言选择",
+
+  "gamePage_enterText": "请输入您的聊天。",
+  "gamePage_cannotStart": "游戏只能由6名玩家开始。",
 
   "game_description": "您是沉没地球的居民。在7天的游戏时间内，您必须保持环境评分为0或以上。购买生活必需品可以提Hp，并完成6个任务，每个任务可获得50枚硬币。",
   "worker_description": "[员工]\n执行任务并通过正确的消费来生存。通过健康的消费和舆论生成观察结局。\n\n胜利条件：继续生存",
