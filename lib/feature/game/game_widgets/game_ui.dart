@@ -88,7 +88,7 @@ class GameUI extends PositionComponent
         text: "${game.state.money}",
         size: Vector2(25.w, 18.w),
         anchor: Anchor.topRight,
-        align: Anchor.centerRight,
+        align: Anchor.center,
         position: coinUi.position - Vector2(coinUi.size.x, 0),
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
@@ -96,18 +96,25 @@ class GameUI extends PositionComponent
         text: "${game.players.length + 1}/6",
         size: Vector2(25.w, 18.w),
         anchor: Anchor.topRight,
-        align: Anchor.centerRight,
+        align: Anchor.center,
         position:
             moneyComponent.position - Vector2(moneyComponent.size.x + 20.w, 0),
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
+    final peopleIcon = SpriteComponent(
+        sprite: await Sprite.load("etc/peopleIcon.png"),
+        size: Vector2.all(18.w),
+        anchor: Anchor.topRight,
+        position:
+            peopleComponent.position - Vector2(peopleComponent.size.x, 0));
+
     dayComponent = TextBoxComponent(
         text: "DAY ${game.day}",
-        size: Vector2(40.w, 18.w),
+        size: Vector2(50.w, 18.w),
         anchor: Anchor.topRight,
-        align: Anchor.centerRight,
+        align: Anchor.center,
         position: peopleComponent.position -
-            Vector2(peopleComponent.size.x + 20.w, 0),
+            Vector2(peopleComponent.size.x + 40.w, 0),
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     gameStartBtn = TextButton(
@@ -151,6 +158,7 @@ class GameUI extends PositionComponent
     add(coinUi);
     add(moneyComponent);
     add(peopleComponent);
+    add(peopleIcon);
     add(dayComponent);
     add(minimap);
 

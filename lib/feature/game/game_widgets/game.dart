@@ -63,8 +63,7 @@ class SinkingUsGame extends FlameGame
         position:
             Vector2(0, background2Sprite.originalSize.y * mapRatio * -0.5) +
                 camera.viewport.virtualSize * 0.5,
-        priority: 2)
-      ..debugMode = true;
+        priority: 2);
 
     final knobPaint = BasicPalette.white.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.white.withAlpha(100).paint();

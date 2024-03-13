@@ -28,7 +28,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void refreshMatchList() async {
     ref.read(matchDomainControllerProvider.notifier).checkNotInMatch();
-    matchList = await ref.read(matchDomainControllerProvider.notifier).getMatchList();
+    matchList =
+        await ref.read(matchDomainControllerProvider.notifier).getMatchList();
     setState(() {
       matchList = matchList;
     });
@@ -54,7 +55,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       child: Scaffold(
         backgroundColor: const Color(0xFF80E6EF),
         body: GestureDetector(
-          onTap: (){
+          onTap: () {
             setState(() {
               bottomText = tr('game_description');
             });
@@ -77,13 +78,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: Stack(
                       children: [
                         Positioned(
-                          left: 0,
-                          top: 0,
-                          child: IconButton(
-                            onPressed: ref.read(homeScreenControllerProvider.notifier).handleSetting,
-                            icon: const Icon(Icons.settings, color: AppColors.black10,),
-                          )
-                        ),
+                            left: 0,
+                            top: 0,
+                            child: IconButton(
+                              onPressed: ref
+                                  .read(homeScreenControllerProvider.notifier)
+                                  .handleSetting,
+                              icon: const Icon(
+                                Icons.settings,
+                                color: AppColors.black10,
+                              ),
+                            )),
                         Positioned(
                           right: 62.w,
                           top: 108.h,
@@ -143,9 +148,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: SingleChildScrollView(
                               child: Text(
                                 bottomText,
-                                style: AppTypography.blackPixel.copyWith(
-                                  fontSize: 12.sp
-                                ),
+                                style: AppTypography.blackPixel
+                                    .copyWith(fontSize: 12.sp),
                               ),
                             ),
                           ),
@@ -164,7 +168,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: [
                             Text(
                               tr('homePage_listWorld'),
-                              style: AppTypography.blackPixel.copyWith(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                              style: AppTypography.blackPixel.copyWith(
+                                  fontSize: 20.sp, fontWeight: FontWeight.bold),
                             ),
                             InkWell(
                               onTap: refreshMatchList,
@@ -182,15 +187,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ? ListView.builder(
                                   itemCount: matchList.length,
                                   itemBuilder: (context, index) {
-                                    String matchId = matchList.keys.elementAt(index);
-                                    return MatchListItem(matchId: matchId, match: matchList[matchId]!, isPrivate: "public");
+                                    String matchId =
+                                        matchList.keys.elementAt(index);
+                                    return MatchListItem(
+                                        matchId: matchId,
+                                        match: matchList[matchId]!,
+                                        isPrivate: "public");
                                   },
                                 )
                               : Center(
                                   child: Text(
                                     "There are no rooms left.\nCreate a room and enjoy the game!",
                                     textAlign: TextAlign.center,
-                                    style: AppTypography.blackPixel,
+                                    style: AppTypography.blackPixel
+                                        .copyWith(fontSize: 10.sp),
                                   ),
                                 ),
                         ),
@@ -199,11 +209,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: [
                             gameBlockBtn(
                               text: tr('build_room'),
-                              onTap: ref.read(homeScreenControllerProvider.notifier).handlePressedBuildRoom,
+                              onTap: ref
+                                  .read(homeScreenControllerProvider.notifier)
+                                  .handlePressedBuildRoom,
                             ),
                             gameBlockBtn(
                               text: tr("join_room"),
-                              onTap: ref.read(homeScreenControllerProvider.notifier).handlePressedSearchRoom,
+                              onTap: ref
+                                  .read(homeScreenControllerProvider.notifier)
+                                  .handlePressedSearchRoom,
                             )
                           ],
                         ),

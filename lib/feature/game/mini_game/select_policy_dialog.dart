@@ -70,10 +70,11 @@ class PolicyListItem extends SpriteComponent
         position: Vector2(size.x * 0.5, 20.w),
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
-    final descriptionText = TextComponent(
-        text: "${tr(type.code)}_description",
+    final descriptionText = TextBoxComponent(
+        text: tr("${type.code}_description"),
         anchor: Anchor.topCenter,
         position: Vector2(size.x * 0.5, 35.w),
+        size: Vector2(300.w, 500.w) / 3,
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     final destroyScoreText = TextComponent(
