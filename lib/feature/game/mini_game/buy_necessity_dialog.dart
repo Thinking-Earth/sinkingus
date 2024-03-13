@@ -67,15 +67,27 @@ class GroceryListItem extends SpriteComponent
         src: "store/buyBtn.png");
     add(buyBtn);
 
-    btnText = TextComponent(
-        text: game.role == RoleType.business ? tr("activate") : tr("buy"),
-        textRenderer: TextPaint(
-            style: (game.groceryList[type]! > -1)
-                ? AppTypography.blackPixel
-                : AppTypography.grayPixel),
-        anchor: Anchor.center,
-        size: Vector2(168.w, 57.w) / 3,
-        position: Vector2(1018.w, 539.w) / 3 + Vector2(168.w, 57.w) / 6);
+    if (game.state.game.player.role == RoleType.business) {
+      btnText = TextComponent(
+          text: tr("activate"),
+          textRenderer: TextPaint(
+              style: (game.groceryList[type]! > -1)
+                  ? AppTypography.grayPixel
+                  : AppTypography.blackPixel),
+          anchor: Anchor.center,
+          size: Vector2(168.w, 57.w) / 3,
+          position: Vector2(1018.w, 539.w) / 3 + Vector2(168.w, 57.w) / 6);
+    } else {
+      btnText = TextComponent(
+          text: tr("buy"),
+          textRenderer: TextPaint(
+              style: (game.groceryList[type]! > -1)
+                  ? AppTypography.blackPixel
+                  : AppTypography.grayPixel),
+          anchor: Anchor.center,
+          size: Vector2(168.w, 57.w) / 3,
+          position: Vector2(1018.w, 539.w) / 3 + Vector2(168.w, 57.w) / 6);
+    }
 
     final description = TextComponent(
         text: tr("${type.code}_name"),
@@ -102,7 +114,7 @@ class BuyDialog extends SpriteComponent
   BuyDialog(this.listItem) : super(size: Vector2(455.3.w, 256.w));
 
   @override
-  FutureOr<void> onLoad() async {
+  FutureOr<void> onMount() async {
     sprite = await Sprite.load("store/dialog.png");
 
     buyText = TextComponent(
@@ -120,7 +132,7 @@ class BuyDialog extends SpriteComponent
     final buyBtn = ClickablePolygon.relative(
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
-      if (game.role == RoleType.business) {
+      if (game.state.game.player.role == RoleType.business) {
         activate();
       } else {
         buy();
@@ -141,6 +153,7 @@ class BuyDialog extends SpriteComponent
         text: tr("${listItem.type.code}_description"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
+        size: Vector2(300.w, 200.w) / 3,
         position: Vector2(684.w, 357.w) / 3);
 
     add(buyText);
@@ -149,7 +162,7 @@ class BuyDialog extends SpriteComponent
     add(cancelBtn);
     add(description);
 
-    return super.onLoad();
+    return super.onMount();
   }
 
   void activate() {
@@ -164,7 +177,7 @@ class BuyDialog extends SpriteComponent
   }
 
   void buy() {
-    if (game.groceryList[listItem.type]! == -1) {
+    if (game.groceryList[listItem.type]! > -1) {
       if (game.state.rule.restrict >= listItem.type.destroyScore) {
         bool canBuy = game.state.setDt(
             20, -1 * listItem.type.destroyScore, -1 * listItem.type.price);
@@ -238,13 +251,12 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
   late BuyDialog dialog;
 
   GameState state;
-  RoleType role;
   late Map<GroceryType, int> groceryList;
 
-  BuyNecessityDialog({required this.state, required this.role});
+  BuyNecessityDialog({required this.state});
 
   @override
-  FutureOr<void> onMount() async {
+  FutureOr<void> onLoad() async {
     final background = SpriteComponent(
         sprite: await Sprite.load("store/background.png"),
         size: Vector2(455.3.w, 256.w));
@@ -308,7 +320,7 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
     add(leftScrollBtn);
     add(rightScrollBtn);
 
-    return super.onMount();
+    return super.onLoad();
   }
 
   void showBuyDialog(GroceryListItem listItem) {

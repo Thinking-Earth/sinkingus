@@ -77,7 +77,7 @@ class MatchDomainController extends _$MatchDomainController {
         host: uid,
         day: 0,
         natureScore: 100,
-        groceryList: {for (var item in GroceryType.values) item: -2},
+        groceryList: {for (var item in GroceryType.values) item: -1},
         rule: RuleType.noRule);
     state.matchId = await source.buildAndJoinMatch(
         roomName: roomName,

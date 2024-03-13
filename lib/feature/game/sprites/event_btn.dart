@@ -256,8 +256,7 @@ class BuyNecessityBtn extends EventBtn {
 
   @override
   FutureOr<void> onLoad() {
-    final dialog =
-        BuyNecessityDialog(state: game.state, role: game.player.role);
+    final dialog = BuyNecessityDialog(state: game.state);
     type = GameEventType.buyNecessity;
 
     dialogWidget = GameWidget(game: dialog);
