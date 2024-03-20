@@ -48,4 +48,16 @@ class LoginScreenController extends _$LoginScreenController {
     }
     ref.read(authDomainControllerProvider.notifier).socialSignInWithApple();
   }
+
+  void handlePressedFakeLogin() {
+    ShowDialogHelper.showLoading();
+    const UserInfoModel userInfo = UserInfoModel(
+      email: "tester@gamil.com", 
+      nick: "tester", 
+      profileURL: "", 
+      uid: "TestingUser"
+    );
+    ref.read(userDomainControllerProvider.notifier).setUserInfo(userInfo: userInfo);
+    ShowDialogHelper.closeLoading();
+  }
 }
