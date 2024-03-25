@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
@@ -29,9 +30,9 @@ class LoginScreenController extends _$LoginScreenController {
     if(userInfo != null) {
       ref.read(userDomainControllerProvider.notifier).setUserInfo(userInfo: userInfo);
       ShowDialogHelper.closeLoading();
-      AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
+      // AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
     } else {
-      ShowDialogHelper.showAlert(title: "알림", message: "구글 로그인에 실패하였습니다");
+      ShowDialogHelper.showAlert(title: tr('noti_noti'), message: tr('noti_fail_google'));
     }
   }
 
@@ -41,10 +42,22 @@ class LoginScreenController extends _$LoginScreenController {
     if(userInfo != null) {
       ref.read(userDomainControllerProvider.notifier).setUserInfo(userInfo: userInfo);
       ShowDialogHelper.closeLoading();
-      AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
+      // AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
     } else {
-      ShowDialogHelper.showAlert(title: "알림", message: "애플 로그인에 문제가 발생하였습니다. 다시 한번 시도하거나 다른 로그인 방법으로 시도해주세요.");
+      ShowDialogHelper.showAlert(title: tr('noti_noti'), message: tr('noti_fail_apple'));
     }
     ref.read(authDomainControllerProvider.notifier).socialSignInWithApple();
+  }
+
+  void handlePressedFakeLogin() {
+    ShowDialogHelper.showLoading();
+    const UserInfoModel userInfo = UserInfoModel(
+      email: "tester@gamil.com", 
+      nick: "tester", 
+      profileURL: "", 
+      uid: "TestingUser"
+    );
+    ref.read(userDomainControllerProvider.notifier).setUserInfo(userInfo: userInfo);
+    ShowDialogHelper.closeLoading();
   }
 }

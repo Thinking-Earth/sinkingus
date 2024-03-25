@@ -52,8 +52,8 @@ const _$GroceryTypeEnumMap = {
 
 const _$RuleTypeEnumMap = {
   RuleType.noRule: 0,
-  RuleType.greenGrowthStrategy: 2,
-  RuleType.greenDeal: 3,
-  RuleType.parisAgreement: 4,
-  RuleType.carbonNeutrality: 5,
+  RuleType.greenGrowthStrategy: 1,
+  RuleType.greenDeal: 2,
+  RuleType.parisAgreement: 3,
+  RuleType.carbonNeutrality: 4,
 };

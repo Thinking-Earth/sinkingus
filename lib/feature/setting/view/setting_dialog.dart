@@ -1,9 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sinking_us/feature/game/domain/match_domain.dart';
-import 'package:sinking_us/feature/home/widgets/game_textfield.dart';
-import 'package:sinking_us/helpers/constants/app_colors.dart';
 import 'package:sinking_us/helpers/constants/app_images.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,11 +9,12 @@ class SettingDialogContent extends ConsumerStatefulWidget {
   const SettingDialogContent({super.key});
 
   @override
-  ConsumerState<SettingDialogContent> createState() => _BuildDialogContentState();
+  ConsumerState<SettingDialogContent> createState() => _SettingDialogContentState();
 }
 
-class _BuildDialogContentState extends ConsumerState<SettingDialogContent> {
+class _SettingDialogContentState extends ConsumerState<SettingDialogContent> {
   TextEditingController myController = TextEditingController();
+  String dropdownvalue = tr("showing_language");
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +52,7 @@ class _BuildDialogContentState extends ConsumerState<SettingDialogContent> {
             ),
             SizedBox(height: 16.h,),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
                   tr('settingPage_language'), 
@@ -61,34 +60,45 @@ class _BuildDialogContentState extends ConsumerState<SettingDialogContent> {
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500
                   ),
-                )
+                ),
+                DropdownButton(
+                  value: dropdownvalue,
+                  items: [
+                    'English - US', 
+                    '한국어 - KR', 
+                    '日本語 - JP',
+                    'Español - ES',
+                    'Tiếng Việt - VN',
+                    '中国 - CN'
+                  ].map<DropdownMenuItem>((e){
+                    return DropdownMenuItem(
+                      value: e,
+                      child: Text(e),
+                    );
+                  }).toList(), 
+                  onChanged: (value){
+                    if(value == '한국어 - KR'){
+                        EasyLocalization.of(context)!.setLocale(const Locale('ko', 'KR'));
+                    } else if(value == '日本語 - JP'){
+                        EasyLocalization.of(context)!.setLocale(const Locale('ja', 'JP'));
+                    } else if(value == 'Español - ES'){
+                        EasyLocalization.of(context)!.setLocale(const Locale('es', 'ES'));
+                    } else if(value == 'Tiếng Việt - VN'){
+                        EasyLocalization.of(context)!.setLocale(const Locale('vi', 'VN'));
+                    } else if(value == '中国 - CN'){
+                        EasyLocalization.of(context)!.setLocale(const Locale('zh', 'CN'));
+                    } else {
+                        EasyLocalization.of(context)!.setLocale(const Locale('en', 'US'));
+                    }
+                    setState(() {
+                      dropdownvalue = value;
+                    });
+                  }),
               ],
             ),
             const Spacer(flex: 3,),
-            InkWell(
-              onTap: () {
-        
-              },
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                width: 100.w,
-                height: 30.h,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      AppImages.searchBtn,
-                    ),
-                    fit: BoxFit.fill
-                  )
-                ),
-                child: Text(
-                  tr('buildPage_createBtn'),
-                  style: AppTypography.blackPixel,
-                ),
-              ),
-            ),
-            const Spacer(flex: 1,),
+            const AboutListTile(),
+            const Spacer(flex: 1,)
           ],
         ),
       ),

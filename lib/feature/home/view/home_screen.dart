@@ -25,6 +25,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Map<String, Match> matchList = {};
   String bottomText = tr('game_description');
   bool charactorController = false;
+  late Timer _timer;
 
   void refreshMatchList() async {
     ref.read(matchDomainControllerProvider.notifier).checkNotInMatch();
@@ -40,12 +41,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       refreshMatchList();
-      Timer.periodic(const Duration(milliseconds: 400), (_) {
+      _timer = Timer.periodic(const Duration(milliseconds: 400), (_) {
         setState(() {
           charactorController = !charactorController;
         });
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override

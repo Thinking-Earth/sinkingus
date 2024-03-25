@@ -58,6 +58,7 @@ class _SunPowerGameState extends State<SunPowerGame> {
                         GestureDetector(
                           behavior: HitTestBehavior.deferToChild,
                           onPanStart: (details) {
+                            print("eeeee");
                             setState(() {
                               final oneLine = <Offset>[];
                               oneLine.add(details.localPosition);
@@ -99,8 +100,8 @@ class _SunPowerGameState extends State<SunPowerGame> {
             ],
           ),
           Positioned(
-            left: 10.w,
-            top: 13.w,
+            left: 0.w,
+            top: 0.w,
             child: GestureDetector(
               onTap: () {
                 if (drawingPainter.percentage >= 100) {
@@ -109,9 +110,10 @@ class _SunPowerGameState extends State<SunPowerGame> {
                   AppRouter.pop(false);
                 }
               },
-              child: SizedBox(
-                width: 20.w,
-                height: 20.w,
+              child: Container(
+                width: 40.w,
+                height: 40.w,
+                color: Colors.transparent,
               ),
             ),
           )
@@ -164,7 +166,7 @@ class DrawingPainter extends CustomPainter {
     // Draw points with srcIn blending mode
     for (List<Offset> point in points) {
       Color color = Colors.black; // Adjust the color as needed
-      double size = 20; // Adjust the size of the stroke as needed
+      double size = 30.w; // Adjust the size of the stroke as needed
       final p = Path();
       p.addPolygon(point, false);
       canvas.drawPath(

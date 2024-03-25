@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
@@ -27,11 +14,17 @@
   <meta name="apple-mobile-web-app-title" content="gardenus">
   <link rel="apple-touch-icon" href="favicon.ico">
 
+  <!-- Web 링크 제목 & 설명 -->
+  <meta property="og:title" content="Sinking US">
+  <meta property="og:description" content="To save the Sinking Earth, we must become Thinking Us.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/sinkingus.appspot.com/o/login_bg.png?alt=media&token=c275787d-3a68-49d3-9ee7-026773c54c27">
+
   <!-- Favicon -->
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-  <title>sinking_us</title>
+  <title>Sinking US</title>
   <link rel="manifest" href="manifest.json">
 
   <script>
@@ -40,6 +33,10 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#000000">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000000">
+  <meta name="google-site-verification" content="EnnkLLxQFzwgsDQoiZ7s0895c1_YkDXCOTnsmAwl_Qo" />
+  <meta name="naver-site-verification" content="67099dfdfea83bc7124153c92e5c49bb73c74461"/>
 </head>
 <body>
   <script>

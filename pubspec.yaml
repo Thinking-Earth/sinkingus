@@ -104,14 +104,6 @@ flutter:
     - assets/jsons/
 
   fonts:
-    - family: Jalnan
-      fonts:
-        - asset: assets/fonts/Jalnan-Regular.ttf
-          weight: 400
-    - family: NotoSans
-      fonts:
-        - asset: assets/fonts/NotoSans-Regular.ttf
-          weight: 400
     - family: Galmuri
       fonts:
         - asset: assets/fonts/Galmuri9.ttf
