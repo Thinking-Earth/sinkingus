@@ -196,11 +196,9 @@ class BuyDialog extends SpriteComponent
   }
 }
 
-class Scroller extends PositionComponent with DragCallbacks, KeyboardHandler {
-  PositionComponent listView;
-  double scrollPosition = 0;
-
-  Scroller({required this.listView})
+class Scroller extends PositionComponent
+    with DragCallbacks, KeyboardHandler, HasGameReference<BuyNecessityDialog> {
+  Scroller()
       : super(
             size: Vector2(152.w, 44.w) / 3,
             position: Vector2(111.w, 666.w) / 3);
@@ -217,18 +215,18 @@ class Scroller extends PositionComponent with DragCallbacks, KeyboardHandler {
 
   @override
   void update(double dt) {
-    position.x = 111.w / 3 + scrollPosition;
-    listView.position.x = -scrollPosition * 2090 / 989;
+    position.x = 111.w / 3 + game.scrollPosition;
     super.update(dt);
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
     if (event.localDelta.x > 0) {
-      scrollPosition = min(989.w / 3, scrollPosition + event.localDelta.x);
+      game.scrollPosition =
+          min(989.w / 3, game.scrollPosition + event.localDelta.x);
     }
     if (event.localDelta.x < 0) {
-      scrollPosition = max(0, scrollPosition + event.localDelta.x);
+      game.scrollPosition = max(0, game.scrollPosition + event.localDelta.x);
     }
     super.onDragUpdate(event);
   }
@@ -236,18 +234,44 @@ class Scroller extends PositionComponent with DragCallbacks, KeyboardHandler {
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-      scrollPosition = max(0.w, scrollPosition - 20.w);
+      game.scrollPosition = max(0.w, game.scrollPosition - 20.w);
     }
     if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-      scrollPosition = min(989.w / 3, scrollPosition + 20.w);
+      game.scrollPosition = min(989.w / 3, game.scrollPosition + 20.w);
     }
     return super.onKeyEvent(event, keysPressed);
   }
 }
 
+// TODO: test listview
+class ListView extends PositionComponent
+    with DragCallbacks, HasGameReference<BuyNecessityDialog> {
+  ListView({super.children});
+
+  @override
+  void update(double dt) {
+    position.x = -game.scrollPosition * 2090 / 989;
+    super.update(dt);
+  }
+
+  @override
+  void onDragUpdate(DragUpdateEvent event) {
+    if (event.localDelta.x > 0) {
+      game.scrollPosition =
+          min(989.w / 3, game.scrollPosition + event.localDelta.x * 989 / 2090);
+    }
+    if (event.localDelta.x < 0) {
+      game.scrollPosition =
+          max(0, game.scrollPosition + event.localDelta.x * 989 / 2090);
+    }
+    super.onDragUpdate(event);
+  }
+}
+
 class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
   late Scroller scroller;
-  late PositionComponent listView;
+  double scrollPosition = 0;
+  late ListView listView;
   late BuyDialog dialog;
 
   GameState state;
@@ -283,7 +307,7 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
     final badAir = GroceryListItem(type: GroceryType.badAir);
     final goodClothes = GroceryListItem(type: GroceryType.goodClothes);
     final badClothes = GroceryListItem(type: GroceryType.badClothes);
-    listView = PositionComponent(children: [
+    listView = ListView(children: [
       goodWater,
       badWater,
       goodFood,
@@ -294,12 +318,12 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
       badClothes
     ]);
 
-    scroller = Scroller(listView: listView);
+    scroller = Scroller();
 
     ClickablePolygon leftScrollBtn = ClickablePolygon.relative(
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
-      scroller.scrollPosition = max(0.w, scroller.scrollPosition - 20.w);
+      scrollPosition = max(0.w, scrollPosition - 20.w);
     }, parentSize: Vector2(48.w, 44.w) / 3)
       ..position = Vector2(66.w, 666.w) / 3
       ..paint = BasicPalette.transparent.paint();
@@ -307,7 +331,7 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
     ClickablePolygon rightScrollBtn = ClickablePolygon.relative(
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
-      scroller.scrollPosition = min(989.w / 3, scroller.scrollPosition + 20.w);
+      scrollPosition = min(989.w / 3, scrollPosition + 20.w);
     }, parentSize: Vector2(48.w, 44.w) / 3)
       ..position = Vector2(1250.w, 666.w) / 3
       ..paint = BasicPalette.transparent.paint();

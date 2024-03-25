@@ -34,7 +34,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   double sendDtSum = 0;
   double animationDtSum = 0;
 
-  double maxSpeed = 80.w;
+  double maxSpeed = 100.w;
   late Vector2 moveForce;
   JoystickComponent joystick;
   late TextComponent nameText;
@@ -122,7 +122,8 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     }
 
     if (!joystick.delta.isZero()) {
-      moveForce = joystick.relativeDelta * maxSpeed * dt * 1.w;
+      print(joystick.relativeDelta);
+      moveForce = joystick.relativeDelta * maxSpeed * dt;
     }
 
     if (animationDtSum > 0.3) {
@@ -256,10 +257,9 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
   OtherPlayer(this.uid, this.backgroundSize);
 
   Future<void> getUserInfo() async {
-    final data = await FirebaseDatabase.instance.ref("players/$uid").get();
+    final data = await FirebaseDatabase.instance.ref("players/$uid/name").get();
     if (data.exists) {
-      final userInfo = data.value as Map<String, dynamic>;
-      name = userInfo["name"];
+      name = data.value.toString();
     }
   }
 
@@ -300,7 +300,7 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
       if (event.snapshot.exists) {
         oldPosition = position.clone();
         final positionData = event.snapshot.value as List<dynamic>;
-        position = Vector2(positionData[0], positionData[1]) * 1.w +
+        position = Vector2(positionData[0] * 1.0, positionData[1] * 1.0) * 1.w +
             backgroundSize * 0.5;
         if (position.x - oldPosition.x > 0) {
           transform.scale = Vector2(-1, 1);

@@ -23,11 +23,35 @@
           }
         },
         {
+          "client_id": "57185542814-ggu4tihktao58kg6rg2fg6hjqifgdmva.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thinking.earth.sinking_us",
+            "certificate_hash": "f239568d5d7d58a4bd5ed306610e32fd6b2d1d21"
+          }
+        },
+        {
           "client_id": "57185542814-qrgdm0m8m572kfjsrgh6gvp676potsgb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.thinking.earth.sinking_us",
             "certificate_hash": "4ce3fccce882602623d296716641c6dccc4ac7c4"
+          }
+        },
+        {
+          "client_id": "57185542814-uv066gcfbc9r75v9jmofsrdk457d8v9p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thinking.earth.sinking_us",
+            "certificate_hash": "5407aad8783a3bc0faed605b75bc446fd5c9a69d"
+          }
+        },
+        {
+          "client_id": "57185542814-v0s7uo8e4vnvi2r25kca5vji86nudui8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thinking.earth.sinking_us",
+            "certificate_hash": "efbd8d84dc909f88c3bbf201d93e4d316142f58a"
           }
         },
         {

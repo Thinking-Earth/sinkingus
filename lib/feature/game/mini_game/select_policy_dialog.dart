@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/src/services/keyboard_key.g.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -110,8 +111,8 @@ class PolicyListItem extends SpriteComponent
   }
 }
 
-class Scroller extends SpriteComponent with DragCallbacks {
-  double scrollPosition = 0.0;
+class Scroller extends SpriteComponent
+    with DragCallbacks, KeyboardHandler, HasGameReference<PolicyDialog> {
   PositionComponent listView;
 
   Scroller({required this.listView});
@@ -126,25 +127,38 @@ class Scroller extends SpriteComponent with DragCallbacks {
 
   @override
   void update(double dt) {
-    position.x = 68.w / 3 + scrollPosition;
-    listView.position.x = 31.w - scrollPosition * 1212 / 1080;
+    position.x = 68.w / 3 + game.scrollPosition;
+    listView.position.x = 31.w - game.scrollPosition * 1212 / 1080;
     super.update(dt);
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
     if (event.localDelta.x > 0) {
-      scrollPosition = min(1080.w / 3, scrollPosition + event.localDelta.x);
+      game.scrollPosition =
+          min(1080.w / 3, game.scrollPosition + event.localDelta.x);
     }
     if (event.localDelta.x < 0) {
-      scrollPosition = max(0, scrollPosition + event.localDelta.x);
+      game.scrollPosition = max(0, game.scrollPosition + event.localDelta.x);
     }
     super.onDragUpdate(event);
+  }
+
+  @override
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
+      game.scrollPosition = max(0.w, game.scrollPosition - 20.w);
+    }
+    if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
+      game.scrollPosition = min(989.w / 3, game.scrollPosition + 20.w);
+    }
+    return super.onKeyEvent(event, keysPressed);
   }
 }
 
 class PolicyDialog extends FlameGame {
   late PositionComponent listView;
+  double scrollPosition = 0.0;
   List<PolicyListItem> listItems = [];
   RuleType selectedPolicyRule = RuleType.noRule;
 
