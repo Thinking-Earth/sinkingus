@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sinking_us/core/local/local_storage_base.dart';
 import 'package:sinking_us/core/network/firestore_base.dart';
 import 'package:sinking_us/core/network/network_status.dart';
 import 'package:sinking_us/firebase_options.dart';
@@ -16,7 +15,6 @@ class AppBootstrapper {
     required void Function(Widget) runApp,
   }) async {
     setPathUrlStrategy();
-    await LocalStorageBase.init();
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     await EasyLocalization.ensureInitialized();
     FirestoreBase.init();
@@ -28,7 +26,14 @@ class AppBootstrapper {
 
     runApp(
       EasyLocalization(
-        supportedLocales: const [Locale('en', 'US'), Locale('ko', 'KR'), Locale('ja', 'JP')],
+        supportedLocales: const [
+          Locale('en', 'US'), 
+          Locale('ko', 'KR'), 
+          Locale('ja', 'JP'),
+          Locale('vi', 'VN'),
+          Locale('zh', 'CN'),
+          Locale('es', 'ES')
+        ],
         path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
         child: SinkingUs(idToken: "test",)

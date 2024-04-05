@@ -24,12 +24,12 @@ class SinkingUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size realSize = MediaQuery.of(context).size;
-    final Size customSize;
+    Size realSize = MediaQuery.of(context).size;
+    Size customSize;
     if ((844 / 390) > realSize.width / realSize.height) {
-      customSize = Size(realSize.width, realSize.width*(390 / 844));
+      customSize = Size(realSize.width, realSize.width * (390 / 844));
     } else {
-      customSize = Size(realSize.height*(844 / 390), realSize.height);
+      customSize = Size(realSize.height * (844 / 390), realSize.height);
     }
 
     return ProviderScope(

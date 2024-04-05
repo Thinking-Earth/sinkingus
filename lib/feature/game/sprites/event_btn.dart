@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
@@ -66,9 +67,7 @@ abstract class EventBtn extends PositionComponent
               onEventEnd();
             });
           } else {
-            ShowDialogHelper.showSnackBar(
-                content:
-                    "Someone already complete the mission. Try another day.");
+            ShowDialogHelper.showSnackBar(content: tr("mission_already_done"));
           }
         });
       } else {
@@ -265,9 +264,7 @@ class BuyNecessityBtn extends EventBtn {
   }
 
   @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
-  }
+  void onEventEnd() {}
 }
 
 class PolicyBtn extends EventBtn {
@@ -293,8 +290,7 @@ class PolicyBtn extends EventBtn {
 
   @override
   FutureOr<void> onLoad() {
-    final dialog =
-        PolicyDialog(playerRole: game.player.role, state: game.state);
+    final dialog = PolicyDialog(role: game.player.role, state: game.state);
     type = GameEventType.nationalAssembly;
 
     dialogWidget = GameWidget(game: dialog);
@@ -302,7 +298,5 @@ class PolicyBtn extends EventBtn {
   }
 
   @override
-  void onEventEnd() {
-    // TODO: implement onEventEnd
-  }
+  void onEventEnd() {}
 }

@@ -16,7 +16,7 @@ _$MatchImpl _$$MatchImplFromJson(Map<String, dynamic> json) => _$MatchImpl(
       day: json['day'] as int?,
       natureScore: json['natureScore'] as int?,
       groceryList: (json['groceryList'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry($enumDecode(_$GroceryTypeEnumMap, k), e as bool),
+        (k, e) => MapEntry($enumDecode(_$GroceryTypeEnumMap, k), e as int),
       ),
       gameEventList: (json['gameEventList'] as List<dynamic>?)
           ?.map((e) => e as int)
@@ -52,9 +52,8 @@ const _$GroceryTypeEnumMap = {
 
 const _$RuleTypeEnumMap = {
   RuleType.noRule: 0,
-  RuleType.A: 1,
-  RuleType.greenGrowthStrategy: 2,
-  RuleType.greenDeal: 3,
-  RuleType.parisAgreement: 4,
-  RuleType.carbonNeutrality: 5,
+  RuleType.greenGrowthStrategy: 1,
+  RuleType.greenDeal: 2,
+  RuleType.parisAgreement: 3,
+  RuleType.carbonNeutrality: 4,
 };

@@ -19,7 +19,7 @@ class AppRouter {
     return MaterialPageRoute<dynamic>(
       builder: (_) => routeBuilder(),
       settings: RouteSettings(
-        name: routeName,
+        name: '',//routeName,
         arguments: settings.arguments,
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/widgets.dart';
@@ -10,7 +11,7 @@ import 'package:sinking_us/helpers/constants/app_typography.dart';
 
 class PlugOffGame extends FlameGame {
   @override
-  FutureOr<void> onLoad() async {
+  FutureOr<void> onMount() async {
     SpriteComponent background = SpriteComponent(
         sprite: await Sprite.load("minigame/pop up.jpg"),
         size: Vector2(455.3.w, 256.w));
@@ -72,7 +73,7 @@ class PlugOffGame extends FlameGame {
         changedSrc: "minigame/plug/plug out 2.png");
 
     TextBoxComponent gameText = TextBoxComponent(
-        text: "This is plug off game.",
+        text: tr("plug_off"),
         align: Anchor.center,
         anchor: Anchor.center,
         position: Vector2(227.65.w, 226.w),
@@ -98,6 +99,6 @@ class PlugOffGame extends FlameGame {
     add(plugBackground);
     addAll([plug2, plug1, plug3, plug4, plug5]);
     add(gameText);
-    return super.onLoad();
+    return super.onMount();
   }
 }

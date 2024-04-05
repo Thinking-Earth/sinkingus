@@ -28,8 +28,9 @@ class MatchDataSource {
       required String userName}) async {
     final gameRef = db.ref("game/$matchId");
     final data = await gameRef.get();
-    final Map<dynamic, dynamic> castedData = Map<String, dynamic>.from(data.value as Map);
-    Map<GroceryType, bool> groceryList = {
+    final Map<dynamic, dynamic> castedData =
+        Map<String, dynamic>.from(data.value as Map);
+    Map<GroceryType, int> groceryList = {
       GroceryType.goodClothes: castedData['groceryList']['goodClothes'],
       GroceryType.badClothes: castedData['groceryList']['badClothes'],
       GroceryType.goodFood: castedData['groceryList']['goodFood'],
@@ -39,22 +40,22 @@ class MatchDataSource {
       GroceryType.goodWater: castedData['groceryList']['goodWater'],
       GroceryType.badWater: castedData['groceryList']['badWater']
     };
-    final RuleType rule = castedData['rule'] != 'noRule' ? RuleType.getById(castedData['rule']) : RuleType.noRule;
+    final RuleType rule = castedData['rule'] != 'noRule'
+        ? RuleType.getById(castedData['rule'])
+        : RuleType.noRule;
     Match newMatch = Match(
-      roomName: castedData['roomName'],
-      rule: rule,
-      day: castedData['day'],
-      players: List<String>.from(castedData['players']),
-      host: castedData['host'],
-      natureScore: castedData['natureScore'],
-      groceryList: groceryList,
-      gameEventList: castedData['gameEventList'],
-      isPrivate: castedData['isPrivate'],
-      playerCount: 2
-    );
+        roomName: castedData['roomName'],
+        rule: rule,
+        day: castedData['day'],
+        players: List<String>.from(castedData['players']),
+        host: castedData['host'],
+        natureScore: castedData['natureScore'],
+        groceryList: groceryList,
+        gameEventList: castedData['gameEventList'],
+        isPrivate: castedData['isPrivate'],
+        playerCount: castedData['playerCount']);
 
     if (newMatch.playerCount < 6) {
-      // TODO: 트랜잭션 재도전
       await db
           .ref("lobby/$isPrivate/$matchId")
           .update({"playerCount": ServerValue.increment(1)});
@@ -124,7 +125,7 @@ class MatchDataSource {
       }
       await gameRef.child("players").get().then((value) {
         if (value.exists) {
-          final players = value.value as List<dynamic>;
+          final players = List<dynamic>.from(value.value as List);
           players.remove(uid);
           gameRef.update(
               {"playerCount": ServerValue.increment(-1), "players": players});
@@ -134,13 +135,20 @@ class MatchDataSource {
     db.ref("players/$uid").remove();
   }
 
-  Future<void> hostStartGame({required String matchId}) async {
-    final uploadList =
-        await db.ref("game/$matchId/players").get().then((value) {
-      if (value.exists) return value.value as Iterable<dynamic>;
-    });
-    await db.ref("game/$matchId/status").set(
-        {for (var element in uploadList!) element.toString(): "undefined"});
+  Future<void> hostStartGame(
+      {required String matchId,
+      required String uid,
+      required List<String> players}) async {
+    List<String> shuffled = List.from(players);
+    shuffled.add(uid);
+    shuffled.shuffle();
+    db.ref("players/${shuffled[1]}/role").set(RoleType.business.code);
+    db.ref("players/${shuffled[2]}/role").set(RoleType.nature.code);
+    db.ref("players/${shuffled[3]}/role").set(RoleType.politician.code);
+
+    await db
+        .ref("game/$matchId/status")
+        .set({for (var element in players) element: "undefined"});
   }
 
   Future<void> updateDay({required String matchId}) async {
@@ -176,5 +184,28 @@ class MatchDataSource {
 
   void setRule({required String matchId, required int ruleId}) {
     db.ref("game/$matchId/rule").set(ruleId);
+  }
+
+  void setStoreActive({required String matchId, required GroceryType type}) {
+    db.ref("game/$matchId/groceryList/${type.code}").set(0);
+  }
+
+  Future<Map<GroceryType, int>> getGroceryList(
+      {required String matchId}) async {
+    return await db.ref("game/$matchId/groceryList").get().then((value) => {
+          for (var item in GroceryType.values)
+            item: (value.value as Map<dynamic, dynamic>)[item.code]
+        });
+  }
+
+  Future<String> getRole({required String uid}) async {
+    return db
+        .ref("players/$uid/role")
+        .get()
+        .then((value) => value.value as String);
+  }
+
+  void buy({required String matchId, required int price}) {
+    db.ref("game/$matchId/income").set(price);
   }
 }

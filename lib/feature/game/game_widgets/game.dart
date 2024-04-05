@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
@@ -14,6 +15,7 @@ import 'package:sinking_us/feature/game/game_widgets/game_ui.dart';
 import 'package:sinking_us/feature/game/sprites/background.dart';
 import 'package:sinking_us/feature/game/sprites/characters.dart';
 import 'package:sinking_us/feature/game/sprites/event_btn.dart';
+import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 class SinkingUsGame extends FlameGame
     with
@@ -40,6 +42,8 @@ class SinkingUsGame extends FlameGame
 
   double mapRatio = 1.8.w;
 
+  late StreamSubscription<DatabaseEvent> dayListener;
+
   @override
   FutureOr<void> onLoad() async {
     state = GameState();
@@ -59,8 +63,7 @@ class SinkingUsGame extends FlameGame
         position:
             Vector2(0, background2Sprite.originalSize.y * mapRatio * -0.5) +
                 camera.viewport.virtualSize * 0.5,
-        priority: 2)
-      ..debugMode = true;
+        priority: 2);
 
     final knobPaint = BasicPalette.white.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.white.withAlpha(100).paint();
@@ -88,21 +91,7 @@ class SinkingUsGame extends FlameGame
   @override
   FutureOr<void> onMount() async {
     if (day == 0) {
-      FirebaseDatabase.instance
-          .ref("game/$matchId/players")
-          .onChildAdded
-          .listen((event) {
-        if (event.snapshot.exists) {
-          if (event.snapshot.value.toString() != uid) {
-            OtherPlayer newPlayer =
-                OtherPlayer(event.snapshot.value.toString(), background.size);
-            players.add(newPlayer);
-            background.add(newPlayer);
-          }
-        }
-      });
-
-      FirebaseDatabase.instance
+      dayListener = FirebaseDatabase.instance
           .ref("game/$matchId/day")
           .onValue
           .listen((event) {
@@ -113,6 +102,10 @@ class SinkingUsGame extends FlameGame
             if (newDay == 1) {
               state.startGame();
               gameUI.startGame();
+              player.setRole();
+              for (var element in players) {
+                element.setRole();
+              }
               background.addAll(eventBtns);
             } else if (newDay == 8) {
               state.gameEnd();
@@ -130,6 +123,7 @@ class SinkingUsGame extends FlameGame
         } else {
           if (!isHost) {
             state.leaveMatch();
+            ShowDialogHelper.showSnackBar(content: tr("host_end_game"));
           }
         }
       });
@@ -185,5 +179,11 @@ class SinkingUsGame extends FlameGame
       buyNecessityBtn,
       nationalAssemblyBtn
     ]);
+  }
+
+  @override
+  void onDispose() {
+    dayListener.cancel();
+    super.onDispose();
   }
 }

@@ -1,11 +1,97 @@
 {
-    "language" : "ja_JP",
-    "showing_language" : "日本語 - JP",
-    "noti_noti" : "通知",
-    "noti_ok" : "確認",
-    "noti_cancel" : "取消",
+  "language": "ja_JP",
+  "showing_language": "日本語 - JP",
+  "noti_noti": "通知",
+  "noti_ok": "確認",
+  "noti_cancel": "キャンセル",
+  "noti_fail_google": "Google ログインに失敗しました",
+  "noti_fail_apple": "Apple ログインに問題が発生しました。もう一度試すか、他のログイン方法を試してください。",
 
-    "build_room" : "部屋作成",
-    "join_room" : "部屋参加",
-    "refresh" : "リフレッシュ"
+  "build_room": "Earthを作る",
+  "join_room": "Earthに参加する",
+  "refresh": "リフレッシュ",
+
+  "searchPage_infoText": "Earthの名前で検索します。",
+  "searchPage_info_notFound": "探しているEarthが存在しません。",
+  "searchPage_hintText": "非公開のEarth名を入力してください。",
+  "buildPage_makeEarth": "Earthを作成する",
+  "buildPage_hintText": "作成するEarthの名前を入力してください。",
+  "buildPage_private": "非公開Earth",
+  "buildPage_createBtn": "Earthを作る",
+  "host_end_game": "ゲームはホストによって終了しました。",
+
+  "homePage_listWorld": "Earthリスト",
+
+  "settingPage_language": "言語の選択",
+
+  "gamePage_enterText": "チャットを入力してください。",
+  "gamePage_cannotStart": "ゲームは6人以上で始めることができます。",
+
+  "game_description": "あなたはSinking Earthの住民です。ゲーム時間7日間、環境スコアを0以上に保持する必要があります。生活必需品を購入したらHPが回復し、合計6つのミッションを達成したらそれぞれ50コインを稼ぐことができます。",
+  "worker_description": "[会社員]\nミッションを達成し、適切な消費を通じて生き残る必要があります。健全な消費と世論形成を通じてエンディングを見てください。\n\n勝利条件：ただ生き残る",
+  "nature_description": "[環境活動家]\nミッションを達成すると、追加で環境スコア30を受け取ります。\n\n勝利条件：終了時に環境スコアが50以上",
+  "business_description": "[起業家]\nHPが減らず、必要な生活必需品を流通させて販売することができます。生活必需品を流通させる際には、価格の3倍を初期費用として支払う必要があります。\n\n勝利条件：終了時に3000コイン以上",
+  "politician_description": "[政治家]\n販売アイテムに関する法律を制定することができます。各人の状況と意見をよく総合する必要があります。\n\n勝利条件：全員生き残る",
+
+  "mission_already_done": "誰かがすでにミッションを達成しました。\n別の日に再度お試しください。",
+
+  "rule_select_abort": "政治家のみがルールを制定できます。",
+  "noRule": "ルールなし",
+  "greenGrowthStrategy": "緑の成長戦略",
+  "greenDeal": "グリーンディール計画",
+  "parisAgreement": "パリ協定",
+  "carbonNeutrality": "炭素中立",
+  "noRule_description": "任意のアイテムを購入できます。",
+  "greenGrowthStrategy_description": "日本が創設した、脱炭素製品を活性化することを目指す代表的な政策。",
+  "greenDeal_description": "EUが発表したグリーンディール計画では、弾力性のあるサプライチェーンを確立するためにオープンな貿易が実施されています。",
+  "parisAgreement_description": "産業化以前のレベルと比較して、世界の平均気温の上昇を2°C以下に抑えることを目指す協定。",
+  "carbonNeutrality_description": "大気中に排出される炭素を除去し吸収して、炭素排出量をゼロにすることを宣言する。",
+
+  "rule_abort": "制定された法律に違反しています。",
+  "activate_abort": "まだ開示されていない商品です。",
+
+  "news_greenplation": "タイトル：今経済はグリーンインフレ...一般の人々は「生活が苦しいです」\n\n最近、炭素排出と関連する産業規制により、必須原材料の生産が困難になり、グリーンインフレーションが発生しています。 グリーンインフレーションは、環境にやさしいを意味する 'グリーン' と物価が上昇する 'インフレーション' の合成語です。 物価の安定のために適切な規制緩和が必要に見えます。",
+  "news_80": "タイトル：炭素排出削減規制の効果を示す...気候は安定している\n\n最近の報道によると、世界中で環境と気候が安定しており、持続可能な未来に対する希望が高まっています。",
+  "news_60": "タイトル：PM2.5濃度が前年比増加\n\nPM2.5濃度が増加し、清浄な空気を吸うことが難しくなっています。 このようなPM2.5の増加の原因としては、砂漠化が加速していることが考えられます。",
+  "news_40": "タイトル：地球温暖化は最終的に食糧不足につながる... \n\n最近継続的な洪水、台風などの気候異常により、世界中が食糧不足に苦しんでいます。 代替案としては、食用昆虫が台頭していますが、根本的な原因の解決が必要に見えます。",
+  "news_20": "タイトル：海面上昇が深刻化...高地の土地価値が上昇\n\n平均気温の上昇に伴い、海面が上昇し、世界中の50の都市が水に浸かっています。 このまま続けば、世界は滅亡するでしょう。",
+  "news_0": "タイトル：世界の滅亡が迫る\n\n地球はもはや人間の生活に適した土地ではありません。 各国の政府は解体の危機に瀕し、人々は日々不安に過ごしています。 状況を元に戻すには多くの努力が必要でしょう。",
+
+  "plug_off": "コンセントを抜いて電力を節約しましょう。",
+  "sun_power": "太陽熱パネルの上のほこりを拭いてください。",
+  "trash_game": "ゴミをクリックして海をきれいにしてください。",
+  "tree_game": "木を植えて砂漠を森に変えてください。",
+  "water_off": "ざあざあ出ている水道をタッチして閉めてください。",
+  "wind_power": "風力発電機を矢印の方向に回してください。",
+
+  "select": "選択",
+  "seleted": "選択されました",
+
+  "buy": "購入",
+  "activate": "活性化",
+  "close": "閉じる",
+  "buy_success": "購入しました。",
+  "buy_fail": "お金が足りません。",
+
+  "goodWater_name": "環境に優しい水",
+  "badWater_name": "環境破壊水",
+  "goodFood_name": "環境に優しいミールキット",
+  "badFood_name": "プラスチック弁当",
+  "goodAir_name": "環境に優しい酸素ボトル",
+  "badAir_name": "環境破壊酸素ボトル",
+  "goodClothes_name": "リサイクル繊維の服",
+  "badClothes_name": "プラスチック繊維の服",
+
+  "goodWater_description": "環境にやさしい包装材を使用し、輸送プロセスを短縮して炭素排出を減らした水。",
+  "badWater_description": "プラスチックペットボトルを使用し、遠い国で生産して価格を下げた水。",
+  "goodFood_description": "農薬を使わずに栽培した食材で作られたミールキット。",
+  "badFood_description": "森林をなくし、作られた畑で育った牛肉弁当。",
+  "goodAir_description": "環境に優しい素材を使用してリサイクル可能な酸素ボトル。",
+  "badAir_description": "安い材料で作られましたが、リサイクルできない酸素ボトル。",
+  "goodClothes_description": "非動物性素材で作られた高品質の服。",
+  "badClothes_description": "合成繊維で作られ、マイクロプラスチックを生成する流行のファッション。",
+
+  "result_win": "勝利",
+  "result_dead": "死亡",
+  "result_nature": "地球の崩壊"
 }

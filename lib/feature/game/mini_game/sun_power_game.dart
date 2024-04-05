@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
@@ -36,8 +37,6 @@ class _SunPowerGameState extends State<SunPowerGame> {
   Widget build(BuildContext context) {
     final drawingPainter = DrawingPainter(points: _points, image: _drawedImage);
 
-    // TODO: implement build (@오종현)
-    // TODO: 게임 종료 시 navigator.pop 으로 결과 bool 로 넘겨주기
     return ConstrainedBox(
       constraints: const BoxConstraints(minWidth: 100, minHeight: 75),
       child: Stack(
@@ -59,6 +58,7 @@ class _SunPowerGameState extends State<SunPowerGame> {
                         GestureDetector(
                           behavior: HitTestBehavior.deferToChild,
                           onPanStart: (details) {
+                            print("eeeee");
                             setState(() {
                               final oneLine = <Offset>[];
                               oneLine.add(details.localPosition);
@@ -90,7 +90,8 @@ class _SunPowerGameState extends State<SunPowerGame> {
                     AnimatedTextKit(
                       totalRepeatCount: 1,
                       animatedTexts: [
-                        TyperAnimatedText("태양열판 위의 먼지를 닦아주세요.", textStyle: AppTypography.whitePixel)
+                        TyperAnimatedText(tr("sun_power"),
+                            textStyle: AppTypography.whitePixel)
                       ],
                     ),
                   ],
@@ -99,17 +100,21 @@ class _SunPowerGameState extends State<SunPowerGame> {
             ],
           ),
           Positioned(
-            left: 10.w,
-            top: 13.w,
+            left: 0.w,
+            top: 0.w,
             child: GestureDetector(
-              onTap: (){
-                if(drawingPainter.percentage >= 100) {
+              onTap: () {
+                if (drawingPainter.percentage >= 100) {
                   AppRouter.pop(true);
                 } else {
                   AppRouter.pop(false);
                 }
               },
-              child: SizedBox(width: 20.w, height: 20.w,),
+              child: Container(
+                width: 40.w,
+                height: 40.w,
+                color: Colors.transparent,
+              ),
             ),
           )
         ],
@@ -121,15 +126,16 @@ class _SunPowerGameState extends State<SunPowerGame> {
     const image = AssetImage("assets/images/minigame/sun/dirt.png");
     final completer = Completer<ImageInfo>();
     image.resolve(const ImageConfiguration()).addListener(
-      ImageStreamListener(
-        (ImageInfo info, bool _) => completer.complete(info),
-        onError: (dynamic exception, StackTrace? stackTrace) {
-          completer.completeError(exception);
-        },
-      ),
-    );
+          ImageStreamListener(
+            (ImageInfo info, bool _) => completer.complete(info),
+            onError: (dynamic exception, StackTrace? stackTrace) {
+              completer.completeError(exception);
+            },
+          ),
+        );
     final info = await completer.future;
-    final imageByteData = await info.image.toByteData(format: ui.ImageByteFormat.png);
+    final imageByteData =
+        await info.image.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List uint8List = imageByteData!.buffer.asUint8List();
     final codec = await ui.instantiateImageCodec(uint8List);
     final frameInfo = await codec.getNextFrame();
@@ -151,16 +157,16 @@ class DrawingPainter extends CustomPainter {
     // Draw image with clear blending mode
     canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
     final imageSize = Size(image.width.toDouble(), image.height.toDouble());
-    final offset = Offset((size.width - imageSize.width) / 2, (size.height - imageSize.height) / 2);
+    final offset = Offset((size.width - imageSize.width) / 2,
+        (size.height - imageSize.height) / 2);
     canvas.drawImage(image, offset, Paint());
     // Calculate percentage of drawing
     double totalArea = size.width * size.height;
 
     // Draw points with srcIn blending mode
     for (List<Offset> point in points) {
-
       Color color = Colors.black; // Adjust the color as needed
-      double size = 20; // Adjust the size of the stroke as needed
+      double size = 30.w; // Adjust the size of the stroke as needed
       final p = Path();
       p.addPolygon(point, false);
       canvas.drawPath(

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
@@ -11,7 +12,7 @@ import 'package:sinking_us/helpers/constants/app_typography.dart';
 
 class TreeGame extends FlameGame {
   @override
-  FutureOr<void> onLoad() async {
+  FutureOr<void> onMount() async {
     SpriteComponent background = SpriteComponent(
         sprite: await Sprite.load("minigame/pop up.jpg"),
         size: Vector2(455.3.w, 256.w));
@@ -97,7 +98,7 @@ class TreeGame extends FlameGame {
       ..paint = BasicPalette.transparent.paint();
 
     TextBoxComponent gameText = TextBoxComponent(
-        text: "This is tree game.",
+        text: tr("tree_game"),
         align: Anchor.center,
         anchor: Anchor.center,
         position: Vector2(227.65.w, 226.w),
@@ -121,6 +122,6 @@ class TreeGame extends FlameGame {
     add(xBtn);
     add(gameText);
     addAll([sproutBtn1, sproutBtn2, sproutBtn3]);
-    return super.onLoad();
+    return super.onMount();
   }
 }
