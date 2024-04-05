@@ -37,8 +37,92 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000000">
   <meta name="google-site-verification" content="EnnkLLxQFzwgsDQoiZ7s0895c1_YkDXCOTnsmAwl_Qo" />
   <meta name="naver-site-verification" content="67099dfdfea83bc7124153c92e5c49bb73c74461"/>
+
+  <style id="splash-screen-style">
+    html {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      background-color: #000000;
+      background-size: 100% 100%;
+    }
+
+    .splash-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .center {
+      margin: 0 auto;
+      display: block;
+    }
+
+    .downloading-text {
+      color: #FFF;
+      margin-top: 20px; 
+    }
+
+    .contain {
+      display:block;
+      width:100%; height:100%;
+      object-fit: contain;
+    }
+
+    .stretch {
+      display:block;
+      width:100%; height:100%;
+    }
+
+    .cover {
+      display:block;
+      width:100%; height:100%;
+      object-fit: cover;
+    }
+
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      -ms-transform: translate(-50%, 0);
+      transform: translate(-50%, 0);
+    }
+
+    .bottomLeft {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .bottomRight {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  </style>
+  <script id="splash-screen-script">
+    function removeSplashFromWeb() {
+      document.getElementById("splash-container")?.remove();
+      document.getElementById("splash-container-branding")?.remove();
+      document.body.style.background = "transparent";
+    }
+  </script>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 </head>
 <body>
+  <div class="splash-container">
+    <picture id="splash">
+      <source srcset="splash/img/ic-launch.png 1x, splash/img/ic-launch.png 2x, splash/img/ic-launch.png 3x, splash/img/ic-launch.png 4x" media="(prefers-color-scheme: light)">
+      <source srcset="splash/img/ic-launch.png 1x, splash/img/ic-launch.png 2x, splash/img/ic-launch.png 3x, splash/img/ic-launch.png 4x" media="(prefers-color-scheme: dark)">
+      <img class="center" aria-hidden="true" src="splash/img/ic-launch.png" alt="">
+    </picture>
+    <div class="downloading-text">Downloading content...</div>
+  </div>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
