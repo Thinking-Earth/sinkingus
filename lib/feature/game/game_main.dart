@@ -6,6 +6,7 @@ import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/chats/presentation/view/chat_screen.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
+import 'dart:html' as html;
 
 class GameMain extends ConsumerStatefulWidget {
   const GameMain({super.key});
@@ -24,6 +25,11 @@ class _GameMainState extends ConsumerState<GameMain> {
   Widget build(BuildContext context) {
     listener = AppLifecycleListener(
         onHide: ref.read(matchDomainControllerProvider.notifier).leaveMatch);
+    html.window.onBeforeUnload.listen((event) {
+      if (event is html.BeforeUnloadEvent) {
+        ref.read(matchDomainControllerProvider.notifier).leaveMatch();
+      }
+    });
 
     String uid = ref.read(userDomainControllerProvider).userInfo!.uid;
     String host = ref.read(matchDomainControllerProvider).match.host!;
@@ -44,12 +50,11 @@ class _GameMainState extends ConsumerState<GameMain> {
                 ),
               ),
               Positioned(
-                right: 16.w,
-                top: 100.h,
-                child: ChatScreen(
-                  chatID: ref.read(matchDomainControllerProvider).matchId,
-                )
-              )
+                  right: 16.w,
+                  top: 100.h,
+                  child: ChatScreen(
+                    chatID: ref.read(matchDomainControllerProvider).matchId,
+                  ))
             ],
           ),
         ),

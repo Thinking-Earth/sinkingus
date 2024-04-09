@@ -99,7 +99,9 @@ class MatchDomainController extends _$MatchDomainController {
           uid: ref.read(userDomainControllerProvider).userInfo!.uid,
           userName: ref.read(userDomainControllerProvider).userInfo!.nick);
       if (response == null) {
-        ShowDialogHelper.showSnackBar(content: "Too many people in the room");
+        ShowDialogHelper.showSnackBar(
+            content:
+                "You are participating in another device or there are too many people.");
       } else {
         state.match = response;
         state.matchId = matchId;
@@ -113,9 +115,9 @@ class MatchDomainController extends _$MatchDomainController {
     }
   }
 
-  Future<void> leaveMatch() async {
+  void leaveMatch() {
     if (state.matchId != "not in a match") {
-      await source.leaveMatch(
+      source.leaveMatch(
           matchId: state.matchId,
           uid: ref.read(userDomainControllerProvider).userInfo!.uid,
           match: state.match);
