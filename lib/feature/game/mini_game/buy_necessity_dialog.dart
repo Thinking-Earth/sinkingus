@@ -243,7 +243,6 @@ class Scroller extends PositionComponent
   }
 }
 
-// TODO: test listview
 class ListView extends PositionComponent
     with DragCallbacks, HasGameReference<BuyNecessityDialog> {
   ListView({super.children});

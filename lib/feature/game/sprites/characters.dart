@@ -122,7 +122,6 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     }
 
     if (!joystick.delta.isZero()) {
-      print(joystick.relativeDelta);
       moveForce = joystick.relativeDelta * maxSpeed * dt;
     }
 

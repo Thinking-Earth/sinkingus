@@ -132,8 +132,7 @@ class GameState extends PositionComponent
 
   void hostStartGame() async {
     await ref.read(matchDomainControllerProvider.notifier).hostStartGame(
-        game.uid,
-        List<String>.generate(5, (index) => game.players[index].uid)); // TODO
+        game.uid, List<String>.generate(5, (index) => game.players[index].uid));
   }
 
   void hostNextDay() {

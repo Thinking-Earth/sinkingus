@@ -241,7 +241,7 @@ class GameUI extends PositionComponent
       gameStartBtn.removeFromParent();
       game.state.hostStartGame();
     } else {
-      ShowDialogHelper.showSnackBar(content: tr('gamePage_cannotStart')); //TODO
+      ShowDialogHelper.showSnackBar(content: tr('gamePage_cannotStart'));
     }
   }
 }
