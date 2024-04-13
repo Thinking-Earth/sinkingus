@@ -56,6 +56,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
       endText = tr('result_dead');
     } else if(status == 'nature die') {
       endText = tr('result_nature');
+    } else {
+      endText = tr('result_dead');
     }
     return Scaffold(
       backgroundColor: Colors.black,
