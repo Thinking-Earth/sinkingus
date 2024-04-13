@@ -7,12 +7,12 @@ part of 'result_viewmodel.dart';
 // **************************************************************************
 
 String _$resultViewModelControllerHash() =>
-    r'bcb8f6045210a734c52dcf06b700351687bad897';
+    r'339811f7a46120c856313bd4dac4c715052ba7ef';
 
 /// See also [ResultViewModelController].
 @ProviderFor(ResultViewModelController)
-final resultViewModelControllerProvider = AutoDisposeNotifierProvider<
-    ResultViewModelController, ResultViewModelState>.internal(
+final resultViewModelControllerProvider =
+    NotifierProvider<ResultViewModelController, ResultViewModelState>.internal(
   ResultViewModelController.new,
   name: r'resultViewModelControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,6 @@ final resultViewModelControllerProvider = AutoDisposeNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$ResultViewModelController = AutoDisposeNotifier<ResultViewModelState>;
+typedef _$ResultViewModelController = Notifier<ResultViewModelState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

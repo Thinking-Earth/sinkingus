@@ -7,7 +7,7 @@ part of 'chat_domain.dart';
 // **************************************************************************
 
 String _$chatDomainControllerHash() =>
-    r'3cb1e10fe5cc55f31d504a9b1a52885a5b865994';
+    r'dc898d75c71b2f470d298a43f45712db64650182';
 
 /// See also [ChatDomainController].
 @ProviderFor(ChatDomainController)
