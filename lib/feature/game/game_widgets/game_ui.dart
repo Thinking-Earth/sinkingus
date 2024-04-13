@@ -25,8 +25,8 @@ class GameUI extends PositionComponent
   late TextButton gameStartBtn;
   late RectangleComponent hp, natureScore;
   late Timer timer;
-  int oneDay = 150;
-  int remainingSec = 150;
+  int oneDay = 20;
+  int remainingSec = 20;
 
   late TextBoxComponent timerComponent,
       moneyComponent,
@@ -237,7 +237,8 @@ class GameUI extends PositionComponent
   }
 
   void hostStartGame() async {
-    if (game.players.length == 5) {
+    if (game.players.length == 1) {
+      // TODO
       gameStartBtn.removeFromParent();
       game.state.hostStartGame();
     } else {

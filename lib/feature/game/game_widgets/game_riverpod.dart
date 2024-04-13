@@ -71,7 +71,7 @@ class GameState extends PositionComponent
         .ref("game/${game.matchId}/status")
         .get()
         .then((value) {
-      return value.value as Map<String, String>;
+      return Map<String, String>.from(value.value as Map);
     });
     String status = "undefined";
     if (game.day == 8) {
@@ -132,7 +132,7 @@ class GameState extends PositionComponent
 
   void hostStartGame() async {
     await ref.read(matchDomainControllerProvider.notifier).hostStartGame(
-        game.uid, List<String>.generate(5, (index) => game.players[index].uid));
+        game.uid, List<String>.generate(1, (index) => game.players[index].uid));
   }
 
   void hostNextDay() {
