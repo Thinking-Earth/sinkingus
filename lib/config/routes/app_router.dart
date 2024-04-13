@@ -15,10 +15,37 @@ class AppRouter {
 
     return PageRouteBuilder<dynamic>(
       pageBuilder: (context, animation, secondaryAnimation) => routeBuilder(),
-      transitionDuration: const Duration(milliseconds: 800),
+      transitionDuration: const Duration(milliseconds: 3200),
+      reverseTransitionDuration: const Duration(milliseconds: 3200),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: animation,
+        var tween = Tween(begin: 0.0, end: 1.0).chain(CurveTween(curve: Curves.fastOutSlowIn));
+        var fadedAnimation = animation.drive(tween);
+
+        return AnimatedBuilder(
+          animation: animation,
+          builder: (context, child) {
+            double opacityValue;
+            if (animation.value < 0.2) {
+              opacityValue = animation.value / 0.2;
+            } else if (animation.value < 0.8) {
+              opacityValue = 1.0;
+            } else {
+              opacityValue = (1.0 - (animation.value - 0.8) / 0.2);
+            }
+
+            return Stack(
+              children: [
+                Opacity(
+                  opacity: opacityValue,
+                  child: Container(color: Colors.black),
+                ),
+                Opacity(
+                  opacity: fadedAnimation.value,
+                  child: child,
+                ),
+              ],
+            );
+          },
           child: child,
         );
       },
