@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -69,10 +70,12 @@ class OpenChatViewModelController extends _$OpenChatViewModelController {
 
   void sendMsg() async {
     if(state.chatController.text != "") {
-      if(state.chatController.text.length > 500) {
+      if(state.chatController.text.length > 1000) {
         return ShowDialogHelper.showSnackBar(content: tr('gamePage_2much'));
       }
-      if(DateTime.now().millisecondsSinceEpoch - lastPush.millisecondsSinceEpoch > 1000) {
+      if(DateTime.now().millisecondsSinceEpoch - lastPush.millisecondsSinceEpoch > 500) {
+        FlameAudio.bgm.initialize();
+        FlameAudio.bgm.play(AppSounds.sendMsgS);
         await ref.read(chatDomainControllerProvider.notifier).sendMsg(
           state.chatID, 
           chat: ChatModel(

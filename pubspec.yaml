@@ -57,6 +57,7 @@ dependencies:
   #game
   flame: ^1.16.0
   flame_riverpod: ^5.2.0
+  flame_audio: ^2.1.8
 
   #etc
   flutter_screenutil: ^5.9.0 #화면 사이즈 controlling
