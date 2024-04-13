@@ -25,6 +25,8 @@
   "settingPage_language": "Language Selection",
 
   "gamePage_enterText": "Enter your chat.",
+  "gamePage_2fast": "Please input a little more slowly.",
+  "gamePage_2much": "There are too many characters.",
   "gamePage_cannotStart": "The game can only start with 6 players.",
 
   "game_description": "You are a resident of Sinking Earth. You must maintain an environmental score above 0, for 7 days.",

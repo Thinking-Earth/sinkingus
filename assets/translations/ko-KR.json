@@ -25,6 +25,8 @@
   "settingPage_language": "언어 선택 - ",
 
   "gamePage_enterText": "채팅을 입력하세요.",
+  "gamePage_2fast": "조금만 천천히 입력해주세요.",
+  "gamePage_2much": "글자수가 너무 많습니다.",
   "gamePage_cannotStart": "인원이 6명이어야 게임을 시작할 수 있습니다.",
 
   "game_description": "당신은 Sinking Earth의 주민입니다. 게임시간 7일동안 환경점수를 0 이상으로 유지해야합니다. 생필품을 구매해 hp을 올릴 수 있고, 총 6개의 미션을 수행해 각각 50코인을 벌 수 있습니다.",

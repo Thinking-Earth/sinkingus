@@ -25,6 +25,8 @@
   "settingPage_language": "言語の選択",
 
   "gamePage_enterText": "チャットを入力してください。",
+  "gamePage_2fast": "もう少しゆっくり入力してください。",
+  "gamePage_2much": "キャラクターが多すぎます。",
   "gamePage_cannotStart": "ゲームは6人以上で始めることができます。",
 
   "game_description": "あなたはSinking Earthの住民です。ゲーム時間7日間、環境スコアを0以上に保持する必要があります。生活必需品を購入したらHPが回復し、合計6つのミッションを達成したらそれぞれ50コインを稼ぐことができます。",

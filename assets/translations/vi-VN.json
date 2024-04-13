@@ -23,6 +23,8 @@
   "settingPage_language": "Lựa chọn ngôn ngữ",
 
   "gamePage_enterText": "Hãy nhập tin nhắn của bạn.",
+  "gamePage_2fast": "Vui lòng nhập chậm hơn một chút.",
+  "gamePage_2much": "Có quá nhiều nhân vật.",
   "gamePage_cannotStart": "Trò chơi chỉ có thể bắt đầu với 6 người chơi.",
 
   "game_description": "Người sử dụng là cư dân của Trái Đất đang chìm. Bạn phải duy trì điểm môi trường trên 0 trong 7 trong ngày thời gian chơi game. Bạn có thể mua đồ dùng cần thiết cho tăng hp, và có thể thực hiện tổng cộng 6 nhiệm vụ để  kiếm được 50 xu mỗi nhiệm vụ.",

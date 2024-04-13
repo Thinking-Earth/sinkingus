@@ -5,8 +5,10 @@ import 'package:sinking_us/helpers/constants/app_colors.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
 Row chatInputter({
-  required TextEditingController textController, 
-  required VoidCallback onTap
+  required TextEditingController textController,
+  required FocusNode focusNode,
+  required VoidCallback onTap,
+  required VoidCallback outsideTap
 }) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -16,11 +18,12 @@ Row chatInputter({
           controller : textController,
           style : AppTypography.whitePixel,
           autofocus: true,
+          focusNode: focusNode,
           onSubmitted: (_){
             onTap();
           },
           onTapOutside: (_){
-            FocusManager.instance.primaryFocus?.unfocus();
+            outsideTap();
           },
           decoration : InputDecoration(
             hintText : tr('gamePage_enterText'), 

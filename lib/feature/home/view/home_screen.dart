@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,8 +30,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void refreshMatchList() async {
     ref.read(matchDomainControllerProvider.notifier).checkNotInMatch();
-    matchList =
-        await ref.read(matchDomainControllerProvider.notifier).getMatchList();
+    matchList = await ref.read(matchDomainControllerProvider.notifier).getMatchList();
     setState(() {
       matchList = matchList;
     });
@@ -88,9 +88,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             left: 0,
                             top: 0,
                             child: IconButton(
-                              onPressed: ref
-                                  .read(homeScreenControllerProvider.notifier)
-                                  .handleSetting,
+                              onPressed: ref.read(homeScreenControllerProvider.notifier).handleSetting,
                               icon: const Icon(
                                 Icons.settings,
                                 color: AppColors.black10,
@@ -155,8 +153,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: SingleChildScrollView(
                               child: Text(
                                 bottomText,
-                                style: AppTypography.blackPixel
-                                    .copyWith(fontSize: 12.sp),
+                                style: AppTypography.blackPixel.copyWith(fontSize: 12.sp),
                               ),
                             ),
                           ),
@@ -175,8 +172,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: [
                             Text(
                               tr('homePage_listWorld'),
-                              style: AppTypography.blackPixel.copyWith(
-                                  fontSize: 20.sp, fontWeight: FontWeight.bold),
+                              style: AppTypography.blackPixel.copyWith(fontSize: 20.sp, fontWeight: FontWeight.bold),
                             ),
                             InkWell(
                               onTap: refreshMatchList,
@@ -191,23 +187,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           width: 400.w,
                           height: 230.h,
                           child: matchList.isNotEmpty
-                              ? ListView.builder(
-                                  itemCount: matchList.length,
-                                  itemBuilder: (context, index) {
-                                    String matchId =
-                                        matchList.keys.elementAt(index);
-                                    return MatchListItem(
-                                        matchId: matchId,
-                                        match: matchList[matchId]!,
-                                        isPrivate: "public");
-                                  },
+                              ? ScrollConfiguration(
+                                  behavior: ScrollConfiguration.of(context).copyWith(
+                                    dragDevices: {
+                                      PointerDeviceKind.touch,
+                                      PointerDeviceKind.mouse,
+                                      PointerDeviceKind.trackpad,
+                                    },
+                                  ),
+                                  child: ListView.builder(
+                                    itemCount: matchList.length,
+                                    itemBuilder: (context, index) {
+                                      String matchId = matchList.keys.elementAt(index);
+                                      return MatchListItem(matchId: matchId, match: matchList[matchId]!, isPrivate: "public");
+                                    },
+                                  ),
                                 )
                               : Center(
                                   child: Text(
                                     "There are no rooms left.\nCreate a room and enjoy the game!",
                                     textAlign: TextAlign.center,
-                                    style: AppTypography.blackPixel
-                                        .copyWith(fontSize: 10.sp),
+                                    style: AppTypography.blackPixel.copyWith(fontSize: 10.sp),
                                   ),
                                 ),
                         ),
@@ -216,15 +216,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: [
                             gameBlockBtn(
                               text: tr('build_room'),
-                              onTap: ref
-                                  .read(homeScreenControllerProvider.notifier)
-                                  .handlePressedBuildRoom,
+                              onTap: ref.read(homeScreenControllerProvider.notifier).handlePressedBuildRoom,
                             ),
                             gameBlockBtn(
                               text: tr("join_room"),
-                              onTap: ref
-                                  .read(homeScreenControllerProvider.notifier)
-                                  .handlePressedSearchRoom,
+                              onTap: ref.read(homeScreenControllerProvider.notifier).handlePressedSearchRoom,
                             )
                           ],
                         ),

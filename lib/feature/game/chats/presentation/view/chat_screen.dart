@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,19 +49,28 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               stream: chatViewModel.chatStream,
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if(snapshot.data != null) {
-                  return ListView.builder(
-                    reverse: true,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      final ChatModel chat = ChatModel.fromJson(Map<String, dynamic>.from(snapshot.data!.docs[index].data() as Map));
-                      if(chat.role == "server") {
-                        return serverChatBubble(chat);
-                      } else if(chat.nick == userInfo!.nick) {
-                        return myChatBubble(chat);
-                      } else {
-                        return notMyChatBubble(chat);
-                      }
-                    } 
+                  return ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context).copyWith(
+                      dragDevices: {
+                        PointerDeviceKind.touch,
+                        PointerDeviceKind.mouse,
+                        PointerDeviceKind.trackpad,
+                      },
+                    ),
+                    child: ListView.builder(
+                      reverse: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final ChatModel chat = ChatModel.fromJson(Map<String, dynamic>.from(snapshot.data!.docs[index].data() as Map));
+                        if(chat.role == "server") {
+                          return serverChatBubble(chat);
+                        } else if(chat.nick == userInfo!.nick) {
+                          return myChatBubble(chat);
+                        } else {
+                          return notMyChatBubble(chat);
+                        }
+                      } 
+                    ),
                   );
                 }
                 return const SizedBox.shrink();
@@ -69,12 +79,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           ),
           chatInputter(
             textController: chatViewModel.chatController,
-            onTap: ref.read(openChatViewModelControllerProvider.notifier).sendMsg
+            focusNode: chatViewModel.chatNode,
+            onTap: ref.read(openChatViewModelControllerProvider.notifier).sendMsg,
+            outsideTap: ref.read(openChatViewModelControllerProvider.notifier).outSideTap
           ),
         ],
       ),
     );
   }
-
-  
 }

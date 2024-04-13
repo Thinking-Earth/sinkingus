@@ -19,7 +19,8 @@ class MatchDomainState {
       required this.dayChangedTime,
       required this.hpdt,
       required this.money,
-      required this.natureScoredt});
+      required this.natureScoredt
+    });
 
   String matchId;
   Match match;

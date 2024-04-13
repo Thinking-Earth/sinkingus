@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/chats/presentation/view/chat_screen.dart';
+import 'package:sinking_us/feature/game/chats/presentation/viewmodel/chat_viewmodel.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'dart:html' as html;
@@ -46,15 +47,17 @@ class _GameMainState extends ConsumerState<GameMain> {
               SafeArea(
                 child: RiverpodAwareGameWidget(
                   key: gameWidgetKey,
+                  focusNode: ref.read(openChatViewModelControllerProvider).gameNode,
                   game: game,
                 ),
               ),
               Positioned(
-                  right: 16.w,
-                  top: 100.h,
-                  child: ChatScreen(
-                    chatID: ref.read(matchDomainControllerProvider).matchId,
-                  ))
+                right: 16.w,
+                top: 100.h,
+                child: ChatScreen(
+                  chatID: ref.read(matchDomainControllerProvider).matchId,
+                )
+              )
             ],
           ),
         ),

@@ -25,6 +25,8 @@
   "settingPage_language": "Selección de Idioma - ",
 
   "gamePage_enterText": "Ingrese su chat.",
+  "gamePage_2fast": "Por favor ingresa un poco más lento.",
+  "gamePage_2much": "Hay demasiados personajes.",
   "gamePage_cannotStart": "El juego solo puede comenzar con 6 jugadores.",
 
   "game_description": "Eres un habitante de la Sinking Earth. Debes mantener una puntuación ambiental de 0 o superior durante los 7 días del juego. Puedes aumentar tu salud comprando artículos necesarios y completando en total 6 misiones para ganar 50 monedas por cada una.",
