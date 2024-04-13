@@ -57,7 +57,7 @@ dependencies:
   #game
   flame: ^1.16.0
   flame_riverpod: ^5.2.0
-  flame_audio: ^2.1.8
+  flame_audio: 2.1.8
 
   #etc
   flutter_screenutil: ^5.9.0 #화면 사이즈 controlling
@@ -71,6 +71,7 @@ dependencies:
   intl: ^0.18.0 #다국어 및 다국 시간
   animated_text_kit: ^4.2.2 #애니메이션 텍스트
   lottie: ^3.1.0 #mp4 to json
+  audioplayers: 5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -105,7 +106,7 @@ flutter:
     - assets/translations/
     - assets/images/home/
     - assets/jsons/
-    - assets/sounds/
+    - assets/audio/
 
   fonts:
     - family: Galmuri

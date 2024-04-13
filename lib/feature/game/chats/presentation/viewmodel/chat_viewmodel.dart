@@ -38,53 +38,55 @@ class OpenChatViewModelController extends _$OpenChatViewModelController {
   @override
   OpenChatViewModelState build() {
     return OpenChatViewModelState(
-      chatController: TextEditingController(),
-      chatNode: FocusNode(),
-      gameNode: FocusNode(),
-      userInfo: ref.watch(userDomainControllerProvider).userInfo,
-      chatID: ""
-    );
+        chatController: TextEditingController(),
+        chatNode: FocusNode(),
+        gameNode: FocusNode(),
+        userInfo: ref.watch(userDomainControllerProvider).userInfo,
+        chatID: "");
   }
 
   void setState() {
     state = OpenChatViewModelState(
-      chatStream: state.chatStream,
-      chatController: state.chatController,
-      chatNode: state.chatNode,
-      gameNode: state.gameNode,
-      userInfo: state.userInfo,
-      chatID: state.chatID
-    );
+        chatStream: state.chatStream,
+        chatController: state.chatController,
+        chatNode: state.chatNode,
+        gameNode: state.gameNode,
+        userInfo: state.userInfo,
+        chatID: state.chatID);
   }
 
   void setUpChatScreen({required String chatID}) {
-    state.chatStream = ref.read(chatDomainControllerProvider.notifier).chatStream(chatID);
+    state.chatStream =
+        ref.read(chatDomainControllerProvider.notifier).chatStream(chatID);
     state.chatID = chatID;
-    ref.read(chatDomainControllerProvider.notifier).joinChatRoom(chatID, nick: state.userInfo!.nick);
+    ref
+        .read(chatDomainControllerProvider.notifier)
+        .joinChatRoom(chatID, nick: state.userInfo!.nick);
     setState();
   }
 
   void outChat() {
-    ref.read(chatDomainControllerProvider.notifier).outChatRoom(state.chatID, nick: state.userInfo!.nick);
+    ref
+        .read(chatDomainControllerProvider.notifier)
+        .outChatRoom(state.chatID, nick: state.userInfo!.nick);
   }
 
   void sendMsg() async {
-    if(state.chatController.text != "") {
-      if(state.chatController.text.length > 1000) {
+    if (state.chatController.text != "") {
+      if (state.chatController.text.length > 1000) {
         return ShowDialogHelper.showSnackBar(content: tr('gamePage_2much'));
       }
-      if(DateTime.now().millisecondsSinceEpoch - lastPush.millisecondsSinceEpoch > 500) {
-        FlameAudio.bgm.initialize();
-        FlameAudio.bgm.play(AppSounds.sendMsgS);
+      if (DateTime.now().millisecondsSinceEpoch -
+              lastPush.millisecondsSinceEpoch >
+          500) {
         await ref.read(chatDomainControllerProvider.notifier).sendMsg(
-          state.chatID, 
-          chat: ChatModel(
-            content: state.chatController.text, 
-            nick: state.userInfo!.nick, 
-            role: "test",
-            time: DateTime.now()
-          )
-        );
+            state.chatID,
+            chat: ChatModel(
+                content: state.chatController.text,
+                nick: state.userInfo!.nick,
+                role: "test",
+                time: DateTime.now()));
+        FlameAudio.play("send_chat.mp3");
         state.chatController.text = '';
         state.chatNode.requestFocus();
         setState();

@@ -13,7 +13,6 @@ import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
-import 'package:sinking_us/feature/game/sprites/event_btn.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/feature/result/viewmodel/result_viewmodel.dart';
 
@@ -112,7 +111,7 @@ class GameState extends PositionComponent
 
     if (game.player.role != RoleType.business) {
       if (dtSum > 3) {
-        if (game.gameUI.timer.isRunning()) hp -= 1;
+        if (game.day > 0 && game.gameUI.timer.isRunning()) hp -= 1;
         dtSum = 0;
       } else {
         dtSum += dt;

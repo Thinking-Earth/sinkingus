@@ -187,7 +187,7 @@ class SunPowerBtn extends EventBtn {
           Vector2(1.0, 0.565),
           Vector2(-0.867, 0.957),
         ]) {
-    final minigame = SunPowerGame();
+    const minigame = SunPowerGame();
     type = GameEventType.sunPower;
     dialogWidget = minigame;
   }

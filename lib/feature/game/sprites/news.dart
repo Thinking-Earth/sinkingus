@@ -41,7 +41,7 @@ class News extends FlameGame {
     dayText = TextBoxComponent(
         text: "DAY ${game.day}",
         textRenderer: TextPaint(style: AppTypography.blackPixel),
-        boxConfig: TextBoxConfig(timePerChar: 0.1, growingBox: true),
+        boxConfig: const TextBoxConfig(timePerChar: 0.1, growingBox: true),
         position: Vector2(743.w, 262.w) / 3,
         anchor: Anchor.center);
 
