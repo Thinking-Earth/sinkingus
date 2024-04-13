@@ -54,6 +54,10 @@ dependencies:
   url_strategy: ^0.2.0 #링크에 샵 삭제
   seo_renderer: ^0.6.0 #seo rendering
 
+  #game
+  flame: ^1.16.0
+  flame_riverpod: ^5.2.0
+
   #etc
   flutter_screenutil: ^5.9.0 #화면 사이즈 controlling
   http: ^1.1.2
@@ -61,8 +65,6 @@ dependencies:
   flutter_svg: ^2.0.9 #svg 사용하기 위함
   shared_preferences: ^2.2.2 #tinydb
   flutter_secure_storage: ^9.0.0 #난독화 tinydb
-  flame: ^1.16.0
-  flame_riverpod: ^5.2.0
   connectivity_plus: ^5.0.2 #인터넷 연결 상태 감지
   easy_localization: ^3.0.5 #지역 위치 파악 및 언어팩 연결
   intl: ^0.18.0 #다국어 및 다국 시간
@@ -102,6 +104,7 @@ flutter:
     - assets/translations/
     - assets/images/home/
     - assets/jsons/
+    - assets/sounds/
 
   fonts:
     - family: Galmuri

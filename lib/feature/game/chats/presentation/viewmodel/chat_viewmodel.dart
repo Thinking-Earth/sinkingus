@@ -1,5 +1,7 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -7,6 +9,7 @@ import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/chats/data/model/chat_model.dart';
 import 'package:sinking_us/feature/game/chats/domain/chat_domain.dart';
+import 'package:sinking_us/helpers/constants/app_sounds.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 part 'chat_viewmodel.g.dart';
@@ -68,7 +71,7 @@ class OpenChatViewModelController extends _$OpenChatViewModelController {
 
   void sendMsg() async {
     if(state.chatController.text != "") {
-      if(state.chatController.text.length > 1000) {
+      if(state.chatController.text.length > 500) {
         return ShowDialogHelper.showSnackBar(content: tr('gamePage_2much'));
       }
       if(DateTime.now().millisecondsSinceEpoch - lastPush.millisecondsSinceEpoch > 1000) {

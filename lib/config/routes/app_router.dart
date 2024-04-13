@@ -7,29 +7,30 @@ import './routes.dart';
 class AppRouter {
   const AppRouter._();
 
-  static final GlobalKey<NavigatorState> navigatorKey =
-      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     final routeName = settings.name;
-    final routeBuilder = Routes.routeExist(routeName)
-        ? Routes.getRoute(routeName)
-        : Routes.getRoute(Routes.notFoundScreenRoute);
+    final routeBuilder = Routes.routeExist(routeName) ? Routes.getRoute(routeName) : Routes.getRoute(Routes.notFoundScreenRoute);
 
-    return MaterialPageRoute<dynamic>(
-      builder: (_) => routeBuilder(),
+    return PageRouteBuilder<dynamic>(
+      pageBuilder: (context, animation, secondaryAnimation) => routeBuilder(),
+      transitionDuration: const Duration(milliseconds: 800),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
       settings: RouteSettings(
-        name: '',//routeName,
+        name: '', //routeName,
         arguments: settings.arguments,
       ),
     );
   }
 
-  static Future<dynamic> pushAndReplaceNamed(String routeName, {dynamic args}){
-    return navigatorKey.currentState!.pushReplacementNamed(
-      routeName,
-      arguments: args
-    );
+  static Future<dynamic> pushAndReplaceNamed(String routeName, {dynamic args}) {
+    return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: args);
   }
 
   static Future<dynamic> pushNamed(String routeName, {dynamic args}) {
