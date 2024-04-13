@@ -116,14 +116,16 @@ class MatchDataSource {
             .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
             .update({"playerCount": ServerValue.increment(-1)});
       }
-      gameRef.child("players").get().then((value) {
-        if (value.exists) {
-          final players = List<dynamic>.from(value.value as List);
-          players.remove(uid);
-          gameRef.update(
-              {"playerCount": ServerValue.increment(-1), "players": players});
-        }
-      });
+      if (match.day! < 8) {
+        gameRef.child("players").get().then((value) {
+          if (value.exists) {
+            final players = List<dynamic>.from(value.value as List);
+            players.remove(uid);
+            gameRef.update(
+                {"playerCount": ServerValue.increment(-1), "players": players});
+          }
+        });
+      }
     }
     db.ref("players/$uid").remove();
   }
@@ -135,7 +137,7 @@ class MatchDataSource {
     List<String> shuffled = List.from(players);
     shuffled.add(uid);
     shuffled.shuffle();
-    db.ref("players/${shuffled[1]}/role").set(RoleType.business.code);
+    db.ref("players/${shuffled[1]}/role").set(RoleType.politician.code);
     //db.ref("players/${shuffled[2]}/role").set(RoleType.nature.code);
     //db.ref("players/${shuffled[3]}/role").set(RoleType.politician.code);
 

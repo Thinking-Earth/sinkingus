@@ -25,8 +25,8 @@ class GameUI extends PositionComponent
   late TextButton gameStartBtn;
   late RectangleComponent hp, natureScore;
   late Timer timer;
-  int oneDay = 20;
-  int remainingSec = 20;
+  int oneDay = 50;
+  int remainingSec = 50;
 
   late TextBoxComponent timerComponent,
       moneyComponent,

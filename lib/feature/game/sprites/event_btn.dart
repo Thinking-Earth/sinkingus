@@ -290,7 +290,7 @@ class PolicyBtn extends EventBtn {
 
   @override
   FutureOr<void> onLoad() {
-    final dialog = PolicyDialog(role: game.player.role, state: game.state);
+    final dialog = PolicyDialog(state: game.state);
     type = GameEventType.nationalAssembly;
 
     dialogWidget = GameWidget(game: dialog);

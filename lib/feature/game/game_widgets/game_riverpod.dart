@@ -101,6 +101,7 @@ class GameState extends PositionComponent
     ref.read(matchDomainControllerProvider.notifier).sendStatus(status: status);
     ref.read(resultViewModelControllerProvider.notifier).setStatus(status);
     AppRouter.popAndPushNamed(Routes.resultScreenRoute);
+    leaveMatch();
   }
 
   @override

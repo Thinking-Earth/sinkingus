@@ -34,7 +34,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   double sendDtSum = 0;
   double animationDtSum = 0;
 
-  double maxSpeed = 100.w;
+  double maxSpeed = 130.w;
   late Vector2 moveForce;
   JoystickComponent joystick;
   late TextComponent nameText;
@@ -153,19 +153,19 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     if (event is KeyDownEvent || event is KeyRepeatEvent) {
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
           keysPressed.contains(LogicalKeyboardKey.keyA)) {
-        moveForce.x += -maxSpeed / 20;
+        moveForce.x += -maxSpeed / 30;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
           keysPressed.contains(LogicalKeyboardKey.keyD)) {
-        moveForce.x += maxSpeed / 20;
+        moveForce.x += maxSpeed / 30;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
           keysPressed.contains(LogicalKeyboardKey.keyW)) {
-        moveForce.y += -maxSpeed / 20;
+        moveForce.y += -maxSpeed / 30;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
           keysPressed.contains(LogicalKeyboardKey.keyS)) {
-        moveForce.y += maxSpeed / 20;
+        moveForce.y += maxSpeed / 30;
       }
 
       if (moveForce.x != 0 && moveForce.y != 0) {

@@ -162,10 +162,9 @@ class PolicyDialog extends FlameGame {
   List<PolicyListItem> listItems = [];
   RuleType selectedPolicyRule = RuleType.noRule;
 
-  RoleType role;
   GameState state;
 
-  PolicyDialog({required this.role, required this.state});
+  PolicyDialog({required this.state});
 
   @override
   FutureOr<void> onLoad() async {
@@ -211,10 +210,11 @@ class PolicyDialog extends FlameGame {
   }
 
   void selectPolicy(RuleType newRule) {
-    if (role == RoleType.politician) {
+    if (state.game.player.role == RoleType.politician) {
       selectedPolicyRule = newRule;
       state.setRule(newRule);
     } else {
+      print(state.game.player.role);
       ShowDialogHelper.showSnackBar(content: tr("rule_select_abort"));
     }
   }
