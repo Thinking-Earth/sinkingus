@@ -112,8 +112,7 @@ class GameState extends PositionComponent
 
     if (game.player.role != RoleType.business) {
       if (dtSum > 3) {
-        if (currentEvent != GameEventType.news.id &&
-            currentEvent != GameEventType.undefined.id) hp -= 1;
+        if (game.gameUI.timer.isRunning()) hp -= 1;
         dtSum = 0;
       } else {
         dtSum += dt;

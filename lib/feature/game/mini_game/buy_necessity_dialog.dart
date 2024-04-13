@@ -41,7 +41,7 @@ class GroceryListItem extends SpriteComponent
   late TextComponent btnText;
 
   GroceryListItem({required this.type})
-      : super(position: Vector2(418.w * (type.id - 2), 0) / 3);
+      : super(position: Vector2(418.w * (type.id - 2) - 77.w, -107.w) / 3);
 
   @override
   FutureOr<void> onLoad() async {
@@ -245,23 +245,27 @@ class Scroller extends PositionComponent
 
 class ListView extends PositionComponent
     with DragCallbacks, HasGameReference<BuyNecessityDialog> {
-  ListView({super.children});
+  ListView({super.children})
+      : super(
+            size: Vector2(3298.w, 528.w) / 3,
+            position: Vector2(77.w, 107.w) / 3);
 
   @override
   void update(double dt) {
-    position.x = -game.scrollPosition * 2090 / 989;
+    position.x = -game.scrollPosition * 2090 / 989 + 77.w / 3;
     super.update(dt);
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
+    // TODO: drag (@오종현)
+    if (event.localDelta.x < 0) {
+      game.scrollPosition = min(
+          989.w / 3, game.scrollPosition + -event.localDelta.x * 989 / 2090);
+    }
     if (event.localDelta.x > 0) {
       game.scrollPosition =
-          min(989.w / 3, game.scrollPosition + event.localDelta.x * 989 / 2090);
-    }
-    if (event.localDelta.x < 0) {
-      game.scrollPosition =
-          max(0, game.scrollPosition + event.localDelta.x * 989 / 2090);
+          max(0, game.scrollPosition + -event.localDelta.x * 989 / 2090);
     }
     super.onDragUpdate(event);
   }
