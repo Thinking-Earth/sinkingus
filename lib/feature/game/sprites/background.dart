@@ -103,8 +103,6 @@ class Background extends PositionComponent
         Vector2(1772, 654) * mapRatio,
         Vector2(1793, 664) * mapRatio,
         Vector2(1793, 777) * mapRatio,
-        Vector2(1850, 777) * mapRatio,
-        Vector2(1850, 803) * mapRatio,
         Vector2(1799, 805) * mapRatio,
         Vector2(1799, 903) * mapRatio,
         Vector2(1913, 903) * mapRatio,
@@ -146,15 +144,6 @@ class Background extends PositionComponent
         Vector2(1465, 1527) * mapRatio,
         Vector2(1390, 1527) * mapRatio,
         Vector2(1375, 1512) * mapRatio,
-        Vector2(1374, 1480) * mapRatio,
-        Vector2(1389, 1495) * mapRatio,
-        Vector2(1519, 1495) * mapRatio,
-        Vector2(1563, 1494) * mapRatio,
-        Vector2(1575, 1466) * mapRatio,
-        Vector2(1768, 1473) * mapRatio,
-        Vector2(1768, 1418) * mapRatio,
-        Vector2(1389, 1418) * mapRatio,
-        Vector2(1374, 1403) * mapRatio,
         Vector2(1374, 1356) * mapRatio,
         Vector2(1390, 1341) * mapRatio,
         Vector2(1600, 1341) * mapRatio,
@@ -167,12 +156,13 @@ class Background extends PositionComponent
         Vector2(1025, 1344) * mapRatio,
         Vector2(1250, 1346) * mapRatio,
         Vector2(1266, 1360) * mapRatio,
-        Vector2(1266, 1659) * mapRatio,
-        Vector2(1235, 1672) * mapRatio,
-        Vector2(1203, 1659) * mapRatio,
-        Vector2(1203, 1508) * mapRatio,
-        Vector2(1115, 1508) * mapRatio,
-        Vector2(1098, 1523) * mapRatio,
+        Vector2(1266, 1607) * mapRatio,
+        Vector2(1251, 1622) * mapRatio,
+        Vector2(1068, 1622) * mapRatio,
+        Vector2(1053, 1607) * mapRatio,
+        Vector2(1053, 1523) * mapRatio,
+        Vector2(1068, 1508) * mapRatio,
+        Vector2(1098, 1508) * mapRatio,
         Vector2(1098, 1449) * mapRatio,
         Vector2(1045, 1449) * mapRatio,
         Vector2(1010, 1490) * mapRatio,
@@ -194,7 +184,7 @@ class Background extends PositionComponent
         Vector2(92, 1360) * mapRatio,
         Vector2(107, 1346) * mapRatio,
         Vector2(400, 1344) * mapRatio,
-        Vector2(400, 1160) * mapRatio,
+        Vector2(400, 1196) * mapRatio,
         Vector2(378, 1176) * mapRatio,
         Vector2(378, 900) * mapRatio,
         Vector2(399, 874) * mapRatio,
@@ -251,11 +241,21 @@ class Background extends PositionComponent
         Vector2(1723, 481) * mapRatio,
         Vector2(1723, 653) * mapRatio,
         Vector2(1630, 653) * mapRatio,
-        Vector2(1623, 663) * mapRatio,
-        Vector2(1623, 772) * mapRatio,
+        Vector2(1615, 663) * mapRatio,
+        Vector2(1615, 772) * mapRatio,
         Vector2(1564, 772) * mapRatio
       ]),
+      PolygonHitbox([
+        Vector2(1404, 1419) * mapRatio,
+        Vector2(1768, 1419) * mapRatio,
+        Vector2(1768, 1466) * mapRatio,
+        Vector2(1583, 1465) * mapRatio,
+        Vector2(1563, 1493) * mapRatio,
+        Vector2(1404, 1493) * mapRatio
+      ])
     ]);
+
+    wall.debugMode = true;
 
     background.addAll([
       RectangleHitbox(
@@ -295,7 +295,7 @@ class Background extends PositionComponent
           position: Vector2(1308, 229) * mapRatio,
           size: Vector2(43, 331) * mapRatio),
       PolygonHitbox([
-        Vector2(994, 222) * mapRatio,
+        Vector2(945, 222) * mapRatio,
         Vector2(988, 225) * mapRatio,
         Vector2(990, 381) * mapRatio,
         Vector2(995, 397) * mapRatio,
@@ -329,5 +329,6 @@ class Background extends PositionComponent
         Vector2(945, 361) * mapRatio,
       ])
     ]);
+    background.debugMode = true;
   }
 }
