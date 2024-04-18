@@ -6,7 +6,7 @@
 <img src="https://img.shields.io/badge/devpost-Global_Gamers_Challenge-devpost?style=flat&logo=devpost&logoColor=devpost&color=%23003E54"/>
 <img src="https://img.shields.io/badge/Flutter-v3.19-flutter?style=flat&logo=flutter&color=%2302569B"/>
 <img src="https://img.shields.io/badge/Firebase-Google_Firebase-firebase?style=flat&logo=firebase&color=%23FFCA28"/>
-<img src="https://img.shields.io/badge/Google-Sponsored%20by%20google-google?style=flat&logo=google&color=%234285F4"/>
+<!--img src="https://img.shields.io/badge/Google-Sponsored%20by%20google-google?style=flat&logo=google&color=%234285F4"/-->
 </div>
 
 ## 🔗Try Our Game
