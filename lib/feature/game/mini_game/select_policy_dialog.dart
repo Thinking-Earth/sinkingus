@@ -48,7 +48,7 @@ class PolicyListItem extends SpriteComponent
 
   @override
   FutureOr<void> onLoad() async {
-    sprite = await Sprite.load("policy/listItem.png");
+    sprite = await Sprite.load("policy/listitem.png");
     selectBtn = ClickableSprite(
         position: Vector2(101.5.w, 424.w) / 3,
         extraPosition: Vector2(101.5.w, 424.w) / 3,
@@ -128,7 +128,6 @@ class Scroller extends SpriteComponent
   @override
   void update(double dt) {
     position.x = 68.w / 3 + game.scrollPosition;
-    listView.position.x = 31.w - game.scrollPosition * 1212 / 1080;
     super.update(dt);
   }
 
@@ -156,8 +155,32 @@ class Scroller extends SpriteComponent
   }
 }
 
+class ListView extends PositionComponent
+    with DragCallbacks, HasGameReference<PolicyDialog> {
+  ListView()
+      : super(position: Vector2(93.w, 93.w) / 3, size: Vector2(1984.w, 526.w));
+
+  @override
+  void update(double dt) {
+    position.x = 31.w - game.scrollPosition * 808 / 1080;
+    super.update(dt);
+  }
+
+  @override
+  void onDragUpdate(DragUpdateEvent event) {
+    if (event.localDelta.x < 0) {
+      game.scrollPosition =
+          min(1080.w / 3, game.scrollPosition - event.localDelta.x);
+    }
+    if (event.localDelta.x > 0) {
+      game.scrollPosition = max(0, game.scrollPosition - event.localDelta.x);
+    }
+    super.onDragUpdate(event);
+  }
+}
+
 class PolicyDialog extends FlameGame {
-  late PositionComponent listView;
+  late ListView listView;
   double scrollPosition = 0.0;
   List<PolicyListItem> listItems = [];
   RuleType selectedPolicyRule = RuleType.noRule;
@@ -186,8 +209,7 @@ class PolicyDialog extends FlameGame {
         },
         src: "policy/xBtn.png");
 
-    listView = PositionComponent(
-        position: Vector2(93.w, 93.w) / 3, size: Vector2(2388.w, 526.w));
+    listView = ListView();
 
     final item1 = PolicyListItem(type: RuleType.noRule);
     final item3 = PolicyListItem(type: RuleType.greenGrowthStrategy);
@@ -214,7 +236,6 @@ class PolicyDialog extends FlameGame {
       selectedPolicyRule = newRule;
       state.setRule(newRule);
     } else {
-      print(state.game.player.role);
       ShowDialogHelper.showSnackBar(content: tr("rule_select_abort"));
     }
   }
