@@ -48,7 +48,7 @@ class PolicyListItem extends SpriteComponent
 
   @override
   FutureOr<void> onLoad() async {
-    sprite = await Sprite.load("policy/listitem.png");
+    sprite = await Sprite.load("policy/listItem.png");
     selectBtn = ClickableSprite(
         position: Vector2(101.5.w, 424.w) / 3,
         extraPosition: Vector2(101.5.w, 424.w) / 3,

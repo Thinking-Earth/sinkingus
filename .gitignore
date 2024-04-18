@@ -31,6 +31,8 @@ migrate_working_dir/
 .pub/
 /build/
 
+/node_modules
+
 # Symbolication related
 app.*.symbols
 
@@ -41,3 +43,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+.firebase/hosting.YnVpbGRcd2Vi.cache
