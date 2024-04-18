@@ -8,7 +8,6 @@ import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
 import 'package:sinking_us/feature/game/chats/data/model/chat_model.dart';
 import 'package:sinking_us/feature/game/chats/domain/chat_domain.dart';
-import 'package:sinking_us/helpers/constants/app_sounds.dart';
 import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 part 'chat_viewmodel.g.dart';
@@ -100,6 +99,5 @@ class OpenChatViewModelController extends _$OpenChatViewModelController {
   void outSideTap() {
     state.chatNode.unfocus();
     state.gameNode.requestFocus();
-    print('hello');
   }
 }

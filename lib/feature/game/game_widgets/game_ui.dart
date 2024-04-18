@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -244,6 +246,41 @@ class GameUI extends PositionComponent
     } else {
       ShowDialogHelper.showSnackBar(content: tr('gamePage_cannotStart'));
     }
+  }
+
+  void gameNotification(String text) {
+    add(NotiSprite(text, cameraSize));
+  }
+}
+
+class NotiSprite extends SpriteComponent {
+  String text;
+  NotiSprite(this.text, Vector2 cameraSize)
+      : super(
+            position: Vector2(cameraSize.x * 0.5, cameraSize.y * 0.2),
+            anchor: Anchor.center,
+            size: Vector2(max(15.w * text.length, 180.w), 20.w));
+
+  @override
+  FutureOr<void> onLoad() async {
+    sprite = await Sprite.load("etc/notibackground.png");
+    final textSprite = TextComponent(
+        text: text,
+        textRenderer: TextPaint(style: AppTypography.whitePixel),
+        anchor: Anchor.center,
+        position: size * 0.5);
+    add(textSprite);
+
+    final effect = SequenceEffect([
+      OpacityEffect.to(
+        0,
+        EffectController(duration: 0.3, startDelay: 2),
+      ),
+      RemoveEffect(),
+    ]);
+    add(effect);
+
+    return super.onLoad();
   }
 }
 
