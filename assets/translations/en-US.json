@@ -32,7 +32,7 @@
   "game_description": "You are a resident of Sinking Earth. You must maintain an environmental score above 0, for 7 days.",
   "worker_description": "[Office Worker]\nYou must survive by completing missions and consuming properly. Achieve endings through healthy consumption and public opinion.\n\nVictory Condition: Just survive.",
   "nature_description": "[Environmental Activist]\nReceive an additional 30 environmental points when completing missions.\n\nVictory Condition: Maintain an environmental score of 50 or higher at the end.",
-  "business_description": "[Entrepreneur]\nMaintain your HP, and distribute and sell desired necessities. When distributing necessities, you must pay three times the price as the initial cost.\n\nVictory Condition: Have over 3000 coins at the end.",
+  "business_description": "[Entrepreneur]\nMaintain your HP, and distribute and sell desired necessities. When distributing necessities, you must pay two times the price as the initial cost.\n\nVictory Condition: Have over 3000 coins at the end.",
   "politician_description": "[Politician]\nCan enact laws regarding sales items. Must carefully consider the situations and opinions of each individual.\n\nVictory Condition: Everyone survives.",
 
   "mission_already_done": "Someone has already completed the mission.\nPlease try again another day.",

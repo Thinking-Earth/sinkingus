@@ -49,7 +49,8 @@ class GroceryListItem extends SpriteComponent
     size = Vector2(455.3.w, 256.w);
 
     final priceComponent = TextComponent(
-        text: "${type.price}",
+        text:
+            "${(game.state.game.player.role == RoleType.business) ? type.price * 2 : type.price}",
         position: Vector2(1028.w, 340.w) / 3,
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
@@ -166,7 +167,7 @@ class BuyDialog extends SpriteComponent
   }
 
   void activate() {
-    bool canActivate = game.state.setDt(0, 0, -3 * listItem.type.price);
+    bool canActivate = game.state.setDt(0, 0, -2 * listItem.type.price);
     if (canActivate) {
       game.state.setActivate(listItem.type);
       buyText.textRenderer = listItem.btnText.textRenderer =

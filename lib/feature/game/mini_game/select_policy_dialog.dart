@@ -95,7 +95,7 @@ class PolicyListItem extends SpriteComponent
   @override
   void update(double dt) {
     if (selectBtn.isMounted) {
-      if (game.selectedPolicyRule == type) {
+      if (game.state.rule == type) {
         selectBtn.sprite.opacity = 0.5;
         select
           ..text = tr("selected")
@@ -183,7 +183,6 @@ class PolicyDialog extends FlameGame {
   late ListView listView;
   double scrollPosition = 0.0;
   List<PolicyListItem> listItems = [];
-  RuleType selectedPolicyRule = RuleType.noRule;
 
   GameState state;
 
@@ -233,7 +232,6 @@ class PolicyDialog extends FlameGame {
 
   void selectPolicy(RuleType newRule) {
     if (state.game.player.role == RoleType.politician) {
-      selectedPolicyRule = newRule;
       state.setRule(newRule);
     } else {
       ShowDialogHelper.showSnackBar(content: tr("rule_select_abort"));

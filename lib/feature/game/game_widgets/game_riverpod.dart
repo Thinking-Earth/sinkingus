@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
@@ -37,6 +38,9 @@ class GameState extends PositionComponent
         .listen((event) {
       if (event.snapshot.exists) {
         rule = RuleType.getById(event.snapshot.value as int);
+        if (game.day > 0) {
+          game.gameUI.gameNotification("${tr(rule.code)} has been enacted.");
+        }
       }
     });
     return super.onLoad();

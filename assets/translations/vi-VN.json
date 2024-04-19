@@ -30,7 +30,7 @@
   "game_description": "Người sử dụng là cư dân của Trái Đất đang chìm. Bạn phải duy trì điểm môi trường trên 0 trong 7 trong ngày thời gian chơi game. Bạn có thể mua đồ dùng cần thiết cho tăng hp, và có thể thực hiện tổng cộng 6 nhiệm vụ để  kiếm được 50 xu mỗi nhiệm vụ.",
   "worker_description": "[Nhân viên công ty]\nPhải thực hiện nhiệm vụ và tiêu thụ đúng cách để sống sót. Hãy xem kết thúc bằng tạo dựng ý kiến công cộng và tiêu dùng lành mạnh.\n\nĐiều kiện chiến thắng: Chỉ cần sống sót",
   "nature_description": "[Nhà hoạt động môi trường]\nNhận thêm 30 điểm môi trường khi hoàn thành nhiệm vụ.\n\nĐiều kiện chiến thắng: Đạt điểm môi trường trên 50 khi kết thúc",
-  "business_description": "[Nhà doanh nhân]\nhp không giảm, có thể lưu thông và bán các đồ dùng cần thiết trong cuộc sống. Khi lưu thông đồ dùng cần thiết phải trả 3 lần giá ban đầu.\n\nĐiều kiện chiến thắng: Đạt hơn 3000 đồng xu khi kết thúc",
+  "business_description": "[Nhà doanh nhân]\nhp không giảm, có thể lưu thông và bán các đồ dùng cần thiết trong cuộc sống. Khi lưu thông đồ dùng cần thiết phải trả 2 lần giá ban đầu.\n\nĐiều kiện chiến thắng: Đạt hơn 3000 đồng xu khi kết thúc",
   "politician_description": "[Chính trị gia]\nCó thể ban hành luật về hạng mục bán hàng. Phải tổng hợp tình hình và ý kiến của mọi người.\n\nĐiều kiện chiến thắng: Tất cả đều sống sót",
 
   "mission_already_done": "Ai đó đã hoàn thành nhiệm vụ rồi.\nHãy thử lại vào ngày khác.",
