@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
@@ -143,6 +144,8 @@ class GameState extends PositionComponent
 
   void startGame() {
     ref.read(matchDomainControllerProvider.notifier).setNextDay(1);
+    FlameAudio.bgm.initialize();
+    FlameAudio.bgm.play('Chapter Book.mp3', volume: 0.1);
   }
 
   void nextDay() {
@@ -162,6 +165,7 @@ class GameState extends PositionComponent
     ref
         .read(matchDomainControllerProvider.notifier)
         .leaveMatch(isHostEnd: isHostEnd);
+    FlameAudio.bgm.stop();
   }
 
   void setRule(RuleType newRule) {

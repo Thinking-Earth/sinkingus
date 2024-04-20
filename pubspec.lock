@@ -69,10 +69,10 @@ packages:
     dependency: "direct main"
     description:
       name: audioplayers
-      sha256: "8e94499b5c123df14cf17c16639de5ff3373e57e537f727e367487fbb7491363"
+      sha256: c05c6147124cd63e725e861335a8b4d57300b80e6e92cea7c145c739223bbaef
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0"
+    version: "5.2.1"
   audioplayers_android:
     dependency: transitive
     description:
@@ -581,10 +581,10 @@ packages:
     dependency: "direct main"
     description:
       name: flame_audio
-      sha256: b0edbb5f60385b6285adf3891e50645f4c831d2674e29dc75b263c982ac0fc45
+      sha256: a3798e22f744726320f1368c078de01bbde9910d7e3a0537ce217b7f99615f80
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.8"
+    version: "2.10.1"
   flame_riverpod:
     dependency: "direct main"
     description:
