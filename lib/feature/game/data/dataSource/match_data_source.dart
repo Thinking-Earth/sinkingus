@@ -127,6 +127,10 @@ class MatchDataSource {
         });
       }
     }
+    deletePlayer(uid);
+  }
+
+  void deletePlayer(String uid) {
     db.ref("players/$uid").remove();
   }
 

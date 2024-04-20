@@ -8,8 +8,6 @@ import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
-import 'package:sinking_us/feature/game/chats/domain/chat_domain.dart';
-import 'package:sinking_us/feature/game/chats/presentation/viewmodel/chat_viewmodel.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
@@ -122,7 +120,7 @@ class GameState extends PositionComponent
     ref.read(matchDomainControllerProvider.notifier).sendStatus(status: status);
     ref.read(resultViewModelControllerProvider.notifier).setStatus(status);
     AppRouter.popAndPushNamed(Routes.resultScreenRoute);
-    leaveMatch();
+    leaveMatch(true);
   }
 
   @override
@@ -160,11 +158,10 @@ class GameState extends PositionComponent
     ref.read(matchDomainControllerProvider.notifier).hostNextDay();
   }
 
-  void leaveMatch() async {
-    ref.read(matchDomainControllerProvider.notifier).leaveMatch();
-    ref.read(chatDomainControllerProvider.notifier).outChatRoom(
-        ref.read(openChatViewModelControllerProvider).chatID,
-        nick: ref.read(userDomainControllerProvider).userInfo!.nick);
+  void leaveMatch(bool isHostEnd) async {
+    ref
+        .read(matchDomainControllerProvider.notifier)
+        .leaveMatch(isHostEnd: isHostEnd);
   }
 
   void setRule(RuleType newRule) {

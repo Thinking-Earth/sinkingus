@@ -122,7 +122,7 @@ class SinkingUsGame extends FlameGame
           }
         } else {
           if (!isHost) {
-            state.leaveMatch();
+            state.leaveMatch(true);
             ShowDialogHelper.showSnackBar(content: tr("host_end_game"));
           }
         }

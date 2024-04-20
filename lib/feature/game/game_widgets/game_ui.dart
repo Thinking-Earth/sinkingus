@@ -48,7 +48,7 @@ class GameUI extends PositionComponent
         onPressed: () async {
           game.pauseEngine();
           game.removeFromParent();
-          game.state.leaveMatch();
+          game.state.leaveMatch(false);
         },
         size: Vector2.all(18 * 1.8),
         position: Vector2(cameraSize.x, 0),

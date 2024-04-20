@@ -3,6 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
+import 'package:sinking_us/feature/game/chats/domain/chat_domain.dart';
+import 'package:sinking_us/feature/game/chats/presentation/viewmodel/chat_viewmodel.dart';
 import 'package:sinking_us/feature/game/data/dataSource/match_data_source.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
 import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
@@ -115,12 +117,18 @@ class MatchDomainController extends _$MatchDomainController {
     }
   }
 
-  void leaveMatch() {
+  void leaveMatch({bool isHostEnd = false}) {
     if (state.matchId != "not in a match") {
-      source.leaveMatch(
-          matchId: state.matchId,
-          uid: ref.read(userDomainControllerProvider).userInfo!.uid,
-          match: state.match);
+      if (!isHostEnd) {
+        source.leaveMatch(
+            matchId: state.matchId,
+            uid: ref.read(userDomainControllerProvider).userInfo!.uid,
+            match: state.match);
+      }
+      source.deletePlayer(ref.read(userDomainControllerProvider).userInfo!.uid);
+      ref.read(chatDomainControllerProvider.notifier).outChatRoom(
+          ref.read(openChatViewModelControllerProvider).chatID,
+          nick: ref.read(userDomainControllerProvider).userInfo!.nick);
       state
         ..matchId = "not in a match"
         ..dayChangedTime = 0
@@ -139,7 +147,7 @@ class MatchDomainController extends _$MatchDomainController {
 
   void checkNotInMatch() {
     if (state.matchId != "not in a match") {
-      leaveMatch();
+      leaveMatch(isHostEnd: false);
     }
   }
 

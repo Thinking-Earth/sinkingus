@@ -95,6 +95,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
         anchor: Anchor.bottomCenter,
         position: Vector2(size.x * 0.5, size.y - 28.w),
         radius: 25.w);
+    hitbox.debugMode = true;
 
     add(hitbox);
     add(nameText);
