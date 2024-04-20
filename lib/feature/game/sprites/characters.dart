@@ -12,7 +12,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
-import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 const double CHARACTER_SIZE_X = 100 * 1.4;
 const double CHARACTER_SIZE_Y = 128 * 1.4;
@@ -198,6 +197,17 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
 
   void setRole() async {
     role = await game.state.getRole(uid);
+    if (role == RoleType.business) {
+      moneyListener = FirebaseDatabase.instance
+          .ref("game/${game.matchId}/income")
+          .onValue
+          .listen((event) {
+        if (event.snapshot.exists) {
+          game.state.setDt(0, 0, event.snapshot.value as int);
+          game.gameUI.gameNotification(tr("income"));
+        }
+      });
+    }
     idle = await Sprite.load("characters/${role.code}_idle.png");
     walk1 = await Sprite.load("characters/${role.code}_walk1.png");
     walk2 = await Sprite.load("characters/${role.code}_walk2.png");
@@ -208,18 +218,6 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       CharacterState.idle: idleAnimation,
       CharacterState.walk: walkAnimation,
     };
-
-    if (role == RoleType.business) {
-      moneyListener = FirebaseDatabase.instance
-          .ref("game/${game.matchId}/money")
-          .onValue
-          .listen((event) {
-        if (event.snapshot.exists) {
-          game.state.setDt(0, 0, event.snapshot.value as int);
-          ShowDialogHelper.showSnackBar(content: tr("income"));
-        }
-      });
-    }
   }
 
   void nextDay() {
@@ -230,6 +228,12 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
         Vector2(0, game.background2.size.y * -0.5) + screensize * 0.5;
     game.background2.position =
         Vector2(0, game.background2.size.y * -0.5) + screensize * 0.5;
+  }
+
+  @override
+  void onRemove() {
+    moneyListener?.cancel();
+    super.onRemove();
   }
 }
 

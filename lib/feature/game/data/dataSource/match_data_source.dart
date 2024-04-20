@@ -137,7 +137,7 @@ class MatchDataSource {
     List<String> shuffled = List.from(players);
     shuffled.add(uid);
     shuffled.shuffle();
-    db.ref("players/${shuffled[1]}/role").set(RoleType.politician.code);
+    db.ref("players/${shuffled[1]}/role").set(RoleType.business.code);
     //db.ref("players/${shuffled[2]}/role").set(RoleType.nature.code);
     //db.ref("players/${shuffled[3]}/role").set(RoleType.politician.code);
 

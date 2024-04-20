@@ -100,9 +100,9 @@ class SinkingUsGame extends FlameGame
           if (day < newDay) {
             day = newDay;
             if (newDay == 1) {
+              player.setRole();
               state.startGame();
               gameUI.startGame();
-              player.setRole();
               for (var element in players) {
                 element.setRole();
               }

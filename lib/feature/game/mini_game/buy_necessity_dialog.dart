@@ -72,7 +72,7 @@ class GroceryListItem extends SpriteComponent
       btnText = TextComponent(
           text: tr("activate"),
           textRenderer: TextPaint(
-              style: (game.groceryList[type]! > -1)
+              style: (game.state.groceryList[type]! > -1)
                   ? AppTypography.grayPixel
                   : AppTypography.blackPixel),
           anchor: Anchor.center,
@@ -82,7 +82,7 @@ class GroceryListItem extends SpriteComponent
       btnText = TextComponent(
           text: tr("buy"),
           textRenderer: TextPaint(
-              style: (game.groceryList[type]! > -1)
+              style: (game.state.groceryList[type]! > -1)
                   ? AppTypography.blackPixel
                   : AppTypography.grayPixel),
           anchor: Anchor.center,
@@ -167,21 +167,23 @@ class BuyDialog extends SpriteComponent
   }
 
   void activate() {
-    bool canActivate = game.state.setDt(0, 0, -2 * listItem.type.price);
-    if (canActivate) {
-      game.state.setActivate(listItem.type);
-      buyText.textRenderer = listItem.btnText.textRenderer =
-          TextPaint(style: AppTypography.grayPixel);
-    } else {
-      ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
+    if (game.state.groceryList[listItem.type]! == -1) {
+      bool canActivate = game.state.setDt(0, 0, -2 * listItem.type.price);
+      if (canActivate) {
+        game.state.setActivate(listItem.type);
+        buyText.textRenderer = listItem.btnText.textRenderer =
+            TextPaint(style: AppTypography.grayPixel);
+      } else {
+        ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
+      }
     }
   }
 
   void buy() {
-    if (game.groceryList[listItem.type]! > -1) {
+    if (game.state.groceryList[listItem.type]! > -1) {
       if (game.state.rule.restrict >= listItem.type.destroyScore) {
         bool canBuy = game.state.setDt(
-            20, -1 * listItem.type.destroyScore, -1 * listItem.type.price);
+            30, -1 * listItem.type.destroyScore, -1 * listItem.type.price);
         if (canBuy) {
           ShowDialogHelper.showSnackBar(content: tr("buy_success"));
           game.state.buy(listItem.type.price);
@@ -279,12 +281,12 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
   late BuyDialog dialog;
 
   GameState state;
-  late Map<GroceryType, int> groceryList;
 
   BuyNecessityDialog({required this.state});
 
   @override
   FutureOr<void> onLoad() async {
+    print(state.groceryList);
     final background = SpriteComponent(
         sprite: await Sprite.load("store/background.png"),
         size: Vector2(455.3.w, 256.w));
@@ -300,8 +302,6 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
           Navigator.of(AppRouter.navigatorKey.currentContext!).pop(true);
         },
         src: "store/xBtn.png");
-
-    groceryList = await state.getGroceryList();
 
     final goodWater = GroceryListItem(type: GroceryType.goodWater);
     final badWater = GroceryListItem(type: GroceryType.badWater);

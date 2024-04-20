@@ -255,7 +255,7 @@ class Background extends PositionComponent
       ])
     ]);
 
-    wall.debugMode = true;
+    //wall.debugMode = true;
 
     background.addAll([
       RectangleHitbox(
@@ -329,6 +329,6 @@ class Background extends PositionComponent
         Vector2(945, 361) * mapRatio,
       ])
     ]);
-    background.debugMode = true;
+    //background.debugMode = true;
   }
 }

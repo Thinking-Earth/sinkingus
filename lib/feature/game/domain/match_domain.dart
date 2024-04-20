@@ -19,8 +19,7 @@ class MatchDomainState {
       required this.dayChangedTime,
       required this.hpdt,
       required this.money,
-      required this.natureScoredt
-    });
+      required this.natureScoredt});
 
   String matchId;
   Match match;
@@ -102,7 +101,7 @@ class MatchDomainController extends _$MatchDomainController {
       if (response == null) {
         ShowDialogHelper.showSnackBar(
             content:
-                "You are participating in another device or there are too many people.");
+                "You are participating in another device or there are too many people."); //TODO
       } else {
         state.match = response;
         state.matchId = matchId;
@@ -122,7 +121,12 @@ class MatchDomainController extends _$MatchDomainController {
           matchId: state.matchId,
           uid: ref.read(userDomainControllerProvider).userInfo!.uid,
           match: state.match);
-      state.matchId = "not in a match";
+      state
+        ..matchId = "not in a match"
+        ..dayChangedTime = 0
+        ..hpdt = 0
+        ..natureScoredt = 0
+        ..money = 100;
       setState();
       AppRouter.popAndPushNamed(Routes.homeScreenRoute);
     }

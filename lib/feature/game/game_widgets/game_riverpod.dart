@@ -25,14 +25,17 @@ class GameState extends PositionComponent
   String playerName = "";
   int currentEvent = -1;
   RuleType rule = RuleType.noRule;
+  Map<GroceryType, int> groceryList = {
+    for (var element in GroceryType.values) element: -1
+  };
 
   double dtSum = 0;
 
-  late StreamSubscription<DatabaseEvent> stateListener;
+  late StreamSubscription<DatabaseEvent> ruleListener, necessityListener;
 
   @override
   FutureOr<void> onLoad() {
-    stateListener = FirebaseDatabase.instance
+    ruleListener = FirebaseDatabase.instance
         .ref("game/${game.matchId}/rule")
         .onValue
         .listen((event) {
@@ -40,6 +43,21 @@ class GameState extends PositionComponent
         rule = RuleType.getById(event.snapshot.value as int);
         if (game.day > 0) {
           game.gameUI.gameNotification("${tr(rule.code)} has been enacted.");
+        }
+      }
+    });
+    necessityListener = FirebaseDatabase.instance
+        .ref("game/${game.matchId}/groceryList")
+        .onValue
+        .listen((event) {
+      if (event.snapshot.exists) {
+        Map<String, dynamic> castedData =
+            Map<String, dynamic>.from(event.snapshot.value as Map);
+        for (var grocery in GroceryType.values) {
+          if (groceryList[grocery] != castedData[grocery.code]) {
+            groceryList[grocery] = castedData[grocery.code];
+            game.gameUI.gameNotification("${grocery.code} has been activated.");
+          }
         }
       }
     });
@@ -163,19 +181,14 @@ class GameState extends PositionComponent
     ref.read(matchDomainControllerProvider.notifier).setStoreActive(type);
   }
 
-  Future<Map<GroceryType, int>> getGroceryList() async {
-    return await ref
-        .read(matchDomainControllerProvider.notifier)
-        .getGroceryList();
-  }
-
   Future<RoleType> getRole(String uid) async {
     return await ref.read(matchDomainControllerProvider.notifier).getRole(uid);
   }
 
   @override
   void onRemove() {
-    stateListener.cancel();
+    ruleListener.cancel();
+    necessityListener.cancel();
     super.onRemove();
   }
 
