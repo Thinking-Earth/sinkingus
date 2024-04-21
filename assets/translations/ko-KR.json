@@ -6,6 +6,7 @@
   "noti_cancel": "취소",
   "noti_fail_google": "구글 로그인에 실패하였습니다",
   "noti_fail_apple": "애플 로그인에 문제가 발생하였습니다. 다시 한번 시도하거나 다른 로그인 방법으로 시도해주세요.",
+  "noti_browser_check": "이 웹사이트는 Chrome에서 가장 잘 작동합니다. Chrome으로 접속해주세요!",
 
   "build_room": "Earth 만들기",
   "join_room": "Earth 참여하기",

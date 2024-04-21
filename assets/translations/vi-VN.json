@@ -4,6 +4,9 @@
   "noti_noti": "Thông báo",
   "noti_ok": "Đồng ý",
   "noti_cancel": "Hủy",
+  "noti_fail_google": "Không thể đăng nhập bằng Google",
+  "noti_fail_apple": "Đã xảy ra sự cố khi đăng nhập vào Apple. Vui lòng thử lại hoặc thử phương thức đăng nhập khác.",
+  "noti_browser_check": "Trang web này hoạt động tốt nhất trên Chrome. Vui lòng kết nối bằng Chrome!",
 
   "build_room": "Tạo phòng Earth",
   "join_room": "Tham gia Earth",

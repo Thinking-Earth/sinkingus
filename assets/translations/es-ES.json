@@ -6,6 +6,7 @@
   "noti_cancel": "Cancelar",
   "noti_fail_google": "Error al iniciar sesión con Google",
   "noti_fail_apple": "Se produjo un problema al iniciar sesión con Apple. Inténtalo de nuevo o intenta con otro método de inicio de sesión.",
+  "noti_browser_check": "Este sitio web funciona mejor en Chrome. ¡Conéctate usando Chrome!",
 
   "build_room": "Crear Earth",
   "join_room": "Unirse a Earth",

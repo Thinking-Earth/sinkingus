@@ -149,7 +149,7 @@ class ShowDialogHelper {
       content: Text(
         content,
         textAlign: TextAlign.center,
-        style: AppTypography().whitePixel,
+        style: AppTypography.whitePixel,
       ),
       shape: const StadiumBorder(),
       behavior: SnackBarBehavior.floating,

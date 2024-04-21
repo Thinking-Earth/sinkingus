@@ -92,7 +92,7 @@ class GameUI extends PositionComponent
         anchor: Anchor.topRight,
         align: Anchor.center,
         position: coinUi.position - Vector2(coinUi.size.x, 0),
-        textRenderer: TextPaint(style: AppTypography().blackPixel));
+        textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     peopleComponent = TextBoxComponent(
         text: "${game.players.length + 1}/6",
@@ -101,7 +101,7 @@ class GameUI extends PositionComponent
         align: Anchor.center,
         position:
             moneyComponent.position - Vector2(moneyComponent.size.x + 20.w, 0),
-        textRenderer: TextPaint(style: AppTypography().blackPixel));
+        textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     final peopleIcon = SpriteComponent(
         sprite: await Sprite.load("etc/peopleIcon.png"),
@@ -117,7 +117,7 @@ class GameUI extends PositionComponent
         align: Anchor.center,
         position: peopleComponent.position -
             Vector2(peopleComponent.size.x + 40.w, 0),
-        textRenderer: TextPaint(style: AppTypography().blackPixel));
+        textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     gameStartBtn = TextButton(
         text: "Start Game",
@@ -147,7 +147,7 @@ class GameUI extends PositionComponent
 
     timerComponent = TextBoxComponent(
         text: "",
-        textRenderer: TextPaint(style: AppTypography().timerPixel),
+        textRenderer: TextPaint(style: AppTypography.timerPixel),
         position: Vector2(cameraSize.x * 0.5, 10.w),
         anchor: Anchor.topCenter,
         align: Anchor.topCenter);
@@ -266,7 +266,7 @@ class NotiSprite extends SpriteComponent {
     sprite = await Sprite.load("etc/notibackground.png");
     final textSprite = TextComponent(
         text: text,
-        textRenderer: TextPaint(style: AppTypography().whitePixel),
+        textRenderer: TextPaint(style: AppTypography.whitePixel),
         anchor: Anchor.center,
         position: size * 0.5);
     add(textSprite);
@@ -298,7 +298,7 @@ class TextButton extends SpriteComponent with TapCallbacks {
     sprite = await Sprite.load("etc/button.png");
     final textComponent = TextComponent(
         text: text,
-        textRenderer: TextPaint(style: AppTypography().blackPixel),
+        textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         position: size * 0.5);
     add(textComponent);

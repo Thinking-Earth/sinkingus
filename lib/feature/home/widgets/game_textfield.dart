@@ -20,10 +20,10 @@ Widget gameTextField(
             onSubmitted();
           }
         },
-        style: AppTypography().blackPixel.copyWith(fontSize: 14.sp),
+        style: AppTypography.blackPixel.copyWith(fontSize: 14.sp),
         decoration: InputDecoration(
           border: InputBorder.none,
-          labelStyle: AppTypography().blackPixel.copyWith(fontSize: 14.sp),
+          labelStyle: AppTypography.blackPixel.copyWith(fontSize: 14.sp),
           labelText: hintText,
           floatingLabelBehavior: FloatingLabelBehavior.never,
         )),

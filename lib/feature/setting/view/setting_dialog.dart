@@ -40,7 +40,7 @@ class _SettingDialogContentState extends ConsumerState<SettingDialogContent> {
                       image: AssetImage(AppImages.roomName), fit: BoxFit.fill)),
               child: Text(
                 'Setting',
-                style: AppTypography()
+                style: AppTypography
                     .blackPixel
                     .copyWith(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
@@ -53,7 +53,7 @@ class _SettingDialogContentState extends ConsumerState<SettingDialogContent> {
               children: [
                 Text(
                   tr('settingPage_language'),
-                  style: AppTypography()
+                  style: AppTypography
                       .blackPixel
                       .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
                 ),

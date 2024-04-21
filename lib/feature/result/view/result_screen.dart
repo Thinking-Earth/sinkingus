@@ -133,7 +133,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
             top: 2.h,
             child: Text(
               endText,
-              style: AppTypography().blackPixel.copyWith(
+              style: AppTypography.blackPixel.copyWith(
                   color: status == 'win' ? Colors.amber[400] : Colors.red,
                   fontSize: 40.sp),
             ),

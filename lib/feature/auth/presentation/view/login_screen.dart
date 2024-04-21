@@ -74,7 +74,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             svg: AppSvgs.googleIcon,
                             backColor: Colors.white,
                             text: "Sign in with Google",
-                            style: AppTypography().blackPixel.copyWith(
+                            style: AppTypography.blackPixel.copyWith(
                                 fontSize: 12.sp, fontWeight: FontWeight.w500)),
                         SizedBox(
                           height: 12.h,
@@ -86,7 +86,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             svg: AppSvgs.appleIcon,
                             backColor: Colors.black,
                             text: "Sign in with Apple",
-                            style: AppTypography().whitePixel.copyWith(
+                            style: AppTypography.whitePixel.copyWith(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500,
                                 )),
@@ -97,7 +97,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       duration: const Duration(milliseconds: 280),
                       child: Text(
                         '- Touch to Start -',
-                        style: AppTypography().whitePixel.copyWith(
+                        style: AppTypography.whitePixel.copyWith(
                             fontSize: 20.sp, fontWeight: FontWeight.bold),
                       ),
                     ),

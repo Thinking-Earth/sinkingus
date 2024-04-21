@@ -156,7 +156,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: SingleChildScrollView(
                               child: Text(
                                 bottomText,
-                                style: AppTypography()
+                                style: AppTypography
                                     .blackPixel
                                     .copyWith(fontSize: 12.sp),
                               ),
@@ -177,7 +177,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           children: [
                             Text(
                               tr('homePage_listWorld'),
-                              style: AppTypography().blackPixel.copyWith(
+                              style: AppTypography.blackPixel.copyWith(
                                   fontSize: 20.sp, fontWeight: FontWeight.bold),
                             ),
                             InkWell(
@@ -218,7 +218,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   child: Text(
                                     "There are no rooms left.\nCreate a room and enjoy the game!",
                                     textAlign: TextAlign.center,
-                                    style: AppTypography()
+                                    style: AppTypography
                                         .blackPixel
                                         .copyWith(fontSize: 10.sp),
                                   ),

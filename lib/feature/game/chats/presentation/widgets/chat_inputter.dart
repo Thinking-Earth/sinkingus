@@ -15,7 +15,7 @@ Row chatInputter(
       Expanded(
         child: TextField(
           controller: textController,
-          style: AppTypography().whitePixel,
+          style: AppTypography.whitePixel,
           autofocus: true,
           focusNode: focusNode,
           onSubmitted: (_) {
@@ -27,7 +27,7 @@ Row chatInputter(
           decoration: InputDecoration(
               hintText: tr('gamePage_enterText'),
               border: InputBorder.none,
-              hintStyle: AppTypography().whitePixel),
+              hintStyle: AppTypography.whitePixel),
         ),
       ),
       Material(

@@ -15,7 +15,7 @@ InkWell gameBlockBtn({required String text, required VoidCallback onTap}) {
               image: AssetImage(AppImages.gameBlockBtn), fit: BoxFit.fill)),
       child: Text(
         text,
-        style: AppTypography()
+        style: AppTypography
             .blackPixel
             .copyWith(fontSize: 12.sp, fontWeight: FontWeight.bold),
       ),

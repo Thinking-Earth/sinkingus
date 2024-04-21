@@ -6,6 +6,7 @@
   "noti_cancel": "Cancel",
   "noti_fail_google": "Failed to log in with Google",
   "noti_fail_apple": "There was a problem with Apple login. Please try again or attempt another login method.",
+  "noti_browser_check": "This website works best on Chrome. Please connect using Chrome!",
 
   "build_room": "Create Earth",
   "join_room": "Join Earth",

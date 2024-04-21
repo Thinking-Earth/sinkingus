@@ -10,7 +10,7 @@ Widget serverChatBubble(ChatModel chat) {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
         child: Text(chat.content,
-            style: AppTypography()
+            style: AppTypography
                 .whitePixel
                 .copyWith(fontWeight: FontWeight.w600)),
       ),

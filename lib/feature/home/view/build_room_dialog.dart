@@ -44,7 +44,7 @@ class _BuildDialogContentState extends ConsumerState<BuildDialogContent> {
                       image: AssetImage(AppImages.roomName), fit: BoxFit.fill)),
               child: Text(
                 tr('build_room'),
-                style: AppTypography()
+                style: AppTypography
                     .blackPixel
                     .copyWith(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
@@ -73,7 +73,7 @@ class _BuildDialogContentState extends ConsumerState<BuildDialogContent> {
                     }),
                 Text(
                   tr('buildPage_private'),
-                  style: AppTypography()
+                  style: AppTypography
                       .blackPixel
                       .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
                 )
@@ -104,7 +104,7 @@ class _BuildDialogContentState extends ConsumerState<BuildDialogContent> {
                         fit: BoxFit.fill)),
                 child: Text(
                   tr('buildPage_createBtn'),
-                  style: AppTypography().blackPixel,
+                  style: AppTypography.blackPixel,
                 ),
               ),
             ),
