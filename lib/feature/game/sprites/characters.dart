@@ -89,7 +89,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
         text: name,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        align: Anchor.bottomCenter,
+        align: Anchor.center,
         position: Vector2(size.x * 0.5, 10.w),
         size: Vector2(15.w * name.length, 15.w));
 
@@ -110,10 +110,8 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     super.update(dt);
 
     if (moveForce != Vector2.zero()) {
-      if (!hitbox.isColliding) {
-        transform.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
-        nameText.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
-      }
+      transform.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
+      nameText.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
       current = CharacterState.walk;
 
       game.background.position.add(-moveForce);
@@ -193,7 +191,8 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
               2;
       double length = (hitbox.absoluteCenter - mid).length;
       moveForce +=
-          (hitbox.absoluteCenter - mid).scaled(hitbox.radius - length) / length;
+          (hitbox.absoluteCenter - mid).scaled(hitbox.radius - length + 1) /
+              length;
     }
     super.onCollision(intersectionPoints, other);
   }
@@ -293,11 +292,12 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
     size = Vector2(CHARACTER_SIZE_X * 1.w, CHARACTER_SIZE_Y * 1.w);
     anchor = Anchor.center;
 
-    nameText = TextComponent(
+    nameText = TextBoxComponent(
         text: name,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        position: Vector2(size.x * 0.5, 0),
+        align: Anchor.center,
+        position: Vector2(size.x * 0.5, 10.w),
         size: Vector2(15.w * name.length, 15.w));
     add(nameText);
 

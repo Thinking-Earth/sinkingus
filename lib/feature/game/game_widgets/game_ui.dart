@@ -221,7 +221,7 @@ class GameUI extends PositionComponent
   }
 
   void setNewsText() {
-    if (game.day == 0) {
+    if (game.day == 1) {
       news.text = tr("game_started");
     } else if (game.state.rule.id == RuleType.carbonNeutrality.id) {
       news.text = tr("news_greenplation");
