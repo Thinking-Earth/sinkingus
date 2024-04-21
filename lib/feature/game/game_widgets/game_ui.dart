@@ -198,7 +198,7 @@ class GameUI extends PositionComponent
   // called when day updated to 1
   void startGame() {
     add(timerComponent);
-    news.text = "Game Started";
+    setNewsText();
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
@@ -209,7 +209,7 @@ class GameUI extends PositionComponent
 
   // called when day updated
   void nextDay(int day) {
-    news.text = setNewsText();
+    setNewsText();
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
@@ -220,22 +220,22 @@ class GameUI extends PositionComponent
     });
   }
 
-  String setNewsText() {
-    String text = "";
-    if (game.state.rule.id == RuleType.carbonNeutrality.id) {
-      text = tr("news_greenplation");
+  void setNewsText() {
+    if (game.day == 0) {
+      news.text = tr("game_started");
+    } else if (game.state.rule.id == RuleType.carbonNeutrality.id) {
+      news.text = tr("news_greenplation");
     } else if (game.state.natureScore > 80) {
-      text = tr("news_80");
+      news.text = tr("news_80");
     } else if (game.state.natureScore > 60) {
-      text = tr("news_60");
+      news.text = tr("news_60");
     } else if (game.state.natureScore > 40) {
-      text = tr("news_40");
+      news.text = tr("news_40");
     } else if (game.state.natureScore > 20) {
-      text = tr("news_20");
+      news.text = tr("news_20");
     } else if (game.state.natureScore > 0) {
-      text = tr("news_0");
+      news.text = tr("news_0");
     }
-    return text;
   }
 
   void hostStartGame() async {

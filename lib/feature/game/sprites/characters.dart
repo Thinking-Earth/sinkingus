@@ -84,12 +84,14 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       oldCharacterPosition = characterPosition.clone();
     });
 
+    String name = game.state.playerName;
     nameText = TextBoxComponent(
-        text: game.state.playerName,
+        text: name,
         textRenderer: TextPaint(style: AppTypography().blackPixel),
         anchor: Anchor.center,
         align: Anchor.bottomCenter,
-        position: Vector2(size.x * 0.5, 10.w));
+        position: Vector2(size.x * 0.5, 10.w),
+        size: Vector2(15.w * name.length, 15.w));
 
     hitbox = CircleHitbox(
         anchor: Anchor.bottomCenter,
@@ -295,7 +297,8 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
         text: name,
         textRenderer: TextPaint(style: AppTypography().blackPixel),
         anchor: Anchor.center,
-        position: Vector2(size.x * 0.5, 0));
+        position: Vector2(size.x * 0.5, 0),
+        size: Vector2(15.w * name.length, 15.w));
     add(nameText);
 
     positionListener = FirebaseDatabase.instance

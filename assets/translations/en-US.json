@@ -53,6 +53,7 @@
   "activate_abort": "The product has not yet been launched.",
   "income": "Someone has purchased the item.",
 
+  "game_started": "The game has begun. You must survive for 7 days while maintaining your environmental score and HP. Click on the areas marked in yellow to complete missions or purchase supplies. Communicate with others to devise a plan for survival together.",
   "news_greenplation": "Title: Economy Currently Facing Greenflation... Citizens Complain of Tight Living\n\nDue to recent industrial regulations related to carbon emissions, the production of essential raw materials has become difficult, leading to the occurrence of greenflation. Greenflation is a portmanteau of 'green,' representing eco-friendliness, and 'inflation,' indicating rising prices. Appropriate regulatory relaxation seems necessary for price stability.",
   "news_80": "Title: Reduction in Carbon Emissions Regulations Show Effect... Climate Stability Achieved\n\nAccording to recent reports, the environment and climate are maintaining stability worldwide, raising hopes for a sustainable future.",
   "news_60": "Title: Increase in Fine Dust Concentration Compared to Previous Year\n\nAs fine dust concentration increases, it becomes difficult to breathe clean air. Accelerated desertification may be a contributing factor.",
