@@ -34,7 +34,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     namespace "com.thinking.earth.sinking_us"
-    compileSdkVersion 33
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {

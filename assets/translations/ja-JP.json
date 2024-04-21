@@ -6,6 +6,7 @@
   "noti_cancel": "キャンセル",
   "noti_fail_google": "Google ログインに失敗しました",
   "noti_fail_apple": "Apple ログインに問題が発生しました。もう一度試すか、他のログイン方法を試してください。",
+  "noti_browser_check": "この Web サイトは Chrome で最適に動作します。Chrome を使用して接続してください!",
 
   "build_room": "Earthを作る",
   "join_room": "Earthに参加する",

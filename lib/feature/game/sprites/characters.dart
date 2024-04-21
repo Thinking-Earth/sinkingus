@@ -86,7 +86,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
 
     nameText = TextBoxComponent(
         text: game.state.playerName,
-        textRenderer: TextPaint(style: AppTypography().blackPixel),
+        textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         align: Anchor.bottomCenter,
         position: Vector2(size.x * 0.5, 10.w));
@@ -293,7 +293,7 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
 
     nameText = TextComponent(
         text: name,
-        textRenderer: TextPaint(style: AppTypography().blackPixel),
+        textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         position: Vector2(size.x * 0.5, 0));
     add(nameText);

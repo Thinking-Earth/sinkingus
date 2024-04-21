@@ -43,13 +43,13 @@ class MatchListItem extends StatelessWidget {
             children: [
               Text(
                 match.roomName,
-                style: AppTypography()
+                style: AppTypography
                     .blackPixel
                     .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
               ),
               Text(
-                "${match.playerCount}/10",
-                style: AppTypography()
+                "${match.playerCount}/6",
+                style: AppTypography
                     .blackPixel
                     .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
               )

@@ -24,7 +24,7 @@ Widget notMyChatBubble(ChatModel chatData) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(chatData.nick, style: AppTypography().whitePixel),
+            Text(chatData.nick, style: AppTypography.whitePixel),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -43,7 +43,7 @@ Widget notMyChatBubble(ChatModel chatData) {
                               bottomRight: Radius.circular(8))),
                       child: Text(
                         chatData.content,
-                        style: AppTypography()
+                        style: AppTypography
                             .blackPixel
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
@@ -58,7 +58,7 @@ Widget notMyChatBubble(ChatModel chatData) {
                         .toDate()
                         .toString()
                         .substring(11, 16),
-                    style: AppTypography().whitePixel.copyWith(
+                    style: AppTypography.whitePixel.copyWith(
                         color: AppColors.black40,
                         fontWeight: FontWeight.normal,
                         fontSize: 8.sp)),

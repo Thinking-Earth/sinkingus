@@ -72,7 +72,7 @@ class _SearchDialogContentState extends State<SearchDialogContent> {
                   : Center(
                       child: Text(
                       infoText,
-                      style: AppTypography().blackPixel,
+                      style: AppTypography.blackPixel,
                     )),
             )
           ],

@@ -6,6 +6,7 @@
   "noti_cancel": "取消",
   "noti_fail_google": "Google 登录失败",
   "noti_fail_apple": "Apple 登录出现问题。请重试或尝试其他登录方式。",
+  "noti_browser_check": "此网站在 Chrome 上效果最佳。请使用 Chrome 进行连接！",
 
   "build_room": "创造地球",
   "join_room": "加入地球",

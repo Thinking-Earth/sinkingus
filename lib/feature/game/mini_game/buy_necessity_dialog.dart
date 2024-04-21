@@ -52,12 +52,12 @@ class GroceryListItem extends SpriteComponent
         text:
             "${(game.state.game.player.role == RoleType.business) ? type.price * 2 : type.price}",
         position: Vector2(1028.w, 340.w) / 3,
-        textRenderer: TextPaint(style: AppTypography().blackPixel));
+        textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     final destroyComponent = TextComponent(
         text: "-${type.destroyScore}",
         position: Vector2(1188.w, 340.w) / 3,
-        textRenderer: TextPaint(style: AppTypography().blackPixel));
+        textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     final buyBtn = ClickableSprite(
         position: Vector2(1018.w, 539.w) / 3,
@@ -73,8 +73,8 @@ class GroceryListItem extends SpriteComponent
           text: tr("activate"),
           textRenderer: TextPaint(
               style: (game.state.groceryList[type]! > -1)
-                  ? AppTypography().grayPixel
-                  : AppTypography().blackPixel),
+                  ? AppTypography.grayPixel
+                  : AppTypography.blackPixel),
           anchor: Anchor.center,
           size: Vector2(168.w, 57.w) / 3,
           position: Vector2(1018.w, 539.w) / 3 + Vector2(168.w, 57.w) / 6);
@@ -83,8 +83,8 @@ class GroceryListItem extends SpriteComponent
           text: tr("buy"),
           textRenderer: TextPaint(
               style: (game.state.groceryList[type]! > -1)
-                  ? AppTypography().blackPixel
-                  : AppTypography().grayPixel),
+                  ? AppTypography.blackPixel
+                  : AppTypography.grayPixel),
           anchor: Anchor.center,
           size: Vector2(168.w, 57.w) / 3,
           position: Vector2(1018.w, 539.w) / 3 + Vector2(168.w, 57.w) / 6);
@@ -92,7 +92,7 @@ class GroceryListItem extends SpriteComponent
 
     final description = TextComponent(
         text: tr("${type.code}_name"),
-        textRenderer: TextPaint(style: AppTypography().blackPixel),
+        textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         size: Vector2(290.w, 125.w) / 3,
         position: Vector2(1104.w, 464.5.w) / 3);
@@ -126,7 +126,7 @@ class BuyDialog extends SpriteComponent
 
     final cancelText = TextComponent(
         text: tr("close"),
-        textRenderer: TextPaint(style: AppTypography().blackPixel),
+        textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         position: Vector2(904.w, 439.w) / 3);
 
@@ -152,7 +152,7 @@ class BuyDialog extends SpriteComponent
 
     final description = TextComponent(
         text: tr("${listItem.type.code}_description"),
-        textRenderer: TextPaint(style: AppTypography().blackPixel),
+        textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         size: Vector2(300.w, 200.w) / 3,
         position: Vector2(684.w, 357.w) / 3);
@@ -172,7 +172,7 @@ class BuyDialog extends SpriteComponent
       if (canActivate) {
         game.state.setActivate(listItem.type);
         buyText.textRenderer = listItem.btnText.textRenderer =
-            TextPaint(style: AppTypography().grayPixel);
+            TextPaint(style: AppTypography.grayPixel);
       } else {
         ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
       }
