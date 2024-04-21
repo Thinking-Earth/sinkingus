@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,7 @@ class ChatScreen extends ConsumerStatefulWidget {
 }
 
 class _ChatScreenState extends ConsumerState<ChatScreen> {
+  bool soundPlayed = false;
   @override
   void initState() {
     super.initState();
@@ -49,6 +51,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               stream: chatViewModel.chatStream,
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if(snapshot.data != null) {
+                  FlameAudio.play("send_chat.mp3");
                   return ScrollConfiguration(
                     behavior: ScrollConfiguration.of(context).copyWith(
                       dragDevices: {

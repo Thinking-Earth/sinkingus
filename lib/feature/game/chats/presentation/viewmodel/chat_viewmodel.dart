@@ -78,7 +78,6 @@ class OpenChatViewModelController extends _$OpenChatViewModelController {
       if (DateTime.now().millisecondsSinceEpoch -
               lastPush.millisecondsSinceEpoch >
           500) {
-        FlameAudio.play("send_chat.mp3");
         await ref.read(chatDomainControllerProvider.notifier).sendMsg(
             state.chatID,
             chat: ChatModel(
