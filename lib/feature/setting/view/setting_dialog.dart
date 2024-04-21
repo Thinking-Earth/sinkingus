@@ -39,7 +39,7 @@ class _SettingDialogContentState extends ConsumerState<SettingDialogContent> {
               width: 140.w,
               height: 40.h,
               alignment: Alignment.center,
-              margin: EdgeInsets.only(top: 40.h),
+              margin: EdgeInsets.only(top: 16.h),
               decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(AppImages.roomName), fit: BoxFit.fill)),

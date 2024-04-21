@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sinking_us/config/routes/app_router.dart';
-import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/auth/domain/auth_domain.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
