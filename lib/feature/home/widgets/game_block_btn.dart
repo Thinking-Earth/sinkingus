@@ -11,17 +11,13 @@ InkWell gameBlockBtn({required String text, required VoidCallback onTap}) {
       height: 48.h,
       alignment: Alignment.center,
       decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(AppImages.gameBlockBtn),
-          fit: BoxFit.fill
-        )
-      ),
+          image: DecorationImage(
+              image: AssetImage(AppImages.gameBlockBtn), fit: BoxFit.fill)),
       child: Text(
         text,
-        style: AppTypography.blackPixel.copyWith(
-          fontSize: 12.sp,
-          fontWeight: FontWeight.bold
-        ),
+        style: AppTypography()
+            .blackPixel
+            .copyWith(fontSize: 12.sp, fontWeight: FontWeight.bold),
       ),
     ),
   );

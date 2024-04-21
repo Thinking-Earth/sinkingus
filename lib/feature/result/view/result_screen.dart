@@ -11,7 +11,7 @@ import 'package:sinking_us/feature/result/viewmodel/result_viewmodel.dart';
 import 'package:sinking_us/helpers/constants/app_images.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
-class ResultScreen extends ConsumerStatefulWidget{
+class ResultScreen extends ConsumerStatefulWidget {
   const ResultScreen({super.key});
 
   @override
@@ -50,11 +50,11 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     final status = ref.watch(resultViewModelControllerProvider).status;
-    if(status == 'win') {
+    if (status == 'win') {
       endText = tr('result_win');
-    } else if(status == 'hp die') {
+    } else if (status == 'hp die') {
       endText = tr('result_dead');
-    } else if(status == 'nature die') {
+    } else if (status == 'nature die') {
       endText = tr('result_nature');
     } else {
       endText = tr('result_dead');
@@ -64,26 +64,28 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          SizedBox(width: 844.w, height: 390.h,),
+          SizedBox(
+            width: 844.w,
+            height: 390.h,
+          ),
           AnimatedContainer(
             duration: const Duration(milliseconds: 7800),
             curve: Curves.fastEaseInToSlowEaseOut,
             width: circleAnimation ? 260.w : 1400,
             height: circleAnimation ? 260.h : 1400,
             decoration: BoxDecoration(
-              borderRadius: circleAnimation ? BorderRadius.circular(300) : null,
-              image: const DecorationImage(
-                image: AssetImage('assets/images/map1.png'),
-                fit: BoxFit.none
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: status == 'win' ? Colors.grey.shade100 : Colors.red,
-                  blurRadius: 20.w,
-                  spreadRadius: 2.w
-                )
-              ]
-            ),
+                borderRadius:
+                    circleAnimation ? BorderRadius.circular(300) : null,
+                image: const DecorationImage(
+                    image: AssetImage('assets/images/map1.png'),
+                    fit: BoxFit.none),
+                boxShadow: [
+                  BoxShadow(
+                      color:
+                          status == 'win' ? Colors.grey.shade100 : Colors.red,
+                      blurRadius: 20.w,
+                      spreadRadius: 2.w)
+                ]),
           ),
           SizedBox(
             width: 280.w,
@@ -94,39 +96,35 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
                   right: 20.w,
                   top: 98.h,
                   child: showCharacter(
-                    onTap: () {},
-                    move: charactorController,
-                    imageAsset: AppImages.businessMan
-                  ),
+                      onTap: () {},
+                      move: charactorController,
+                      imageAsset: AppImages.businessMan),
                 ),
                 Positioned(
                   right: 60.w,
                   top: 120.h,
                   child: showCharacter(
-                    onTap: () {},
-                    move: charactorController,
-                    imageAsset: AppImages.politicianMan
-                  ),
+                      onTap: () {},
+                      move: charactorController,
+                      imageAsset: AppImages.politicianMan),
                 ),
                 Positioned(
                   left: 60.w,
                   top: 120.h,
                   child: showCharacter(
-                    onTap: () {},
-                    move: charactorController,
-                    flip: true,
-                    imageAsset: AppImages.natureMan
-                  ),
+                      onTap: () {},
+                      move: charactorController,
+                      flip: true,
+                      imageAsset: AppImages.natureMan),
                 ),
                 Positioned(
                   left: 20.w,
                   top: 100.h,
                   child: showCharacter(
-                    onTap: () {},
-                    move: charactorController,
-                    flip: true,
-                    imageAsset: AppImages.workerMan
-                  ),
+                      onTap: () {},
+                      move: charactorController,
+                      flip: true,
+                      imageAsset: AppImages.workerMan),
                 ),
               ],
             ),
@@ -135,20 +133,22 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
             top: 2.h,
             child: Text(
               endText,
-              style: AppTypography.blackPixel.copyWith(
-                color: status == 'win' ? Colors.amber[400] : Colors.red,
-                fontSize: 40.sp
-              ),
+              style: AppTypography().blackPixel.copyWith(
+                  color: status == 'win' ? Colors.amber[400] : Colors.red,
+                  fontSize: 40.sp),
             ),
           ),
           Positioned(
             top: 4.h,
             right: 4.w,
             child: IconButton(
-              onPressed: (){
+              onPressed: () {
                 AppRouter.pop();
               },
-              icon: const Icon(CupertinoIcons.xmark, color: Colors.white,),
+              icon: const Icon(
+                CupertinoIcons.xmark,
+                color: Colors.white,
+              ),
             ),
           )
         ],

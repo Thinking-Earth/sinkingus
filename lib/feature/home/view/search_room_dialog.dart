@@ -27,11 +27,9 @@ class _SearchDialogContentState extends State<SearchDialogContent> {
       body: Container(
         padding: EdgeInsets.all(16.w),
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(AppImages.searchPopUp),
-            fit: BoxFit.fitWidth
-          )
-        ),
+            image: DecorationImage(
+                image: AssetImage(AppImages.searchPopUp),
+                fit: BoxFit.fitWidth)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -41,10 +39,9 @@ class _SearchDialogContentState extends State<SearchDialogContent> {
                 SizedBox(
                   width: 280.w,
                   child: gameTextField(
-                    controller: myController, 
-                    hintText: tr('searchPage_hintText'),
-                    onSubmitted: searchRoom
-                  ),
+                      controller: myController,
+                      hintText: tr('searchPage_hintText'),
+                      onSubmitted: searchRoom),
                 ),
                 InkWell(
                   onTap: searchRoom,
@@ -52,11 +49,9 @@ class _SearchDialogContentState extends State<SearchDialogContent> {
                     width: 60.w,
                     height: 60.w,
                     decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(AppImages.searchIcon),
-                        fit: BoxFit.fitWidth
-                      )
-                    ),
+                        image: DecorationImage(
+                            image: AssetImage(AppImages.searchIcon),
+                            fit: BoxFit.fitWidth)),
                   ),
                 )
               ],
@@ -64,17 +59,21 @@ class _SearchDialogContentState extends State<SearchDialogContent> {
             SizedBox(
               width: 350.w,
               height: 200.h,
-              child: matchList.isNotEmpty 
-                ? ListView.builder(
-                  itemCount: matchList.length,
-                  itemBuilder: (context, index) {
-                    String matchId = matchList.keys.elementAt(index);
-                    return MatchListItem(
-                        matchId: matchId,
-                        match: matchList[matchId]!,
-                        isPrivate: "private");
-                  })
-                : Center(child: Text(infoText, style: AppTypography.blackPixel,)),
+              child: matchList.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: matchList.length,
+                      itemBuilder: (context, index) {
+                        String matchId = matchList.keys.elementAt(index);
+                        return MatchListItem(
+                            matchId: matchId,
+                            match: matchList[matchId]!,
+                            isPrivate: "private");
+                      })
+                  : Center(
+                      child: Text(
+                      infoText,
+                      style: AppTypography().blackPixel,
+                    )),
             )
           ],
         ),
@@ -85,7 +84,7 @@ class _SearchDialogContentState extends State<SearchDialogContent> {
   void searchRoom() async {
     FocusScope.of(context).unfocus();
     final snapshot = await FirebaseDatabase.instance.ref("lobby/private").get();
-    if(snapshot.exists) {
+    if (snapshot.exists) {
       (Map<String, dynamic>.from(snapshot.value as Map)).forEach((key, value) {
         var match = Match.fromJson(Map<String, dynamic>.from(value as Map));
         if (match.roomName == myController.text) {

@@ -63,26 +63,26 @@ class PolicyListItem extends SpriteComponent
         text: tr("select"),
         anchor: Anchor.center,
         position: Vector2(184.w, 446.w) / 3,
-        textRenderer: TextPaint(style: AppTypography.blackPixel));
+        textRenderer: TextPaint(style: AppTypography().blackPixel));
 
     final titleText = TextComponent(
         text: tr(type.code),
         anchor: Anchor.center,
         position: Vector2(size.x * 0.5, 20.w),
-        textRenderer: TextPaint(style: AppTypography.blackPixel));
+        textRenderer: TextPaint(style: AppTypography().blackPixel));
 
     final descriptionText = TextBoxComponent(
         text: tr("${type.code}_description"),
         anchor: Anchor.topCenter,
         position: Vector2(size.x * 0.5, 35.w),
         size: Vector2(300.w, 500.w) / 3,
-        textRenderer: TextPaint(style: AppTypography.blackPixel));
+        textRenderer: TextPaint(style: AppTypography().blackPixel));
 
     final destroyScoreText = TextComponent(
         text: "-${type.restrict}",
         anchor: Anchor.centerLeft,
         position: Vector2(136.w, 380.w) / 3,
-        textRenderer: TextPaint(style: AppTypography.blackPixel));
+        textRenderer: TextPaint(style: AppTypography().blackPixel));
 
     add(selectBtn);
     add(select);
@@ -99,12 +99,12 @@ class PolicyListItem extends SpriteComponent
         selectBtn.sprite.opacity = 0.5;
         select
           ..text = tr("selected")
-          ..textRenderer = TextPaint(style: AppTypography.grayPixel);
+          ..textRenderer = TextPaint(style: AppTypography().grayPixel);
       } else {
         selectBtn.sprite.opacity = 1;
         select
           ..text = tr("select")
-          ..textRenderer = TextPaint(style: AppTypography.blackPixel);
+          ..textRenderer = TextPaint(style: AppTypography().blackPixel);
       }
     }
     super.update(dt);

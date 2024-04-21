@@ -16,34 +16,44 @@ Widget myChatBubble(ChatModel chatData) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text(chatData.nick, style: AppTypography.whitePixel,),
+            Text(
+              chatData.nick,
+              style: AppTypography().whitePixel,
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  (chatData.time as Timestamp).toDate().toString().substring(11, 16),
-                  style: AppTypography.whitePixel.copyWith(
-                    color: AppColors.black40,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 8.sp
-                  )
+                    (chatData.time as Timestamp)
+                        .toDate()
+                        .toString()
+                        .substring(11, 16),
+                    style: AppTypography().whitePixel.copyWith(
+                        color: AppColors.black40,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 8.sp)),
+                SizedBox(
+                  width: 4.w,
                 ),
-                SizedBox(width: 4.w,),
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 168.w),
                   child: IntrinsicWidth(
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
                       alignment: Alignment.center,
                       decoration: const BoxDecoration(
-                        color: AppColors.black60,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8)
-                        )
+                          color: AppColors.black60,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(8),
+                              bottomLeft: Radius.circular(8),
+                              bottomRight: Radius.circular(8))),
+                      child: Text(
+                        chatData.content,
+                        style: AppTypography()
+                            .blackPixel
+                            .copyWith(fontWeight: FontWeight.w500),
                       ),
-                      child: Text(chatData.content, style: AppTypography.blackPixel.copyWith(fontWeight: FontWeight.w500),),
                     ),
                   ),
                 ),
@@ -51,7 +61,9 @@ Widget myChatBubble(ChatModel chatData) {
             )
           ],
         ),
-        SizedBox(width: 8.w,),
+        SizedBox(
+          width: 8.w,
+        ),
         // Container(
         //   width: 38.w,
         //   height: 38.w,

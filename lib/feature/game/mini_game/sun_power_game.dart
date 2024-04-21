@@ -91,7 +91,7 @@ class _SunPowerGameState extends State<SunPowerGame> {
                       totalRepeatCount: 1,
                       animatedTexts: [
                         TyperAnimatedText(tr("sun_power"),
-                            textStyle: AppTypography.whitePixel)
+                            textStyle: AppTypography().whitePixel)
                       ],
                     ),
                   ],

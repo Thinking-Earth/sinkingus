@@ -12,7 +12,7 @@ import 'package:sinking_us/helpers/constants/app_images.dart';
 import 'package:sinking_us/helpers/constants/app_svgs.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
 
-class LoginScreen extends ConsumerStatefulWidget{
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
@@ -22,7 +22,7 @@ class LoginScreen extends ConsumerStatefulWidget{
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   late Timer _timer;
   double opacityController = 1;
-  
+
   @override
   void initState() {
     super.initState();
@@ -46,61 +46,64 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: GestureDetector(
-        onTap: (){
-          if(userInfo != null) {
+        onTap: () {
+          if (userInfo != null) {
             AppRouter.pushAndReplaceNamed(Routes.homeScreenRoute);
           }
         },
         child: Container(
           decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(AppImages.loginBg),
-              fit: BoxFit.fill
-            )
-          ),
+              image: DecorationImage(
+                  image: AssetImage(AppImages.loginBg), fit: BoxFit.fill)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(width: 844.w,),
-              const Spacer(flex: 8,),
-              userInfo == null 
-                ? Column(
-                    children: [
-                      customLoginBtn(
-                        onTap: ref.read(loginScreenControllerProvider.notifier).handlePressedSignInGoogle,
-                        svg: AppSvgs.googleIcon,
-                        backColor: Colors.white,
-                        text: "Sign in with Google",
-                        style: AppTypography.blackPixel.copyWith(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500
-                        )
-                      ),
-                      SizedBox(height: 12.h,),
-                      customLoginBtn(
-                        onTap: ref.read(loginScreenControllerProvider.notifier).handlePressedSignInApple,
-                        svg: AppSvgs.appleIcon,
-                        backColor: Colors.black,
-                        text: "Sign in with Apple",
-                        style: AppTypography.whitePixel.copyWith(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500, 
-                        )
-                      ),
-                    ],
-                  )
-                : AnimatedOpacity(
-                    opacity: opacityController, 
-                    duration: const Duration(milliseconds: 280),
-                    child: Text(
-                      '- Touch to Start -',
-                      style: AppTypography.whitePixel.copyWith(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold
+              SizedBox(
+                width: 844.w,
+              ),
+              const Spacer(
+                flex: 8,
+              ),
+              userInfo == null
+                  ? Column(
+                      children: [
+                        customLoginBtn(
+                            onTap: ref
+                                .read(loginScreenControllerProvider.notifier)
+                                .handlePressedSignInGoogle,
+                            svg: AppSvgs.googleIcon,
+                            backColor: Colors.white,
+                            text: "Sign in with Google",
+                            style: AppTypography().blackPixel.copyWith(
+                                fontSize: 12.sp, fontWeight: FontWeight.w500)),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        customLoginBtn(
+                            onTap: ref
+                                .read(loginScreenControllerProvider.notifier)
+                                .handlePressedSignInApple,
+                            svg: AppSvgs.appleIcon,
+                            backColor: Colors.black,
+                            text: "Sign in with Apple",
+                            style: AppTypography().whitePixel.copyWith(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                      ],
+                    )
+                  : AnimatedOpacity(
+                      opacity: opacityController,
+                      duration: const Duration(milliseconds: 280),
+                      child: Text(
+                        '- Touch to Start -',
+                        style: AppTypography().whitePixel.copyWith(
+                            fontSize: 20.sp, fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
-              const Spacer(flex: 2,)
+              const Spacer(
+                flex: 2,
+              )
             ],
           ),
         ),

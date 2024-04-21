@@ -9,10 +9,10 @@ Widget serverChatBubble(ChatModel chat) {
       padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 16.w),
-        child: Text(
-          chat.content,
-          style: AppTypography.whitePixel.copyWith(fontWeight: FontWeight.w600)
-        ),
+        child: Text(chat.content,
+            style: AppTypography()
+                .whitePixel
+                .copyWith(fontWeight: FontWeight.w600)),
       ),
     ),
   );

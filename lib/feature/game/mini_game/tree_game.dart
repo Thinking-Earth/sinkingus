@@ -103,7 +103,7 @@ class TreeGame extends FlameGame {
         anchor: Anchor.center,
         position: Vector2(227.65.w, 226.w),
         size: Vector2(362, 22.w),
-        textRenderer: TextPaint(style: AppTypography.whitePixel),
+        textRenderer: TextPaint(style: AppTypography().whitePixel),
         boxConfig: const TextBoxConfig(timePerChar: 0.1, growingBox: true));
 
     ClickableSprite xBtn = ClickableSprite(

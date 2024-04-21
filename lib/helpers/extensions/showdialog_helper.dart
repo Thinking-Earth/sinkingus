@@ -30,24 +30,22 @@ class ShowDialogHelper {
 
   static void showSettingDialog() {
     showDialog(
-      context: AppRouter.navigatorKey.currentContext!,
-      builder: (BuildContext context) {
-        return SizedBox(
-          width: 844.w,
-          height: 390.h,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: 400.w,
-                height: 348.h,
-                child: const SettingDialogContent()
-              ),
-            ],
-          ),
-        );
-      }
-    );
+        context: AppRouter.navigatorKey.currentContext!,
+        builder: (BuildContext context) {
+          return SizedBox(
+            width: 844.w,
+            height: 390.h,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                    width: 400.w,
+                    height: 348.h,
+                    child: const SettingDialogContent()),
+              ],
+            ),
+          );
+        });
   }
 
   static void showBuildRoomDialog() {
@@ -151,7 +149,7 @@ class ShowDialogHelper {
       content: Text(
         content,
         textAlign: TextAlign.center,
-        style: AppTypography.whitePixel,
+        style: AppTypography().whitePixel,
       ),
       shape: const StadiumBorder(),
       behavior: SnackBarBehavior.floating,
