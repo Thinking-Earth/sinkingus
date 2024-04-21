@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sinking_us/core/network/browser_checker/browser_checker.dart';
 import 'package:sinking_us/core/network/firestore_base.dart';
 import 'package:sinking_us/firebase_options.dart';
 import 'package:sinking_us/main.dart';
@@ -18,7 +17,6 @@ class AppBootstrapper {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     await EasyLocalization.ensureInitialized();
     FirestoreBase.init();
-    browserChecker();
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
+import 'package:sinking_us/core/network/browser_checker/browser_checker.dart';
 import 'package:sinking_us/core/network/network_status.dart';
 import 'package:sinking_us/feature/auth/data/model/user_info_model.dart';
 import 'package:sinking_us/feature/auth/domain/auth_domain.dart';
@@ -84,6 +85,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   void initRoute() async {
+    browserChecker();
     firebase.User? currentUser = firebase.FirebaseAuth.instance.currentUser;
     UserInfoModel? userInfo;
 

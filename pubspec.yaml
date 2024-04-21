@@ -56,6 +56,7 @@ dependencies:
   animated_text_kit: ^4.2.2 #애니메이션 텍스트
   lottie: ^3.1.0 #mp4 to json
   audioplayers: 5.2.1
+  url_launcher: ^6.1.7 #링크 열기
 
 dev_dependencies:
   flutter_test:

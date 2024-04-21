@@ -24,6 +24,9 @@
   "homePage_listWorld": "List of Earths",
 
   "settingPage_language": "Language Selection",
+  "setting_webIsForPC": "It is possible to play as a website, but it is optimized for PC.",
+  "settingPage_downloadAPP": "Are you connected via mobile?\nInstall the app and enjoy the game with powerful native performance!",
+  "settingPage_downloadWarning": "You cannot install from the App Store because it is still under review. You can download it directly instead.",
 
   "gamePage_enterText": "Enter your chat.",
   "gamePage_2fast": "Please input a little more slowly.",
