@@ -158,11 +158,11 @@ class ShowDialogHelper {
     ));
   }
 
-  static void showLoading() {
+  static void showLoading({Color? color}) {
     showCupertinoDialog(
         context: AppRouter.navigatorKey.currentContext!,
         builder: (context) {
-          return const CupertinoActivityIndicator();
+          return CupertinoActivityIndicator(color: color,);
         });
   }
 
