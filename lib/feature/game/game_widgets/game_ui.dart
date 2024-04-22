@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,8 +28,8 @@ class GameUI extends PositionComponent
   late TextButton gameStartBtn;
   late RectangleComponent hp, natureScore;
   late Timer timer;
-  int oneDay = 150;
-  int remainingSec = 150;
+  int oneDay = 50;
+  int remainingSec = 50;
 
   late TextBoxComponent timerComponent,
       moneyComponent,
@@ -46,7 +49,7 @@ class GameUI extends PositionComponent
         onPressed: () async {
           game.pauseEngine();
           game.removeFromParent();
-          game.state.leaveMatch();
+          game.state.leaveMatch(false);
         },
         size: Vector2.all(18 * 1.8),
         position: Vector2(cameraSize.x, 0),
@@ -137,7 +140,7 @@ class GameUI extends PositionComponent
           "0${remainingSec ~/ 60} : ${(remainingSec % 60 < 10) ? "0" : ""}${remainingSec % 60}";
       if (remainingSec == 0) {
         timer.pause();
-        if (isHost) {
+        if (game.state.isHost()) {
           game.state.hostNextDay();
         }
       }
@@ -196,7 +199,7 @@ class GameUI extends PositionComponent
   // called when day updated to 1
   void startGame() {
     add(timerComponent);
-    news.text = "Game Started";
+    setNewsText();
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
@@ -207,7 +210,7 @@ class GameUI extends PositionComponent
 
   // called when day updated
   void nextDay(int day) {
-    news.text = setNewsText();
+    setNewsText();
     ShowDialogHelper.gameEventDialog(
             text: "news", widget: GameWidget(game: news))
         .then((value) {
@@ -218,31 +221,67 @@ class GameUI extends PositionComponent
     });
   }
 
-  String setNewsText() {
-    String text = "";
-    if (game.state.rule.id == RuleType.carbonNeutrality.id) {
-      text = tr("news_greenplation");
+  void setNewsText() {
+    if (game.day == 1) {
+      news.text = tr("game_started");
+    } else if (game.state.rule.id == RuleType.carbonNeutrality.id) {
+      news.text = tr("news_greenplation");
     } else if (game.state.natureScore > 80) {
-      text = tr("news_80");
+      news.text = tr("news_80");
     } else if (game.state.natureScore > 60) {
-      text = tr("news_60");
+      news.text = tr("news_60");
     } else if (game.state.natureScore > 40) {
-      text = tr("news_40");
+      news.text = tr("news_40");
     } else if (game.state.natureScore > 20) {
-      text = tr("news_20");
+      news.text = tr("news_20");
     } else if (game.state.natureScore > 0) {
-      text = tr("news_0");
+      news.text = tr("news_0");
     }
-    return text;
   }
 
   void hostStartGame() async {
+    FlameAudio.play("button_click.wav", volume: 0.3);
     if (game.players.length == 5) {
       gameStartBtn.removeFromParent();
       game.state.hostStartGame();
     } else {
-      ShowDialogHelper.showSnackBar(content: tr('gamePage_cannotStart')); //TODO
+      ShowDialogHelper.showSnackBar(content: tr('gamePage_cannotStart'));
     }
+  }
+
+  void gameNotification(String text) {
+    add(NotiSprite(text, cameraSize));
+  }
+}
+
+class NotiSprite extends SpriteComponent {
+  String text;
+  NotiSprite(this.text, Vector2 cameraSize)
+      : super(
+            position: Vector2(cameraSize.x * 0.5, cameraSize.y * 0.2),
+            anchor: Anchor.center,
+            size: Vector2(max(15.w * text.length, 180.w), 20.w));
+
+  @override
+  FutureOr<void> onLoad() async {
+    sprite = await Sprite.load("etc/notibackground.png");
+    final textSprite = TextComponent(
+        text: text,
+        textRenderer: TextPaint(style: AppTypography.whitePixel),
+        anchor: Anchor.center,
+        position: size * 0.5);
+    add(textSprite);
+
+    final effect = SequenceEffect([
+      OpacityEffect.to(
+        0,
+        EffectController(duration: 0.3, startDelay: 2),
+      ),
+      RemoveEffect(),
+    ]);
+    add(effect);
+
+    return super.onLoad();
   }
 }
 

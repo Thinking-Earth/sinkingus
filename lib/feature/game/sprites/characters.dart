@@ -12,7 +12,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/helpers/constants/app_typography.dart';
-import 'package:sinking_us/helpers/extensions/showdialog_helper.dart';
 
 const double CHARACTER_SIZE_X = 100 * 1.4;
 const double CHARACTER_SIZE_Y = 128 * 1.4;
@@ -34,7 +33,7 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
   double sendDtSum = 0;
   double animationDtSum = 0;
 
-  double maxSpeed = 100.w;
+  double maxSpeed = 130.w;
   late Vector2 moveForce;
   JoystickComponent joystick;
   late TextComponent nameText;
@@ -85,12 +84,14 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       oldCharacterPosition = characterPosition.clone();
     });
 
+    String name = game.state.playerName;
     nameText = TextBoxComponent(
-        text: game.state.playerName,
+        text: name,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        align: Anchor.bottomCenter,
-        position: Vector2(size.x * 0.5, 10.w));
+        align: Anchor.center,
+        position: Vector2(size.x * 0.5, 10.w),
+        size: Vector2(15.w * name.length, 15.w));
 
     hitbox = CircleHitbox(
         anchor: Anchor.bottomCenter,
@@ -122,7 +123,6 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     }
 
     if (!joystick.delta.isZero()) {
-      print(joystick.relativeDelta);
       moveForce = joystick.relativeDelta * maxSpeed * dt;
     }
 
@@ -154,19 +154,19 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     if (event is KeyDownEvent || event is KeyRepeatEvent) {
       if (keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
           keysPressed.contains(LogicalKeyboardKey.keyA)) {
-        moveForce.x += -maxSpeed / 20;
+        moveForce.x += -maxSpeed / 30;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
           keysPressed.contains(LogicalKeyboardKey.keyD)) {
-        moveForce.x += maxSpeed / 20;
+        moveForce.x += maxSpeed / 30;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
           keysPressed.contains(LogicalKeyboardKey.keyW)) {
-        moveForce.y += -maxSpeed / 20;
+        moveForce.y += -maxSpeed / 30;
       }
       if (keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
           keysPressed.contains(LogicalKeyboardKey.keyS)) {
-        moveForce.y += maxSpeed / 20;
+        moveForce.y += maxSpeed / 30;
       }
 
       if (moveForce.x != 0 && moveForce.y != 0) {
@@ -192,13 +192,26 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
               2;
       double length = (hitbox.absoluteCenter - mid).length;
       moveForce +=
-          (hitbox.absoluteCenter - mid).scaled(hitbox.radius - length) / length;
+          (hitbox.absoluteCenter - mid).scaled(hitbox.radius - length + 1) /
+              length;
     }
     super.onCollision(intersectionPoints, other);
   }
 
   void setRole() async {
     role = await game.state.getRole(uid);
+    if (role == RoleType.business) {
+      moneyListener = FirebaseDatabase.instance
+          .ref("game/${game.matchId}/income")
+          .onValue
+          .listen((event) {
+        if (event.snapshot.exists) {
+          game.state.setDt(0, 0, event.snapshot.value as int);
+          game.gameUI.gameNotification(tr("income"));
+        }
+      });
+      hitbox.position.y += 7;
+    }
     idle = await Sprite.load("characters/${role.code}_idle.png");
     walk1 = await Sprite.load("characters/${role.code}_walk1.png");
     walk2 = await Sprite.load("characters/${role.code}_walk2.png");
@@ -209,18 +222,6 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
       CharacterState.idle: idleAnimation,
       CharacterState.walk: walkAnimation,
     };
-
-    if (role == RoleType.business) {
-      moneyListener = FirebaseDatabase.instance
-          .ref("game/${game.matchId}/money")
-          .onValue
-          .listen((event) {
-        if (event.snapshot.exists) {
-          game.state.setDt(0, 0, event.snapshot.value as int);
-          ShowDialogHelper.showSnackBar(content: tr("income"));
-        }
-      });
-    }
   }
 
   void nextDay() {
@@ -231,6 +232,12 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
         Vector2(0, game.background2.size.y * -0.5) + screensize * 0.5;
     game.background2.position =
         Vector2(0, game.background2.size.y * -0.5) + screensize * 0.5;
+  }
+
+  @override
+  void onRemove() {
+    moneyListener?.cancel();
+    super.onRemove();
   }
 }
 
@@ -286,11 +293,13 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
     size = Vector2(CHARACTER_SIZE_X * 1.w, CHARACTER_SIZE_Y * 1.w);
     anchor = Anchor.center;
 
-    nameText = TextComponent(
+    nameText = TextBoxComponent(
         text: name,
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        position: Vector2(size.x * 0.5, 0));
+        align: Anchor.center,
+        position: Vector2(size.x * 0.5, 10.w),
+        size: Vector2(15.w * name.length, 15.w));
     add(nameText);
 
     positionListener = FirebaseDatabase.instance
@@ -313,6 +322,7 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
         }
       } else {
         game.deletePlayer(this);
+        game.state.checkHost();
         removeFromParent();
       }
     });

@@ -6,6 +6,7 @@
   "noti_cancel": "Cancelar",
   "noti_fail_google": "Error al iniciar sesión con Google",
   "noti_fail_apple": "Se produjo un problema al iniciar sesión con Apple. Inténtalo de nuevo o intenta con otro método de inicio de sesión.",
+  "noti_browser_check": "Este sitio web funciona mejor en Chrome. ¡Conéctate usando Chrome!",
 
   "build_room": "Crear Earth",
   "join_room": "Unirse a Earth",
@@ -23,14 +24,19 @@
   "homePage_listWorld": "Lista de Earth",
 
   "settingPage_language": "Selección de Idioma - ",
+  "setting_webIsForPC": "Es posible jugar como un sitio web, pero está optimizado para PC.",
+  "settingPage_downloadAPP": "¿Estás conectado a través de un dispositivo móvil?\n¡Instala la aplicación y disfruta del juego con un potente rendimiento nativo!",
+  "settingPage_downloadWarning": "No puedes instalarlo desde la App Store porque aún está bajo revisión. En su lugar, puedes descargarlo directamente.",
 
   "gamePage_enterText": "Ingrese su chat.",
+  "gamePage_2fast": "Por favor ingresa un poco más lento.",
+  "gamePage_2much": "Hay demasiados personajes.",
   "gamePage_cannotStart": "El juego solo puede comenzar con 6 jugadores.",
 
   "game_description": "Eres un habitante de la Sinking Earth. Debes mantener una puntuación ambiental de 0 o superior durante los 7 días del juego. Puedes aumentar tu salud comprando artículos necesarios y completando en total 6 misiones para ganar 50 monedas por cada una.",
   "worker_description": "[Empleado]\nDebes sobrevivir completando cada misión y a través de un consumo adecuado. Observa el final a través del consumo saludable y la creación de opiniones públicas.\n\nCondición de victoria: Sobrevivir",
   "nature_description": "[Activista Ambiental]\nRecibes 30 puntos ambientales adicionales al completar cada misión. \n\nCondición de victoria: Puntuación ambiental superior a 50 al finalizar el juego",
-  "business_description": "[Empresario]\nTu salud no disminuye, y puedes distribuir y vender abastos. Para empezar la negociación de abastos al inicio debes pagar el triple del precio original.\n\nCondición de victoria: Más de 3000 monedas al finalizar el juego",
+  "business_description": "[Empresario]\nTu salud no disminuye, y puedes distribuir y vender abastos. Para empezar la negociación de abastos al inicio debes pagar el double del precio original.\n\nCondición de victoria: Más de 3000 monedas al finalizar el juego",
   "politician_description": "[Político]\nPuedes legislar sobre los artículos en venta. Debes considerar las situaciones y opiniones de cada persona.\n\nCondición de victoria: Supervivencia de todos",
 
   "mission_already_done": "Alguien ya ha completado la misión.\nInténtalo de nuevo otro día.",
@@ -51,14 +57,12 @@
   "activate_abort": "Producto aún no activado.",
   "income": "Alguien ha comprado el producto.",
 
+  "game_started": "El juego ha comenzado. Debes sobrevivir durante 7 días mientras mantienes tu puntaje ambiental y HP. Haz clic en las áreas marcadas en amarillo para completar misiones o comprar suministros. Comunícate con otros para idear un plan para sobrevivir juntos.",
   "news_greenplation": "Título: La economía experimenta una inflación verde... Los ciudadanos se quejan \"La vida es demasiado difícil\"\n\nRecientemente, debido a regulaciones industriales relacionadas con las emisiones de carbono, la producción de materias primas esenciales se ha vuelto difícil, lo que ha dado lugar a una inflación verde. La inflación verde es un término compuesto por 'verde', que significa amigable con el medio ambiente, y 'inflación', que es el aumento de los precios. Parece necesario moderar adecuadamente las regulaciones para la estabilizar la economía.",
-
+  "news_80": "Título: Las regulaciones de reducción de emisiones de carbono muestran efectividad... Estabilización del clima\n\nSegún informes recientes, el medio ambiente y el clima permanecen estables en todo el mundo, lo que genera esperanzas de un futuro sostenible. Sí lo hay.",
   "news_60": "Título: Aumento de la concentración de partículas finas en comparación con el año anterior\n\nLa concentración de partículas finas está aumentando, haciendo difícil respirar aire limpio. La aceleración de la desertificación parece ser la causa del aumento de partículas finas.",
-
   "news_40": "Título: El calentamiento global finalmente conduce a la escasez de alimentos\n\nRecientemente, debido a fenómenos climáticos anormales como inundaciones y tifones, el mundo entero está sufriendo escasez de alimentos. Los insectos comestibles están surgiendo como alternativa, pero se necesita resolver la causa fundamental del problema.",
-
   "news_20": "Título: El aumento del nivel del mar es grave... El precio de los terrenos en las tierras altas aumenta\n\nCon el aumento de la temperatura promedio, el nivel del mar está aumentando y 50 ciudades del mundo están bajo el agua. Si esto continúa, el mundo perecerá.",
-
   "news_0": "Título: El mundo está al borde del colapso\n\nLa Tierra ya no es un lugar adecuado para que vivan los humanos. Los gobiernos de todo el mundo enfrentan la amenaza de desintegrarse y las personas viven día a día con ansiedad. Se necesitarán muchos esfuerzos para revertir esta situación.",
 
   "plug_off": "Desenchufa para ahorrar energía.",
@@ -69,7 +73,7 @@
   "wind_power": "Gira la turbina eólica en la dirección de la flecha.",
 
   "select": "Seleccionar",
-  "seleted": "Seleccionado",
+  "selected": "Seleccionado",
 
   "buy": "Comprar",
   "activate": "Activar",

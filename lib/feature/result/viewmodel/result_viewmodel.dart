@@ -10,7 +10,7 @@ class ResultViewModelState {
   String status;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ResultViewModelController extends _$ResultViewModelController {
   @override
   ResultViewModelState build() {

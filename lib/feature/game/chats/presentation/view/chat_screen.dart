@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +22,8 @@ class ChatScreen extends ConsumerStatefulWidget {
 }
 
 class _ChatScreenState extends ConsumerState<ChatScreen> {
+  int counter = 0;
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +36,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   Widget build(BuildContext context) {
     final chatViewModel = ref.watch(openChatViewModelControllerProvider);
     final userInfo = ref.read(userDomainControllerProvider).userInfo;
+    ChatModel? lastChat;
 
     return Container(
       width: 240.w, 
@@ -48,19 +53,37 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               stream: chatViewModel.chatStream,
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if(snapshot.data != null) {
-                  return ListView.builder(
-                    reverse: true,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      final ChatModel chat = ChatModel.fromJson(Map<String, dynamic>.from(snapshot.data!.docs[index].data() as Map));
-                      if(chat.role == "server") {
-                        return serverChatBubble(chat);
-                      } else if(chat.nick == userInfo!.nick) {
-                        return myChatBubble(chat);
-                      } else {
-                        return notMyChatBubble(chat);
-                      }
-                    } 
+                  if(snapshot.data!.docs[0]['role'] != 'server' && lastChat?.content != snapshot.data!.docs[0]['content']) {
+                    counter++;
+                    if(counter % 2 == 0) {
+                      FlameAudio.play("send_chat.mp3");
+                    }
+                  }
+                  return ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context).copyWith(
+                      dragDevices: {
+                        PointerDeviceKind.touch,
+                        PointerDeviceKind.mouse,
+                        PointerDeviceKind.trackpad,
+                      },
+                    ),
+                    child: ListView.builder(
+                      reverse: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final ChatModel chat = ChatModel.fromJson(Map<String, dynamic>.from(snapshot.data!.docs[index].data() as Map));
+                        if(index == 0) { // 마지막 채팅
+                          lastChat = chat;
+                        }
+                        if(chat.role == "server") {
+                          return serverChatBubble(chat);
+                        } else if(chat.nick == userInfo!.nick) {
+                          return myChatBubble(chat);
+                        } else {
+                          return notMyChatBubble(chat);
+                        }
+                      } 
+                    ),
                   );
                 }
                 return const SizedBox.shrink();
@@ -69,12 +92,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           ),
           chatInputter(
             textController: chatViewModel.chatController,
-            onTap: ref.read(openChatViewModelControllerProvider.notifier).sendMsg
+            focusNode: chatViewModel.chatNode,
+            onTap: ref.read(openChatViewModelControllerProvider.notifier).sendMsg,
+            outsideTap: ref.read(openChatViewModelControllerProvider.notifier).outSideTap
           ),
         ],
       ),
     );
   }
-
-  
 }

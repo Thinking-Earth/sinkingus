@@ -17,6 +17,8 @@ class AppImages {
   static const String searchBtn = '$basePath/home/search_btn.png';
   static const String searchIcon = '$basePath/home/search_icon.png';
   static const String listTile = '$basePath/home/list_tile.png';
+  static const String downloadGoogle = '$basePath/etc/download_google.png';
+  static const String downloadApple = '$basePath/etc/download_apple.png';
 
   static const String businessMan = '$basePath/characters/business_idle.png';
   static const String natureMan = '$basePath/characters/nature_idle.png';

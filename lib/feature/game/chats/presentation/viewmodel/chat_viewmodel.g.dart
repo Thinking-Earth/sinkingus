@@ -7,11 +7,11 @@ part of 'chat_viewmodel.dart';
 // **************************************************************************
 
 String _$openChatViewModelControllerHash() =>
-    r'f9fae68626b1a460a6430b77a981fe019d1d1988';
+    r'7fbb62677e46930344bcb66ed55adc6d86153624';
 
 /// See also [OpenChatViewModelController].
 @ProviderFor(OpenChatViewModelController)
-final openChatViewModelControllerProvider = AutoDisposeNotifierProvider<
+final openChatViewModelControllerProvider = NotifierProvider<
     OpenChatViewModelController, OpenChatViewModelState>.internal(
   OpenChatViewModelController.new,
   name: r'openChatViewModelControllerProvider',
@@ -22,7 +22,6 @@ final openChatViewModelControllerProvider = AutoDisposeNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$OpenChatViewModelController
-    = AutoDisposeNotifier<OpenChatViewModelState>;
+typedef _$OpenChatViewModelController = Notifier<OpenChatViewModelState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

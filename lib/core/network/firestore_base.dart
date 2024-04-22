@@ -65,4 +65,20 @@ class FirestoreBase {
   Future<void> sendMsg(String chatID, {required ChatModel chat}) async {
     await _firestore!.collection("openchat").doc(chatID).collection("chat").add(chat.toJson());
   }
+
+  Future<String?> getDownloadApkLink() async {
+    String? link;
+    await _firestore!.collection("download").doc("android").get().then((value) {
+      link = value['apk'];
+    });
+    return link;
+  }
+
+  Future<String?> getDownloadIosLink() async {
+    String? link;
+    await _firestore!.collection("download").doc("ios").get().then((value) {
+      link = value['ios'];
+    });
+    return link;
+  }
 }

@@ -32,29 +32,36 @@ Widget notMyChatBubble(ChatModel chatData) {
                   constraints: BoxConstraints(maxWidth: 168.w),
                   child: IntrinsicWidth(
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
                       alignment: Alignment.center,
                       decoration: const BoxDecoration(
-                        color: AppColors.black60,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(8),
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8)
-                        )
+                          color: AppColors.black60,
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(8),
+                              bottomLeft: Radius.circular(8),
+                              bottomRight: Radius.circular(8))),
+                      child: Text(
+                        chatData.content,
+                        style: AppTypography
+                            .blackPixel
+                            .copyWith(fontWeight: FontWeight.w500),
                       ),
-                      child: Text(chatData.content, style: AppTypography.blackPixel.copyWith(fontWeight: FontWeight.w500),),
                     ),
                   ),
                 ),
-                SizedBox(width: 4.w,),
-                Text(
-                  (chatData.time as Timestamp).toDate().toString().substring(11, 16),
-                  style: AppTypography.whitePixel.copyWith(
-                    color: AppColors.black40,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 8.sp
-                  )
+                SizedBox(
+                  width: 4.w,
                 ),
+                Text(
+                    (chatData.time as Timestamp)
+                        .toDate()
+                        .toString()
+                        .substring(11, 16),
+                    style: AppTypography.whitePixel.copyWith(
+                        color: AppColors.black40,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 8.sp)),
               ],
             )
           ],

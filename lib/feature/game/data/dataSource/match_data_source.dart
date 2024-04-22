@@ -56,6 +56,10 @@ class MatchDataSource {
         playerCount: castedData['playerCount']);
 
     if (newMatch.playerCount < 6) {
+      if (newMatch.players!.contains(uid)) {
+        return null;
+      }
+
       await db
           .ref("lobby/$isPrivate/$matchId")
           .update({"playerCount": ServerValue.increment(1)});
@@ -97,41 +101,46 @@ class MatchDataSource {
     return newMatchId!;
   }
 
-  Future<void> leaveMatch(
-      {required String matchId,
-      required String uid,
-      required Match match}) async {
+  void leaveMatch(
+      {required String matchId, required String uid, required Match match}) {
     DatabaseReference gameRef = db.ref("game/$matchId");
-    final host = await gameRef.child("host").get();
 
-    if (host.value == uid) {
+    if (match.playerCount == 0 || (match.host == uid && match.day == 0)) {
       db
           .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
           .remove();
       gameRef.remove();
     } else {
       if (match.day == 0) {
-        await db
+        db
             .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
-            .get()
-            .then((value) {
+            .update({"playerCount": ServerValue.increment(-1)});
+      }
+      if (match.day! < 8) {
+        gameRef.child("players").get().then((value) {
           if (value.exists) {
-            db
-                .ref(
-                    "lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
-                .update({"playerCount": ServerValue.increment(-1)});
+            final players = List<dynamic>.from(value.value as List);
+            players.remove(uid);
+            gameRef.update({
+              "playerCount": ServerValue.increment(-1),
+              "players": players,
+              "host": players[0]
+            });
           }
         });
       }
-      await gameRef.child("players").get().then((value) {
-        if (value.exists) {
-          final players = List<dynamic>.from(value.value as List);
-          players.remove(uid);
-          gameRef.update(
-              {"playerCount": ServerValue.increment(-1), "players": players});
-        }
-      });
     }
+    deletePlayer(uid);
+  }
+
+  Future<String> getHost({required String matchId}) async {
+    return await db
+        .ref("game/$matchId/host")
+        .get()
+        .then((value) => value.value as String);
+  }
+
+  void deletePlayer(String uid) {
     db.ref("players/$uid").remove();
   }
 
@@ -143,8 +152,8 @@ class MatchDataSource {
     shuffled.add(uid);
     shuffled.shuffle();
     db.ref("players/${shuffled[1]}/role").set(RoleType.business.code);
-    db.ref("players/${shuffled[2]}/role").set(RoleType.nature.code);
-    db.ref("players/${shuffled[3]}/role").set(RoleType.politician.code);
+    //db.ref("players/${shuffled[2]}/role").set(RoleType.nature.code);
+    //db.ref("players/${shuffled[3]}/role").set(RoleType.politician.code);
 
     await db
         .ref("game/$matchId/status")
@@ -169,12 +178,8 @@ class MatchDataSource {
   }
 
   void sendStatus(
-      {required String matchId,
-      required String uid,
-      required String status}) async {
-    await FirebaseDatabase.instance
-        .ref("game/$matchId/status")
-        .update({uid: status});
+      {required String matchId, required String uid, required String status}) {
+    FirebaseDatabase.instance.ref("game/$matchId/status").update({uid: status});
   }
 
   Future<void> deleteLobby(

@@ -5,7 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/src/services/keyboard_key.g.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -50,6 +50,7 @@ class PolicyListItem extends SpriteComponent
   FutureOr<void> onLoad() async {
     sprite = await Sprite.load("policy/listitem.png");
     selectBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(101.5.w, 424.w) / 3,
         extraPosition: Vector2(101.5.w, 424.w) / 3,
         size: Vector2(165.w, 44.w) / 3,
@@ -65,18 +66,22 @@ class PolicyListItem extends SpriteComponent
         position: Vector2(184.w, 446.w) / 3,
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
+    String title = tr(type.code);
     final titleText = TextComponent(
-        text: tr(type.code),
+        text: title,
         anchor: Anchor.center,
         position: Vector2(size.x * 0.5, 20.w),
-        textRenderer: TextPaint(style: AppTypography.blackPixel));
+        textRenderer: TextPaint(
+            style: AppTypography.blackPixel
+                .copyWith(fontSize: (25 ~/ title.length + 3) * 2.sp)));
 
-    final descriptionText = TextBoxComponent(
+    final descriptionText = ScrollTextBoxComponent(
         text: tr("${type.code}_description"),
         anchor: Anchor.topCenter,
         position: Vector2(size.x * 0.5, 35.w),
-        size: Vector2(300.w, 500.w) / 3,
-        textRenderer: TextPaint(style: AppTypography.blackPixel));
+        size: Vector2(300.w, 230.w) / 3,
+        textRenderer: TextPaint(
+            style: AppTypography.blackPixel.copyWith(fontSize: 8.sp)));
 
     final destroyScoreText = TextComponent(
         text: "-${type.restrict}",
@@ -95,7 +100,7 @@ class PolicyListItem extends SpriteComponent
   @override
   void update(double dt) {
     if (selectBtn.isMounted) {
-      if (game.selectedPolicyRule == type) {
+      if (game.state.rule == type) {
         selectBtn.sprite.opacity = 0.5;
         select
           ..text = tr("selected")
@@ -128,7 +133,6 @@ class Scroller extends SpriteComponent
   @override
   void update(double dt) {
     position.x = 68.w / 3 + game.scrollPosition;
-    listView.position.x = 31.w - game.scrollPosition * 1212 / 1080;
     super.update(dt);
   }
 
@@ -156,16 +160,38 @@ class Scroller extends SpriteComponent
   }
 }
 
+class ListView extends PositionComponent
+    with DragCallbacks, HasGameReference<PolicyDialog> {
+  ListView()
+      : super(position: Vector2(93.w, 93.w) / 3, size: Vector2(1984.w, 526.w));
+
+  @override
+  void update(double dt) {
+    position.x = 31.w - game.scrollPosition * 808 / 1080;
+    super.update(dt);
+  }
+
+  @override
+  void onDragUpdate(DragUpdateEvent event) {
+    if (event.localDelta.x < 0) {
+      game.scrollPosition =
+          min(1080.w / 3, game.scrollPosition - event.localDelta.x);
+    }
+    if (event.localDelta.x > 0) {
+      game.scrollPosition = max(0, game.scrollPosition - event.localDelta.x);
+    }
+    super.onDragUpdate(event);
+  }
+}
+
 class PolicyDialog extends FlameGame {
-  late PositionComponent listView;
+  late ListView listView;
   double scrollPosition = 0.0;
   List<PolicyListItem> listItems = [];
-  RuleType selectedPolicyRule = RuleType.noRule;
 
-  RoleType role;
   GameState state;
 
-  PolicyDialog({required this.role, required this.state});
+  PolicyDialog({required this.state});
 
   @override
   FutureOr<void> onLoad() async {
@@ -178,6 +204,7 @@ class PolicyDialog extends FlameGame {
         size: Vector2(455.3.w, 256.w));
 
     final xBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(45.w, 0) / 3,
         extraPosition: Vector2(45.w, 0) / 3,
         spriteSize: Vector2(49.w, 75.w) / 3,
@@ -187,8 +214,7 @@ class PolicyDialog extends FlameGame {
         },
         src: "policy/xBtn.png");
 
-    listView = PositionComponent(
-        position: Vector2(93.w, 93.w) / 3, size: Vector2(2388.w, 526.w));
+    listView = ListView();
 
     final item1 = PolicyListItem(type: RuleType.noRule);
     final item3 = PolicyListItem(type: RuleType.greenGrowthStrategy);
@@ -211,8 +237,7 @@ class PolicyDialog extends FlameGame {
   }
 
   void selectPolicy(RuleType newRule) {
-    if (role == RoleType.politician) {
-      selectedPolicyRule = newRule;
+    if (state.game.player.role == RoleType.politician) {
       state.setRule(newRule);
     } else {
       ShowDialogHelper.showSnackBar(content: tr("rule_select_abort"));

@@ -28,9 +28,7 @@ class MatchListItem extends StatelessWidget {
           alignment: Alignment.center,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(AppImages.gameListTile),
-              fit: BoxFit.fill
-            ),
+                image: AssetImage(AppImages.gameListTile), fit: BoxFit.fill),
             // borderRadius: BorderRadius.circular(8.w),
             // boxShadow: [
             //   BoxShadow(
@@ -45,17 +43,15 @@ class MatchListItem extends StatelessWidget {
             children: [
               Text(
                 match.roomName,
-                style: AppTypography.blackPixel.copyWith(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500
-                ),
+                style: AppTypography
+                    .blackPixel
+                    .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
               ),
               Text(
-                "${match.playerCount}/10",
-                style: AppTypography.blackPixel.copyWith(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500
-                ),
+                "${match.playerCount}/6",
+                style: AppTypography
+                    .blackPixel
+                    .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
               )
             ],
           ),

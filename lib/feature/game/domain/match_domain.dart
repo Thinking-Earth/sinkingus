@@ -3,6 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sinking_us/config/routes/app_router.dart';
 import 'package:sinking_us/config/routes/routes.dart';
 import 'package:sinking_us/feature/auth/domain/user_domain.dart';
+import 'package:sinking_us/feature/game/chats/domain/chat_domain.dart';
+import 'package:sinking_us/feature/game/chats/presentation/viewmodel/chat_viewmodel.dart';
 import 'package:sinking_us/feature/game/data/dataSource/match_data_source.dart';
 import 'package:sinking_us/feature/game/data/model/match_info.dart';
 import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
@@ -99,7 +101,9 @@ class MatchDomainController extends _$MatchDomainController {
           uid: ref.read(userDomainControllerProvider).userInfo!.uid,
           userName: ref.read(userDomainControllerProvider).userInfo!.nick);
       if (response == null) {
-        ShowDialogHelper.showSnackBar(content: "Too many people in the room");
+        ShowDialogHelper.showSnackBar(
+            content:
+                "You are participating in another device or there are too many people.");
       } else {
         state.match = response;
         state.matchId = matchId;
@@ -113,13 +117,26 @@ class MatchDomainController extends _$MatchDomainController {
     }
   }
 
-  Future<void> leaveMatch() async {
+  void leaveMatch({bool isHostEnd = false}) {
     if (state.matchId != "not in a match") {
-      await source.leaveMatch(
-          matchId: state.matchId,
-          uid: ref.read(userDomainControllerProvider).userInfo!.uid,
-          match: state.match);
-      state.matchId = "not in a match";
+      if (!isHostEnd) {
+        source.leaveMatch(
+            matchId: state.matchId,
+            uid: ref.read(userDomainControllerProvider).userInfo!.uid,
+            match: state.match);
+      } else {
+        source
+            .deletePlayer(ref.read(userDomainControllerProvider).userInfo!.uid);
+      }
+      ref.read(chatDomainControllerProvider.notifier).outChatRoom(
+          ref.read(openChatViewModelControllerProvider).chatID,
+          nick: ref.read(userDomainControllerProvider).userInfo!.nick);
+      state
+        ..matchId = "not in a match"
+        ..dayChangedTime = 0
+        ..hpdt = 0
+        ..natureScoredt = 0
+        ..money = 100;
       setState();
       AppRouter.popAndPushNamed(Routes.homeScreenRoute);
     }
@@ -132,7 +149,7 @@ class MatchDomainController extends _$MatchDomainController {
 
   void checkNotInMatch() {
     if (state.matchId != "not in a match") {
-      leaveMatch();
+      leaveMatch(isHostEnd: false);
     }
   }
 
@@ -197,5 +214,17 @@ class MatchDomainController extends _$MatchDomainController {
 
   void buy(int price) {
     source.buy(matchId: state.matchId, price: price);
+  }
+
+  void checkHost() async {
+    state.match = state.match
+        .copyWith(host: await source.getHost(matchId: state.matchId));
+    setState();
+  }
+
+  void setPlayers(List<String> players) {
+    state.match =
+        state.match.copyWith(players: players, playerCount: players.length);
+    setState();
   }
 }

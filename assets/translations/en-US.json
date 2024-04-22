@@ -6,6 +6,7 @@
   "noti_cancel": "Cancel",
   "noti_fail_google": "Failed to log in with Google",
   "noti_fail_apple": "There was a problem with Apple login. Please try again or attempt another login method.",
+  "noti_browser_check": "This website works best on Chrome. Please connect using Chrome!",
 
   "build_room": "Create Earth",
   "join_room": "Join Earth",
@@ -23,14 +24,19 @@
   "homePage_listWorld": "List of Earths",
 
   "settingPage_language": "Language Selection",
+  "setting_webIsForPC": "It is possible to play as a website, but it is optimized for PC.",
+  "settingPage_downloadAPP": "Are you connected via mobile?\nInstall the app and enjoy the game with powerful native performance!",
+  "settingPage_downloadWarning": "You cannot install from the App Store because it is still under review. You can download it directly instead.",
 
   "gamePage_enterText": "Enter your chat.",
+  "gamePage_2fast": "Please input a little more slowly.",
+  "gamePage_2much": "There are too many characters.",
   "gamePage_cannotStart": "The game can only start with 6 players.",
 
   "game_description": "You are a resident of Sinking Earth. You must maintain an environmental score above 0, for 7 days.",
   "worker_description": "[Office Worker]\nYou must survive by completing missions and consuming properly. Achieve endings through healthy consumption and public opinion.\n\nVictory Condition: Just survive.",
   "nature_description": "[Environmental Activist]\nReceive an additional 30 environmental points when completing missions.\n\nVictory Condition: Maintain an environmental score of 50 or higher at the end.",
-  "business_description": "[Entrepreneur]\nMaintain your HP, and distribute and sell desired necessities. When distributing necessities, you must pay three times the price as the initial cost.\n\nVictory Condition: Have over 3000 coins at the end.",
+  "business_description": "[Entrepreneur]\nMaintain your HP, and distribute and sell desired necessities. When distributing necessities, you must pay two times the price as the initial cost.\n\nVictory Condition: Have over 3000 coins at the end.",
   "politician_description": "[Politician]\nCan enact laws regarding sales items. Must carefully consider the situations and opinions of each individual.\n\nVictory Condition: Everyone survives.",
 
   "mission_already_done": "Someone has already completed the mission.\nPlease try again another day.",
@@ -51,6 +57,7 @@
   "activate_abort": "The product has not yet been launched.",
   "income": "Someone has purchased the item.",
 
+  "game_started": "The game has begun. You must survive for 7 days while maintaining your environmental score and HP. Click on the areas marked in yellow to complete missions or purchase supplies. Communicate with others to devise a plan for survival together.",
   "news_greenplation": "Title: Economy Currently Facing Greenflation... Citizens Complain of Tight Living\n\nDue to recent industrial regulations related to carbon emissions, the production of essential raw materials has become difficult, leading to the occurrence of greenflation. Greenflation is a portmanteau of 'green,' representing eco-friendliness, and 'inflation,' indicating rising prices. Appropriate regulatory relaxation seems necessary for price stability.",
   "news_80": "Title: Reduction in Carbon Emissions Regulations Show Effect... Climate Stability Achieved\n\nAccording to recent reports, the environment and climate are maintaining stability worldwide, raising hopes for a sustainable future.",
   "news_60": "Title: Increase in Fine Dust Concentration Compared to Previous Year\n\nAs fine dust concentration increases, it becomes difficult to breathe clean air. Accelerated desertification may be a contributing factor.",
@@ -74,13 +81,13 @@
   "buy_success": "Purchased.",
   "buy_fail": "Insufficient funds.",
 
-  "goodWater_name": "Eco-friendly Bottled Water",
-  "badWater_name": "Environmentally Harmful Bottled Water",
+  "goodWater_name": "Eco-friendly Water",
+  "badWater_name": "Environmentally Harmful Water",
   "goodFood_name": "Eco-friendly Meal Kit",
   "badFood_name": "Plastic Lunch Box",
   "goodAir_name": "Eco-friendly Oxygen Tank",
-  "badAir_name": "Environmentally Harmful Oxygen Tank",
-  "goodClothes_name": "Quality Clothes Made from Recycled Fibers",
+  "badAir_name": "Harmful Oxygen Tank",
+  "goodClothes_name": "Recycled Fiber Clothes",
   "badClothes_name": "Plastic Fiber Clothes",
 
   "goodWater_description": "Bottled water with reduced carbon emissions due to the use of eco-friendly packaging materials and shortened transportation process.",

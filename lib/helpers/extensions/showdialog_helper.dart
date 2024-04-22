@@ -30,24 +30,22 @@ class ShowDialogHelper {
 
   static void showSettingDialog() {
     showDialog(
-      context: AppRouter.navigatorKey.currentContext!,
-      builder: (BuildContext context) {
-        return SizedBox(
-          width: 844.w,
-          height: 390.h,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: 400.w,
-                height: 348.h,
-                child: const SettingDialogContent()
-              ),
-            ],
-          ),
-        );
-      }
-    );
+        context: AppRouter.navigatorKey.currentContext!,
+        builder: (BuildContext context) {
+          return SizedBox(
+            width: 844.w,
+            height: 390.h,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                    width: 400.w,
+                    height: 348.h,
+                    child: const SettingDialogContent()),
+              ],
+            ),
+          );
+        });
   }
 
   static void showBuildRoomDialog() {
@@ -145,6 +143,48 @@ class ShowDialogHelper {
         });
   }
 
+  static void showAlertWithActionAndCancel({
+    required VoidCallback onPressed, 
+    required String title, 
+    required String message,
+    required String enterMsg,
+    required String cancelMsg
+  }) {
+    showCupertinoDialog(context: AppRouter.navigatorKey.currentContext!, builder: (context) {
+      return CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          CupertinoDialogAction(
+            isDefaultAction: true, 
+            onPressed: (){
+              AppRouter.pop();
+              onPressed();
+            },
+            child: Text(
+              enterMsg, 
+              style: const TextStyle(
+                color: AppColors.green10
+              ),
+            ),
+          ),
+          CupertinoDialogAction(
+            isDefaultAction: true, 
+            onPressed: (){
+              AppRouter.pop();
+            },
+            child: Text(
+              cancelMsg, 
+              style: const TextStyle(
+                color: AppColors.black30
+              ),
+            ),
+          )
+        ],
+      );
+    });
+  }
+
   static void showSnackBar({required String content}) {
     ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!)
         .showSnackBar(SnackBar(
@@ -160,11 +200,11 @@ class ShowDialogHelper {
     ));
   }
 
-  static void showLoading() {
+  static void showLoading({Color? color}) {
     showCupertinoDialog(
         context: AppRouter.navigatorKey.currentContext!,
         builder: (context) {
-          return const CupertinoActivityIndicator();
+          return CupertinoActivityIndicator(color: color,);
         });
   }
 

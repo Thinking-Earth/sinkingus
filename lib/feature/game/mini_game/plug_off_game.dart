@@ -79,9 +79,10 @@ class PlugOffGame extends FlameGame {
         position: Vector2(227.65.w, 226.w),
         size: Vector2(362, 22.w),
         textRenderer: TextPaint(style: AppTypography.whitePixel),
-        boxConfig: TextBoxConfig(timePerChar: 0.1, growingBox: true));
+        boxConfig: const TextBoxConfig(timePerChar: 0.1, growingBox: true));
 
     ClickableSprite xBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(10.w, 13.w),
         size: Vector2.all(14.w),
         onClickEvent: (position, component) {

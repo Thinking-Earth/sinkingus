@@ -4,6 +4,9 @@
   "noti_noti": "Thông báo",
   "noti_ok": "Đồng ý",
   "noti_cancel": "Hủy",
+  "noti_fail_google": "Không thể đăng nhập bằng Google",
+  "noti_fail_apple": "Đã xảy ra sự cố khi đăng nhập vào Apple. Vui lòng thử lại hoặc thử phương thức đăng nhập khác.",
+  "noti_browser_check": "Trang web này hoạt động tốt nhất trên Chrome. Vui lòng kết nối bằng Chrome!",
 
   "build_room": "Tạo phòng Earth",
   "join_room": "Tham gia Earth",
@@ -21,14 +24,19 @@
   "homePage_listWorld": "Danh sách Earth",
 
   "settingPage_language": "Lựa chọn ngôn ngữ",
+  "setting_webIsForPC": "Có thể chơi dưới dạng trang web, nhưng nó được tối ưu hóa cho PC.",
+  "settingPage_downloadAPP": "Bạn có kết nối qua thiết bị di động không?\nHãy cài đặt ứng dụng và tận hưởng trò chơi với hiệu năng gốc mạnh mẽ!",
+  "settingPage_downloadWarning": "Bạn không thể cài đặt từ App Store vì ứng dụng vẫn đang được xem xét. Thay vào đó, bạn có thể tải xuống trực tiếp.",
 
   "gamePage_enterText": "Hãy nhập tin nhắn của bạn.",
+  "gamePage_2fast": "Vui lòng nhập chậm hơn một chút.",
+  "gamePage_2much": "Có quá nhiều nhân vật.",
   "gamePage_cannotStart": "Trò chơi chỉ có thể bắt đầu với 6 người chơi.",
 
   "game_description": "Người sử dụng là cư dân của Trái Đất đang chìm. Bạn phải duy trì điểm môi trường trên 0 trong 7 trong ngày thời gian chơi game. Bạn có thể mua đồ dùng cần thiết cho tăng hp, và có thể thực hiện tổng cộng 6 nhiệm vụ để  kiếm được 50 xu mỗi nhiệm vụ.",
   "worker_description": "[Nhân viên công ty]\nPhải thực hiện nhiệm vụ và tiêu thụ đúng cách để sống sót. Hãy xem kết thúc bằng tạo dựng ý kiến công cộng và tiêu dùng lành mạnh.\n\nĐiều kiện chiến thắng: Chỉ cần sống sót",
   "nature_description": "[Nhà hoạt động môi trường]\nNhận thêm 30 điểm môi trường khi hoàn thành nhiệm vụ.\n\nĐiều kiện chiến thắng: Đạt điểm môi trường trên 50 khi kết thúc",
-  "business_description": "[Nhà doanh nhân]\nhp không giảm, có thể lưu thông và bán các đồ dùng cần thiết trong cuộc sống. Khi lưu thông đồ dùng cần thiết phải trả 3 lần giá ban đầu.\n\nĐiều kiện chiến thắng: Đạt hơn 3000 đồng xu khi kết thúc",
+  "business_description": "[Nhà doanh nhân]\nhp không giảm, có thể lưu thông và bán các đồ dùng cần thiết trong cuộc sống. Khi lưu thông đồ dùng cần thiết phải trả 2 lần giá ban đầu.\n\nĐiều kiện chiến thắng: Đạt hơn 3000 đồng xu khi kết thúc",
   "politician_description": "[Chính trị gia]\nCó thể ban hành luật về hạng mục bán hàng. Phải tổng hợp tình hình và ý kiến của mọi người.\n\nĐiều kiện chiến thắng: Tất cả đều sống sót",
 
   "mission_already_done": "Ai đó đã hoàn thành nhiệm vụ rồi.\nHãy thử lại vào ngày khác.",
@@ -49,6 +57,7 @@
   "activate_abort": "Sản phẩm chưa được kích hoạt.",
   "income": "Ai đó đã mua sản phẩm.",
 
+  "game_started": "Trò chơi đã bắt đầu. Bạn phải sống sót trong vòng 7 ngày trong khi duy trì điểm môi trường và HP của bạn. Nhấp vào các khu vực được đánh dấu màu vàng để hoàn thành nhiệm vụ hoặc mua hàng cần thiết. Giao tiếp với người khác để lập kế hoạch để sống sót cùng nhau.",
   "news_greenplation": "Chủ đề: Bây giờ kinh tế đang trải qua Inflation Xanh...Dân dụ \"Cuộc sống khó khăn quá\"\n\nGần đây, do quy định về khí thải carbon liên quan, việc sản xuất nguyên liệu cần thiết trở nên khó khăn, dẫn đến sự phát sinh của Inflation Xanh. Inflation Xanh kết hợp từ 'xanh' nghĩa là thân thiện với môi trường và 'inflation' nghĩa là sự tăng giá. Có vẻ như cần có sự giảm nhẹ về quy định để ổn định giá cả.",
   "news_80": "Chủ đề: Hiệu quả của quy định giảm khí thải carbon...Khí hậu ổn định\n\nCác báo cáo gần đây cho thấy môi trường và khí hậu ổn định trên toàn thế giới, hy vọng về một tương lai bền vững đang tăng lên.",
   "news_60": "Chủ đề: Nồng độ bụi mịn tăng so với năm trước\n\nNồng độ bụi mịn tăng lên và việc hít thở không khí trong lành trở nên khó khăn. Nguyên nhân của sự gia tăng bụi mịn này là do sa mạc hóa.",
@@ -64,7 +73,7 @@
   "wind_power": "Xoay máy phát điện gió theo hướng mũi tên.",
 
   "select": "Chọn",
-  "seleted": "Đã chọn",
+  "selected": "Đã chọn",
 
   "buy": "Mua",
   "activate": "Kích hoạt",

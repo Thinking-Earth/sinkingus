@@ -1,28 +1,12 @@
 name: sinking_us
-description: "Sinking US"
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+description: "Sinking Earth"
+publish_to: "none"
 
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-# In Windows, build-name is used as the major, minor, and patch parts
-# of the product and file versions while build-number is used as the build suffix.
 version: 1.0.0+1
 
 environment:
   sdk: ">=3.2.4 <4.0.0"
 
-# consider running `flutter pub upgrade --major-versions`.
-# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
     sdk: flutter
@@ -54,6 +38,11 @@ dependencies:
   url_strategy: ^0.2.0 #링크에 샵 삭제
   seo_renderer: ^0.6.0 #seo rendering
 
+  #game
+  flame: ^1.16.0
+  flame_riverpod: ^5.2.0
+  flame_audio: 2.10.1
+
   #etc
   flutter_screenutil: ^5.9.0 #화면 사이즈 controlling
   http: ^1.1.2
@@ -61,13 +50,13 @@ dependencies:
   flutter_svg: ^2.0.9 #svg 사용하기 위함
   shared_preferences: ^2.2.2 #tinydb
   flutter_secure_storage: ^9.0.0 #난독화 tinydb
-  flame: ^1.16.0
-  flame_riverpod: ^5.2.0
-  connectivity_plus: ^5.0.2 #인터넷 연결 상태 감지
+  connectivity_plus: ^6.0.2 #인터넷 연결 상태 감지
   easy_localization: ^3.0.5 #지역 위치 파악 및 언어팩 연결
   intl: ^0.18.0 #다국어 및 다국 시간
   animated_text_kit: ^4.2.2 #애니메이션 텍스트
   lottie: ^3.1.0 #mp4 to json
+  audioplayers: 5.2.1
+  url_launcher: ^6.1.7 #링크 열기
 
 dev_dependencies:
   flutter_test:
@@ -80,11 +69,9 @@ dev_dependencies:
   freezed: ^2.4.7
   json_serializable: ^6.2.0
 
-# The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
     - assets/images/characters/
@@ -102,6 +89,7 @@ flutter:
     - assets/translations/
     - assets/images/home/
     - assets/jsons/
+    - assets/audio/
 
   fonts:
     - family: Galmuri

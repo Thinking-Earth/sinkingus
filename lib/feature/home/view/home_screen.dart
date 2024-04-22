@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   Map<String, Match> matchList = {};
-  String bottomText = tr('game_description');
   bool charactorController = false;
   late Timer _timer;
 
@@ -57,15 +57,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final homeViewModel = ref.watch(homeScreenControllerProvider);
+
     return PopScope(
       canPop: false,
       child: Scaffold(
         backgroundColor: const Color(0xFF80E6EF),
         body: GestureDetector(
           onTap: () {
-            setState(() {
-              bottomText = tr('game_description');
-            });
+            ref.read(homeScreenControllerProvider.notifier).handleBottomText(tr('game_description'));
           },
           child: Stack(
             children: [
@@ -101,9 +101,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           top: 108.h,
                           child: showCharacter(
                               onTap: () {
-                                setState(() {
-                                  bottomText = tr('business_description');
-                                });
+                                ref.read(homeScreenControllerProvider.notifier).handleBottomText(tr('business_description'));
                               },
                               move: charactorController,
                               imageAsset: AppImages.businessMan),
@@ -113,9 +111,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           top: 110.h,
                           child: showCharacter(
                               onTap: () {
-                                setState(() {
-                                  bottomText = tr('politician_description');
-                                });
+                                ref.read(homeScreenControllerProvider.notifier).handleBottomText(tr('politician_description'));
                               },
                               move: charactorController,
                               imageAsset: AppImages.politicianMan),
@@ -125,9 +121,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           top: 110.h,
                           child: showCharacter(
                               onTap: () {
-                                setState(() {
-                                  bottomText = tr('nature_description');
-                                });
+                                ref.read(homeScreenControllerProvider.notifier).handleBottomText(tr('nature_description'));
                               },
                               move: charactorController,
                               flip: true,
@@ -138,9 +132,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           top: 110.h,
                           child: showCharacter(
                               onTap: () {
-                                setState(() {
-                                  bottomText = tr('worker_description');
-                                });
+                                ref.read(homeScreenControllerProvider.notifier).handleBottomText(tr('worker_description'));
                               },
                               move: charactorController,
                               flip: true,
@@ -154,8 +146,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             height: 102.h,
                             child: SingleChildScrollView(
                               child: Text(
-                                bottomText,
-                                style: AppTypography.blackPixel
+                                homeViewModel.bottomText,
+                                style: AppTypography
+                                    .blackPixel
                                     .copyWith(fontSize: 12.sp),
                               ),
                             ),
@@ -191,22 +184,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           width: 400.w,
                           height: 230.h,
                           child: matchList.isNotEmpty
-                              ? ListView.builder(
-                                  itemCount: matchList.length,
-                                  itemBuilder: (context, index) {
-                                    String matchId =
-                                        matchList.keys.elementAt(index);
-                                    return MatchListItem(
-                                        matchId: matchId,
-                                        match: matchList[matchId]!,
-                                        isPrivate: "public");
-                                  },
+                              ? ScrollConfiguration(
+                                  behavior:
+                                      ScrollConfiguration.of(context).copyWith(
+                                    dragDevices: {
+                                      PointerDeviceKind.touch,
+                                      PointerDeviceKind.mouse,
+                                      PointerDeviceKind.trackpad,
+                                    },
+                                  ),
+                                  child: ListView.builder(
+                                    itemCount: matchList.length,
+                                    itemBuilder: (context, index) {
+                                      String matchId =
+                                          matchList.keys.elementAt(index);
+                                      return MatchListItem(
+                                          matchId: matchId,
+                                          match: matchList[matchId]!,
+                                          isPrivate: "public");
+                                    },
+                                  ),
                                 )
                               : Center(
                                   child: Text(
                                     "There are no rooms left.\nCreate a room and enjoy the game!",
                                     textAlign: TextAlign.center,
-                                    style: AppTypography.blackPixel
+                                    style: AppTypography
+                                        .blackPixel
                                         .copyWith(fontSize: 10.sp),
                                   ),
                                 ),

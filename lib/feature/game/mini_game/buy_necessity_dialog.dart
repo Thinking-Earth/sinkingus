@@ -41,7 +41,7 @@ class GroceryListItem extends SpriteComponent
   late TextComponent btnText;
 
   GroceryListItem({required this.type})
-      : super(position: Vector2(418.w * (type.id - 2), 0) / 3);
+      : super(position: Vector2(418.w * (type.id - 2) - 77.w, -107.w) / 3);
 
   @override
   FutureOr<void> onLoad() async {
@@ -49,7 +49,8 @@ class GroceryListItem extends SpriteComponent
     size = Vector2(455.3.w, 256.w);
 
     final priceComponent = TextComponent(
-        text: "${type.price}",
+        text:
+            "${(game.state.game.player.role == RoleType.business) ? type.price * 2 : type.price}",
         position: Vector2(1028.w, 340.w) / 3,
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
@@ -59,6 +60,7 @@ class GroceryListItem extends SpriteComponent
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     final buyBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(1018.w, 539.w) / 3,
         size: Vector2(168.w, 57.w) / 3,
         onClickEvent: (positon, component) {
@@ -71,7 +73,7 @@ class GroceryListItem extends SpriteComponent
       btnText = TextComponent(
           text: tr("activate"),
           textRenderer: TextPaint(
-              style: (game.groceryList[type]! > -1)
+              style: (game.state.groceryList[type]! > -1)
                   ? AppTypography.grayPixel
                   : AppTypography.blackPixel),
           anchor: Anchor.center,
@@ -81,7 +83,7 @@ class GroceryListItem extends SpriteComponent
       btnText = TextComponent(
           text: tr("buy"),
           textRenderer: TextPaint(
-              style: (game.groceryList[type]! > -1)
+              style: (game.state.groceryList[type]! > -1)
                   ? AppTypography.blackPixel
                   : AppTypography.grayPixel),
           anchor: Anchor.center,
@@ -89,7 +91,7 @@ class GroceryListItem extends SpriteComponent
           position: Vector2(1018.w, 539.w) / 3 + Vector2(168.w, 57.w) / 6);
     }
 
-    final description = TextComponent(
+    final description = TextBoxComponent(
         text: tr("${type.code}_name"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
@@ -111,7 +113,11 @@ class BuyDialog extends SpriteComponent
   GroceryListItem listItem;
   late TextComponent buyText;
 
-  BuyDialog(this.listItem) : super(size: Vector2(455.3.w, 256.w));
+  BuyDialog(this.listItem)
+      : super(
+            size: Vector2(727.w, 362.w) / 3,
+            position: Vector2(455.3.w, 256.w) / 2,
+            anchor: Anchor.center);
 
   @override
   FutureOr<void> onMount() async {
@@ -121,13 +127,13 @@ class BuyDialog extends SpriteComponent
         text: listItem.btnText.text,
         textRenderer: listItem.btnText.textRenderer,
         anchor: Anchor.center,
-        position: Vector2(730.w, 439.w) / 3);
+        position: Vector2(448.5.w, 303.5.w) / 3);
 
     final cancelText = TextComponent(
         text: tr("close"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        position: Vector2(904.w, 439.w) / 3);
+        position: Vector2(622.5.w, 303.5.w) / 3);
 
     final buyBtn = ClickablePolygon.relative(
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
@@ -137,24 +143,24 @@ class BuyDialog extends SpriteComponent
       } else {
         buy();
       }
-    }, parentSize: Vector2(134.w, 42.w) / 3)
-      ..position = Vector2(663.w, 419.w) / 3
+    }, parentSize: Vector2(134.w, 42.w) / 3, isBtn: true)
+      ..position = Vector2(374.w, 276.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
     final cancelBtn = ClickablePolygon.relative(
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
       removeFromParent();
-    }, parentSize: Vector2(134.w, 42.w) / 3)
-      ..position = Vector2(837.w, 419.w) / 3
+    }, parentSize: Vector2(134.w, 42.w) / 3, isBtn: true)
+      ..position = Vector2(549.w, 276.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
-    final description = TextComponent(
+    final description = ScrollTextBoxComponent(
         text: tr("${listItem.type.code}_description"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        size: Vector2(300.w, 200.w) / 3,
-        position: Vector2(684.w, 357.w) / 3);
+        size: Vector2(664.w, 158.w) / 3,
+        position: Vector2(363.5.w, 169.w) / 3);
 
     add(buyText);
     add(cancelText);
@@ -166,21 +172,23 @@ class BuyDialog extends SpriteComponent
   }
 
   void activate() {
-    bool canActivate = game.state.setDt(0, 0, -3 * listItem.type.price);
-    if (canActivate) {
-      game.state.setActivate(listItem.type);
-      buyText.textRenderer = listItem.btnText.textRenderer =
-          TextPaint(style: AppTypography.grayPixel);
-    } else {
-      ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
+    if (game.state.groceryList[listItem.type]! == -1) {
+      bool canActivate = game.state.setDt(0, 0, -2 * listItem.type.price);
+      if (canActivate) {
+        game.state.setActivate(listItem.type);
+        buyText.textRenderer = listItem.btnText.textRenderer =
+            TextPaint(style: AppTypography.grayPixel);
+      } else {
+        ShowDialogHelper.showSnackBar(content: tr("buy_fail"));
+      }
     }
   }
 
   void buy() {
-    if (game.groceryList[listItem.type]! > -1) {
+    if (game.state.groceryList[listItem.type]! > -1) {
       if (game.state.rule.restrict >= listItem.type.destroyScore) {
         bool canBuy = game.state.setDt(
-            20, -1 * listItem.type.destroyScore, -1 * listItem.type.price);
+            30, -1 * listItem.type.destroyScore, -1 * listItem.type.price);
         if (canBuy) {
           ShowDialogHelper.showSnackBar(content: tr("buy_success"));
           game.state.buy(listItem.type.price);
@@ -243,26 +251,28 @@ class Scroller extends PositionComponent
   }
 }
 
-// TODO: test listview
 class ListView extends PositionComponent
     with DragCallbacks, HasGameReference<BuyNecessityDialog> {
-  ListView({super.children});
+  ListView({super.children})
+      : super(
+            size: Vector2(3298.w, 528.w) / 3,
+            position: Vector2(77.w, 107.w) / 3);
 
   @override
   void update(double dt) {
-    position.x = -game.scrollPosition * 2090 / 989;
+    position.x = -game.scrollPosition * 2090 / 989 + 77.w / 3;
     super.update(dt);
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
+    if (event.localDelta.x < 0) {
+      game.scrollPosition = min(
+          989.w / 3, game.scrollPosition + -event.localDelta.x * 989 / 2090);
+    }
     if (event.localDelta.x > 0) {
       game.scrollPosition =
-          min(989.w / 3, game.scrollPosition + event.localDelta.x * 989 / 2090);
-    }
-    if (event.localDelta.x < 0) {
-      game.scrollPosition =
-          max(0, game.scrollPosition + event.localDelta.x * 989 / 2090);
+          max(0, game.scrollPosition + -event.localDelta.x * 989 / 2090);
     }
     super.onDragUpdate(event);
   }
@@ -275,7 +285,6 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
   late BuyDialog dialog;
 
   GameState state;
-  late Map<GroceryType, int> groceryList;
 
   BuyNecessityDialog({required this.state});
 
@@ -290,14 +299,13 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
         size: Vector2(1366.w, 655.w) / 3);
 
     ClickableSprite xBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(14.w, 6.w) / 3,
         size: Vector2.all(40.w) / 3,
         onClickEvent: (position, component) {
           Navigator.of(AppRouter.navigatorKey.currentContext!).pop(true);
         },
         src: "store/xBtn.png");
-
-    groceryList = await state.getGroceryList();
 
     final goodWater = GroceryListItem(type: GroceryType.goodWater);
     final badWater = GroceryListItem(type: GroceryType.badWater);
@@ -324,7 +332,7 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
       scrollPosition = max(0.w, scrollPosition - 20.w);
-    }, parentSize: Vector2(48.w, 44.w) / 3)
+    }, parentSize: Vector2(48.w, 44.w) / 3, isBtn: true)
       ..position = Vector2(66.w, 666.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
@@ -332,7 +340,7 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
       scrollPosition = min(989.w / 3, scrollPosition + 20.w);
-    }, parentSize: Vector2(48.w, 44.w) / 3)
+    }, parentSize: Vector2(48.w, 44.w) / 3, isBtn: true)
       ..position = Vector2(1250.w, 666.w) / 3
       ..paint = BasicPalette.transparent.paint();
 

@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sinking_us/core/network/firestore_base.dart';
-import 'package:sinking_us/core/network/network_status.dart';
 import 'package:sinking_us/firebase_options.dart';
 import 'package:sinking_us/main.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -18,7 +17,6 @@ class AppBootstrapper {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     await EasyLocalization.ensureInitialized();
     FirestoreBase.init();
-    NetWorkStatusManagement.init();
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
