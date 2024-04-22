@@ -260,8 +260,7 @@ class Background extends PositionComponent
     background.addAll([
       RectangleHitbox(
           position: Vector2(1667, 263) * mapRatio,
-          size: Vector2(227, 180) * mapRatio)
-        ..debugMode = true,
+          size: Vector2(227, 180) * mapRatio),
       RectangleHitbox(
           position: Vector2(1643, 659) * mapRatio,
           size: Vector2(79, 128) * mapRatio),
