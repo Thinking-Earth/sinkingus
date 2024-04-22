@@ -65,18 +65,22 @@ class PolicyListItem extends SpriteComponent
         position: Vector2(184.w, 446.w) / 3,
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
+    String title = tr(type.code);
     final titleText = TextComponent(
-        text: tr(type.code),
+        text: title,
         anchor: Anchor.center,
         position: Vector2(size.x * 0.5, 20.w),
-        textRenderer: TextPaint(style: AppTypography.blackPixel));
+        textRenderer: TextPaint(
+            style: AppTypography.blackPixel
+                .copyWith(fontSize: (25 ~/ title.length + 3) * 2.sp)));
 
-    final descriptionText = TextBoxComponent(
+    final descriptionText = ScrollTextBoxComponent(
         text: tr("${type.code}_description"),
         anchor: Anchor.topCenter,
         position: Vector2(size.x * 0.5, 35.w),
-        size: Vector2(300.w, 500.w) / 3,
-        textRenderer: TextPaint(style: AppTypography.blackPixel));
+        size: Vector2(300.w, 230.w) / 3,
+        textRenderer: TextPaint(
+            style: AppTypography.blackPixel.copyWith(fontSize: 8.sp)));
 
     final destroyScoreText = TextComponent(
         text: "-${type.restrict}",

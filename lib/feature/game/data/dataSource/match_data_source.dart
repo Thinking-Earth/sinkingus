@@ -105,7 +105,7 @@ class MatchDataSource {
       {required String matchId, required String uid, required Match match}) {
     DatabaseReference gameRef = db.ref("game/$matchId");
 
-    if (match.host == uid) {
+    if (match.playerCount == 1 || (match.host == uid && match.day == 0)) {
       db
           .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
           .remove();
@@ -121,13 +121,23 @@ class MatchDataSource {
           if (value.exists) {
             final players = List<dynamic>.from(value.value as List);
             players.remove(uid);
-            gameRef.update(
-                {"playerCount": ServerValue.increment(-1), "players": players});
+            gameRef.update({
+              "playerCount": ServerValue.increment(-1),
+              "players": players,
+              "host": players[0]
+            });
           }
         });
       }
     }
     deletePlayer(uid);
+  }
+
+  Future<String> getHost({required String matchId}) async {
+    return await db
+        .ref("game/$matchId/host")
+        .get()
+        .then((value) => value.value as String);
   }
 
   void deletePlayer(String uid) {
@@ -168,12 +178,8 @@ class MatchDataSource {
   }
 
   void sendStatus(
-      {required String matchId,
-      required String uid,
-      required String status}) async {
-    await FirebaseDatabase.instance
-        .ref("game/$matchId/status")
-        .update({uid: status});
+      {required String matchId, required String uid, required String status}) {
+    FirebaseDatabase.instance.ref("game/$matchId/status").update({uid: status});
   }
 
   Future<void> deleteLobby(

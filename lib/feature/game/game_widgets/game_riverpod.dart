@@ -13,6 +13,7 @@ import 'package:sinking_us/feature/game/domain/match_domain.dart';
 import 'package:sinking_us/feature/game/game_widgets/game.dart';
 import 'package:sinking_us/feature/game/mini_game/buy_necessity_dialog.dart';
 import 'package:sinking_us/feature/game/mini_game/select_policy_dialog.dart';
+import 'package:sinking_us/feature/game/sprites/characters.dart';
 import 'package:sinking_us/feature/game/sprites/roles.dart';
 import 'package:sinking_us/feature/result/viewmodel/result_viewmodel.dart';
 
@@ -87,14 +88,14 @@ class GameState extends PositionComponent
   }
 
   void gameEnd() async {
-    Map<String, String> playersStatus = await FirebaseDatabase.instance
-        .ref("game/${game.matchId}/status")
-        .get()
-        .then((value) {
-      return Map<String, String>.from(value.value as Map);
-    });
     String status = "undefined";
     if (game.day == 8) {
+      Map<String, String> playersStatus = await FirebaseDatabase.instance
+          .ref("game/${game.matchId}/status")
+          .get()
+          .then((value) {
+        return Map<String, String>.from(value.value as Map);
+      });
       switch (game.player.role) {
         case RoleType.worker:
           status = "win";
@@ -121,7 +122,7 @@ class GameState extends PositionComponent
     ref.read(matchDomainControllerProvider.notifier).sendStatus(status: status);
     ref.read(resultViewModelControllerProvider.notifier).setStatus(status);
     AppRouter.popAndPushNamed(Routes.resultScreenRoute);
-    leaveMatch(true);
+    leaveMatch(hp != 0);
   }
 
   @override
@@ -148,6 +149,14 @@ class GameState extends PositionComponent
     FlameAudio.bgm.play('Chapter Book.mp3', volume: 0.1);
   }
 
+  void checkHost() {
+    ref.read(matchDomainControllerProvider.notifier).checkHost();
+  }
+
+  bool isHost() {
+    return ref.read(matchDomainControllerProvider.notifier).isHost();
+  }
+
   void nextDay() {
     ref.read(matchDomainControllerProvider.notifier).setNextDay(game.day);
   }
@@ -166,6 +175,11 @@ class GameState extends PositionComponent
         .read(matchDomainControllerProvider.notifier)
         .leaveMatch(isHostEnd: isHostEnd);
     FlameAudio.bgm.stop();
+  }
+
+  void setPlayers(List<OtherPlayer> players) {
+    ref.read(matchDomainControllerProvider.notifier).setPlayers(
+        List<String>.generate(players.length, (index) => players[index].uid));
   }
 
   void setRule(RuleType newRule) {

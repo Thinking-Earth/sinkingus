@@ -124,8 +124,10 @@ class MatchDomainController extends _$MatchDomainController {
             matchId: state.matchId,
             uid: ref.read(userDomainControllerProvider).userInfo!.uid,
             match: state.match);
+      } else {
+        source
+            .deletePlayer(ref.read(userDomainControllerProvider).userInfo!.uid);
       }
-      source.deletePlayer(ref.read(userDomainControllerProvider).userInfo!.uid);
       ref.read(chatDomainControllerProvider.notifier).outChatRoom(
           ref.read(openChatViewModelControllerProvider).chatID,
           nick: ref.read(userDomainControllerProvider).userInfo!.nick);
@@ -212,5 +214,17 @@ class MatchDomainController extends _$MatchDomainController {
 
   void buy(int price) {
     source.buy(matchId: state.matchId, price: price);
+  }
+
+  void checkHost() async {
+    state.match = state.match
+        .copyWith(host: await source.getHost(matchId: state.matchId));
+    setState();
+  }
+
+  void setPlayers(List<String> players) {
+    state.match =
+        state.match.copyWith(players: players, playerCount: players.length + 1);
+    setState();
   }
 }

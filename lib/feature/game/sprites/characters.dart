@@ -97,7 +97,6 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
         anchor: Anchor.bottomCenter,
         position: Vector2(size.x * 0.5, size.y - 28.w),
         radius: 25.w);
-    hitbox.debugMode = true;
 
     add(hitbox);
     add(nameText);
@@ -323,6 +322,7 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
         }
       } else {
         game.deletePlayer(this);
+        game.state.checkHost();
         removeFromParent();
       }
     });

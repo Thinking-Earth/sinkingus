@@ -139,7 +139,7 @@ class GameUI extends PositionComponent
           "0${remainingSec ~/ 60} : ${(remainingSec % 60 < 10) ? "0" : ""}${remainingSec % 60}";
       if (remainingSec == 0) {
         timer.pause();
-        if (isHost) {
+        if (game.state.isHost()) {
           game.state.hostNextDay();
         }
       }

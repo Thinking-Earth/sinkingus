@@ -121,7 +121,7 @@ class SinkingUsGame extends FlameGame
             background.addAll(eventBtns);
           }
         } else {
-          if (!isHost) {
+          if (!state.isHost()) {
             state.leaveMatch(true);
             ShowDialogHelper.showSnackBar(content: tr("host_end_game"));
           }
@@ -136,6 +136,7 @@ class SinkingUsGame extends FlameGame
 
   void deletePlayer(OtherPlayer otherPlayer) {
     players.remove(otherPlayer);
+    state.setPlayers(players);
   }
 
   @override

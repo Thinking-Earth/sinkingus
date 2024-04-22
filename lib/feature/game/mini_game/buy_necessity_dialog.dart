@@ -90,7 +90,7 @@ class GroceryListItem extends SpriteComponent
           position: Vector2(1018.w, 539.w) / 3 + Vector2(168.w, 57.w) / 6);
     }
 
-    final description = TextComponent(
+    final description = TextBoxComponent(
         text: tr("${type.code}_name"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
@@ -154,12 +154,12 @@ class BuyDialog extends SpriteComponent
       ..position = Vector2(549.w, 276.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
-    final description = TextComponent(
+    final description = ScrollTextBoxComponent(
         text: tr("${listItem.type.code}_description"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        size: Vector2(300.w, 200.w) / 3,
-        position: Vector2(727.w, 362.w) / 6);
+        size: Vector2(664.w, 158.w) / 3,
+        position: Vector2(363.5.w, 169.w) / 3);
 
     add(buyText);
     add(cancelText);
