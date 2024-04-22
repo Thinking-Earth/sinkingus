@@ -112,7 +112,11 @@ class BuyDialog extends SpriteComponent
   GroceryListItem listItem;
   late TextComponent buyText;
 
-  BuyDialog(this.listItem) : super(size: Vector2(455.3.w, 256.w));
+  BuyDialog(this.listItem)
+      : super(
+            size: Vector2(727.w, 362.w) / 3,
+            position: Vector2(455.3.w, 256.w) / 2,
+            anchor: Anchor.center);
 
   @override
   FutureOr<void> onMount() async {
@@ -122,13 +126,13 @@ class BuyDialog extends SpriteComponent
         text: listItem.btnText.text,
         textRenderer: listItem.btnText.textRenderer,
         anchor: Anchor.center,
-        position: Vector2(730.w, 439.w) / 3);
+        position: Vector2(448.5.w, 303.5.w) / 3);
 
     final cancelText = TextComponent(
         text: tr("close"),
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
-        position: Vector2(904.w, 439.w) / 3);
+        position: Vector2(622.5.w, 303.5.w) / 3);
 
     final buyBtn = ClickablePolygon.relative(
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
@@ -139,7 +143,7 @@ class BuyDialog extends SpriteComponent
         buy();
       }
     }, parentSize: Vector2(134.w, 42.w) / 3)
-      ..position = Vector2(663.w, 419.w) / 3
+      ..position = Vector2(374.w, 276.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
     final cancelBtn = ClickablePolygon.relative(
@@ -147,7 +151,7 @@ class BuyDialog extends SpriteComponent
         onClickEvent: () {
       removeFromParent();
     }, parentSize: Vector2(134.w, 42.w) / 3)
-      ..position = Vector2(837.w, 419.w) / 3
+      ..position = Vector2(549.w, 276.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
     final description = TextComponent(
@@ -155,7 +159,7 @@ class BuyDialog extends SpriteComponent
         textRenderer: TextPaint(style: AppTypography.blackPixel),
         anchor: Anchor.center,
         size: Vector2(300.w, 200.w) / 3,
-        position: Vector2(684.w, 357.w) / 3);
+        position: Vector2(727.w, 362.w) / 6);
 
     add(buyText);
     add(cancelText);

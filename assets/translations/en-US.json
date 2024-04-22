@@ -78,13 +78,13 @@
   "buy_success": "Purchased.",
   "buy_fail": "Insufficient funds.",
 
-  "goodWater_name": "Eco-friendly Bottled Water",
-  "badWater_name": "Environmentally Harmful Bottled Water",
+  "goodWater_name": "Eco-friendly Water",
+  "badWater_name": "Environmentally Harmful Water",
   "goodFood_name": "Eco-friendly Meal Kit",
   "badFood_name": "Plastic Lunch Box",
   "goodAir_name": "Eco-friendly Oxygen Tank",
-  "badAir_name": "Environmentally Harmful Oxygen Tank",
-  "goodClothes_name": "Quality Clothes Made from Recycled Fibers",
+  "badAir_name": "Harmful Oxygen Tank",
+  "goodClothes_name": "Recycled Fiber Clothes",
   "badClothes_name": "Plastic Fiber Clothes",
 
   "goodWater_description": "Bottled water with reduced carbon emissions due to the use of eco-friendly packaging materials and shortened transportation process.",
