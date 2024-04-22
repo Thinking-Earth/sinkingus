@@ -110,8 +110,10 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
     super.update(dt);
 
     if (moveForce != Vector2.zero()) {
-      transform.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
-      nameText.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
+      if (!hitbox.isColliding) {
+        transform.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
+        nameText.scale = Vector2(moveForce.x > 0 ? -1 : 1, 1);
+      }
       current = CharacterState.walk;
 
       game.background.position.add(-moveForce);
