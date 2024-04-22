@@ -24,6 +24,9 @@
   "homePage_listWorld": "Danh sách Earth",
 
   "settingPage_language": "Lựa chọn ngôn ngữ",
+  "setting_webIsForPC": "Có thể chơi dưới dạng trang web, nhưng nó được tối ưu hóa cho PC.",
+  "settingPage_downloadAPP": "Bạn có kết nối qua thiết bị di động không?\nHãy cài đặt ứng dụng và tận hưởng trò chơi với hiệu năng gốc mạnh mẽ!",
+  "settingPage_downloadWarning": "Bạn không thể cài đặt từ App Store vì ứng dụng vẫn đang được xem xét. Thay vào đó, bạn có thể tải xuống trực tiếp.",
 
   "gamePage_enterText": "Hãy nhập tin nhắn của bạn.",
   "gamePage_2fast": "Vui lòng nhập chậm hơn một chút.",

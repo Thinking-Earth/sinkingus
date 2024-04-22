@@ -7,7 +7,7 @@ part of 'chat_viewmodel.dart';
 // **************************************************************************
 
 String _$openChatViewModelControllerHash() =>
-    r'b2c6ef86842d62269e86f8e2c6cea6eb95496cc7';
+    r'7fbb62677e46930344bcb66ed55adc6d86153624';
 
 /// See also [OpenChatViewModelController].
 @ProviderFor(OpenChatViewModelController)

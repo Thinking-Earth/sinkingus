@@ -24,6 +24,9 @@
   "homePage_listWorld": "地球列表",
 
   "settingPage_language": "语言选择",
+  "setting_webIsForPC": "可以作为网站来玩，但它针对 PC 进行了优化。",
+  "settingPage_downloadAPP": "您是否通过手机连接？\n安装应用程序，享受强大的原生性能游戏！",
+  "settingPage_downloadWarning": "您无法从App Store安装，因为它仍在审核中。您可以直接下载。",
 
   "gamePage_enterText": "请输入您的聊天。",
   "gamePage_2fast": "请输入慢一点。",

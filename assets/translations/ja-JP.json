@@ -24,6 +24,9 @@
   "homePage_listWorld": "Earthリスト",
 
   "settingPage_language": "言語の選択",
+  "setting_webIsForPC": "ウェブサイトとして再生することは可能ですが、PC 向けに最適化されています。",
+  "settingPage_downloadAPP": "モバイル経由で接続していますか?\nアプリをインストールして、強力なネイティブ パフォーマンスでゲームをお楽しみください!",
+  "settingPage_downloadWarning": "アプリストアがまだ審査中のため、ストアからインストールできません。代わりに直接ダウンロードできます。",
 
   "gamePage_enterText": "チャットを入力してください。",
   "gamePage_2fast": "もう少しゆっくり入力してください。",

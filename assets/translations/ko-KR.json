@@ -24,6 +24,9 @@
   "homePage_listWorld": "Earth 리스트",
 
   "settingPage_language": "언어 선택 - ",
+  "setting_webIsForPC": "웹사이트로 플레이가 가능하긴 하지만 PC에 최적화되어있습니다.",
+  "settingPage_downloadAPP": "모바일로 접속했나요?\n어플을 설치하여 네이티브의 강력한 퍼포먼스 위에서 게임을 즐겨보세요!",
+  "settingPage_downloadWarning": "앱스토어가 아직 심사중이기 때문에 스토어에서 설치할 수 없습니다. 대신 직접 다운로드할 수 있습니다.",
 
   "gamePage_enterText": "채팅을 입력하세요.",
   "gamePage_2fast": "조금만 천천히 입력해주세요.",
