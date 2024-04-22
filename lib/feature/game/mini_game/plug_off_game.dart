@@ -82,6 +82,7 @@ class PlugOffGame extends FlameGame {
         boxConfig: const TextBoxConfig(timePerChar: 0.1, growingBox: true));
 
     ClickableSprite xBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(10.w, 13.w),
         size: Vector2.all(14.w),
         onClickEvent: (position, component) {

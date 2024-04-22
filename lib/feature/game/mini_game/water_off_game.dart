@@ -44,6 +44,7 @@ class WaterOffGame extends FlameGame {
         children: [water2]);
 
     ClickableSprite tap1 = ClickableSprite(
+        isBtn: false,
         position: Vector2(471.w, 256.w) / 3,
         extraPosition: Vector2(-12.w, 0) / 3,
         size: Vector2(40.w, 25.w) / 3,
@@ -54,6 +55,7 @@ class WaterOffGame extends FlameGame {
         src: "minigame/water/tap.png");
 
     ClickableSprite tap2 = ClickableSprite(
+        isBtn: false,
         position: Vector2(838.w, 256.w) / 3,
         extraPosition: Vector2(376.w - 23.w, 0) / 3,
         size: Vector2(40.w, 25.w) / 3,
@@ -73,6 +75,7 @@ class WaterOffGame extends FlameGame {
         boxConfig: const TextBoxConfig(timePerChar: 0.1, growingBox: true));
 
     ClickableSprite xBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(10.w, 13.w),
         size: Vector2.all(14.w),
         onClickEvent: (position, component) {

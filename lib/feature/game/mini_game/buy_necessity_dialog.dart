@@ -60,6 +60,7 @@ class GroceryListItem extends SpriteComponent
         textRenderer: TextPaint(style: AppTypography.blackPixel));
 
     final buyBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(1018.w, 539.w) / 3,
         size: Vector2(168.w, 57.w) / 3,
         onClickEvent: (positon, component) {
@@ -142,7 +143,7 @@ class BuyDialog extends SpriteComponent
       } else {
         buy();
       }
-    }, parentSize: Vector2(134.w, 42.w) / 3)
+    }, parentSize: Vector2(134.w, 42.w) / 3, isBtn: true)
       ..position = Vector2(374.w, 276.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
@@ -150,7 +151,7 @@ class BuyDialog extends SpriteComponent
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
       removeFromParent();
-    }, parentSize: Vector2(134.w, 42.w) / 3)
+    }, parentSize: Vector2(134.w, 42.w) / 3, isBtn: true)
       ..position = Vector2(549.w, 276.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
@@ -300,6 +301,7 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
         size: Vector2(1366.w, 655.w) / 3);
 
     ClickableSprite xBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(14.w, 6.w) / 3,
         size: Vector2.all(40.w) / 3,
         onClickEvent: (position, component) {
@@ -332,7 +334,7 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
       scrollPosition = max(0.w, scrollPosition - 20.w);
-    }, parentSize: Vector2(48.w, 44.w) / 3)
+    }, parentSize: Vector2(48.w, 44.w) / 3, isBtn: true)
       ..position = Vector2(66.w, 666.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
@@ -340,7 +342,7 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
         [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)],
         onClickEvent: () {
       scrollPosition = min(989.w / 3, scrollPosition + 20.w);
-    }, parentSize: Vector2(48.w, 44.w) / 3)
+    }, parentSize: Vector2(48.w, 44.w) / 3, isBtn: true)
       ..position = Vector2(1250.w, 666.w) / 3
       ..paint = BasicPalette.transparent.paint();
 

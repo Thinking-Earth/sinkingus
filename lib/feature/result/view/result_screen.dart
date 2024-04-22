@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,6 +60,13 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
     } else {
       endText = tr('result_dead');
     }
+
+    if (status == 'win') {
+      FlameAudio.play("result_win.mp3", volume: 0.5);
+    } else {
+      FlameAudio.play("result_lose.mp3", volume: 0.5);
+    }
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(

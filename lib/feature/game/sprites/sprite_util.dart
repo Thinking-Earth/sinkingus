@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DragableSprite extends PositionComponent with DragCallbacks {
@@ -58,6 +59,7 @@ class ClickableSprite extends PositionComponent with TapCallbacks {
   Vector2? extraPosition;
   Vector2? spriteSize;
   late SpriteComponent sprite;
+  bool isBtn;
 
   ClickableSprite(
       {required Vector2 position,
@@ -65,7 +67,8 @@ class ClickableSprite extends PositionComponent with TapCallbacks {
       this.spriteSize,
       required super.size,
       required this.onClickEvent,
-      required this.src})
+      required this.src,
+      required this.isBtn})
       : super(position: position);
 
   @override
@@ -80,6 +83,7 @@ class ClickableSprite extends PositionComponent with TapCallbacks {
 
   @override
   void onTapUp(TapUpEvent event) {
+    if (isBtn) FlameAudio.play("button_click.wav", volume: 0.3);
     onClickEvent(event.canvasPosition, this);
     super.onTapUp(event);
   }
@@ -88,15 +92,20 @@ class ClickableSprite extends PositionComponent with TapCallbacks {
 class ClickablePolygon extends PolygonComponent with TapCallbacks {
   Function onClickEvent;
   late Vector2 parentSize;
+  bool isBtn;
 
-  ClickablePolygon(super._vertices, {required this.onClickEvent});
+  ClickablePolygon(super._vertices,
+      {required this.onClickEvent, required this.isBtn});
 
   ClickablePolygon.relative(super.vertices,
-      {required this.onClickEvent, required super.parentSize})
+      {required this.onClickEvent,
+      required super.parentSize,
+      required this.isBtn})
       : super.relative();
 
   @override
   void onTapDown(TapDownEvent event) {
+    if (isBtn) FlameAudio.play("button_click.wav", volume: 0.3);
     onClickEvent();
     super.onTapDown(event);
   }

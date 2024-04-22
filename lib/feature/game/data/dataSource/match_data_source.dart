@@ -104,8 +104,9 @@ class MatchDataSource {
   void leaveMatch(
       {required String matchId, required String uid, required Match match}) {
     DatabaseReference gameRef = db.ref("game/$matchId");
+    print(match.playerCount);
 
-    if (match.playerCount == 1 || (match.host == uid && match.day == 0)) {
+    if (match.playerCount == 0 || (match.host == uid && match.day == 0)) {
       db
           .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
           .remove();

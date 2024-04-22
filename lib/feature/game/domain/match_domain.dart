@@ -224,7 +224,7 @@ class MatchDomainController extends _$MatchDomainController {
 
   void setPlayers(List<String> players) {
     state.match =
-        state.match.copyWith(players: players, playerCount: players.length + 1);
+        state.match.copyWith(players: players, playerCount: players.length);
     setState();
   }
 }

@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:sinking_us/feature/game/domain/match_domain.dart';
@@ -51,8 +52,8 @@ abstract class EventBtn extends PositionComponent
       required super.size})
       : super() {
     anchor = Anchor.center;
-    final stroke = ClickablePolygon.relative(vertices, parentSize: size,
-        onClickEvent: () {
+    final stroke = ClickablePolygon.relative(vertices,
+        parentSize: size, isBtn: true, onClickEvent: () {
       if (type.id < 6) {
         FirebaseDatabase.instance
             .ref("game/${game.matchId}/gameEventList/${type.id}")
@@ -95,6 +96,7 @@ abstract class EventBtn extends PositionComponent
       ref
           .read(matchDomainControllerProvider.notifier)
           .setDt(0, natureScoredt, moneydt);
+      FlameAudio.play("income.mp3");
     }
   }
 

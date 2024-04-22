@@ -6,6 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -84,6 +85,8 @@ class SinkingUsGame extends FlameGame
 
     //UI
     camera.viewport.add(gameUI);
+
+    FlameAudio.play("enter game.mp3", volume: 0.4);
 
     return super.onLoad();
   }

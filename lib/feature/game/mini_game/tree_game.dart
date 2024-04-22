@@ -41,7 +41,7 @@ class TreeGame extends FlameGame {
       } else if (sproutComponent1.scale.x < 1) {
         sproutComponent1.scale += Vector2.all(0.25);
       }
-    })
+    }, isBtn: false)
       ..position = Vector2(539.w, 398.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
@@ -67,7 +67,7 @@ class TreeGame extends FlameGame {
       } else if (sproutComponent2.scale.x < 1) {
         sproutComponent2.scale += Vector2.all(0.25);
       }
-    })
+    }, isBtn: false)
       ..position = Vector2(773.w, 308.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
@@ -93,7 +93,7 @@ class TreeGame extends FlameGame {
       } else if (sproutComponent3.scale.x < 1) {
         sproutComponent3.scale += Vector2.all(0.25);
       }
-    })
+    }, isBtn: false)
       ..position = Vector2(494.w, 257.w) / 3
       ..paint = BasicPalette.transparent.paint();
 
@@ -107,6 +107,7 @@ class TreeGame extends FlameGame {
         boxConfig: const TextBoxConfig(timePerChar: 0.1, growingBox: true));
 
     ClickableSprite xBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(10.w, 13.w),
         size: Vector2.all(14.w),
         onClickEvent: (position, component) {

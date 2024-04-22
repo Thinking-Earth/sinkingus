@@ -8,6 +8,7 @@ import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_riverpod/flame_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -239,6 +240,7 @@ class GameUI extends PositionComponent
   }
 
   void hostStartGame() async {
+    FlameAudio.play("button_click.wav", volume: 0.3);
     if (game.players.length == 1) {
       // TODO
       gameStartBtn.removeFromParent();

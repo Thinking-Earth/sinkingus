@@ -27,6 +27,7 @@ class TrashGame extends FlameGame {
         animation: animation, size: Vector2(455.3.w, 256.w));
 
     ClickableSprite bottle = ClickableSprite(
+        isBtn: false,
         position: Vector2(328, 110) / 3 * 1.w,
         size: Vector2(170, 171) / 3 * 1.w,
         onClickEvent: (position, component) {
@@ -35,6 +36,7 @@ class TrashGame extends FlameGame {
         src: "minigame/trash/bottle.png");
 
     ClickableSprite bottleCap = ClickableSprite(
+        isBtn: false,
         position: Vector2(534, 132) / 3 * 1.w,
         size: Vector2(32, 27) / 3 * 1.w,
         onClickEvent: (position, component) {
@@ -43,6 +45,7 @@ class TrashGame extends FlameGame {
         src: "minigame/trash/bottle cap.png");
 
     ClickableSprite can = ClickableSprite(
+        isBtn: false,
         position: Vector2(577, 179) / 3 * 1.w,
         size: Vector2(148, 105) / 3 * 1.w,
         onClickEvent: (position, component) {
@@ -51,6 +54,7 @@ class TrashGame extends FlameGame {
         src: "minigame/trash/can.png");
 
     ClickableSprite straw = ClickableSprite(
+        isBtn: false,
         position: Vector2(468, 260) / 3 * 1.w,
         size: Vector2(148, 105) / 3 * 1.w,
         onClickEvent: (position, component) {
@@ -59,6 +63,7 @@ class TrashGame extends FlameGame {
         src: "minigame/trash/straw.png");
 
     ClickableSprite plasticBag = ClickableSprite(
+        isBtn: false,
         position: Vector2(917, 127) / 3 * 1.w,
         size: Vector2(136, 134) / 3 * 1.w,
         onClickEvent: (position, component) {
@@ -76,6 +81,7 @@ class TrashGame extends FlameGame {
         boxConfig: const TextBoxConfig(timePerChar: 0.1, growingBox: true));
 
     ClickableSprite xBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(10.w, 13.w),
         size: Vector2.all(14.w),
         onClickEvent: (position, component) {

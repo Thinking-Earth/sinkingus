@@ -50,6 +50,7 @@ class PolicyListItem extends SpriteComponent
   FutureOr<void> onLoad() async {
     sprite = await Sprite.load("policy/listitem.png");
     selectBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(101.5.w, 424.w) / 3,
         extraPosition: Vector2(101.5.w, 424.w) / 3,
         size: Vector2(165.w, 44.w) / 3,
@@ -203,6 +204,7 @@ class PolicyDialog extends FlameGame {
         size: Vector2(455.3.w, 256.w));
 
     final xBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(45.w, 0) / 3,
         extraPosition: Vector2(45.w, 0) / 3,
         spriteSize: Vector2(49.w, 75.w) / 3,

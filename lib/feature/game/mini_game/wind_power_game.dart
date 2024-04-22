@@ -31,6 +31,7 @@ class WindPowerGame extends FlameGame {
         size: Vector2(455.3.w, 256.w));
 
     ClickableSprite windWing1 = ClickableSprite(
+        isBtn: false,
         position: Vector2(133.w, 100.w),
         extraPosition: Vector2(12.w, 3.w) + Vector2.all(76.w) * 0.5,
         size: Vector2.all(76.w),
@@ -50,6 +51,7 @@ class WindPowerGame extends FlameGame {
         size: Vector2(455.3.w, 256.w));
 
     ClickableSprite windWing2 = ClickableSprite(
+        isBtn: false,
         position: Vector2(221.w, 100.w),
         extraPosition: Vector2(100.w, 3.w) + Vector2.all(76.w) * 0.5,
         size: Vector2.all(76.w),
@@ -69,6 +71,7 @@ class WindPowerGame extends FlameGame {
         size: Vector2(455.3.w, 256.w));
 
     ClickableSprite windWing3 = ClickableSprite(
+        isBtn: false,
         position: Vector2(309.w, 100.w),
         extraPosition: Vector2(188.w, 3.w) + Vector2.all(76.w) * 0.5,
         size: Vector2.all(76.w),
@@ -87,6 +90,7 @@ class WindPowerGame extends FlameGame {
         size: Vector2(455.3.w, 256.w));
 
     ClickableSprite xBtn = ClickableSprite(
+        isBtn: true,
         position: Vector2(10.w, 13.w),
         size: Vector2.all(14.w),
         onClickEvent: (position, sprite) {
