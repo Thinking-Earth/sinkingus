@@ -266,7 +266,6 @@ class ListView extends PositionComponent
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
-    // TODO: drag (@오종현)
     if (event.localDelta.x < 0) {
       game.scrollPosition = min(
           989.w / 3, game.scrollPosition + -event.localDelta.x * 989 / 2090);
@@ -291,7 +290,6 @@ class BuyNecessityDialog extends FlameGame with HasKeyboardHandlerComponents {
 
   @override
   FutureOr<void> onLoad() async {
-    print(state.groceryList);
     final background = SpriteComponent(
         sprite: await Sprite.load("store/background.png"),
         size: Vector2(455.3.w, 256.w));

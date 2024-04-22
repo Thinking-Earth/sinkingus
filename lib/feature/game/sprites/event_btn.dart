@@ -65,7 +65,7 @@ abstract class EventBtn extends PositionComponent
                     text: type.name, widget: dialogWidget)
                 .then((value) {
               game.state.currentEvent = GameEventType.undefined.id;
-              onEventEnd();
+              if (value) onEventEnd();
             });
           } else {
             ShowDialogHelper.showSnackBar(content: tr("mission_already_done"));
@@ -97,6 +97,8 @@ abstract class EventBtn extends PositionComponent
           .read(matchDomainControllerProvider.notifier)
           .setDt(0, natureScoredt, moneydt);
       FlameAudio.play("income.mp3");
+    } else {
+      ShowDialogHelper.showSnackBar(content: tr("mission_already_done"));
     }
   }
 

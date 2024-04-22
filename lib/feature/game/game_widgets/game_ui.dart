@@ -241,8 +241,7 @@ class GameUI extends PositionComponent
 
   void hostStartGame() async {
     FlameAudio.play("button_click.wav", volume: 0.3);
-    if (game.players.length == 1) {
-      // TODO
+    if (game.players.length == 5) {
       gameStartBtn.removeFromParent();
       game.state.hostStartGame();
     } else {

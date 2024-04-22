@@ -103,7 +103,7 @@ class MatchDomainController extends _$MatchDomainController {
       if (response == null) {
         ShowDialogHelper.showSnackBar(
             content:
-                "You are participating in another device or there are too many people."); //TODO
+                "You are participating in another device or there are too many people.");
       } else {
         state.match = response;
         state.matchId = matchId;
