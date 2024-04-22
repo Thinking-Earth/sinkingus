@@ -22,7 +22,7 @@ class ChatScreen extends ConsumerStatefulWidget {
 }
 
 class _ChatScreenState extends ConsumerState<ChatScreen> {
-  bool soundPlayed = false;
+
   @override
   void initState() {
     super.initState();
@@ -35,6 +35,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   Widget build(BuildContext context) {
     final chatViewModel = ref.watch(openChatViewModelControllerProvider);
     final userInfo = ref.read(userDomainControllerProvider).userInfo;
+    ChatModel? lastChat;
 
     return Container(
       width: 240.w, 
@@ -51,7 +52,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               stream: chatViewModel.chatStream,
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if(snapshot.data != null) {
-                  FlameAudio.play("send_chat.mp3");
                   return ScrollConfiguration(
                     behavior: ScrollConfiguration.of(context).copyWith(
                       dragDevices: {
@@ -65,6 +65,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         final ChatModel chat = ChatModel.fromJson(Map<String, dynamic>.from(snapshot.data!.docs[index].data() as Map));
+                        if(index == 0) { // 마지막 채팅
+                          if(chat.role != "server" && lastChat?.content != chat.content) {
+                            lastChat = chat;
+                            FlameAudio.play("send_chat.mp3");
+                          } 
+                        }
                         if(chat.role == "server") {
                           return serverChatBubble(chat);
                         } else if(chat.nick == userInfo!.nick) {

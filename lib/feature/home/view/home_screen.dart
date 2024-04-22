@@ -57,6 +57,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final homeViewModel = ref.watch(homeScreenControllerProvider);
+
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -144,7 +146,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             height: 102.h,
                             child: SingleChildScrollView(
                               child: Text(
-                                ref.read(homeScreenControllerProvider).bottomText,
+                                homeViewModel.bottomText,
                                 style: AppTypography
                                     .blackPixel
                                     .copyWith(fontSize: 12.sp),

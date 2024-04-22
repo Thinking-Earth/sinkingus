@@ -67,16 +67,18 @@ class FirestoreBase {
   }
 
   Future<String?> getDownloadApkLink() async {
+    String? link;
     await _firestore!.collection("download").doc("android").get().then((value) {
-      return value['apk'];
+      link = value['apk'];
     });
-    return null;
+    return link;
   }
 
   Future<String?> getDownloadIosLink() async {
+    String? link;
     await _firestore!.collection("download").doc("ios").get().then((value) {
-      return value['ios'];
+      link = value['ios'];
     });
-    return null;
+    return link;
   }
 }
