@@ -50,7 +50,7 @@ dependencies:
   flutter_svg: ^2.0.9 #svg 사용하기 위함
   shared_preferences: ^2.2.2 #tinydb
   flutter_secure_storage: ^9.0.0 #난독화 tinydb
-  connectivity_plus: ^5.0.2 #인터넷 연결 상태 감지
+  connectivity_plus: ^6.0.2 #인터넷 연결 상태 감지
   easy_localization: ^3.0.5 #지역 위치 파악 및 언어팩 연결
   intl: ^0.18.0 #다국어 및 다국 시간
   animated_text_kit: ^4.2.2 #애니메이션 텍스트

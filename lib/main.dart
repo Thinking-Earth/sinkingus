@@ -47,7 +47,7 @@ class SinkingUs extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 844 / 390,
                   child: MaterialApp(
-                    title: "Sinking US",
+                    title: "Sinking Earth",
                     debugShowCheckedModeBanner: false,
                     initialRoute: Routes.initialRoute,
                     theme: AppTheme.light(),
