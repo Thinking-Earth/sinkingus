@@ -290,13 +290,13 @@ class Background extends PositionComponent
           position: Vector2(654, 544) * mapRatio,
           size: Vector2(39, 59) * mapRatio),
       RectangleHitbox(
-          position: Vector2(892, 221) * mapRatio,
-          size: Vector2(41, 339) * mapRatio),
+          position: Vector2(900, 221) * mapRatio,
+          size: Vector2(32, 339) * mapRatio),
       RectangleHitbox(
           position: Vector2(1308, 229) * mapRatio,
-          size: Vector2(43, 331) * mapRatio),
+          size: Vector2(32, 331) * mapRatio),
       PolygonHitbox([
-        Vector2(945, 222) * mapRatio,
+        Vector2(959, 222) * mapRatio,
         Vector2(988, 225) * mapRatio,
         Vector2(990, 381) * mapRatio,
         Vector2(995, 397) * mapRatio,
@@ -318,16 +318,16 @@ class Background extends PositionComponent
         Vector2(1242, 436) * mapRatio,
         Vector2(1252, 386) * mapRatio,
         Vector2(1254, 232) * mapRatio,
-        Vector2(1295, 226) * mapRatio,
-        Vector2(1296, 419) * mapRatio,
+        Vector2(1281, 226) * mapRatio,
+        Vector2(1281, 419) * mapRatio,
         Vector2(1268, 482) * mapRatio,
         Vector2(1210, 541) * mapRatio,
         Vector2(1132, 568) * mapRatio,
         Vector2(1108, 567) * mapRatio,
         Vector2(1042, 543) * mapRatio,
         Vector2(979, 485) * mapRatio,
-        Vector2(951, 418) * mapRatio,
-        Vector2(945, 361) * mapRatio,
+        Vector2(959, 418) * mapRatio,
+        Vector2(959, 361) * mapRatio,
       ])
     ]);
     //background.debugMode = true;
