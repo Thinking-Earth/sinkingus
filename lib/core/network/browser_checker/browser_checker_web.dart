@@ -7,7 +7,9 @@ void browserChecker() {
   // if(userAgent.contains('mobile')) {
   //   html.window.alert(tr('settingPage_downloadAPP'));
   // }
-  if (!userAgent.contains('chrome') || ['kakaotalk', 'naver', 'whale', 'everytimeapp'].any((browser) => userAgent.contains(browser))) {
+  if (!userAgent.contains('chrome') ||
+      ['kakaotalk', 'naver', 'whale', 'everytimeapp', 'instagram']
+          .any((browser) => userAgent.contains(browser))) {
     html.window.alert(tr('noti_browser_check'));
   }
 }

@@ -22,6 +22,7 @@ class ResultScreen extends ConsumerStatefulWidget {
 class _ResultScreenState extends ConsumerState<ResultScreen> {
   bool charactorController = false;
   bool circleAnimation = false;
+  bool isPlaying = false;
   String endText = "";
   late Timer _timer;
 
@@ -61,10 +62,13 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
       endText = tr('result_dead');
     }
 
-    if (status == 'win') {
-      FlameAudio.play("result_win.mp3", volume: 0.5);
-    } else {
-      FlameAudio.play("result_lose.mp3", volume: 0.5);
+    if (!isPlaying) {
+      isPlaying = true;
+      if (status == 'win') {
+        FlameAudio.play("result_win.mp3", volume: 0.5);
+      } else {
+        FlameAudio.play("result_lose.mp3", volume: 0.5);
+      }
     }
 
     return Scaffold(

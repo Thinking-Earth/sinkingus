@@ -105,7 +105,7 @@ class MatchDataSource {
       {required String matchId, required String uid, required Match match}) {
     DatabaseReference gameRef = db.ref("game/$matchId");
 
-    if (match.playerCount == 0 || (match.host == uid && match.day == 0)) {
+    if (match.playerCount == 0 || (match.host == uid && match.day! % 8 == 0)) {
       db
           .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
           .remove();
@@ -152,8 +152,8 @@ class MatchDataSource {
     shuffled.add(uid);
     shuffled.shuffle();
     db.ref("players/${shuffled[1]}/role").set(RoleType.business.code);
-    //db.ref("players/${shuffled[2]}/role").set(RoleType.nature.code);
-    //db.ref("players/${shuffled[3]}/role").set(RoleType.politician.code);
+    db.ref("players/${shuffled[2]}/role").set(RoleType.nature.code);
+    db.ref("players/${shuffled[3]}/role").set(RoleType.politician.code);
 
     await db
         .ref("game/$matchId/status")
@@ -212,5 +212,9 @@ class MatchDataSource {
 
   void buy({required String matchId, required int price}) {
     db.ref("game/$matchId/income").set(price);
+  }
+
+  void setNatureScore({required int score, required String matchId}) {
+    db.ref("game/$matchId/natureScore").set(score);
   }
 }
