@@ -8,6 +8,7 @@
 <img src="https://img.shields.io/badge/Firebase-Google_Firebase-firebase?style=flat&logo=firebase&color=%23FFCA28"/>
 <!--img src="https://img.shields.io/badge/Google-Sponsored%20by%20google-google?style=flat&logo=google&color=%234285F4"/-->
 </div>
+<p align="center">This project has won 🏆<i>"Honorable Prize"</i>🏆 at Global Gamers Challenge!</p>
 
 ## 🔗Try Our Game
 - Web: [https://sinkingus.web.app/](https://sinkingus.web.app/) (Not recommanded for mobile)
