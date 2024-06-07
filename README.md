@@ -1,4 +1,4 @@
-![image](https://github.com/Thinking-Earth/sinkingus/assets/61264183/fd646b5c-75f8-4a78-ab6d-9c80be952e67)
+[![Video Label](http://img.youtube.com/vi/SKkGWU1vBoI/0.jpg)](https://youtu.be/SKkGWU1vBoI?si=Iyx2Lv9GUNbfZxlN)
 <h1 align="center">🌏Sinking Earth🌏</h1>
 <p align="center"><i>"To save the Sinking Earth, We must become Thinking Us."</i></p>
 <div align="center">
@@ -12,8 +12,8 @@
 
 ## 🔗Try Our Game
 - Web: [https://sinkingus.web.app/](https://sinkingus.web.app/) (Not recommanded for mobile)
-- IOS: Coming Soon
-- Android: Coming Soon
+- IOS: Please run ```flutter build ios --release```
+- Android: [Download](https://firebasestorage.googleapis.com/v0/b/sinkingus.appspot.com/o/apk%2Fapp-release.apk?alt=media&token=64137e94-4c2e-4914-b8f2-4d6719f808dc)
 
 ## 👥Contributors: Team Thinking Us
 |🎮Game|🖥️Flutter Environment|🎨Design|
