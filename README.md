@@ -1,4 +1,4 @@
-[![Video Label](https://img.shields.io/badge/Firebase-Google_Firebase-firebase?style=flat&logo=firebase&color=%23FFCA28)](https://youtu.be/SKkGWU1vBoI?si=Iyx2Lv9GUNbfZxlN)
+[![Video Label](https://github.com/Thinking-Earth/sinkingus/assets/61264183/fd646b5c-75f8-4a78-ab6d-9c80be952e67)](https://youtu.be/SKkGWU1vBoI?si=Iyx2Lv9GUNbfZxlN)
 <h1 align="center">🌏Sinking Earth🌏</h1>
 <p align="center"><i>"To save the Sinking Earth, We must become Thinking Us."</i></p>
 <div align="center">
