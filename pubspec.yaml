@@ -52,11 +52,11 @@ dependencies:
   flutter_secure_storage: ^9.0.0 #난독화 tinydb
   connectivity_plus: ^6.0.2 #인터넷 연결 상태 감지
   easy_localization: ^3.0.5 #지역 위치 파악 및 언어팩 연결
-  intl: ^0.18.0 #다국어 및 다국 시간
+  intl: ^0.19.0 #다국어 및 다국 시간
   animated_text_kit: ^4.2.2 #애니메이션 텍스트
   lottie: ^3.1.0 #mp4 to json
   audioplayers: 5.2.1
-  url_launcher: ^6.1.7 #링크 열기
+  url_launcher: ^6.2.6 #링크 열기
 
 dev_dependencies:
   flutter_test:

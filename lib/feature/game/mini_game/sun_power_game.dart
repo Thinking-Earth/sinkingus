@@ -58,7 +58,6 @@ class _SunPowerGameState extends State<SunPowerGame> {
                         GestureDetector(
                           behavior: HitTestBehavior.deferToChild,
                           onPanStart: (details) {
-                            print("eeeee");
                             setState(() {
                               final oneLine = <Offset>[];
                               oneLine.add(details.localPosition);
