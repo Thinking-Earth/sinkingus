@@ -45,8 +45,7 @@ class _SettingDialogContentState extends ConsumerState<SettingDialogContent> {
                       image: AssetImage(AppImages.roomName), fit: BoxFit.fill)),
               child: Text(
                 'Setting',
-                style: AppTypography
-                    .blackPixel
+                style: AppTypography.blackPixel
                     .copyWith(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
             ),
@@ -58,8 +57,7 @@ class _SettingDialogContentState extends ConsumerState<SettingDialogContent> {
               children: [
                 Text(
                   tr('settingPage_language'),
-                  style: AppTypography
-                      .blackPixel
+                  style: AppTypography.blackPixel
                       .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w500),
                 ),
                 DropdownButton(
@@ -100,7 +98,9 @@ class _SettingDialogContentState extends ConsumerState<SettingDialogContent> {
                     setState(() {
                       dropdownvalue = value;
                     });
-                    ref.read(homeScreenControllerProvider.notifier).handleBottomText(tr('game_description'));
+                    Future.delayed(const Duration(milliseconds: 100), (){
+                      ref.read(homeScreenControllerProvider.notifier).handleBottomText(tr('game_description'));
+                    });
                   }
                 ),
               ],
@@ -113,48 +113,46 @@ class _SettingDialogContentState extends ConsumerState<SettingDialogContent> {
               tr('setting_webIsForPC'),
               style: AppTypography.grayPixel,
             ),
-            Text(
-              tr('settingPage_downloadAPP'),
-              style: AppTypography.blackPixel
+            Text(tr('settingPage_downloadAPP'),
+                style: AppTypography.blackPixel),
+            SizedBox(
+              height: 8.h,
             ),
-            SizedBox(height: 8.h,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 downloadLink(
-                  onTap: () {
-                    ShowDialogHelper.showAlertWithActionAndCancel(
-                      onPressed: () async {
-                        final apkLink = await FirestoreBase().getDownloadApkLink();
-                        launchUrl(
-                          Uri.parse(apkLink ?? ""),
-                        );
-                      }, 
-                      title: tr('noti_noti'), 
-                      message: tr('settingPage_downloadWarning'), 
-                      enterMsg: 'Download', 
-                      cancelMsg: tr('noti_cancel')
-                    );
-                  },
-                  img: AppImages.downloadGoogle
-                ),
+                    onTap: () {
+                      ShowDialogHelper.showAlertWithActionAndCancel(
+                          onPressed: () async {
+                            final apkLink =
+                                await FirestoreBase().getDownloadApkLink();
+                            launchUrl(
+                              Uri.parse(apkLink ?? ""),
+                            );
+                          },
+                          title: tr('noti_noti'),
+                          message: tr('settingPage_downloadWarning'),
+                          enterMsg: 'Download',
+                          cancelMsg: tr('noti_cancel'));
+                    },
+                    img: AppImages.downloadGoogle),
                 downloadLink(
-                  onTap: (){
-                    ShowDialogHelper.showAlertWithActionAndCancel(
-                      onPressed: () async {
-                        final apkLink = await FirestoreBase().getDownloadIosLink();
-                        launchUrl(
-                          Uri.parse(apkLink ?? ""),
-                        );
-                      }, 
-                      title: tr('noti_noti'), 
-                      message: tr('settingPage_downloadWarning'), 
-                      enterMsg: 'Download', 
-                      cancelMsg: tr('noti_cancel')
-                    );
-                  },
-                  img: AppImages.downloadApple
-                ),
+                    onTap: () {
+                      ShowDialogHelper.showAlertWithActionAndCancel(
+                          onPressed: () async {
+                            final apkLink =
+                                await FirestoreBase().getDownloadIosLink();
+                            launchUrl(
+                              Uri.parse(apkLink ?? ""),
+                            );
+                          },
+                          title: tr('noti_noti'),
+                          message: tr('settingPage_downloadWarning'),
+                          enterMsg: 'Download',
+                          cancelMsg: tr('noti_cancel'));
+                    },
+                    img: AppImages.downloadApple),
               ],
             ),
           ],

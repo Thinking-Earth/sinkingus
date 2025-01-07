@@ -31,7 +31,9 @@ class GameState extends PositionComponent
 
   double dtSum = 0;
 
-  late StreamSubscription<DatabaseEvent> ruleListener, necessityListener;
+  late StreamSubscription<DatabaseEvent> ruleListener,
+      necessityListener,
+      scoreListener;
 
   @override
   FutureOr<void> onLoad() {
@@ -61,6 +63,14 @@ class GameState extends PositionComponent
         }
       }
     });
+    scoreListener = FirebaseDatabase.instance
+        .ref("game/${game.matchId}/natureScore")
+        .onValue
+        .listen((event) {
+      if (event.snapshot.exists) {
+        natureScore = event.snapshot.value as int;
+      }
+    });
     return super.onLoad();
   }
 
@@ -73,10 +83,11 @@ class GameState extends PositionComponent
         } else {
           hp = max(hp + ns.hpdt, 0);
         }
-        if (ns.natureScoredt > 0) {
-          natureScore = min(natureScore + ns.natureScoredt, 100);
-        } else {
-          natureScore = max(natureScore + ns.natureScoredt, 0);
+        if (ns.natureScoredt != 0) {
+          natureScore = ns.natureScoredt > 0
+              ? min(natureScore + ns.natureScoredt, 100)
+              : max(natureScore + ns.natureScoredt, 0);
+          setNatureScore();
         }
         money = ns.money;
       });
@@ -127,7 +138,7 @@ class GameState extends PositionComponent
 
   @override
   void update(double dt) {
-    if (hp < 0 || natureScore < 0) {
+    if (hp == 0 || natureScore == 0) {
       gameEnd();
     }
 
@@ -163,7 +174,7 @@ class GameState extends PositionComponent
 
   void hostStartGame() async {
     await ref.read(matchDomainControllerProvider.notifier).hostStartGame(
-        game.uid, List<String>.generate(1, (index) => game.players[index].uid));
+        game.uid, List<String>.generate(5, (index) => game.players[index].uid));
   }
 
   void hostNextDay() {
@@ -196,6 +207,12 @@ class GameState extends PositionComponent
     ref.read(matchDomainControllerProvider.notifier).setStoreActive(type);
   }
 
+  void setNatureScore() {
+    ref
+        .read(matchDomainControllerProvider.notifier)
+        .setNatureScore(natureScore);
+  }
+
   Future<RoleType> getRole(String uid) async {
     return await ref.read(matchDomainControllerProvider.notifier).getRole(uid);
   }
@@ -204,6 +221,7 @@ class GameState extends PositionComponent
   void onRemove() {
     ruleListener.cancel();
     necessityListener.cancel();
+    scoreListener.cancel();
     super.onRemove();
   }
 

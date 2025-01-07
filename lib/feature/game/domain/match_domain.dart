@@ -227,4 +227,8 @@ class MatchDomainController extends _$MatchDomainController {
         state.match.copyWith(players: players, playerCount: players.length);
     setState();
   }
+
+  void setNatureScore(int score) {
+    source.setNatureScore(score: score, matchId: state.matchId);
+  }
 }
