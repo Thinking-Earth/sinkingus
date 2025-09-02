@@ -217,9 +217,11 @@ class MatchDomainController extends _$MatchDomainController {
   }
 
   void checkHost() async {
-    state.match = state.match
-        .copyWith(host: await source.getHost(matchId: state.matchId));
-    setState();
+    String newHost = await source.getHost(matchId: state.matchId);
+    if (state.match.host != newHost) {
+      state.match = state.match.copyWith(host: newHost);
+      setState();
+    }
   }
 
   void setPlayers(List<String> players) {

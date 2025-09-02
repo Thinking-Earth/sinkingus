@@ -23,6 +23,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
   bool charactorController = false;
   bool circleAnimation = false;
   bool isPlaying = false;
+  late String status;
   String endText = "";
   late Timer _timer;
 
@@ -30,6 +31,16 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      status = ref.watch(resultViewModelControllerProvider).status;
+      if (status == 'win') {
+        endText = tr('result_win');
+      } else if (status == 'hp die') {
+        endText = tr('result_dead');
+      } else if (status == 'nature die') {
+        endText = tr('result_nature');
+      } else {
+        endText = tr('result_dead');
+      }
       _timer = Timer.periodic(const Duration(milliseconds: 400), (_) {
         setState(() {
           charactorController = !charactorController;
@@ -39,6 +50,11 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
         setState(() {
           circleAnimation = true;
         });
+        if (status == 'win') {
+          FlameAudio.play("result_win.mp3", volume: 0.5);
+        } else {
+          FlameAudio.play("result_lose.mp3", volume: 0.5);
+        }
       });
     });
   }
@@ -51,26 +67,6 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final status = ref.watch(resultViewModelControllerProvider).status;
-    if (status == 'win') {
-      endText = tr('result_win');
-    } else if (status == 'hp die') {
-      endText = tr('result_dead');
-    } else if (status == 'nature die') {
-      endText = tr('result_nature');
-    } else {
-      endText = tr('result_dead');
-    }
-
-    if (!isPlaying) {
-      isPlaying = true;
-      if (status == 'win') {
-        FlameAudio.play("result_win.mp3", volume: 0.5);
-      } else {
-        FlameAudio.play("result_lose.mp3", volume: 0.5);
-      }
-    }
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(

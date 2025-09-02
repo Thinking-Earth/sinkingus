@@ -77,7 +77,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               backColor: Colors.white,
                               text: "Sign in with Google",
                               style: AppTypography.blackPixel.copyWith(
-                                  fontSize: 12.sp, fontWeight: FontWeight.w500)),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500)),
                           SizedBox(
                             height: 12.h,
                           ),
@@ -89,9 +90,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               backColor: Colors.black,
                               text: "Sign in with Apple",
                               style: AppTypography.whitePixel.copyWith(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                  )),
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                              )),
+                          SizedBox(
+                            height: 12.h,
+                          ),
+                          customLoginBtn(
+                              onTap: ref
+                                  .read(loginScreenControllerProvider.notifier)
+                                  .handlePressedTester,
+                              svg: AppSvgs.googleIcon,
+                              backColor: Colors.white,
+                              text: "Evaluator Only judges Login",
+                              style: AppTypography.blackPixel.copyWith(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                              )),
                         ],
                       )
                     : AnimatedOpacity(

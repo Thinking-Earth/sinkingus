@@ -206,7 +206,8 @@ class MyPlayer extends SpriteAnimationGroupComponent<CharacterState>
           .onValue
           .listen((event) {
         if (event.snapshot.exists) {
-          game.state.setDt(0, 0, event.snapshot.value as int);
+          String income = (event.snapshot.value as String).split('_')[0];
+          game.state.setDt(0, 0, int.tryParse(income));
           game.gameUI.gameNotification(tr("income"));
         }
       });
@@ -321,8 +322,8 @@ class OtherPlayer extends SpriteAnimationGroupComponent<CharacterState>
           current = CharacterState.walk;
         }
       } else {
-        game.deletePlayer(this);
         game.state.checkHost();
+        game.deletePlayer(this);
         removeFromParent();
       }
     });

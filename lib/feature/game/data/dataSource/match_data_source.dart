@@ -105,13 +105,16 @@ class MatchDataSource {
       {required String matchId, required String uid, required Match match}) {
     DatabaseReference gameRef = db.ref("game/$matchId");
 
-    if (match.playerCount == 0 || (match.host == uid && match.day! % 8 == 0)) {
+    if (match.playerCount == 0 ||
+        (match.host == uid &&
+            (match.day! % 8 == 0 || match.natureScore == 0))) {
       db
           .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
           .remove();
       gameRef.remove();
     } else {
       if (match.day == 0) {
+        // not host
         db
             .ref("lobby/${match.isPrivate! ? "private" : "public"}/$matchId")
             .update({"playerCount": ServerValue.increment(-1)});
@@ -179,7 +182,11 @@ class MatchDataSource {
 
   void sendStatus(
       {required String matchId, required String uid, required String status}) {
-    FirebaseDatabase.instance.ref("game/$matchId/status").update({uid: status});
+    if (matchId != "not in a match") {
+      FirebaseDatabase.instance
+          .ref("game/$matchId/status")
+          .update({uid: status});
+    }
   }
 
   Future<void> deleteLobby(
@@ -211,7 +218,7 @@ class MatchDataSource {
   }
 
   void buy({required String matchId, required int price}) {
-    db.ref("game/$matchId/income").set(price);
+    db.ref("game/$matchId/income").set("${price}_${DateTime.now().second}");
   }
 
   void setNatureScore({required int score, required String matchId}) {

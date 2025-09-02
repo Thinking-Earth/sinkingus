@@ -58,7 +58,8 @@ class GameState extends PositionComponent
         for (var grocery in GroceryType.values) {
           if (groceryList[grocery] != castedData[grocery.code]) {
             groceryList[grocery] = castedData[grocery.code];
-            game.gameUI.gameNotification("${grocery.code} has been activated.");
+            game.gameUI.gameNotification(
+                "${tr("${grocery.code}_name")} has been activated.");
           }
         }
       }
@@ -101,12 +102,6 @@ class GameState extends PositionComponent
   void gameEnd() async {
     String status = "undefined";
     if (game.day == 8) {
-      Map<String, String> playersStatus = await FirebaseDatabase.instance
-          .ref("game/${game.matchId}/status")
-          .get()
-          .then((value) {
-        return Map<String, String>.from(value.value as Map);
-      });
       switch (game.player.role) {
         case RoleType.worker:
           status = "win";
@@ -115,6 +110,12 @@ class GameState extends PositionComponent
           if (money >= 3000) status = "win";
           break;
         case RoleType.politician:
+          Map<String, String> playersStatus = await FirebaseDatabase.instance
+              .ref("game/${game.matchId}/status")
+              .get()
+              .then((value) {
+            return Map<String, String>.from(value.value as Map);
+          });
           if (!playersStatus.values.contains("hp die")) status = "win";
           break;
         case RoleType.nature:
@@ -143,7 +144,7 @@ class GameState extends PositionComponent
     }
 
     if (game.player.role != RoleType.business) {
-      if (dtSum > 3) {
+      if (dtSum > 3.5) {
         if (game.day > 0 && game.gameUI.timer.isRunning()) hp -= 1;
         dtSum = 0;
       } else {
@@ -162,6 +163,9 @@ class GameState extends PositionComponent
 
   void checkHost() {
     ref.read(matchDomainControllerProvider.notifier).checkHost();
+    if (isHost()) {
+      game.gameUI.gameNotification("You bacame the host.");
+    }
   }
 
   bool isHost() {
@@ -174,7 +178,9 @@ class GameState extends PositionComponent
 
   void hostStartGame() async {
     await ref.read(matchDomainControllerProvider.notifier).hostStartGame(
-        game.uid, List<String>.generate(5, (index) => game.players[index].uid));
+        game.uid,
+        List<String>.generate(
+            game.players.length, (index) => game.players[index].uid));
   }
 
   void hostNextDay() {
